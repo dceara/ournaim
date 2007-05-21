@@ -121,26 +121,16 @@ namespace GUI
         }
         public void AfterSignIn()
         {
-            this.btnSignOut.Visible         = true;
-            this.btnAddConversation.Visible = true;
-            this.lblPassword.Visible        = false;
-            this.lblUserName.Visible        = false;
-            this.txtPassword.Visible        = false;
-            this.txtUserName.Visible        = false;
-            this.btnSignUp.Visible          = false;
-            this.btnSignIn.Visible          = false;
+            ChangeControlsVisibility(false);
+            
+            ChangeMenuVisibility(true);
         }
 
         public void Initialise()
         {
-            this.btnSignOut.Visible         = false;
-            this.btnAddConversation.Visible = false;
-            this.lblPassword.Visible        = true;
-            this.lblUserName.Visible        = true;
-            this.txtPassword.Visible        = true;
-            this.txtUserName.Visible        = true;
-            this.btnSignUp.Visible          = true;
-            this.btnSignIn.Visible          = true;
+            ChangeControlsVisibility(true);
+
+            ChangeMenuVisibility(false);
         }
 
         public void ShowView()
@@ -179,9 +169,39 @@ namespace GUI
         {
             OnOpenFileTransferViewEvent();
         }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
         #endregion
 
-        
+
+
+        #region Utils
+        private void ChangeMenuVisibility(bool value)
+        {
+            this.statusToolStripMenuItem.Visible = value;
+            this.accountInformationToolStripMenuItem.Visible = value;
+            this.shareFilesToolStripMenuItem.Visible = value;
+            this.fileTransferManagerToolStripMenuItem.Visible = value;
+            this.signOutToolStripMenuItem.Visible = value;
+        }
+
+        private void ChangeControlsVisibility(bool value)
+        {
+            this.btnSignOut.Visible = !value;
+            this.btnAddConversation.Visible = !value;
+            this.lblPassword.Visible = value;
+            this.lblUserName.Visible = value;
+            this.txtPassword.Visible = value;
+            this.txtUserName.Visible = value;
+            this.btnSignUp.Visible = value;
+            this.btnSignIn.Visible = value;
+        }
+        #endregion
+
+
 
     }
 }
