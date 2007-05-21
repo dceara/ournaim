@@ -6,13 +6,29 @@ namespace Common.Protocol
 {
     public enum ServiceType
     {
-        LOGIN = 1,
-        LOGOUT = 2,
-        TEXT = 3,
-        ACK = 4,
-        NACK = 5,
-        PING = 6,
-        FILE_TRANSFER = 7,
-        CONNECTION_DATA = 8,
+        LOGIN               ,
+        LOGOUT              ,
+        TEXT                ,
+        ACK                 ,
+        NACK                ,
+        PING                ,
+        CONNECTION_DATA     ,
+        CONNECTION_REQ      ,
+        USER_LIST           ,
+        USER_CONNECTED      ,
+        USER_DISCONNECTED   ,
+        SIGN_UP             ,
+
+
+        FILE_TRANSFER_SEND  ,
+        FILE_TRANSFER_GET   ,
+        FILE_LIST_GET       ,
+        HELLO               ,
+
+
+    }
+    public enum ErrorType
+    {
+
     }
 }
