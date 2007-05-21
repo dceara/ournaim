@@ -120,9 +120,11 @@ namespace GUI
         {
             OnMainClose("MAIN FORM CLOSING.... CLOSING APPLICATION!!");
         }
+
+        int i = 0;
         private void btnAddConversation_Click(object sender, EventArgs e)
         {
-            OnOpenConversationEvent("USER NOU");
+            OnOpenConversationEvent("USER NOU" + i++);
         }
         #endregion
 

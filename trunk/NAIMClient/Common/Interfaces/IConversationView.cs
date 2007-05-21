@@ -20,7 +20,7 @@ namespace Common.Interfaces
 
         void AddMessage(string message);
 
-        void Initialise();
+        void Initialise(string caption);
 
         void OnCloseEvent(object eventArgs);
 
