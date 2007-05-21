@@ -14,7 +14,6 @@ namespace MainProject
         [STAThread]
         static void Main()
         {
-            int a;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
