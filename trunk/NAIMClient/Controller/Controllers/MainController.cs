@@ -53,6 +53,12 @@ namespace Controllers
             this.mainView.AddContactEvent += new AddContactEventHandler(mainView_AddContactEvent);
             this.mainView.ChangeContactGroupEvent += new ChangeContactGroupEventHandler(mainView_ChangeContactGroupEvent);
             this.mainView.ChangeStatusEvent += new ChangeStatusEventHandler(mainView_ChangeStatusEvent);
+            this.mainView.LoginEvent += new LoginEventHandler(mainView_LoginEvent);
+            this.mainView.LogoutEvent += new LogoutEventHandler(mainView_LogoutEvent);
+            this.mainView.MainCloseEvent += new MainCloseEventHandler(mainView_MainCloseEvent);
+            this.mainView.OpenConversationEvent += new OpenConversationEventHandler(mainView_OpenConversationEvent);
+            this.mainView.OpenFileTransferViewEvent += new OpenFileTransferViewEventHandler(mainView_OpenFileTransferViewEvent);
+            this.mainView.RemoveContactEvent += new RemoveContactEventHandler(mainView_RemoveContactEvent);
         }
 
         private void InitialiseConversation(string userName)
@@ -88,6 +94,35 @@ namespace Controllers
         }
 
         void mainView_AddContactEvent(object eventArgs)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+        void mainView_RemoveContactEvent(object eventArgs)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        void mainView_OpenFileTransferViewEvent(object eventArgs)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        void mainView_OpenConversationEvent(object eventArgs)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        void mainView_MainCloseEvent(object eventArgs)
+        {
+            global::System.Windows.Forms.MessageBox.Show(eventArgs.ToString());
+        }
+
+        void mainView_LogoutEvent(object eventArgs)
+        {
+            global::System.Windows.Forms.MessageBox.Show(eventArgs.ToString());
+        }
+
+        void mainView_LoginEvent(object eventArgs)
         {
             throw new Exception("The method or operation is not implemented.");
         }

@@ -6,8 +6,15 @@ using Common.Interfaces;
 
 namespace GUI
 {
-    public class MainView : Form,IMainView
+    public partial class MainView : Form,IMainView
     {
+        private Button btnSignOut;
+
+        public MainView()
+        {
+            InitializeComponent();
+        }
+
         #region IMainView Members
 
         public event LoginEventHandler LoginEvent;
@@ -35,7 +42,10 @@ namespace GUI
 
         public void OnLogoutEvent(object eventArgs)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (LogoutEvent != null)
+            {
+                LogoutEvent(eventArgs);
+            }
         }
 
         public void OnChangeStatusEvent(object eventArgs)
@@ -90,14 +100,24 @@ namespace GUI
 
         public void OnMainClose(object eventArgs)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (MainCloseEvent != null)
+            {
+                MainCloseEvent("MAIN FORM CLOSING.... CLOSING APPLICATION!!");
+            }
         }
 
         #endregion
 
-        public void Method()
+        #region GUI Events
+        private void btnSignOut_Click(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            OnLogoutEvent("TEST LOGOUT EVENT");
         }
+        private void MainView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            OnMainClose(e);
+        }
+        #endregion
+
     }
 }
