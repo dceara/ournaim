@@ -6,8 +6,13 @@ using Common.Interfaces;
 
 namespace GUI
 {
-    public class ConversationView : Form,IConversationView
+    public partial class ConversationView : Form,IConversationView
     {
+        public ConversationView()
+        {
+            InitializeComponent();
+        }
+
         #region IConversationView Members
 
         public event SendMessageDelegate SendMessageEvent;
@@ -35,7 +40,10 @@ namespace GUI
 
         public void OnCloseEvent(object eventArgs)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (CloseEvent != null)
+            {
+                CloseEvent(eventArgs);
+            }
         }
 
         public void OnStartFileTransferEvent(object eventArgs)
@@ -50,9 +58,17 @@ namespace GUI
 
         public void ShowView()
         {
-            throw new Exception("The method or operation is not implemented.");
+            this.Show();
         }
 
+        #endregion
+
+        #region GUI Event Handlers
+
+        private void ConversationView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            OnCloseEvent("INCHIDERE FEREASTRA DE CONVERSATIE!!");
+        }
         #endregion
     }
 }

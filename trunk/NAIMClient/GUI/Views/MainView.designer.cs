@@ -30,6 +30,7 @@ namespace GUI
         private void InitializeComponent()
         {
             this.btnSignOut = new System.Windows.Forms.Button();
+            this.btnAddConversation = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnSignOut
@@ -43,9 +44,20 @@ namespace GUI
             this.btnSignOut.UseVisualStyleBackColor = true;
             this.btnSignOut.Click += new System.EventHandler(this.btnSignOut_Click);
             // 
+            // btnAddConversation
+            // 
+            this.btnAddConversation.Location = new System.Drawing.Point(105, 81);
+            this.btnAddConversation.Name = "btnAddConversation";
+            this.btnAddConversation.Size = new System.Drawing.Size(154, 24);
+            this.btnAddConversation.TabIndex = 1;
+            this.btnAddConversation.Text = "Add Conversation View";
+            this.btnAddConversation.UseVisualStyleBackColor = true;
+            this.btnAddConversation.Click += new System.EventHandler(this.btnAddConversation_Click);
+            // 
             // MainView
             // 
             this.ClientSize = new System.Drawing.Size(292, 266);
+            this.Controls.Add(this.btnAddConversation);
             this.Controls.Add(this.btnSignOut);
             this.Name = "MainView";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainView_FormClosing);
@@ -53,5 +65,7 @@ namespace GUI
 
         }
         #endregion
+
+        private Button btnAddConversation;
     }
 }

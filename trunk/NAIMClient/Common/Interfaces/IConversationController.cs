@@ -5,9 +5,13 @@ using Common.Protocol;
 
 namespace Common.Interfaces
 {
+    public delegate void DisposeConversationController(string name);
+
     public interface IConversationController
     {
         event SendServerMessageEventHandler SendServerMessageEvent;
+
+        event DisposeConversationController DisposeConversationControllerEvent;
 
         string Name
         {
@@ -16,6 +20,8 @@ namespace Common.Interfaces
         }
 
         void OnSendServerMessage(Packet message);
+
+        void OnDisposeConversationController(string userName);
 
         /// <summary>
         /// This is called by the main controller

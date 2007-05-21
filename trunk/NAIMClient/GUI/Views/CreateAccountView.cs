@@ -6,8 +6,13 @@ using Common.Interfaces;
 
 namespace GUI
 {
-    public class CreateAccountView : Form,ICreateAccountView
+    public partial class CreateAccountView : Form,ICreateAccountView
     {
+        public CreateAccountView()
+        {
+            InitializeComponent();
+        }
+
         #region ICreateAccountView Members
 
         public event CreateAccountEventHandler CreateAccountEvent;

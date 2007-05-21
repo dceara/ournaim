@@ -5,8 +5,13 @@ using System.Windows.Forms;
 using Common.Interfaces;
 namespace GUI
 {
-    public class FileTransferView : Form,IFileTransferView
+    public partial class FileTransferView : Form,IFileTransferView
     {
+        public FileTransferView()
+        {
+            InitializeComponent();
+        }
+
         #region IFileTransferView Members
 
         public event FileTransferCloseViewEventHandler FileTransferCloseViewEvent;

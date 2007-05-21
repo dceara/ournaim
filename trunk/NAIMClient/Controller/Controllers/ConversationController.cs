@@ -65,13 +65,24 @@ namespace Controllers
             }
         }
 
+        public event DisposeConversationController DisposeConversationControllerEvent;
+
+        public void OnDisposeConversationController(string userName)
+        {
+            if (DisposeConversationControllerEvent != null)
+            {
+                DisposeConversationControllerEvent(userName);
+            }
+        }
+
+
         #endregion
 
         #region ConversationView Event handlers
 
         void conversationView_CloseEvent(object eventArgs)
         {
-            throw new Exception("The method or operation is not implemented.");
+            OnDisposeConversationController(this.name);
         }
 
         void conversationView_CancelFileTransferEvent(object eventArgs)

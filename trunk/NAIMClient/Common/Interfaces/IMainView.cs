@@ -36,7 +36,7 @@ namespace Common.Interfaces
 
         void OnChangeContactGroupEvent(object eventArgs);
 
-        void OnOpenConversationEvent(object eventArgs);
+        void OnOpenConversationEvent(string userName);
 
         void OnOpenFileTransferViewEvent(object eventArgs);
 
@@ -75,7 +75,7 @@ namespace Common.Interfaces
 
     public delegate void ChangeContactGroupEventHandler(object eventArgs);
 
-    public delegate void OpenConversationEventHandler(object eventArgs);
+    public delegate void OpenConversationEventHandler(string userName);
 
     public delegate void OpenFileTransferViewEventHandler(object eventArgs);
 
