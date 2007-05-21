@@ -76,6 +76,10 @@ namespace Controllers
             }
         }
 
+        public void CloseView()
+        {
+            conversationView.CloseView();
+        }
 
         #endregion
 

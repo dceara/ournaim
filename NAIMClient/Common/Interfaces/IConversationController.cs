@@ -32,6 +32,8 @@ namespace Common.Interfaces
         /// This is called by the main controller
         /// </summary>
         void InitialiseView(IConversationView view);
+
+        void CloseView();
     }
 
     public delegate void SendServerMessageEventHandler(Packet message);

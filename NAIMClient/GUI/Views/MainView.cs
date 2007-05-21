@@ -35,9 +35,12 @@ namespace GUI
 
         public event MainCloseEventHandler MainCloseEvent;
 
-        public void OnLoginEvent(object eventArgs)
+        public void OnLoginEvent(string userName, string password)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (LoginEvent != null)
+            {
+                LoginEvent(userName, password);
+            }
         }
 
         public void OnLogoutEvent(object eventArgs)
@@ -96,11 +99,6 @@ namespace GUI
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public void Initialise()
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
         public void OnMainClose(object eventArgs)
         {
             if (MainCloseEvent != null)
@@ -108,7 +106,25 @@ namespace GUI
                 MainCloseEvent(eventArgs);
             }
         }
+        public void AfterSignIn()
+        {
+            this.btnSignOut.Visible = true;
+            this.btnAddConversation.Visible = true;
+            this.lblPassword.Visible = false;
+            this.lblUserName.Visible = false;
+            this.txtPassword.Visible = false;
+            this.txtUserName.Visible = false;
+        }
 
+        public void Initialise()
+        {
+            this.btnSignOut.Visible = false;
+            this.btnAddConversation.Visible = false;
+            this.lblPassword.Visible = true;
+            this.lblUserName.Visible = true;
+            this.txtPassword.Visible = true;
+            this.txtUserName.Visible = true;
+        }
         #endregion
 
         #region GUI Events
@@ -121,12 +137,17 @@ namespace GUI
             OnMainClose("MAIN FORM CLOSING.... CLOSING APPLICATION!!");
         }
 
+#warning HARDCODED FOR NOW
         int i = 0;
         private void btnAddConversation_Click(object sender, EventArgs e)
         {
             OnOpenConversationEvent("USER NOU" + i++);
         }
-        #endregion
 
+        private void btnSignIn_Click(object sender, EventArgs e)
+        {
+            OnLoginEvent(txtUserName.Text, txtPassword.Text);
+        }
+        #endregion
     }
 }

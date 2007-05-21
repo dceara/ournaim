@@ -62,6 +62,7 @@ namespace Controllers
             this.mainView.OpenConversationEvent += new OpenConversationEventHandler(mainView_OpenConversationEvent);
             this.mainView.OpenFileTransferViewEvent += new OpenFileTransferViewEventHandler(mainView_OpenFileTransferViewEvent);
             this.mainView.RemoveContactEvent += new RemoveContactEventHandler(mainView_RemoveContactEvent);
+            this.mainView.Initialise();
 
             this.conversationControllers = new Dictionary<string,IConversationController>();
         }
@@ -126,11 +127,18 @@ namespace Controllers
         void mainView_LogoutEvent(object eventArgs)
         {
             global::System.Windows.Forms.MessageBox.Show(eventArgs.ToString());
+            foreach (KeyValuePair<string,IConversationController> pair in conversationControllers)
+            {
+                pair.Value.CloseView();
+            }
+            conversationControllers.Clear();
+            mainView.Initialise();
         }
 
-        void mainView_LoginEvent(object eventArgs)
+        void mainView_LoginEvent(string userName, string password)
         {
-            throw new Exception("The method or operation is not implemented.");
+            System.Windows.Forms.MessageBox.Show("AUTENTIFICARE USER "+userName+" CU PAROLA "+password);
+            mainView.AfterSignIn();
         }
         #endregion
 
