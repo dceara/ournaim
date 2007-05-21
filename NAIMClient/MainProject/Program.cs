@@ -19,7 +19,8 @@ namespace MainProject
 
             MainView mainView = new MainView();
             MainController mainController = new MainController();
-            mainController.MainView = mainView;
+
+            mainController.Initialise();
 
             Application.Run(mainView);
         }
