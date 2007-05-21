@@ -42,7 +42,7 @@ namespace GUI
 
         public void OnCloseEvent(object eventArgs)
         {
-            if (cancelCloseEvent && CloseEvent != null)
+            if (!cancelCloseEvent && CloseEvent != null)
             {
                 CloseEvent(eventArgs);
             }
@@ -64,8 +64,8 @@ namespace GUI
         }
         public void CloseView()
         {
-            this.Close();
             this.cancelCloseEvent = true;
+            this.Close();
         }
         #endregion
 

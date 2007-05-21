@@ -78,6 +78,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>ConversationView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\CreateAccountView.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CreateAccountView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\MainView.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainView.cs</DependentUpon>

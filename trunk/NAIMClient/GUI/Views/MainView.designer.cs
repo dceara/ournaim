@@ -36,6 +36,7 @@ namespace GUI
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.lblUserName = new System.Windows.Forms.Label();
             this.lblPassword = new System.Windows.Forms.Label();
+            this.btnSignUp = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnSignOut
@@ -101,9 +102,20 @@ namespace GUI
             this.lblPassword.TabIndex = 6;
             this.lblPassword.Text = "Password";
             // 
+            // btnSignUp
+            // 
+            this.btnSignUp.Location = new System.Drawing.Point(121, 221);
+            this.btnSignUp.Name = "btnSignUp";
+            this.btnSignUp.Size = new System.Drawing.Size(91, 20);
+            this.btnSignUp.TabIndex = 7;
+            this.btnSignUp.Text = "Sign Up";
+            this.btnSignUp.UseVisualStyleBackColor = true;
+            this.btnSignUp.Click += new System.EventHandler(this.btnSignUp_Click);
+            // 
             // MainView
             // 
             this.ClientSize = new System.Drawing.Size(479, 412);
+            this.Controls.Add(this.btnSignUp);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.lblUserName);
             this.Controls.Add(this.txtPassword);
@@ -125,5 +137,6 @@ namespace GUI
         private TextBox txtPassword;
         private Label lblUserName;
         private Label lblPassword;
+        private Button btnSignUp;
     }
 }

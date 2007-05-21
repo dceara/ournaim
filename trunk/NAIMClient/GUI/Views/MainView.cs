@@ -35,6 +35,16 @@ namespace GUI
 
         public event MainCloseEventHandler MainCloseEvent;
 
+        public event OpenSignUpViewHandler OpenSignUpViewEvent;
+
+        public void OnOpenSignUpViewEvent()
+        {
+            if (OpenSignUpViewEvent != null)
+            {
+                OpenSignUpViewEvent();
+            }
+        }
+
         public void OnLoginEvent(string userName, string password)
         {
             if (LoginEvent != null)
@@ -108,22 +118,31 @@ namespace GUI
         }
         public void AfterSignIn()
         {
-            this.btnSignOut.Visible = true;
+            this.btnSignOut.Visible         = true;
             this.btnAddConversation.Visible = true;
-            this.lblPassword.Visible = false;
-            this.lblUserName.Visible = false;
-            this.txtPassword.Visible = false;
-            this.txtUserName.Visible = false;
+            this.lblPassword.Visible        = false;
+            this.lblUserName.Visible        = false;
+            this.txtPassword.Visible        = false;
+            this.txtUserName.Visible        = false;
+            this.btnSignUp.Visible          = false;
+            this.btnSignIn.Visible          = false;
         }
 
         public void Initialise()
         {
-            this.btnSignOut.Visible = false;
+            this.btnSignOut.Visible         = false;
             this.btnAddConversation.Visible = false;
-            this.lblPassword.Visible = true;
-            this.lblUserName.Visible = true;
-            this.txtPassword.Visible = true;
-            this.txtUserName.Visible = true;
+            this.lblPassword.Visible        = true;
+            this.lblUserName.Visible        = true;
+            this.txtPassword.Visible        = true;
+            this.txtUserName.Visible        = true;
+            this.btnSignUp.Visible          = true;
+            this.btnSignIn.Visible          = true;
+        }
+
+        public void ShowView()
+        {
+            this.Show();
         }
         #endregion
 
@@ -148,6 +167,12 @@ namespace GUI
         {
             OnLoginEvent(txtUserName.Text, txtPassword.Text);
         }
+
+        private void btnSignUp_Click(object sender, EventArgs e)
+        {
+            OnOpenSignUpViewEvent();
+        }
         #endregion
+
     }
 }

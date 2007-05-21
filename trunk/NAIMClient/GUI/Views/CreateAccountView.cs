@@ -8,6 +8,8 @@ namespace GUI
 {
     public partial class CreateAccountView : Form,ICreateAccountView
     {
+        private bool cancelCloseEvent = false;
+
         public CreateAccountView()
         {
             InitializeComponent();
@@ -19,26 +21,52 @@ namespace GUI
 
         public event CloseAccountViewEventHandler CloseAccountViewEvent;
 
-        public void OnCreateAccountEvent(object eventArgs)
+        public void OnCreateAccountEvent(string userName,string Password)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (CreateAccountEvent != null)
+            {
+                CreateAccountEvent(userName, Password);
+            }
         }
 
         public void Initialise()
         {
-            throw new Exception("The method or operation is not implemented.");
         }
 
-        public void OnCloseAccountViewEvent(object eventArgs)
+        public void OnCloseAccountViewEvent()
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (!cancelCloseEvent && CloseAccountViewEvent != null)
+            {
+                CloseAccountViewEvent();
+            }
         }
 
         public void ShowView()
         {
-            throw new Exception("The method or operation is not implemented.");
+            this.Show();
+        }
+        public void CloseView()
+        {
+            this.cancelCloseEvent = true;
+            this.Close();
         }
 
+        #endregion
+
+        #region GUI Events
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            OnCreateAccountEvent(txtUserName.Text, txtPassword.Text);
+        }
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            OnCloseAccountViewEvent();
+        }
+        private void CreateAccountView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            OnCloseAccountViewEvent();
+        }
         #endregion
     }
 }
