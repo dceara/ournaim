@@ -11,6 +11,8 @@ namespace Controllers
 
     public delegate void InstantiateCreateAccountView();
 
+    public delegate void InstantiateFileTransferView();
+
     public class MainController
     {
         private IDictionary<string,IConversationController> conversationControllers;
@@ -89,6 +91,18 @@ namespace Controllers
             this.createAccountView.ShowView();
         }
 
+        public void InitialiseFileTransferManager(IFileTransferView newFileTransferView)
+        {
+            this.fileTransferView = newFileTransferView;
+            this.fileTransferView.Initialise();
+            this.fileTransferView.CancelFileTransferEvent += new CancelFileTransferEventHandler(fileTransferView_CancelFileTransferEvent);
+            this.fileTransferView.FileTransferCloseViewEvent += new FileTransferCloseViewEventHandler(fileTransferView_FileTransferCloseViewEvent);
+            this.fileTransferView.GetFileListEvent += new GetFileListEventHandler(fileTransferView_GetFileListEvent);
+            this.fileTransferView.StartFileTransferEvent += new StartFileTransferEventHandler(fileTransferView_StartFileTransferEvent);
+            this.fileTransferView.CloseFileTransferViewEvent += new CloseFileTransferViewEventHandler(fileTransferView_CloseFileTransferViewEvent);
+            this.fileTransferView.ShowView();
+        }
+
         private void SendServerMessage(Packet message)
         {
             throw new System.NotImplementedException();
@@ -119,9 +133,16 @@ namespace Controllers
             throw new Exception("The method or operation is not implemented.");
         }
 
-        void mainView_OpenFileTransferViewEvent(object eventArgs)
+        void mainView_OpenFileTransferViewEvent()
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (this.fileTransferView == null)
+            {
+                OnInstantiateFileTransferView();
+            }
+            else
+            {
+                this.fileTransferView.ShowView();
+            }
         }
 
         void mainView_OpenConversationEvent(string userName)
@@ -189,6 +210,35 @@ namespace Controllers
 
         #endregion
 
+        #region FileTransferView Event Handlers
+        
+        void fileTransferView_CancelFileTransferEvent(object eventArgs)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        void fileTransferView_FileTransferCloseViewEvent(object eventArgs)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        void fileTransferView_GetFileListEvent(object eventArgs)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        void fileTransferView_StartFileTransferEvent(object eventArgs)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        void fileTransferView_CloseFileTransferViewEvent()
+        {
+            this.fileTransferView = null;
+            this.mainView.ShowView();
+        }
+        #endregion
+
         #region Main Controller Events
         public event InstantiateConversationView InstantiateConversationViewEvent;
 
@@ -209,7 +259,19 @@ namespace Controllers
                 InstantiateCreateAccountViewEvent();
             }
         }
+
+        public event InstantiateFileTransferView InstantiateFileTransferViewEvent;
+
+        protected virtual void OnInstantiateFileTransferView()
+        {
+            if (InstantiateFileTransferViewEvent != null)
+            {
+                InstantiateFileTransferViewEvent();
+            }
+        }
         #endregion
+
+
 
         
     }

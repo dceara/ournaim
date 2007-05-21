@@ -40,7 +40,7 @@ namespace Common.Interfaces
 
         void OnOpenConversationEvent(string userName);
 
-        void OnOpenFileTransferViewEvent(object eventArgs);
+        void OnOpenFileTransferViewEvent();
 
         void OnOpenSignUpViewEvent();
 
@@ -85,7 +85,7 @@ namespace Common.Interfaces
 
     public delegate void OpenConversationEventHandler(string userName);
 
-    public delegate void OpenFileTransferViewEventHandler(object eventArgs);
+    public delegate void OpenFileTransferViewEventHandler();
 
     public delegate void MainCloseEventHandler(object eventArgs);
 

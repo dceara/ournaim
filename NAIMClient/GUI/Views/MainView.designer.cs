@@ -37,6 +37,7 @@ namespace GUI
             this.lblUserName = new System.Windows.Forms.Label();
             this.lblPassword = new System.Windows.Forms.Label();
             this.btnSignUp = new System.Windows.Forms.Button();
+            this.btnFileManager = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnSignOut
@@ -112,9 +113,20 @@ namespace GUI
             this.btnSignUp.UseVisualStyleBackColor = true;
             this.btnSignUp.Click += new System.EventHandler(this.btnSignUp_Click);
             // 
+            // btnFileManager
+            // 
+            this.btnFileManager.Location = new System.Drawing.Point(261, 12);
+            this.btnFileManager.Name = "btnFileManager";
+            this.btnFileManager.Size = new System.Drawing.Size(124, 23);
+            this.btnFileManager.TabIndex = 8;
+            this.btnFileManager.Text = "Open File Manager";
+            this.btnFileManager.UseVisualStyleBackColor = true;
+            this.btnFileManager.Click += new System.EventHandler(this.btnFileManager_Click);
+            // 
             // MainView
             // 
             this.ClientSize = new System.Drawing.Size(479, 412);
+            this.Controls.Add(this.btnFileManager);
             this.Controls.Add(this.btnSignUp);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.lblUserName);
@@ -124,6 +136,7 @@ namespace GUI
             this.Controls.Add(this.btnAddConversation);
             this.Controls.Add(this.btnSignOut);
             this.Name = "MainView";
+            this.Text = "NAIM";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainView_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -138,5 +151,6 @@ namespace GUI
         private Label lblUserName;
         private Label lblPassword;
         private Button btnSignUp;
+        private Button btnFileManager;
     }
 }
