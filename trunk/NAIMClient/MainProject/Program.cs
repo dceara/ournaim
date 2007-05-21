@@ -29,10 +29,14 @@ namespace MainProject
 
             mainController.InstantiateCreateAccountViewEvent += new InstantiateCreateAccountView(mainController_InstantiateCreateAccountViewEvent);
 
+            mainController.InstantiateFileTransferViewEvent += new InstantiateFileTransferView(mainController_InstantiateFileTransferViewEvent);
+
             mainController.Initialise(mainView);
 
             Application.Run(mainView);
         }
+
+        
 
         #region Main Controller Event Handlers
 
@@ -46,6 +50,10 @@ namespace MainProject
             mainController.InitialiseConversation(username, new ConversationView());
         }
 
+        static void mainController_InstantiateFileTransferViewEvent()
+        {
+            mainController.InitialiseFileTransferManager(new FileTransferView());
+        }
         #endregion
     }
 }

@@ -26,7 +26,6 @@ namespace GUI
 
         public void Initialise()
         {
-            throw new Exception("The method or operation is not implemented.");
         }
 
         public void OnFileTransferCloseViewEvent(object eventArgs)
@@ -69,16 +68,27 @@ namespace GUI
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public void OnCloseFileTransferViewEvent(object eventArgs)
+        public void OnCloseFileTransferViewEvent()
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (CloseFileTransferViewEvent != null)
+            {
+                CloseFileTransferViewEvent();
+            }
         }
 
         public void ShowView()
         {
-            throw new Exception("The method or operation is not implemented.");
+            this.Focus();
+            this.Show();
         }
 
+        #endregion
+
+        #region GUI Events
+        private void FileTransferView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            OnCloseFileTransferViewEvent();
+        }
         #endregion
     }
 }

@@ -99,6 +99,7 @@ namespace GUI
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.lblUserName);
             this.Name = "CreateAccountView";
+            this.Text = "Create Account";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CreateAccountView_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();

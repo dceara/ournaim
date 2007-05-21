@@ -82,6 +82,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>CreateAccountView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\FileTransferView.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FileTransferView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\MainView.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainView.cs</DependentUpon>

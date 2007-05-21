@@ -89,9 +89,12 @@ namespace GUI
             }
         }
 
-        public void OnOpenFileTransferViewEvent(object eventArgs)
+        public void OnOpenFileTransferViewEvent()
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (OpenFileTransferViewEvent != null)
+            {
+                OpenFileTransferViewEvent();
+            }
         }
 
         public void ChangeClientStatus(string userName, string newStatus)
@@ -172,7 +175,13 @@ namespace GUI
         {
             OnOpenSignUpViewEvent();
         }
+        private void btnFileManager_Click(object sender, EventArgs e)
+        {
+            OnOpenFileTransferViewEvent();
+        }
         #endregion
+
+        
 
     }
 }

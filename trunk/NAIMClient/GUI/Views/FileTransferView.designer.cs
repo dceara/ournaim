@@ -31,10 +31,12 @@ namespace GUI
         {
             this.SuspendLayout();
             // 
-            // ConversationView
+            // FileTransferView
             // 
             this.ClientSize = new System.Drawing.Size(292, 266);
             this.Name = "FileTransferView";
+            this.Text = "File Transfer Manager";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FileTransferView_FormClosing);
             this.ResumeLayout(false);
 
         }
