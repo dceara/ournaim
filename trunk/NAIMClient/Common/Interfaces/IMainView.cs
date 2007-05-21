@@ -24,7 +24,7 @@ namespace Common.Interfaces
 
         event MainCloseEventHandler MainCloseEvent;
 
-        void OnLoginEvent(object eventArgs);
+        void OnLoginEvent(string userName,string password);
 
         void OnLogoutEvent(object eventArgs);
 
@@ -60,10 +60,12 @@ namespace Common.Interfaces
         /// </summary>
         void Initialise();
 
+        void AfterSignIn();
+
         void OnMainClose(object eventArgs);
     }
 
-    public delegate void LoginEventHandler(object eventArgs);
+    public delegate void LoginEventHandler(string userName,string password);
 
     public delegate void LogoutEventHandler(object eventArgs);
 

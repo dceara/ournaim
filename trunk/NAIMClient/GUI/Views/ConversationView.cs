@@ -8,6 +8,8 @@ namespace GUI
 {
     public partial class ConversationView : Form,IConversationView
     {
+        private bool cancelCloseEvent = false;
+
         public ConversationView()
         {
             InitializeComponent();
@@ -40,7 +42,7 @@ namespace GUI
 
         public void OnCloseEvent(object eventArgs)
         {
-            if (CloseEvent != null)
+            if (cancelCloseEvent && CloseEvent != null)
             {
                 CloseEvent(eventArgs);
             }
@@ -60,7 +62,11 @@ namespace GUI
         {
             this.Show();
         }
-
+        public void CloseView()
+        {
+            this.Close();
+            this.cancelCloseEvent = true;
+        }
         #endregion
 
         #region GUI Event Handlers
@@ -70,5 +76,7 @@ namespace GUI
             OnCloseEvent("INCHIDERE FEREASTRA DE CONVERSATIE!!");
         }
         #endregion
+
+       
     }
 }
