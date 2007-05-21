@@ -49,6 +49,8 @@ namespace Common.Interfaces
         void ChangeFileTransferProgress(int percentage);
 
         void OnCloseFileTransferViewEvent(object eventArgs);
+
+        void ShowView();
     }
 
     public delegate void FileTransferCloseViewEventHandler(object eventArgs);

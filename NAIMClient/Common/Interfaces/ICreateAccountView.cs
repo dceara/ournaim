@@ -18,6 +18,8 @@ namespace Common.Interfaces
         void Initialise();
 
         void OnCloseAccountViewEvent(object eventArgs);
+
+        void ShowView();
     }
 
     public delegate void CreateAccountEventHandler(object eventArgs);

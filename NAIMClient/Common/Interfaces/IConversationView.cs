@@ -27,6 +27,8 @@ namespace Common.Interfaces
         void OnStartFileTransferEvent(object eventArgs);
 
         void OnCancelFileTransferEvent(object eventArgs);
+
+        void ShowView();
     }
 
     public delegate void CloseEventDelegate(object eventArgs);
