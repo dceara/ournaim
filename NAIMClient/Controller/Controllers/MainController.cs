@@ -4,6 +4,8 @@ using System.Text;
 using Common.Interfaces;
 using Common.Protocol;
 using System.Collections;
+using System.Net.Sockets;
+using System.Windows.Forms;
 
 namespace Controllers
 {
@@ -18,6 +20,27 @@ namespace Controllers
         private IDictionary<string,IConversationController> conversationControllers;
 
         private IMainView mainView;
+
+        private Socket serverSocket = null;
+
+        private bool toBreak = false;
+
+        private string server;
+
+        public string Server
+        {
+            get { return server; }
+            set { server = value; }
+        }
+
+        private int port;
+
+        public int Port
+        {
+            get { return port; }
+            set { port = value; }
+        }
+
 
         public IMainView MainView
         {
@@ -70,6 +93,7 @@ namespace Controllers
             this.mainView.Initialise();
 
             this.conversationControllers = new Dictionary<string,IConversationController>();
+
         }
 
         public void InitialiseConversation(string userName,IConversationView conversationView)
@@ -110,7 +134,16 @@ namespace Controllers
 
         private void MainLoop()
         {
-            throw new System.NotImplementedException();
+            while (true)
+            {
+                Application.DoEvents();
+                if (toBreak)
+                {
+                    toBreak = false;
+                    break;
+                }
+                System.Threading.Thread.Sleep(1);
+            }
         }
 
         #region MainView Event Handlers
@@ -153,6 +186,7 @@ namespace Controllers
         void mainView_MainCloseEvent(object eventArgs)
         {
             global::System.Windows.Forms.MessageBox.Show(eventArgs.ToString());
+            toBreak = true;
         }
 
         void mainView_LogoutEvent(object eventArgs)
@@ -164,12 +198,14 @@ namespace Controllers
             }
             conversationControllers.Clear();
             mainView.Initialise();
+            toBreak = true;
         }
 
         void mainView_LoginEvent(string userName, string password)
         {
             System.Windows.Forms.MessageBox.Show("AUTENTIFICARE USER "+userName+" CU PAROLA "+password);
             mainView.AfterSignIn();
+            MainLoop();
         }
 
         void mainView_OpenSignUpViewEvent()
