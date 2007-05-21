@@ -33,9 +33,9 @@ namespace GUI
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public void Initialise()
+        public void Initialise(string caption)
         {
-            throw new Exception("The method or operation is not implemented.");
+            this.Text = caption;
         }
 
         public void OnCloseEvent(object eventArgs)

@@ -48,6 +48,7 @@ namespace Controllers
         public void InitialiseView(IConversationView view)
         {
             this.conversationView = view;
+            view.Initialise(this.name);
             conversationView.CancelFileTransferEvent += new CancelFileTransferEventHandler(conversationView_CancelFileTransferEvent);
             conversationView.CloseEvent += new CloseEventDelegate(conversationView_CloseEvent);
             conversationView.ShowView();
