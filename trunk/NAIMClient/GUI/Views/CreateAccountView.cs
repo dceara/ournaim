@@ -29,6 +29,11 @@ namespace GUI
             throw new Exception("The method or operation is not implemented.");
         }
 
+        public void ShowView()
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
         #endregion
     }
 }

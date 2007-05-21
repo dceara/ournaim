@@ -50,6 +50,7 @@ namespace Controllers
             this.conversationView = view;
             conversationView.CancelFileTransferEvent += new CancelFileTransferEventHandler(conversationView_CancelFileTransferEvent);
             conversationView.CloseEvent += new CloseEventDelegate(conversationView_CloseEvent);
+            conversationView.ShowView();
         }
 
         public string Name

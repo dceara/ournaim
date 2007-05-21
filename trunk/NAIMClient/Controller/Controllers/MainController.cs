@@ -6,6 +6,8 @@ using Common.Protocol;
 
 namespace Controllers
 {
+    public delegate void InstantiateConversationView(string username);
+
     public class MainController
     {
         private IList<IConversationController> conversationControllers;
@@ -61,12 +63,12 @@ namespace Controllers
             this.mainView.RemoveContactEvent += new RemoveContactEventHandler(mainView_RemoveContactEvent);
         }
 
-        private void InitialiseConversation(string userName)
+        public void InitialiseConversation(string userName,IConversationView conversationView)
         {
             ConversationController newConversationController = new ConversationController();
             newConversationController.Name = userName;
             newConversationController.SendServerMessageEvent += new SendServerMessageEventHandler(newConversationController_SendServerMessageEvent);
-
+            newConversationController.InitialiseView(conversationView);
             this.conversationControllers.Add(newConversationController);
         }
 
@@ -132,6 +134,18 @@ namespace Controllers
         void newConversationController_SendServerMessageEvent(Packet message)
         {
             throw new Exception("The method or operation is not implemented.");
+        }
+        #endregion
+
+        #region Main Controller Events
+        public event InstantiateConversationView InstantiateConversationViewEvent;
+
+        protected virtual void OnInstantiateConversationView(string userName)
+        {
+            if (InstantiateConversationViewEvent != null)
+            {
+                InstantiateConversationViewEvent(userName);
+            }
         }
         #endregion
     }
