@@ -9,6 +9,8 @@ namespace Controllers
 {
     public delegate void InstantiateConversationView(string username);
 
+    public delegate void InstantiateCreateAccountView();
+
     public class MainController
     {
         private IDictionary<string,IConversationController> conversationControllers;
@@ -62,6 +64,7 @@ namespace Controllers
             this.mainView.OpenConversationEvent += new OpenConversationEventHandler(mainView_OpenConversationEvent);
             this.mainView.OpenFileTransferViewEvent += new OpenFileTransferViewEventHandler(mainView_OpenFileTransferViewEvent);
             this.mainView.RemoveContactEvent += new RemoveContactEventHandler(mainView_RemoveContactEvent);
+            this.mainView.OpenSignUpViewEvent += new OpenSignUpViewHandler(mainView_OpenSignUpViewEvent);
             this.mainView.Initialise();
 
             this.conversationControllers = new Dictionary<string,IConversationController>();
@@ -77,7 +80,14 @@ namespace Controllers
             this.conversationControllers.Add(userName, newConversationController);
         }
 
-        
+        public void InitialiseCreateAccount(ICreateAccountView newCreateAccountView)
+        {
+            this.createAccountView = newCreateAccountView;
+            this.createAccountView.Initialise();
+            this.createAccountView.CloseAccountViewEvent += new CloseAccountViewEventHandler(createAccountView_CloseAccountViewEvent);
+            this.createAccountView.CreateAccountEvent += new CreateAccountEventHandler(createAccountView_CreateAccountEvent);
+            this.createAccountView.ShowView();
+        }
 
         private void SendServerMessage(Packet message)
         {
@@ -140,6 +150,30 @@ namespace Controllers
             System.Windows.Forms.MessageBox.Show("AUTENTIFICARE USER "+userName+" CU PAROLA "+password);
             mainView.AfterSignIn();
         }
+
+        void mainView_OpenSignUpViewEvent()
+        {
+            OnInstantiateCreateAccountView();
+        }
+
+       
+        #endregion
+
+        #region CreateAccountView Event Handlers
+
+        void createAccountView_CreateAccountEvent(string userName,string password)
+        {
+            System.Windows.Forms.MessageBox.Show("Creare cont: Username = "+userName+" ,Password = "+password);
+            this.createAccountView.CloseView();
+            this.createAccountView = null;
+        }
+
+        void createAccountView_CloseAccountViewEvent()
+        {
+            this.createAccountView.CloseView();
+            this.mainView.ShowView();
+        }
+
         #endregion
 
         #region ConversationControllers Event Handlers
@@ -165,6 +199,18 @@ namespace Controllers
                 InstantiateConversationViewEvent(userName);
             }
         }
+
+        public event InstantiateCreateAccountView InstantiateCreateAccountViewEvent;
+
+        protected virtual void OnInstantiateCreateAccountView()
+        {
+            if (InstantiateCreateAccountViewEvent != null)
+            {
+                InstantiateCreateAccountViewEvent();
+            }
+        }
         #endregion
+
+        
     }
 }

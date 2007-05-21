@@ -24,6 +24,8 @@ namespace Common.Interfaces
 
         event MainCloseEventHandler MainCloseEvent;
 
+        event OpenSignUpViewHandler OpenSignUpViewEvent;
+
         void OnLoginEvent(string userName,string password);
 
         void OnLogoutEvent(object eventArgs);
@@ -39,6 +41,8 @@ namespace Common.Interfaces
         void OnOpenConversationEvent(string userName);
 
         void OnOpenFileTransferViewEvent(object eventArgs);
+
+        void OnOpenSignUpViewEvent();
 
         /// <summary>
         /// This is called by the controller
@@ -63,6 +67,8 @@ namespace Common.Interfaces
         void AfterSignIn();
 
         void OnMainClose(object eventArgs);
+
+        void ShowView();
     }
 
     public delegate void LoginEventHandler(string userName,string password);
@@ -82,4 +88,6 @@ namespace Common.Interfaces
     public delegate void OpenFileTransferViewEventHandler(object eventArgs);
 
     public delegate void MainCloseEventHandler(object eventArgs);
+
+    public delegate void OpenSignUpViewHandler();
 }

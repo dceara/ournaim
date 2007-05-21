@@ -10,19 +10,21 @@ namespace Common.Interfaces
 
         event CloseAccountViewEventHandler CloseAccountViewEvent;
 
-        void OnCreateAccountEvent(object eventArgs);
+        void OnCreateAccountEvent(string userName,string password);
 
         /// <summary>
         /// This is called by the main controller
         /// </summary>
         void Initialise();
 
-        void OnCloseAccountViewEvent(object eventArgs);
+        void OnCloseAccountViewEvent();
 
         void ShowView();
+
+        void CloseView();
     }
 
-    public delegate void CreateAccountEventHandler(object eventArgs);
+    public delegate void CreateAccountEventHandler(string userName,string password);
 
-    public delegate void CloseAccountViewEventHandler(object eventArgs);
+    public delegate void CloseAccountViewEventHandler();
 }

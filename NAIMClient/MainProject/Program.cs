@@ -27,9 +27,18 @@ namespace MainProject
 
             mainController.InstantiateConversationViewEvent += new InstantiateConversationView(mainController_InstantiateConversationViewEvent);
 
+            mainController.InstantiateCreateAccountViewEvent += new InstantiateCreateAccountView(mainController_InstantiateCreateAccountViewEvent);
+
             mainController.Initialise(mainView);
 
             Application.Run(mainView);
+        }
+
+        #region Main Controller Event Handlers
+
+        static void mainController_InstantiateCreateAccountViewEvent()
+        {
+            mainController.InitialiseCreateAccount(new CreateAccountView());
         }
 
         static void mainController_InstantiateConversationViewEvent(string username)
@@ -37,5 +46,6 @@ namespace MainProject
             mainController.InitialiseConversation(username, new ConversationView());
         }
 
+        #endregion
     }
 }
