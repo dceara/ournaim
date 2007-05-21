@@ -68,9 +68,12 @@ namespace GUI
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public void OnOpenConversationEvent(object eventArgs)
+        public void OnOpenConversationEvent(string userName)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (OpenConversationEvent != null)
+            {
+                OpenConversationEvent(userName);
+            }
         }
 
         public void OnOpenFileTransferViewEvent(object eventArgs)
@@ -102,7 +105,7 @@ namespace GUI
         {
             if (MainCloseEvent != null)
             {
-                MainCloseEvent("MAIN FORM CLOSING.... CLOSING APPLICATION!!");
+                MainCloseEvent(eventArgs);
             }
         }
 
@@ -115,7 +118,11 @@ namespace GUI
         }
         private void MainView_FormClosing(object sender, FormClosingEventArgs e)
         {
-            OnMainClose(e);
+            OnMainClose("MAIN FORM CLOSING.... CLOSING APPLICATION!!");
+        }
+        private void btnAddConversation_Click(object sender, EventArgs e)
+        {
+            OnOpenConversationEvent("USER NOU");
         }
         #endregion
 

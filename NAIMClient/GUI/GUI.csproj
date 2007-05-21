@@ -39,11 +39,20 @@
     <Compile Include="Views\ConversationView.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Views\ConversationView.designer.cs">
+      <DependentUpon>ConversationView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\CreateAccountView.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Views\CreateAccountView.designer.cs">
+      <DependentUpon>CreateAccountView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\FileTransferView.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FileTransferView.designer.cs">
+      <DependentUpon>FileTransferView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.cs">
       <SubType>Form</SubType>
@@ -65,6 +74,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Views\ConversationView.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ConversationView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\MainView.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainView.cs</DependentUpon>

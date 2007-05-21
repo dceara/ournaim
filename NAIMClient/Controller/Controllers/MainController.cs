@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Common.Interfaces;
 using Common.Protocol;
+using System.Collections;
 
 namespace Controllers
 {
@@ -10,7 +11,7 @@ namespace Controllers
 
     public class MainController
     {
-        private IList<IConversationController> conversationControllers;
+        private IDictionary<string,IConversationController> conversationControllers;
 
         private IMainView mainView;
 
@@ -61,6 +62,8 @@ namespace Controllers
             this.mainView.OpenConversationEvent += new OpenConversationEventHandler(mainView_OpenConversationEvent);
             this.mainView.OpenFileTransferViewEvent += new OpenFileTransferViewEventHandler(mainView_OpenFileTransferViewEvent);
             this.mainView.RemoveContactEvent += new RemoveContactEventHandler(mainView_RemoveContactEvent);
+
+            this.conversationControllers = new Dictionary<string,IConversationController>();
         }
 
         public void InitialiseConversation(string userName,IConversationView conversationView)
@@ -68,11 +71,12 @@ namespace Controllers
             ConversationController newConversationController = new ConversationController();
             newConversationController.Name = userName;
             newConversationController.SendServerMessageEvent += new SendServerMessageEventHandler(newConversationController_SendServerMessageEvent);
+            newConversationController.DisposeConversationControllerEvent += new DisposeConversationController(newConversationController_DisposeConversationControllerEvent);
             newConversationController.InitialiseView(conversationView);
-            this.conversationControllers.Add(newConversationController);
+            this.conversationControllers.Add(userName, newConversationController);
         }
 
-       
+        
 
         private void SendServerMessage(Packet message)
         {
@@ -109,9 +113,9 @@ namespace Controllers
             throw new Exception("The method or operation is not implemented.");
         }
 
-        void mainView_OpenConversationEvent(object eventArgs)
+        void mainView_OpenConversationEvent(string userName)
         {
-            throw new Exception("The method or operation is not implemented.");
+            OnInstantiateConversationView(userName);
         }
 
         void mainView_MainCloseEvent(object eventArgs)
@@ -135,6 +139,12 @@ namespace Controllers
         {
             throw new Exception("The method or operation is not implemented.");
         }
+
+        void newConversationController_DisposeConversationControllerEvent(string name)
+        {
+            conversationControllers.Remove(name);            
+        }
+
         #endregion
 
         #region Main Controller Events
