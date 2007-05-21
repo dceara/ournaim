@@ -57,8 +57,14 @@ namespace Controllers
 
         private void InitialiseConversation(string userName)
         {
-            throw new System.NotImplementedException();
+            ConversationController newConversationController = new ConversationController();
+            newConversationController.Name = userName;
+            newConversationController.SendServerMessageEvent += new SendServerMessageEventHandler(newConversationController_SendServerMessageEvent);
+
+            this.conversationControllers.Add(newConversationController);
         }
+
+       
 
         private void SendServerMessage(Packet message)
         {
@@ -82,6 +88,13 @@ namespace Controllers
         }
 
         void mainView_AddContactEvent(object eventArgs)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+        #endregion
+
+        #region ConversationControllers Event Handlers
+        void newConversationController_SendServerMessageEvent(Packet message)
         {
             throw new Exception("The method or operation is not implemented.");
         }

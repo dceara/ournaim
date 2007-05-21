@@ -16,7 +16,10 @@ namespace Controllers
 
         public void OnSendServerMessage(Packet message)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (SendServerMessageEvent != null)
+            {
+                SendServerMessageEvent(message);
+            }
         }
 
         public void ReceiveServerMessage(Packet message)
@@ -44,20 +47,35 @@ namespace Controllers
 
         public void InitialiseView(IConversationView view)
         {
-            throw new Exception("The method or operation is not implemented.");
+            this.conversationView = view;
+            conversationView.CancelFileTransferEvent += new CancelFileTransferEventHandler(conversationView_CancelFileTransferEvent);
+            conversationView.CloseEvent += new CloseEventDelegate(conversationView_CloseEvent);
         }
-
 
         public string Name
         {
             get
             {
-                throw new Exception("The method or operation is not implemented.");
+                return name;
             }
             set
             {
-                throw new Exception("The method or operation is not implemented.");
+                this.name = value;
             }
+        }
+
+        #endregion
+
+        #region ConversationView Event handlers
+
+        void conversationView_CloseEvent(object eventArgs)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        void conversationView_CancelFileTransferEvent(object eventArgs)
+        {
+            throw new Exception("The method or operation is not implemented.");
         }
 
         #endregion
