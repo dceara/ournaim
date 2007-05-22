@@ -181,11 +181,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Server.cpp"
+				RelativePath=".\server.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Utils.cpp"
+				RelativePath=".\utils.cpp"
 				>
 			</File>
 		</Filter>
@@ -195,7 +195,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Utils.h"
+				RelativePath=".\utils.h"
 				>
 			</File>
 		</Filter>
