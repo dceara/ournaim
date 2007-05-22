@@ -10,8 +10,6 @@ struct NAIMpacket {
     char * data;
 };
 
-const char * NAIMpacket::header = "NAIM";
-
 /* Enumeration of the services used by the NAIM protocol */
 
 enum Services {
