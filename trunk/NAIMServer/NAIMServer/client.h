@@ -4,6 +4,8 @@
 #include "connection_manager.h"
 #include "protocol.h"
 
+#include <time.h>
+
 #include <queue>
 
 /*
@@ -13,8 +15,8 @@ class Client {
 protected:
     ConnectionManager * cMan;           // reference to it's parent. this is needed to access information about
                                         // all the other clients
-    queue<NAIMpacket *> inputQueue;     // input packet queue
-    queue<NAIMpacket *> outputQueue;    // output packet queue
+    std::queue<NAIMpacket * > inputQueue;     // input packet queue
+    std::queue<NAIMpacket * > outputQueue;    // output packet queue
 public:
     Client(ConnectionManager * parent);
     
@@ -41,7 +43,7 @@ public:
  */
 class Console : Client {
 public:
-    Console(ConnectionManager * parent) : Client(parent);
+    Console(ConnectionManager * parent) : Client(parent) {};
 };
 
 /*
@@ -49,9 +51,9 @@ public:
  */
 class Peer : Client {
     int clientID;                       // the database id of the client it handles. the name might also be needed
-    timeval lastActiveTime;             // the time the client was last active.
+    time_t lastActiveTime;             // the time the client was last active.
 public:
-    Peer(ConnectionManager * parent, int clientID, timeval lastActiveTime);
+    Peer(ConnectionManager * parent, int clientID, time_t lastActiveTime);
 
     /*
      *	Pings the client. Should be called before the packets in the output queue are processed.
