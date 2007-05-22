@@ -13,10 +13,10 @@
  */
 class Client {
 protected:
-    ConnectionManager * cMan;           // reference to it's parent. this is needed to access information about
-                                        // all the other clients
-    std::queue<NAIMpacket * > inputQueue;     // input packet queue
-    std::queue<NAIMpacket * > outputQueue;    // output packet queue
+    ConnectionManager * cMan;                   // reference to it's parent. this is needed to access information about
+                                                // all the other clients
+    std::queue<NAIMpacket * > inputQueue;       // input packet queue
+    std::queue<NAIMpacket * > outputQueue;      // output packet queue
 public:
     Client(ConnectionManager * parent);
     
