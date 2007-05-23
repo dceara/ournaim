@@ -8,6 +8,8 @@
 
 #include <queue>
 
+class ConnectionManager;
+
 /*
  *	Handles communication with a client, console or peer
  */
@@ -15,8 +17,8 @@ class Client {
 protected:
     ConnectionManager * cMan;                   // reference to it's parent. this is needed to access information about
                                                 // all the other clients
-    std::queue<NAIMpacket * > inputQueue;       // input packet queue
-    std::queue<NAIMpacket * > outputQueue;      // output packet queue
+    std::queue< NAIMpacket * > inputQueue;       // input packet queue
+    std::queue< NAIMpacket * > outputQueue;      // output packet queue
 public:
     Client(ConnectionManager * parent);
     
@@ -24,18 +26,18 @@ public:
      *	Adds a packet in the input queue of the client. The packet will be deleted after being processed so
      *  DO NOT delete it externally :P
      */
-    virtual void addInputPacket(NAIMpacket * packet) = 0;
+    virtual void addInputPacket(NAIMpacket * packet);
 
     /*
      *	Gets a packet from the input queue. After processing the memory should be freed.
      */
-    virtual NAIMpacket * getOutputPacket() = 0;
+    virtual NAIMpacket * getOutputPacket();
 
     /*
      *	Processes a packet from the input queue. It does not process all the packets to maintain asynchronous
      *  operation.
      */
-    virtual void processPacket() = 0;
+    virtual void processPacket();
 };
 
 /*
