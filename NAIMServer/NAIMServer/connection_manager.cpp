@@ -38,7 +38,15 @@ int ConnectionManager::setStatus(int clientID, string status) {
     return 0;
 }
 
-int ConnectionManager::clientDisconnect(int clientID) {
+const sockaddr_in * ConnectionManager::getClientAddress(int clientID) {
+    return NULL;
+}
+
+int ConnectionManager::clientConnect(int clientID, std::string status, sockaddr_in address) {
+    return 0;
+}
+
+int ConnectionManager::clientDisconnect(int clientID, Client * clientMan) {
     return 0;
 }
 
