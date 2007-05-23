@@ -27,7 +27,7 @@ void Client::processPacket() {
  *	Peer
  */
 
-Peer::Peer(ConnectionManager * parent, int clientID, time_t lastActiveTime) {
+Peer::Peer(ConnectionManager * parent, int clientID, time_t lastActiveTime) : Client(parent) {
 
 }
 
