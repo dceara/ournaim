@@ -1,13 +1,17 @@
 #ifndef CONNECTION_MANAGER_H
 #define CONNECTION_MANAGER_H
 
+#include "client.h"
+
 #include <map>
 #include <set>
 #include <string>
 
+#ifdef WIN32
 #include <winsock.h>
-
-#include "client.h"
+#else
+#include <sys/socket.h>
+#endif
 
 class Client;
 
