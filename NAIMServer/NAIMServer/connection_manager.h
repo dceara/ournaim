@@ -14,7 +14,8 @@ class ConnectionManager {
     std::map< int, Client > socketClients;           // maps each client to a socket
 public:
     ConnectionManager();
-    
+    ~ConnectionManager();
+
     /* Returns true if the client with clientID is online */
     bool isOnline(int clientID);
 
@@ -24,8 +25,14 @@ public:
      */
     const std::string * getStatus(int clientID);
 
-    
+    /* Sets the status of a client */
+    int setStatus(int clientID, std::string status);
 
+    /* Removes a client from the online list. Called when a client disconnects. */
+    int clientDisconnect(int clientID);
+
+    /* Runs the main loop */
+    int run();
 };
 
 #endif  /* CONNECTION_MANAGER_H */
