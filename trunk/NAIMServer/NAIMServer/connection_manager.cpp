@@ -4,10 +4,12 @@
 
 #include <string>
 
+using namespace std;
+
 void test() {
     ConnectionManager cMan = ConnectionManager();
 
-    const std::string * mystr = cMan.getStatus(3);
+    const string * mystr = cMan.getStatus(3);
     
 }
 
@@ -20,10 +22,26 @@ ConnectionManager::ConnectionManager() {
 
 }
 
-bool ConnectionManager::isOnline(int clientID) {
+ConnectionManager::~ConnectionManager() {
 
 }
 
-const std::string * ConnectionManager::getStatus(int clientID) {
-    
+bool ConnectionManager::isOnline(int clientID) {
+    return false;
+}
+
+const string * ConnectionManager::getStatus(int clientID) {
+    return NULL;
+}
+
+int ConnectionManager::setStatus(int clientID, string status) {
+    return 0;
+}
+
+int ConnectionManager::clientDisconnect(int clientID) {
+    return 0;
+}
+
+int ConnectionManager::run() {
+    return 0;
 }

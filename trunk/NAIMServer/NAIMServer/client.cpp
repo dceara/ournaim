@@ -2,6 +2,7 @@
 #include "connection_manager.h"
 #include "protocol.h"
 
+using namespace std;
 
 /*
  *	Client
@@ -11,17 +12,35 @@ Client::Client(ConnectionManager * parent) {
 
 }
 
-void Client::addInputPacket(NAIMpacket * packet) {
+Client::~Client() {
 
+}
+
+int Client::addInputPacket(NAIMpacket * packet) {
+    return 0;
 }
 
 NAIMpacket * Client::getOutputPacket() {
     return NULL;
 }
 
-void Client::processPacket() {
-
+int Client::processPacket() {
+    return 0;
 }
+
+
+
+
+/*
+ *	Console
+ */
+
+int Console::processPacket() {
+    return 0;
+}
+
+
+
 
 /*
  *	Peer
@@ -31,6 +50,14 @@ Peer::Peer(ConnectionManager * parent, int clientID, time_t lastActiveTime) : Cl
 
 }
 
-void Peer::ping() {
+Peer::~Peer() {
 
+}
+
+int Peer::processPacket() {
+    return 0;
+}
+
+int Peer::ping() {
+    return 0;
 }

@@ -21,12 +21,13 @@ protected:
     std::queue< NAIMpacket * > outputQueue;      // output packet queue
 public:
     Client(ConnectionManager * parent);
-    
+    ~Client();
+
     /*
      *	Adds a packet in the input queue of the client. The packet will be deleted after being processed so
      *  DO NOT delete it externally :P
      */
-    virtual void addInputPacket(NAIMpacket * packet);
+    virtual int addInputPacket(NAIMpacket * packet);
 
     /*
      *	Gets a packet from the input queue. After processing the memory should be freed.
@@ -37,7 +38,7 @@ public:
      *	Processes a packet from the input queue. It does not process all the packets to maintain asynchronous
      *  operation.
      */
-    virtual void processPacket();
+    virtual int processPacket();
 };
 
 /*
@@ -46,6 +47,9 @@ public:
 class Console : Client {
 public:
     Console(ConnectionManager * parent) : Client(parent) {};
+
+    /* Override */
+    int processPacket();
 };
 
 /*
@@ -53,14 +57,18 @@ public:
  */
 class Peer : Client {
     int clientID;                       // the database id of the client it handles. the name might also be needed
-    time_t lastActiveTime;             // the time the client was last active.
+    time_t lastActiveTime;              // the time the client was last active.
 public:
     Peer(ConnectionManager * parent, int clientID, time_t lastActiveTime);
+    ~Peer();
+
+    /* Override */
+    int processPacket();
 
     /*
      *	Pings the client. Should be called before the packets in the output queue are processed.
      */
-    void ping();
+    int ping();
 };
 
 #endif  /* CLIENT_H */

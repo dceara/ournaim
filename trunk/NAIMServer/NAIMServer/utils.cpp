@@ -1,5 +1,7 @@
 #include "utils.h"
 
+using namespace std;
+
 int readInt(const char * buffer, unsigned int & pointer) {
     return 0;
 }
