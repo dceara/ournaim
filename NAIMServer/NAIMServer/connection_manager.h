@@ -51,3 +51,4 @@ public:
 };
 
 #endif  /* CONNECTION_MANAGER_H */
+

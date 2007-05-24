@@ -68,3 +68,4 @@ class QueryExecuter : IQueryExecuter {
 };
 
 #endif  /* DATA_ACCESS_H */
+
