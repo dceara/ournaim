@@ -19,3 +19,4 @@ char * Protocol::packetToBuffer(NAIMpacket packet) {
 NAIMpacket * Protocol::readPacket(int socket) {
     return NULL;
 }
+

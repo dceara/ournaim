@@ -22,3 +22,4 @@ short readShort(const char * buffer, unsigned int & pointer);
 unsigned short readUShort(const char * buffer, unsigned int & pointer);
 
 #endif  /* UTILS_H */
+
