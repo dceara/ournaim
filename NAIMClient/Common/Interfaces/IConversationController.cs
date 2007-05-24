@@ -19,14 +19,14 @@ namespace Common.Interfaces
             set;
         }
 
-        void OnSendServerMessage(Packet message);
+        void OnSendServerMessage(Message message);
 
         void OnDisposeConversationController(string userName);
 
         /// <summary>
         /// This is called by the main controller
         /// </summary>
-        void ReceiveServerMessage(Packet message);
+        void ReceiveServerMessage(Message message);
 
         /// <summary>
         /// This is called by the main controller
@@ -36,5 +36,5 @@ namespace Common.Interfaces
         void CloseView();
     }
 
-    public delegate void SendServerMessageEventHandler(Packet message);
+    public delegate void SendServerMessageEventHandler(Message message);
 }

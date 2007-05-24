@@ -39,10 +39,32 @@
     <Compile Include="Interfaces\IFileTransferView.cs" />
     <Compile Include="Interfaces\IMainView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProtocolEntities\AckMessageData.cs" />
+    <Compile Include="ProtocolEntities\AddContactMessageData.cs" />
+    <Compile Include="ProtocolEntities\ConnectionDataMessageData.cs" />
+    <Compile Include="ProtocolEntities\ConnectionDataRequestedMessageData.cs" />
+    <Compile Include="ProtocolEntities\FileListGetMessageData.cs" />
+    <Compile Include="ProtocolEntities\FileTransferGetMessageData.cs" />
+    <Compile Include="ProtocolEntities\FileTransferSendMessageData.cs" />
+    <Compile Include="ProtocolEntities\HelloMessageData.cs" />
+    <Compile Include="ProtocolEntities\LoginMessageData.cs" />
+    <Compile Include="ProtocolEntities\LogoutMessageData.cs" />
+    <Compile Include="ProtocolEntities\NackMessageData.cs" />
+    <Compile Include="ProtocolEntities\PingMessageData.cs" />
+    <Compile Include="ProtocolEntities\RemoveContactMessageData.cs" />
+    <Compile Include="ProtocolEntities\SignUpMessageData.cs" />
+    <Compile Include="ProtocolEntities\TextMessageData.cs" />
+    <Compile Include="ProtocolEntities\UserConnectedMessageData.cs" />
+    <Compile Include="ProtocolEntities\UserDisconnectedMessageData.cs" />
+    <Compile Include="ProtocolEntities\UserListMessageData.cs" />
+    <Compile Include="ProtocolExceptions\UnknownServiceException.cs" />
+    <Compile Include="Protocol\AMessageData.cs" />
     <Compile Include="Protocol\ConnectionDetails.cs" />
-    <Compile Include="Protocol\MessageBuilder.cs" />
-    <Compile Include="Protocol\Packet.cs" />
-    <Compile Include="Protocol\ServiceType.cs" />
+    <Compile Include="Protocol\Message.cs" />
+    <Compile Include="Protocol\MessageHeader.cs" />
+    <Compile Include="Protocol\Protocol.cs" />
+    <Compile Include="Protocol\ServiceTypes.cs" />
+    <Compile Include="Protocol\UserListEntry.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
