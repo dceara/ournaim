@@ -14,7 +14,7 @@ namespace Controllers
 
         public event SendServerMessageEventHandler SendServerMessageEvent;
 
-        public void OnSendServerMessage(Packet message)
+        public void OnSendServerMessage(Message message)
         {
             if (SendServerMessageEvent != null)
             {
@@ -22,7 +22,7 @@ namespace Controllers
             }
         }
 
-        public void ReceiveServerMessage(Packet message)
+        public void ReceiveServerMessage(Message message)
         {
             throw new Exception("The method or operation is not implemented.");
         }

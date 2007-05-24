@@ -127,7 +127,7 @@ namespace Controllers
             this.fileTransferView.ShowView();
         }
 
-        private void SendServerMessage(Packet message)
+        private void SendServerMessage(Common.Protocol.Message message)
         {
             throw new System.NotImplementedException();
         }
@@ -234,7 +234,7 @@ namespace Controllers
         #endregion
 
         #region ConversationControllers Event Handlers
-        void newConversationController_SendServerMessageEvent(Packet message)
+        void newConversationController_SendServerMessageEvent(Common.Protocol.Message message)
         {
             throw new Exception("The method or operation is not implemented.");
         }
