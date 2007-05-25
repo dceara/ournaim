@@ -189,7 +189,7 @@ namespace Controllers
         }
 
         #region MainView Event Handlers
-        void mainView_ChangeStatusEvent(object eventArgs)
+        void mainView_ChangeStatusEvent(string eventArgs)
         {
             throw new Exception("The method or operation is not implemented.");
         }
