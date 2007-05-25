@@ -30,6 +30,12 @@ namespace Common.Protocol
             _data = data;
         }
 
+        public Message(MessageHeader header, AMessageData messageData)
+        {
+            _header = header;
+            _data = messageData.Serialize();
+        }
+
         public static AMessageData GetMessageData(Message mes)
         {
             switch (mes._header.ServiceType)
