@@ -195,7 +195,7 @@ namespace Controllers
             mainView.ChangeStatus(eventArgs);
         }
 
-        void mainView_ChangeContactGroupEvent(object eventArgs)
+        void mainView_ChangeContactGroupEvent(string username, string newgroup)
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -204,7 +204,7 @@ namespace Controllers
         {
             throw new Exception("The method or operation is not implemented.");
         }
-        void mainView_RemoveContactEvent(object eventArgs)
+        void mainView_RemoveContactEvent(string username)
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -226,15 +226,15 @@ namespace Controllers
             OnInstantiateConversationView(userName);
         }
 
-        void mainView_MainCloseEvent(object eventArgs)
+        void mainView_MainCloseEvent()
         {
-            global::System.Windows.Forms.MessageBox.Show(eventArgs.ToString());
+            global::System.Windows.Forms.MessageBox.Show("NOW EXITING");
             toBreak = true;
         }
 
-        void mainView_LogoutEvent(object eventArgs)
+        void mainView_LogoutEvent()
         {
-            global::System.Windows.Forms.MessageBox.Show(eventArgs.ToString());
+            global::System.Windows.Forms.MessageBox.Show("NOW SIGNING OFF!");
             foreach (KeyValuePair<string,IConversationController> pair in conversationControllers)
             {
                 pair.Value.CloseView();
@@ -242,11 +242,14 @@ namespace Controllers
             conversationControllers.Clear();
             mainView.Initialise();
 
-            //clear the input messages
-            inputMessageQueue.Clear();
+            if (!withoutServerMode)
+            {
+                //clear the input messages
+                inputMessageQueue.Clear();
 
-            //process the output queue
-            ProcessOutputQueue();
+                //process the output queue
+                ProcessOutputQueue();
+            }
 
             toBreak = true;
             mainLoopStarted = false;

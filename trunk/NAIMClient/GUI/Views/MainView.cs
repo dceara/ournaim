@@ -55,11 +55,11 @@ namespace GUI
             }
         }
 
-        public void OnLogoutEvent(object eventArgs)
+        public void OnLogoutEvent()
         {
             if (LogoutEvent != null)
             {
-                LogoutEvent(eventArgs);
+                LogoutEvent();
             }
         }
 
@@ -80,14 +80,20 @@ namespace GUI
             }
         }
 
-        public void OnRemoveContactEvent(object eventArgs)
+        public void OnRemoveContactEvent(string username)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (RemoveContactEvent != null)
+            {
+                RemoveContactEvent(username);
+            }
         }
 
-        public void OnChangeContactGroupEvent(object eventArgs)
+        public void OnChangeContactGroupEvent(string userName, string newGroup)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (ChangeContactGroupEvent!=null)
+            {
+                ChangeContactGroupEvent(userName, newGroup);
+            }
         }
 
         public void OnOpenConversationEvent(string userName)
@@ -121,11 +127,11 @@ namespace GUI
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public void OnMainClose(object eventArgs)
+        public void OnMainClose()
         {
             if (MainCloseEvent != null)
             {
-                MainCloseEvent(eventArgs);
+                MainCloseEvent();
             }
         }
         public void AfterSignIn()
@@ -156,11 +162,11 @@ namespace GUI
         #region GUI Events
         private void btnSignOut_Click(object sender, EventArgs e)
         {
-            OnLogoutEvent("TEST LOGOUT EVENT");
+            OnLogoutEvent();
         }
         private void MainView_FormClosing(object sender, FormClosingEventArgs e)
         {
-            OnMainClose("MAIN FORM CLOSING.... CLOSING APPLICATION!!");
+            OnMainClose();
         }
 
 #warning HARDCODED FOR NOW
