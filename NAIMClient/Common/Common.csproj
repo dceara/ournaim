@@ -60,6 +60,7 @@
     <Compile Include="ProtocolExceptions\UnknownServiceException.cs" />
     <Compile Include="Protocol\AMessageData.cs" />
     <Compile Include="Protocol\ConnectionDetails.cs" />
+    <Compile Include="Protocol\GroupEntry.cs" />
     <Compile Include="Protocol\Message.cs" />
     <Compile Include="Protocol\MessageHeader.cs" />
     <Compile Include="Protocol\Protocol.cs" />

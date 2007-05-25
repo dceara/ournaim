@@ -8,20 +8,20 @@ namespace Common.ProtocolEntities
     class UserListMessageData:AMessageData
     {
 
-        private int _userCount;
+        private byte _groupCount;
 
-        public int UserCount
+        public byte GroupCount
         {
-            get { return _userCount; }
-            set { _userCount = value; }
+            get { return _groupCount; }
+            set { _groupCount = value; }
         }
 
-        private UserListEntry[] _usersList;
+        private GroupEntry[] _groupsList;
 
-        public UserListEntry[] UsersList
+        public GroupEntry[] GroupsList
         {
-            get { return _usersList; }
-            set { _usersList = value; }
+            get { return _groupsList; }
+            set { _groupsList = value; }
         }
 	
 
@@ -32,14 +32,19 @@ namespace Common.ProtocolEntities
 
         protected override void Deserialize()
         {
-            _userCount = _data[0];
+            _groupCount = _data[0];
             int index = 1;
-            _usersList = new UserListEntry[_userCount];
-            for (int i = 0; i < _userCount; i++)
+            _groupsList = new GroupEntry[_groupCount];
+            for (int i = 0; i < _groupCount; i++)
             {
-                UserListEntry entry = new UserListEntry();
-                index = GetNextUserListEntry(index, ref entry);
-                _usersList[i] = entry;
+                string name = AMessageData.ToString(_data, index + 1, _data[index]);
+                index += _data[index] + 1;
+                GroupEntry entry = new GroupEntry(name);
+                int userCnt = _data[index++];
+                UserListEntry userEntry = new UserListEntry();
+                index = GetNextUserListEntry(index, ref userEntry);
+                entry.Users.Add(userEntry);
+                _groupsList[i] = entry;
             }
         }
 
