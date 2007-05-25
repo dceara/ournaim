@@ -72,9 +72,12 @@ namespace GUI
             }
         }
 
-        public void OnAddContactEvent(object eventArgs)
+        public void OnAddContactEvent(string username, string group)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (AddContactEvent != null)
+            {
+                AddContactEvent(username, group);
+            }
         }
 
         public void OnRemoveContactEvent(object eventArgs)
@@ -218,6 +221,17 @@ namespace GUI
             }
         }
 
+
+        private void addToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddContactDialog addContactDialog = new AddContactDialog();
+            DialogResult result = addContactDialog.ShowDialog();
+            if(result == DialogResult.OK)
+            {
+                OnAddContactEvent(addContactDialog.Username, addContactDialog.Group);
+            }
+        }
+
         #endregion
 
 
@@ -225,6 +239,7 @@ namespace GUI
         #region Utils
         private void ChangeMenuVisibility(bool value)
         {
+            this.contactsToolStripMenuItem.Visible = value;
             this.statusToolStripMenuItem.Visible = value;
             this.accountInformationToolStripMenuItem.Visible = value;
             this.shareFilesToolStripMenuItem.Visible = value;
@@ -246,6 +261,7 @@ namespace GUI
             this.status_label.Visible = !value;
         }
         #endregion
+
 
 
        

@@ -32,7 +32,7 @@ namespace Common.Interfaces
 
         void OnChangeStatusEvent(string eventArgs);
 
-        void OnAddContactEvent(object eventArgs);
+        void OnAddContactEvent(string uname, string group);
 
         void OnRemoveContactEvent(object eventArgs);
 
@@ -79,7 +79,7 @@ namespace Common.Interfaces
 
     public delegate void ChangeStatusEventHandler(string eventArgs);
 
-    public delegate void AddContactEventHandler(object eventArgs);
+    public delegate void AddContactEventHandler(string uname,string group);
 
     public delegate void RemoveContactEventHandler(object eventArgs);
 
