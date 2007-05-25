@@ -16,13 +16,13 @@ namespace Common.Interfaces
 
         event CancelFileTransferEventHandler CancelFileTransferEvent;
 
-        void OnSendMessageEvent(object SendMessageEventArgs);
+        void OnSendMessageEvent(string message);
 
         void AddMessage(string message);
 
         void Initialise(string caption);
 
-        void OnCloseEvent(object eventArgs);
+        void OnCloseEvent();
 
         void OnStartFileTransferEvent(object eventArgs);
 
@@ -33,7 +33,7 @@ namespace Common.Interfaces
         void CloseView();
     }
 
-    public delegate void CloseEventDelegate(object eventArgs);
+    public delegate void CloseEventDelegate();
 
     public delegate void StartFileTransferEventHandler(object eventArgs);
 

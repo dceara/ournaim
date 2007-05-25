@@ -85,7 +85,7 @@ namespace Controllers
 
         #region ConversationView Event handlers
 
-        void conversationView_CloseEvent(object eventArgs)
+        void conversationView_CloseEvent()
         {
             OnDisposeConversationController(this.name);
         }

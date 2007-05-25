@@ -25,9 +25,12 @@ namespace GUI
 
         public event CancelFileTransferEventHandler CancelFileTransferEvent;
 
-        public void OnSendMessageEvent(object SendMessageEventArgs)
+        public void OnSendMessageEvent(string message)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (SendMessageEvent != null)
+            {
+                SendMessageEvent(message);
+            }
         }
 
         public void AddMessage(string message)
@@ -40,11 +43,11 @@ namespace GUI
             this.Text = caption;
         }
 
-        public void OnCloseEvent(object eventArgs)
+        public void OnCloseEvent()
         {
             if (!cancelCloseEvent && CloseEvent != null)
             {
-                CloseEvent(eventArgs);
+                CloseEvent();
             }
         }
 
@@ -73,7 +76,7 @@ namespace GUI
 
         private void ConversationView_FormClosing(object sender, FormClosingEventArgs e)
         {
-            OnCloseEvent("INCHIDERE FEREASTRA DE CONVERSATIE!!");
+            OnCloseEvent();
         }
         #endregion
 
