@@ -247,6 +247,9 @@ namespace Controllers
 
             //process the output queue
             ProcessOutputQueue();
+
+            toBreak = true;
+            mainLoopStarted = false;
         }
 
         
@@ -285,7 +288,7 @@ namespace Controllers
 
             Common.Protocol.Message signupMessage = new Common.Protocol.Message(new MessageHeader(ServiceTypes.SIGNUP), signupMessageData);
 
-            inputMessageQueue.Add(signupMessage);
+            outputMessageQueue.Add(signupMessage);
 
             this.createAccountView.CloseView();
 
@@ -380,6 +383,14 @@ namespace Controllers
         private void ProcessOutputQueue()
         {
 #warning OUTPUT QUEUE NOT IMPLEMENTED
+            while (outputMessageQueue.Count > 0)
+            {
+                Common.Protocol.Message firstMessage = outputMessageQueue[0];
+
+                SendServerMessage(firstMessage);
+
+                outputMessageQueue.RemoveAt(0);
+            }
         }
 
         private void ProcessInputQueue()
@@ -426,7 +437,7 @@ namespace Controllers
 
         private void SendServerMessage(Common.Protocol.Message message)
         {
-            throw new System.NotImplementedException();
+            serverSocket.Send(message.Serialize());
         }
 
         #endregion
