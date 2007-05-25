@@ -191,7 +191,8 @@ namespace Controllers
         #region MainView Event Handlers
         void mainView_ChangeStatusEvent(string eventArgs)
         {
-            throw new Exception("The method or operation is not implemented.");
+            //throw new Exception("The method or operation is not implemented.");
+            mainView.ChangeStatus(eventArgs);
         }
 
         void mainView_ChangeContactGroupEvent(object eventArgs)
