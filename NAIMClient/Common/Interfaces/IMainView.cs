@@ -28,15 +28,15 @@ namespace Common.Interfaces
 
         void OnLoginEvent(string userName,string password);
 
-        void OnLogoutEvent(object eventArgs);
+        void OnLogoutEvent();
 
         void OnChangeStatusEvent(string eventArgs);
 
         void OnAddContactEvent(string uname, string group);
 
-        void OnRemoveContactEvent(object eventArgs);
+        void OnRemoveContactEvent(string username);
 
-        void OnChangeContactGroupEvent(object eventArgs);
+        void OnChangeContactGroupEvent(string contact, string newGroup);
 
         void OnOpenConversationEvent(string userName);
 
@@ -66,7 +66,7 @@ namespace Common.Interfaces
 
         void AfterSignIn();
 
-        void OnMainClose(object eventArgs);
+        void OnMainClose();
 
         void ShowView();
 
@@ -75,21 +75,21 @@ namespace Common.Interfaces
 
     public delegate void LoginEventHandler(string userName,string password);
 
-    public delegate void LogoutEventHandler(object eventArgs);
+    public delegate void LogoutEventHandler();
 
-    public delegate void ChangeStatusEventHandler(string eventArgs);
+    public delegate void ChangeStatusEventHandler(string newStatus);
 
     public delegate void AddContactEventHandler(string uname,string group);
 
-    public delegate void RemoveContactEventHandler(object eventArgs);
+    public delegate void RemoveContactEventHandler(string userName);
 
-    public delegate void ChangeContactGroupEventHandler(object eventArgs);
+    public delegate void ChangeContactGroupEventHandler(string username,string newGroup);
 
     public delegate void OpenConversationEventHandler(string userName);
 
     public delegate void OpenFileTransferViewEventHandler();
 
-    public delegate void MainCloseEventHandler(object eventArgs);
+    public delegate void MainCloseEventHandler();
 
     public delegate void OpenSignUpViewHandler();
 }
