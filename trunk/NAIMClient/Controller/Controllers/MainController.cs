@@ -20,6 +20,9 @@ namespace Controllers
 
     public class MainController
     {
+        private bool withoutServerMode = true;
+
+
         private IDictionary<string,IConversationController> conversationControllers;
 
         /// <summary>
@@ -111,9 +114,12 @@ namespace Controllers
             this.inputMessageQueue = new List<Common.Protocol.Message>();
             this.outputMessageQueue = new List<Common.Protocol.Message>();
 
-            if (!CreateServerConnection())
+            if (!withoutServerMode)
             {
-                MessageBox.Show("Eroare la conectarea la server!!!");
+                if (!CreateServerConnection())
+                {
+                    MessageBox.Show("Eroare la conectarea la server!!!");
+                }
             }
 
         }
@@ -157,24 +163,28 @@ namespace Controllers
                     toBreak = false;
                     break;
                 }
-                if (serverSocket.Poll(1, SelectMode.SelectRead))
+                if (!withoutServerMode)
                 {
-                    byte[] receivedBuffer = new byte[ushort.MaxValue];
-                    int n = serverSocket.Receive(receivedBuffer);
-                    byte[] messageBuffer = new byte[n];
-                    Array.Copy(receivedBuffer,messageBuffer,n);
-                    Common.Protocol.Message newMessage = new Common.Protocol.Message(messageBuffer);
-                    inputMessageQueue.Add(newMessage);
+                    if (serverSocket.Poll(1, SelectMode.SelectRead))
+                    {
+                        byte[] receivedBuffer = new byte[ushort.MaxValue];
+                        int n = serverSocket.Receive(receivedBuffer);
+                        byte[] messageBuffer = new byte[n];
+                        Array.Copy(receivedBuffer, messageBuffer, n);
+                        Common.Protocol.Message newMessage = new Common.Protocol.Message(messageBuffer);
+                        inputMessageQueue.Add(newMessage);
+                    }
                 }
-
                 ProcessInputQueue();
 
                 Application.DoEvents();
-                
-                if (serverSocket.Poll(1,SelectMode.SelectWrite))
+                if (!withoutServerMode)
                 {
-                    ProcessOutputQueue();
-                }                
+                    if (serverSocket.Poll(1, SelectMode.SelectWrite))
+                    {
+                        ProcessOutputQueue();
+                    }
+                }
             }
         }
 
