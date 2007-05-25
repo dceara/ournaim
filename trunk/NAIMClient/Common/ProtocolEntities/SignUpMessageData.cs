@@ -5,7 +5,7 @@ using Common.Protocol;
 
 namespace Common.ProtocolEntities
 {
-    class SignUpMessageData : AMessageData
+    public class SignUpMessageData : AMessageData
     {
         private string _userName;
 
