@@ -27,5 +27,14 @@ namespace Common.Protocol
             _serviceType = service;
         }
 
+
+        public byte[] Serialize()
+        {
+            byte[] toreturn = new byte[5];
+            byte[] header = AMessageData.ToByteArray(_header);
+            Array.Copy(header, toreturn, header.Length);
+            toreturn[4] = (byte)_serviceType;
+            return toreturn;
+        }
     }
 }

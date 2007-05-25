@@ -6,6 +6,9 @@ using Common.Protocol;
 using System.Collections;
 using System.Net.Sockets;
 using System.Windows.Forms;
+using Common;
+using Common.ProtocolEntities;
+using System.Net;
 
 namespace Controllers
 {
@@ -19,11 +22,23 @@ namespace Controllers
     {
         private IDictionary<string,IConversationController> conversationControllers;
 
+        /// <summary>
+        /// contains the messages received from the server
+        /// </summary>
+        private IList<Common.Protocol.Message> inputMessageQueue;
+
+        /// <summary>
+        /// contains the messages to be sent to the server
+        /// </summary>
+        private IList<Common.Protocol.Message> outputMessageQueue;
+
         private IMainView mainView;
 
         private Socket serverSocket = null;
 
         private bool toBreak = false;
+
+        private bool mainLoopStarted = false;
 
         private string server;
 
@@ -93,9 +108,15 @@ namespace Controllers
             this.mainView.Initialise();
 
             this.conversationControllers = new Dictionary<string,IConversationController>();
+            this.inputMessageQueue = new List<Common.Protocol.Message>();
+            this.outputMessageQueue = new List<Common.Protocol.Message>();
+
+            if (!CreateServerConnection())
+            {
+                MessageBox.Show("Eroare la conectarea la server!!!");
+            }
 
         }
-
         public void InitialiseConversation(string userName,IConversationView conversationView)
         {
             ConversationController newConversationController = new ConversationController();
@@ -127,22 +148,33 @@ namespace Controllers
             this.fileTransferView.ShowView();
         }
 
-        private void SendServerMessage(Common.Protocol.Message message)
-        {
-            throw new System.NotImplementedException();
-        }
-
         private void MainLoop()
         {
             while (true)
             {
-                Application.DoEvents();
                 if (toBreak)
                 {
                     toBreak = false;
                     break;
                 }
-                System.Threading.Thread.Sleep(1);
+                if (serverSocket.Poll(1, SelectMode.SelectRead))
+                {
+                    byte[] receivedBuffer = new byte[ushort.MaxValue];
+                    int n = serverSocket.Receive(receivedBuffer);
+                    byte[] messageBuffer = new byte[n];
+                    Array.Copy(receivedBuffer,messageBuffer,n);
+                    Common.Protocol.Message newMessage = new Common.Protocol.Message(messageBuffer);
+                    inputMessageQueue.Add(newMessage);
+                }
+
+                ProcessInputQueue();
+
+                Application.DoEvents();
+                
+                if (serverSocket.Poll(1,SelectMode.SelectWrite))
+                {
+                    ProcessOutputQueue();
+                }                
             }
         }
 
@@ -198,19 +230,35 @@ namespace Controllers
             }
             conversationControllers.Clear();
             mainView.Initialise();
-            toBreak = true;
+
+            //clear the input messages
+            inputMessageQueue.Clear();
+
+            //process the output queue
+            ProcessOutputQueue();
         }
+
+        
 
         void mainView_LoginEvent(string userName, string password)
         {
             System.Windows.Forms.MessageBox.Show("AUTENTIFICARE USER "+userName+" CU PAROLA "+password);
             mainView.AfterSignIn();
-            MainLoop();
+            if (mainLoopStarted == false)
+            {
+                mainLoopStarted = true;
+                MainLoop();
+            }
         }
 
         void mainView_OpenSignUpViewEvent()
         {
             OnInstantiateCreateAccountView();
+            if (mainLoopStarted == false)
+            {
+                mainLoopStarted = true;
+                MainLoop();
+            }
         }
 
        
@@ -221,7 +269,15 @@ namespace Controllers
         void createAccountView_CreateAccountEvent(string userName,string password)
         {
             System.Windows.Forms.MessageBox.Show("Creare cont: Username = "+userName+" ,Password = "+password);
+
+            AMessageData signupMessageData = new SignUpMessageData(userName,password);
+
+            Common.Protocol.Message signupMessage = new Common.Protocol.Message(new MessageHeader(ServiceTypes.SIGNUP), signupMessageData);
+
+            inputMessageQueue.Add(signupMessage);
+
             this.createAccountView.CloseView();
+
             this.createAccountView = null;
         }
 
@@ -308,7 +364,61 @@ namespace Controllers
         #endregion
 
 
-
+        #region MainController Methods
         
+        private void ProcessOutputQueue()
+        {
+#warning OUTPUT QUEUE NOT IMPLEMENTED
+        }
+
+        private void ProcessInputQueue()
+        {
+#warning INPUT QUEUE NOT IMPLEMENTED
+            while (inputMessageQueue.Count > 0)
+            {
+                Common.Protocol.Message firstMessage = inputMessageQueue[0];
+                inputMessageQueue.RemoveAt(0);
+            }
+        }
+
+        private bool CreateServerConnection()
+        {
+            IPHostEntry hostEntry = null;
+
+            hostEntry = Dns.GetHostEntry("localhost");
+            port = 10000;
+
+            if (hostEntry.AddressList.Length <= 0)
+            {
+                return false;
+            }
+            foreach (IPAddress address in hostEntry.AddressList)
+            {
+                IPEndPoint ipe = new IPEndPoint(address, port);
+                Socket tempSocket =
+                    new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+
+                tempSocket.Connect(ipe);
+
+                if (tempSocket.Connected)
+                {
+                    serverSocket = tempSocket;
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            return true;
+        }
+
+        private void SendServerMessage(Common.Protocol.Message message)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        #endregion
+
     }
 }

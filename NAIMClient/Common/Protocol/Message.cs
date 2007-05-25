@@ -30,6 +30,13 @@ namespace Common.Protocol
             _data = data;
         }
 
+        public Message(byte[] rawData)
+        {
+            _header = new MessageHeader((ServiceTypes)rawData[4]);
+            _data = new byte[rawData.Length - 5];
+            Array.Copy(rawData, 5, _data, 0, rawData.Length - 5);
+        }
+
         public Message(MessageHeader header, AMessageData messageData)
         {
             _header = header;
@@ -78,6 +85,14 @@ namespace Common.Protocol
                     return new RemoveContactMessageData(mes._data);
             }
             throw new UnknownServiceException();
+        }
+        public byte[] Serialize()
+        {
+            byte[] header = _header.Serialize();
+            byte[] toReturn = new byte[_data.Length + header.Length];
+            Array.Copy(header, toReturn, header.Length);
+            Array.Copy(_data, 0, toReturn, header.Length, _data.Length);
+            return toReturn;
         }
     }
 }
