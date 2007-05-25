@@ -200,7 +200,7 @@ namespace Controllers
             throw new Exception("The method or operation is not implemented.");
         }
 
-        void mainView_AddContactEvent(object eventArgs)
+        void mainView_AddContactEvent(string uname, string group)
         {
             throw new Exception("The method or operation is not implemented.");
         }
