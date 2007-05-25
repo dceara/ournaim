@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using Common.Interfaces;
+using GUI.Views;
+using System.Drawing;
 
 namespace GUI
 {
@@ -61,9 +63,13 @@ namespace GUI
             }
         }
 
-        public void OnChangeStatusEvent(object eventArgs)
+        public void OnChangeStatusEvent(String eventArgs)
         {
-            throw new Exception("The method or operation is not implemented.");
+            //throw new Exception("The method or operation is not implemented.");
+            if (ChangeStatusEvent != null)
+            {
+                ChangeStatusEvent(eventArgs);
+            }
         }
 
         public void OnAddContactEvent(object eventArgs)
@@ -137,6 +143,11 @@ namespace GUI
         {
             this.Show();
         }
+
+        public void ChangeStatus(string status)
+        {
+            this.status_button.Text = status;
+        }
         #endregion
 
         #region GUI Events
@@ -174,6 +185,39 @@ namespace GUI
         {
             this.Close();
         }
+
+        private void statusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeStatusDialog statusDialog = new ChangeStatusDialog();
+            DialogResult result = statusDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                OnChangeStatusEvent(statusDialog.Status);
+            }
+        }
+
+        private void status_button_Click(object sender, EventArgs e)
+        {
+            StatusesView statusesView = new StatusesView();
+            statusesView.StartLocation = status_button.PointToScreen(new Point(status_button.Left,status_button.Top));
+            if (statusesView.ShowDialog() == DialogResult.OK)
+            {
+                OnChangeStatusEvent(statusesView.Status);
+            }
+            else
+            {
+                if (statusesView.DialogResult == DialogResult.Retry)
+                {
+                    ChangeStatusDialog dialog = new ChangeStatusDialog();
+                    
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        OnChangeStatusEvent(dialog.Status);
+                    }
+                }
+            }
+        }
+
         #endregion
 
 
@@ -198,9 +242,13 @@ namespace GUI
             this.txtUserName.Visible = value;
             this.btnSignUp.Visible = value;
             this.btnSignIn.Visible = value;
+            this.status_button.Visible = !value;
+            this.status_label.Visible = !value;
         }
         #endregion
 
+
+       
 
 
     }

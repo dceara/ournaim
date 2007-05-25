@@ -60,6 +60,8 @@ namespace GUI
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.listView1 = new System.Windows.Forms.ListView();
+            this.status_label = new System.Windows.Forms.Label();
+            this.status_button = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -168,6 +170,7 @@ namespace GUI
             this.statusToolStripMenuItem.Name = "statusToolStripMenuItem";
             this.statusToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.statusToolStripMenuItem.Text = "&Status";
+            this.statusToolStripMenuItem.Click += new System.EventHandler(this.statusToolStripMenuItem_Click);
             // 
             // accountInformationToolStripMenuItem
             // 
@@ -283,9 +286,30 @@ namespace GUI
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
             // 
+            // status_label
+            // 
+            this.status_label.AutoSize = true;
+            this.status_label.Location = new System.Drawing.Point(26, 30);
+            this.status_label.Name = "status_label";
+            this.status_label.Size = new System.Drawing.Size(37, 13);
+            this.status_label.TabIndex = 12;
+            this.status_label.Text = "Status";
+            // 
+            // status_button
+            // 
+            this.status_button.Location = new System.Drawing.Point(67, 25);
+            this.status_button.Name = "status_button";
+            this.status_button.Size = new System.Drawing.Size(115, 23);
+            this.status_button.TabIndex = 13;
+            this.status_button.Text = "Available";
+            this.status_button.UseVisualStyleBackColor = true;
+            this.status_button.Click += new System.EventHandler(this.status_button_Click);
+            // 
             // MainView
             // 
             this.ClientSize = new System.Drawing.Size(219, 426);
+            this.Controls.Add(this.status_button);
+            this.Controls.Add(this.status_label);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.btnSignUp);
             this.Controls.Add(this.lblPassword);
@@ -335,5 +359,7 @@ namespace GUI
         private ToolStripMenuItem aboutToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem1;
         private ListView listView1;
+        private Label status_label;
+        private Button status_button;
     }
 }
