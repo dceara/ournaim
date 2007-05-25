@@ -65,7 +65,6 @@ namespace GUI
 
         public void OnChangeStatusEvent(String eventArgs)
         {
-            //throw new Exception("The method or operation is not implemented.");
             if (ChangeStatusEvent != null)
             {
                 ChangeStatusEvent(eventArgs);
