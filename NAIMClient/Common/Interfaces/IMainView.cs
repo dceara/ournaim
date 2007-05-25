@@ -30,7 +30,7 @@ namespace Common.Interfaces
 
         void OnLogoutEvent(object eventArgs);
 
-        void OnChangeStatusEvent(object eventArgs);
+        void OnChangeStatusEvent(string eventArgs);
 
         void OnAddContactEvent(object eventArgs);
 
@@ -69,13 +69,15 @@ namespace Common.Interfaces
         void OnMainClose(object eventArgs);
 
         void ShowView();
+
+        void ChangeStatus(string status);
     }
 
     public delegate void LoginEventHandler(string userName,string password);
 
     public delegate void LogoutEventHandler(object eventArgs);
 
-    public delegate void ChangeStatusEventHandler(object eventArgs);
+    public delegate void ChangeStatusEventHandler(string eventArgs);
 
     public delegate void AddContactEventHandler(object eventArgs);
 
