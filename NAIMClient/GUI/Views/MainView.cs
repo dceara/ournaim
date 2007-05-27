@@ -168,9 +168,19 @@ namespace GUI
             this.status_button.Text = status;
         }
 
-        public void SetGroupSource(IDictionary<string,IList<string>> list)
+        public void SetGroupSource(IList<string> groupNames, IDictionary<string,IList<string>> contactsByGroups)
         {
-            
+            this.groupNames = groupNames;
+            foreach (string group in groupNames)
+            {
+                ListViewGroup listGroup = new ListViewGroup(group, group);
+                IList<string> contacts = contactsByGroups[group];
+                foreach (string contact in contacts)
+                {
+                    ListViewItem item = new ListViewItem(contact, listGroup);
+                }
+                listViewContacts.Groups.Add(listGroup);
+            }
         }
 
         
