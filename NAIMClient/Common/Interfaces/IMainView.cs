@@ -77,7 +77,7 @@ namespace Common.Interfaces
         /// sets the source for the groups dropdown and the group names in the contact list
         /// </summary>
         /// <param name="list"></param>
-        void SetGroupSource(IList<string> list);
+        void SetGroupSource(IDictionary<string,IList<string> > list);
 
         void ShowView();
 

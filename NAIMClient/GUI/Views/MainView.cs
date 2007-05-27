@@ -12,6 +12,8 @@ namespace GUI
     {
         private Button btnSignOut;
 
+        private IList<string> groupNames;
+
         public MainView()
         {
             InitializeComponent();
@@ -166,9 +168,9 @@ namespace GUI
             this.status_button.Text = status;
         }
 
-        public void SetGroupSource(IList<string> list)
+        public void SetGroupSource(IDictionary<string,IList<string>> list)
         {
-            throw new Exception("The method or operation is not implemented.");
+            
         }
 
         
@@ -263,8 +265,6 @@ namespace GUI
             }
         }
         #endregion
-
-
 
         #region Utils
         private void ChangeMenuVisibility(bool value)
