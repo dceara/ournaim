@@ -88,7 +88,7 @@ namespace Common.Protocol
         }
         public byte[] Serialize()
         {
-            byte[] header = _header.Serialize();
+            byte[] header = _header.Serialize((ushort)_data.Length);
             byte[] toReturn = new byte[_data.Length + header.Length];
             Array.Copy(header, toReturn, header.Length);
             Array.Copy(_data, 0, toReturn, header.Length, _data.Length);
