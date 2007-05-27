@@ -166,16 +166,12 @@ namespace GUI
             this.status_button.Text = status;
         }
 
-
-        private void addGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        public void SetGroupSource(IList<string> list)
         {
-            AddGroupView addGroupView = new AddGroupView();
-            DialogResult result = addGroupView.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                OnAddGroupEvent(addGroupView.Groupname);
-            }
+            throw new Exception("The method or operation is not implemented.");
         }
+
+        
         #endregion
 
         #region GUI Events
@@ -257,6 +253,15 @@ namespace GUI
             }
         }
 
+        private void addGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddGroupView addGroupView = new AddGroupView();
+            DialogResult result = addGroupView.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                OnAddGroupEvent(addGroupView.Groupname);
+            }
+        }
         #endregion
 
 
@@ -286,12 +291,5 @@ namespace GUI
             this.status_label.Visible = !value;
         }
         #endregion
-
-
-
-
-       
-
-
     }
 }
