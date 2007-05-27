@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Common;
 using Common.ProtocolEntities;
 using System.Net;
+using Controller.StateObjects;
 
 namespace Controllers
 {
@@ -22,6 +23,7 @@ namespace Controllers
     {
         private bool withoutServerMode = true;
 
+        private AState currentState = null;
 
         private IDictionary<string,IConversationController> conversationControllers;
 
@@ -97,6 +99,9 @@ namespace Controllers
         /// </summary>
         public void Initialise(IMainView mainView)
         {
+            this.currentState = new StateInitial();
+            currentState.MainView = mainView;
+
             this.mainView = mainView;
             this.mainView.AddContactEvent += new AddContactEventHandler(mainView_AddContactEvent);
             this.mainView.ChangeContactGroupEvent += new ChangeContactGroupEventHandler(mainView_ChangeContactGroupEvent);
@@ -113,6 +118,10 @@ namespace Controllers
             this.conversationControllers = new Dictionary<string,IConversationController>();
             this.inputMessageQueue = new List<Common.Protocol.Message>();
             this.outputMessageQueue = new List<Common.Protocol.Message>();
+
+            
+            
+            currentState.ConversationControllers = conversationControllers;
 
             if (!withoutServerMode)
             {
@@ -136,6 +145,8 @@ namespace Controllers
         public void InitialiseCreateAccount(ICreateAccountView newCreateAccountView)
         {
             this.createAccountView = newCreateAccountView;
+            currentState.CreateAccountView = newCreateAccountView;
+            currentState = currentState.MoveState();
             this.createAccountView.Initialise();
             this.createAccountView.CloseAccountViewEvent += new CloseAccountViewEventHandler(createAccountView_CloseAccountViewEvent);
             this.createAccountView.CreateAccountEvent += new CreateAccountEventHandler(createAccountView_CreateAccountEvent);
@@ -255,12 +266,10 @@ namespace Controllers
             mainLoopStarted = false;
         }
 
-        
+
 
         void mainView_LoginEvent(string userName, string password)
         {
-            System.Windows.Forms.MessageBox.Show("AUTENTIFICARE USER "+userName+" CU PAROLA "+password);
-            mainView.AfterSignIn();
             if (mainLoopStarted == false)
             {
                 mainLoopStarted = true;
@@ -285,13 +294,11 @@ namespace Controllers
 
         void createAccountView_CreateAccountEvent(string userName,string password)
         {
-            System.Windows.Forms.MessageBox.Show("Creare cont: Username = "+userName+" ,Password = "+password);
-
-            AMessageData signupMessageData = new SignUpMessageData(userName,password);
-
-            Common.Protocol.Message signupMessage = new Common.Protocol.Message(new MessageHeader(ServiceTypes.SIGNUP), signupMessageData);
-
-            outputMessageQueue.Add(signupMessage);
+            foreach (Common.Protocol.Message message in currentState.OutputMessagesList)
+            {
+                this.outputMessageQueue.Add(message);
+            }
+            currentState.OutputMessagesList.Clear();
 
             this.createAccountView.CloseView();
 
@@ -398,10 +405,10 @@ namespace Controllers
 
         private void ProcessInputQueue()
         {
-#warning INPUT QUEUE NOT IMPLEMENTED
             while (inputMessageQueue.Count > 0)
             {
                 Common.Protocol.Message firstMessage = inputMessageQueue[0];
+                currentState = currentState.AnalyzeMessage(firstMessage);
                 inputMessageQueue.RemoveAt(0);
             }
         }

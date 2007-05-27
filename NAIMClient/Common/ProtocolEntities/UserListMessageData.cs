@@ -5,7 +5,7 @@ using Common.Protocol;
 
 namespace Common.ProtocolEntities
 {
-    class UserListMessageData:AMessageData
+    public class UserListMessageData:AMessageData
     {
 
         private byte _groupCount;
