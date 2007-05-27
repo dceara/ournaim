@@ -13,6 +13,10 @@ namespace Common.ProtocolEntities
             
         }
 
+        public AckMessageData()
+        {
+        }
+
         protected override void Deserialize()
         {
         }

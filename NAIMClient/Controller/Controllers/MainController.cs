@@ -187,7 +187,6 @@ namespace Controllers
                     }
                 }
                 ProcessInputQueue();
-
                 Application.DoEvents();
                 if (!withoutServerMode)
                 {
@@ -270,11 +269,7 @@ namespace Controllers
 
         void mainView_LoginEvent(string userName, string password)
         {
-            foreach (Common.Protocol.Message message in currentState.OutputMessagesList)
-            {
-                this.outputMessageQueue.Add(message);
-            }
-            currentState.OutputMessagesList.Clear();
+            EmptyCurrentStateOutputBuffer();
 
             mainView.AfterSignIn();
 
@@ -294,7 +289,6 @@ namespace Controllers
                 MainLoop();
             }
         }
-
        
         #endregion
 
@@ -302,11 +296,7 @@ namespace Controllers
 
         void createAccountView_CreateAccountEvent(string userName,string password)
         {
-            foreach (Common.Protocol.Message message in currentState.OutputMessagesList)
-            {
-                this.outputMessageQueue.Add(message);
-            }
-            currentState.OutputMessagesList.Clear();
+            EmptyCurrentStateOutputBuffer();
 
             this.createAccountView.CloseView();
 
@@ -419,6 +409,7 @@ namespace Controllers
                 currentState = currentState.AnalyzeMessage(firstMessage);
                 inputMessageQueue.RemoveAt(0);
             }
+            EmptyCurrentStateOutputBuffer();
         }
 
         private bool CreateServerConnection()
@@ -458,6 +449,15 @@ namespace Controllers
             serverSocket.Send(message.Serialize());
         }
 
+        private void EmptyCurrentStateOutputBuffer()
+        {
+
+            foreach (Common.Protocol.Message message in currentState.OutputMessagesList)
+            {
+                this.outputMessageQueue.Add(message);
+            }
+            currentState.OutputMessagesList.Clear();
+        }
         #endregion
 
     }

@@ -59,7 +59,6 @@ namespace Controller.StateObjects
 
             _outputMessagesList.Add(message);
             _signInAlreadySent = true;
-            //System.Windows.Forms.MessageBox.Show("AUTENTIFICARE USER " + userName + " CU PAROLA " + password);
         }
 
         protected override void InitializeAccountViewHandlers()
