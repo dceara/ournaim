@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Common.Interfaces;
 using Common.Protocol;
+using Common.ProtocolEntities;
 
 namespace Controllers
 {
@@ -25,6 +26,11 @@ namespace Controllers
         public void ReceiveServerMessage(Message message)
         {
             throw new Exception("The method or operation is not implemented.");
+        }
+
+        public void ReceiveTextMessage(TextMessageData messageData)
+        {
+            conversationView.AddMessage(messageData.Text);
         }
 
         #endregion
@@ -96,5 +102,6 @@ namespace Controllers
         }
 
         #endregion
+
     }
 }
