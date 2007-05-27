@@ -21,7 +21,7 @@ namespace Controllers
 
     public class MainController
     {
-        private bool withoutServerMode = false;
+        private bool withoutServerMode = true;
 
         private AState currentState = null;
 

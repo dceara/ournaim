@@ -274,7 +274,9 @@ namespace GUI
             // 
             // listViewContacts
             // 
+            this.listViewContacts.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.listViewContacts.Location = new System.Drawing.Point(12, 54);
+            this.listViewContacts.MultiSelect = false;
             this.listViewContacts.Name = "listViewContacts";
             this.listViewContacts.Size = new System.Drawing.Size(205, 506);
             this.listViewContacts.TabIndex = 10;
