@@ -37,6 +37,11 @@
     <Compile Include="Controllers\ConversationController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StateObjects\AState.cs" />
+    <Compile Include="StateObjects\StateBeforeIdle.cs" />
+    <Compile Include="StateObjects\StateCreateAccount.cs" />
+    <Compile Include="StateObjects\StateIdle.cs" />
+    <Compile Include="StateObjects\StateInitial.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
