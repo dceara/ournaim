@@ -17,17 +17,28 @@ namespace Controller.StateObjects
         public override AState AnalyzeMessage(Common.Protocol.Message message)
         {
             UserListMessageData messageData = (UserListMessageData)Message.GetMessageData(message);
-            return null;
+            IList<string> groupNames = new List<string>();
+            IDictionary<string,IList<UserListEntry>> contactsByGroups = new Dictionary<string,IList<UserListEntry>>();
+            foreach(GroupEntry groupEntry in messageData.GroupsList)
+            {
+                groupNames.Add(groupEntry.Name);
+                IList<UserListEntry> contacts = new List<UserListEntry>();
+                foreach(UserListEntry entry in groupEntry.Users)
+                {
+                    contacts.Add(entry);
+                }
+                contactsByGroups.Add(groupEntry.Name,contacts);
+            }
+            _mainView.SetGroupSource(groupNames, contactsByGroups);
+            return GetNextState(message.Header.ServiceType);
         }
 
         protected override void InitializeMainViewEventHandlers()
         {
-            throw new Exception("The method or operation is not implemented.");
         }
 
         protected override void InitializeConversationControllersHandlers()
         {
-            throw new Exception("The method or operation is not implemented.");
         }
 
         public override AState MoveState()
@@ -37,7 +48,6 @@ namespace Controller.StateObjects
 
         protected override void InitializeAccountViewHandlers()
         {
-            throw new Exception("The method or operation is not implemented.");
         }
     }
 }
