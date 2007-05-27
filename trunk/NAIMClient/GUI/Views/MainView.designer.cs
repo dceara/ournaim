@@ -58,6 +58,7 @@ namespace GUI
             this.listViewContacts = new System.Windows.Forms.ListView();
             this.status_label = new System.Windows.Forms.Label();
             this.status_button = new System.Windows.Forms.Button();
+            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -274,14 +275,16 @@ namespace GUI
             // 
             // listViewContacts
             // 
-            this.listViewContacts.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.listViewContacts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.listViewContacts.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.listViewContacts.Location = new System.Drawing.Point(12, 54);
             this.listViewContacts.MultiSelect = false;
             this.listViewContacts.Name = "listViewContacts";
             this.listViewContacts.Size = new System.Drawing.Size(205, 506);
             this.listViewContacts.TabIndex = 10;
             this.listViewContacts.UseCompatibleStateImageBehavior = false;
-            this.listViewContacts.View = System.Windows.Forms.View.List;
+            this.listViewContacts.View = System.Windows.Forms.View.Details;
             // 
             // status_label
             // 
@@ -358,5 +361,6 @@ namespace GUI
         private ListView listViewContacts;
         private Label status_label;
         private Button status_button;
+        private ColumnHeader columnHeader1;
     }
 }

@@ -174,26 +174,26 @@ namespace GUI
             
             this.groupNames = groupNames;
 #warning must add contacts to the contacts listview
-            //foreach (string group in groupNames)
-            //{
-            //    ListViewItem listGroup = new ListViewItem(group);
+            foreach (string group in groupNames)
+            {
+                ListViewGroup listGroup = new ListViewGroup(group, HorizontalAlignment.Left);
+                listGroup.Name = group;
 
-            //    IList<UserListEntry> contacts = contactsByGroups[group];
-            //    foreach (UserListEntry contact in contacts)
-            //    {
-            //        if (contact.Availability)
-            //        {
-            //            //ListViewItem item = new ListViewItem(contact.UserName);
-            //            listGroup.SubItems.Add(new ListViewItem.ListViewSubItem(listGroup, contact.UserName));
-            //            //listViewContacts.Items.Add(item);
-            //        }
+                listViewContacts.Groups.Add(listGroup);
 
-            //    }
+                IList<UserListEntry> contacts = contactsByGroups[group];
+                foreach (UserListEntry contact in contacts)
+                {
+                    if (contact.Availability)
+                    {
+                        ListViewItem item = new ListViewItem(contact.UserName);
+                        item.Group = listGroup;
+                        listViewContacts.Items.Add(item);
+                    }
+                }
+            }
 
-            //    listViewContacts.Items.Add(listGroup);
-            //}
-            
-            //listViewContacts.Invalidate();
+            listViewContacts.Invalidate();
         }
 
         
