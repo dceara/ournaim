@@ -21,7 +21,7 @@ namespace Controllers
 
     public class MainController
     {
-        private bool withoutServerMode = true;
+        private bool withoutServerMode = false;
 
         private AState currentState = null;
 
@@ -270,6 +270,14 @@ namespace Controllers
 
         void mainView_LoginEvent(string userName, string password)
         {
+            foreach (Common.Protocol.Message message in currentState.OutputMessagesList)
+            {
+                this.outputMessageQueue.Add(message);
+            }
+            currentState.OutputMessagesList.Clear();
+
+            mainView.AfterSignIn();
+
             if (mainLoopStarted == false)
             {
                 mainLoopStarted = true;
