@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Common.Interfaces;
+using Common.Protocol;
+using Common.ProtocolEntities;
 
 namespace Controller.StateObjects
 {
@@ -52,8 +54,12 @@ namespace Controller.StateObjects
 
         void mainView_LoginEvent(string userName, string password)
         {
-            System.Windows.Forms.MessageBox.Show("AUTENTIFICARE USER " + userName + " CU PAROLA " + password);
-            _mainView.AfterSignIn();
+            AMessageData loginMessageData = new LoginMessageData(userName, password);
+            Message message = new Message(new MessageHeader(Common.ServiceTypes.LOGIN), loginMessageData);
+
+            _outputMessagesList.Add(message);
+            _signInAlreadySent = true;
+            //System.Windows.Forms.MessageBox.Show("AUTENTIFICARE USER " + userName + " CU PAROLA " + password);
         }
 
         protected override void InitializeAccountViewHandlers()

@@ -291,6 +291,7 @@ namespace GUI
             this.shareFilesToolStripMenuItem.Visible = value;
             this.fileTransferManagerToolStripMenuItem.Visible = value;
             this.signOutToolStripMenuItem.Visible = value;
+            this.listViewContacts.Visible = value;
         }
 
         private void ChangeControlsVisibility(bool value)

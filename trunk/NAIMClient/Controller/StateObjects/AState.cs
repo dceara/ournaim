@@ -99,7 +99,7 @@ namespace Controller.StateObjects
         protected AState GetNextState(ServiceTypes type)
         {
             Type nextType = _transitionsTable[type];
-            AState state = (AState)nextType.Assembly.CreateInstance(nextType.Name);
+            AState state = (AState)nextType.Assembly.CreateInstance(nextType.FullName);
             state.MainView = this._mainView;
             state._conversationControllers = this._conversationControllers;
             return state;
