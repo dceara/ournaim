@@ -13,7 +13,7 @@ namespace Controller.StateObjects
 
         protected override void InitializeMainViewEventHandlers()
         {
-            throw new Exception("The method or operation is not implemented.");
+            //throw new Exception("The method or operation is not implemented.");
         }
 
         protected override void InitializeConversationControllersHandlers()

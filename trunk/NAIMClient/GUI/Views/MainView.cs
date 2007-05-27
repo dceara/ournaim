@@ -171,22 +171,29 @@ namespace GUI
 
         public void SetGroupSource(IList<string> groupNames, IDictionary<string,IList<UserListEntry>> contactsByGroups)
         {
+            
             this.groupNames = groupNames;
-            foreach (string group in groupNames)
-            {
-                ListViewGroup listGroup = new ListViewGroup(group, group);
-                IList<UserListEntry> contacts = contactsByGroups[group];
-                foreach (UserListEntry contact in contacts)
-                {
-                    if (contact.Availability)
-                    {
-                        ListViewItem item = new ListViewItem(contact.UserName);
-                        listGroup.Items.Add(item);
-                    }
+#warning must add contacts to the contacts listview
+            //foreach (string group in groupNames)
+            //{
+            //    ListViewItem listGroup = new ListViewItem(group);
 
-                }
-                listViewContacts.Groups.Add(listGroup);
-            }
+            //    IList<UserListEntry> contacts = contactsByGroups[group];
+            //    foreach (UserListEntry contact in contacts)
+            //    {
+            //        if (contact.Availability)
+            //        {
+            //            //ListViewItem item = new ListViewItem(contact.UserName);
+            //            listGroup.SubItems.Add(new ListViewItem.ListViewSubItem(listGroup, contact.UserName));
+            //            //listViewContacts.Items.Add(item);
+            //        }
+
+            //    }
+
+            //    listViewContacts.Items.Add(listGroup);
+            //}
+            
+            //listViewContacts.Invalidate();
         }
 
         
