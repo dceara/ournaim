@@ -28,12 +28,14 @@ namespace Common.Protocol
         }
 
 
-        public byte[] Serialize()
+        public byte[] Serialize(ushort contentLength)
         {
-            byte[] toreturn = new byte[5];
+            byte[] toreturn = new byte[7];
             byte[] header = AMessageData.ToByteArray(_header);
             Array.Copy(header, toreturn, header.Length);
-            toreturn[4] = (byte)_serviceType;
+            toreturn[header.Length] = (byte)_serviceType;
+            byte[] contentLen = AMessageData.ToByteArray(contentLength);
+            Array.Copy(contentLen, 0, toreturn, header.Length + 1, contentLen.Length);
             return toreturn;
         }
     }
