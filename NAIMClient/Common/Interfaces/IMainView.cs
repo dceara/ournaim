@@ -72,6 +72,13 @@ namespace Common.Interfaces
 
         void OnMainClose();
 
+
+        /// <summary>
+        /// sets the source for the groups dropdown and the group names in the contact list
+        /// </summary>
+        /// <param name="list"></param>
+        void SetGroupSource(IList<string> list);
+
         void ShowView();
 
         void ChangeStatus(string status);
