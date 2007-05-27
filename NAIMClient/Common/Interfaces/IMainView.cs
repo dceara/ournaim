@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Common.Protocol;
 
 namespace Common.Interfaces
 {
@@ -77,7 +78,7 @@ namespace Common.Interfaces
         /// sets the source for the groups dropdown and the group names in the contact list
         /// </summary>
         /// <param name="list"></param>
-        void SetGroupSource(IList<string> groupNames, IDictionary<string,IList<string> > contactsByGroups);
+        void SetGroupSource(IList<string> groupNames, IDictionary<string,IList<UserListEntry> > contactsByGroups);
 
         void ShowView();
 
