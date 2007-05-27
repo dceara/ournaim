@@ -29,10 +29,6 @@ namespace GUI
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Contact1"}, -1, System.Drawing.Color.Empty, System.Drawing.SystemColors.InactiveCaptionText, null);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Contact2"}, -1, System.Drawing.Color.Empty, System.Drawing.SystemColors.InactiveCaptionText, null);
             this.btnSignOut = new System.Windows.Forms.Button();
             this.btnAddConversation = new System.Windows.Forms.Button();
             this.btnSignIn = new System.Windows.Forms.Button();
@@ -59,7 +55,7 @@ namespace GUI
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.listViewContacts = new System.Windows.Forms.ListView();
             this.status_label = new System.Windows.Forms.Label();
             this.status_button = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
@@ -78,7 +74,7 @@ namespace GUI
             // 
             // btnAddConversation
             // 
-            this.btnAddConversation.Location = new System.Drawing.Point(12, 389);
+            this.btnAddConversation.Location = new System.Drawing.Point(12, 566);
             this.btnAddConversation.Name = "btnAddConversation";
             this.btnAddConversation.Size = new System.Drawing.Size(125, 24);
             this.btnAddConversation.TabIndex = 1;
@@ -147,7 +143,7 @@ namespace GUI
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(219, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(229, 24);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -276,17 +272,14 @@ namespace GUI
             this.helpToolStripMenuItem1.Size = new System.Drawing.Size(114, 22);
             this.helpToolStripMenuItem1.Text = "&Help";
             // 
-            // listView1
+            // listViewContacts
             // 
-            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
-            this.listView1.Location = new System.Drawing.Point(42, 286);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(130, 57);
-            this.listView1.TabIndex = 10;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.List;
+            this.listViewContacts.Location = new System.Drawing.Point(12, 54);
+            this.listViewContacts.Name = "listViewContacts";
+            this.listViewContacts.Size = new System.Drawing.Size(205, 506);
+            this.listViewContacts.TabIndex = 10;
+            this.listViewContacts.UseCompatibleStateImageBehavior = false;
+            this.listViewContacts.View = System.Windows.Forms.View.List;
             // 
             // status_label
             // 
@@ -309,10 +302,10 @@ namespace GUI
             // 
             // MainView
             // 
-            this.ClientSize = new System.Drawing.Size(219, 426);
+            this.ClientSize = new System.Drawing.Size(229, 602);
             this.Controls.Add(this.status_button);
             this.Controls.Add(this.status_label);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.listViewContacts);
             this.Controls.Add(this.btnSignUp);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.lblUserName);
@@ -360,7 +353,7 @@ namespace GUI
         private ToolStripMenuItem deleteToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem1;
-        private ListView listView1;
+        private ListView listViewContacts;
         private Label status_label;
         private Button status_button;
     }
