@@ -250,8 +250,11 @@ namespace Controllers
                 pair.Value.CloseView();
             }
             conversationControllers.Clear();
-            mainView.Initialise();
 
+            currentState = currentState.MoveState();
+
+            EmptyCurrentStateOutputBuffer();
+            
             if (!withoutServerMode)
             {
                 //clear the input messages
@@ -263,6 +266,9 @@ namespace Controllers
 
             toBreak = true;
             mainLoopStarted = false;
+
+            mainView.Initialise();
+
         }
 
 

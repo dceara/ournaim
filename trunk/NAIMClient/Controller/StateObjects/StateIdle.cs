@@ -23,6 +23,7 @@ namespace Controller.StateObjects
 
         public override AState AnalyzeMessage(Common.Protocol.Message message)
         {
+            AMessageData messageData = Message.GetMessageData(message);
             switch (message.Header.ServiceType)
             {
                 case Common.ServiceTypes.PING:
@@ -30,15 +31,21 @@ namespace Controller.StateObjects
                     _outputMessagesList.Add(response);
                     break;
                 case Common.ServiceTypes.TEXT:
-                    RedirectMessageToConversationController(message);
+                    RedirectTextMessageToConversationController((TextMessageData)messageData);
                     break;
                 case Common.ServiceTypes.USER_CONNECTED:
+                    UserConnectedMessageData userConnectedData = (UserConnectedMessageData)messageData;
+                    _mainView.ClientOnline(userConnectedData.UserName, userConnectedData.Status);
                     break;
                 case Common.ServiceTypes.USER_DISCONNECTED:
+                    UserDisconnectedMessageData userDisconenctedData = (UserDisconnectedMessageData)messageData;
+                    _mainView.ClientOffline(userDisconenctedData.UserName);
                     break;
                 case Common.ServiceTypes.CONNECTION_DATA:
+                    RedirectMessageToConversationController(message,((ConnectionDataMessageData)messageData).Sender);
                     break;
                 case Common.ServiceTypes.CONNECTION_REQ:
+                    RedirectMessageToConversationController(message,((ConnectionDataMessageData)messageData).Sender);
                     break;
             }
             return this;
@@ -48,7 +55,6 @@ namespace Controller.StateObjects
 
         protected override void InitializeMainViewEventHandlers()
         {
-            //throw new Exception("The method or operation is not implemented.");
         }
 
         protected override void InitializeConversationControllersHandlers()
@@ -63,16 +69,25 @@ namespace Controller.StateObjects
 
         public override AState MoveState()
         {
-            throw new Exception("The method or operation is not implemented.");
+            AState newState = new StateInitial();
+            newState.MainView = _mainView;
+            return newState;
         }
 
 
-        private void RedirectMessageToConversationController(Common.Protocol.Message message)
+        private void RedirectTextMessageToConversationController(TextMessageData message)
         {
-            TextMessageData messageData = (TextMessageData)(Message.GetMessageData(message));
-            string senderName = messageData.Sender;
+            string senderName = message.Sender;
             IConversationController conversationController = _conversationControllers[senderName];
-            conversationController.ReceiveTextMessage(messageData);
+            conversationController.ReceiveTextMessage(message);
         }
+
+        private void RedirectMessageToConversationController(Message message, string sender)
+        {
+            IConversationController conversationController = _conversationControllers[sender];
+            conversationController.ReceiveServerMessage(message);
+        }
+
+        
     }
 }

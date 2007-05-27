@@ -128,7 +128,7 @@ namespace GUI
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public void ClientOnline(string userName)
+        public void ClientOnline(string userName, string status)
         {
             throw new Exception("The method or operation is not implemented.");
         }
