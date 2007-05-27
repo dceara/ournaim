@@ -14,6 +14,8 @@ namespace Common.Interfaces
 
         event AddContactEventHandler AddContactEvent;
 
+        event AddGroupEventHandler AddGroupEvent;
+
         event RemoveContactEventHandler RemoveContactEvent;
 
         event ChangeContactGroupEventHandler ChangeContactGroupEvent;
@@ -33,6 +35,8 @@ namespace Common.Interfaces
         void OnChangeStatusEvent(string eventArgs);
 
         void OnAddContactEvent(string uname, string group);
+
+        void OnAddGroupEvent(string group);
 
         void OnRemoveContactEvent(string username);
 
@@ -80,6 +84,8 @@ namespace Common.Interfaces
     public delegate void ChangeStatusEventHandler(string newStatus);
 
     public delegate void AddContactEventHandler(string uname,string group);
+
+    public delegate void AddGroupEventHandler(string group);
 
     public delegate void RemoveContactEventHandler(string userName);
 

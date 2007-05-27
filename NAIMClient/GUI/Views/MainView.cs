@@ -27,6 +27,8 @@ namespace GUI
 
         public event AddContactEventHandler AddContactEvent;
 
+        public event AddGroupEventHandler AddGroupEvent;
+
         public event RemoveContactEventHandler RemoveContactEvent;
 
         public event ChangeContactGroupEventHandler ChangeContactGroupEvent;
@@ -79,6 +81,13 @@ namespace GUI
             }
         }
 
+        public void OnAddGroupEvent(string group)
+        {
+            if (AddGroupEvent != null)
+            {
+                AddGroupEvent(group);
+            }
+        }
         public void OnRemoveContactEvent(string username)
         {
             if (RemoveContactEvent != null)
@@ -155,6 +164,17 @@ namespace GUI
         public void ChangeStatus(string status)
         {
             this.status_button.Text = status;
+        }
+
+
+        private void addGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddGroupView addGroupView = new AddGroupView();
+            DialogResult result = addGroupView.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                OnAddGroupEvent(addGroupView.Groupname);
+            }
         }
         #endregion
 
@@ -266,6 +286,7 @@ namespace GUI
             this.status_label.Visible = !value;
         }
         #endregion
+
 
 
 
