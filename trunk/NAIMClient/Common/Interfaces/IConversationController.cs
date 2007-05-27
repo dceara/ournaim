@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Common.Protocol;
+using Common.ProtocolEntities;
 
 namespace Common.Interfaces
 {
@@ -34,6 +35,8 @@ namespace Common.Interfaces
         void InitialiseView(IConversationView view);
 
         void CloseView();
+
+        void ReceiveTextMessage(TextMessageData messagedata);
     }
 
     public delegate void SendServerMessageEventHandler(Message message);
