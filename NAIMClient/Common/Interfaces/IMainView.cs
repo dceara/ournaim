@@ -57,7 +57,7 @@ namespace Common.Interfaces
         /// <summary>
         /// This is called by the controller
         /// </summary>
-        void ClientOnline(string userName);
+        void ClientOnline(string userName, string status);
 
         /// <summary>
         /// This is called by the controller

@@ -5,7 +5,7 @@ using Common.Protocol;
 
 namespace Common.ProtocolEntities
 {
-    class UserDisconnectedMessageData : AMessageData
+    public class UserDisconnectedMessageData : AMessageData
     {
         private string _userName;
 
