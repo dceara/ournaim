@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Common.Interfaces;
 using GUI.Views;
 using System.Drawing;
+using Common.Protocol;
 
 namespace GUI
 {
@@ -168,16 +169,21 @@ namespace GUI
             this.status_button.Text = status;
         }
 
-        public void SetGroupSource(IList<string> groupNames, IDictionary<string,IList<string>> contactsByGroups)
+        public void SetGroupSource(IList<string> groupNames, IDictionary<string,IList<UserListEntry>> contactsByGroups)
         {
             this.groupNames = groupNames;
             foreach (string group in groupNames)
             {
                 ListViewGroup listGroup = new ListViewGroup(group, group);
-                IList<string> contacts = contactsByGroups[group];
-                foreach (string contact in contacts)
+                IList<UserListEntry> contacts = contactsByGroups[group];
+                foreach (UserListEntry contact in contacts)
                 {
-                    ListViewItem item = new ListViewItem(contact, listGroup);
+                    if (contact.Availability)
+                    {
+                        ListViewItem item = new ListViewItem(contact.UserName);
+                        listGroup.Items.Add(item);
+                    }
+
                 }
                 listViewContacts.Groups.Add(listGroup);
             }
