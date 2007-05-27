@@ -19,27 +19,27 @@ namespace Controller.StateObjects
             UserListMessageData messageData = (UserListMessageData)Message.GetMessageData(message);
             IList<string> groupNames = new List<string>();
             IDictionary<string,IList<UserListEntry>> contactsByGroups = new Dictionary<string,IList<UserListEntry>>();
-            //foreach (GroupEntry groupEntry in messageData.GroupsList)
-            //{
-            //    groupNames.Add(groupEntry.Name);
-            //    IList<UserListEntry> contacts = new List<UserListEntry>();
-            //    foreach (UserListEntry entry in groupEntry.Users)
-            //    {
-            //        contacts.Add(entry);
-            //    }
-            //    contactsByGroups.Add(groupEntry.Name, contacts);
-            //}
-            groupNames.Add("grup1");
-            groupNames.Add("grup2");
-            IList<UserListEntry> list1 = new List<UserListEntry>();
-            list1.Add(new UserListEntry("ion", ""));
-            list1.Add(new UserListEntry("dod", ""));
-            IList<UserListEntry> list2 = new List<UserListEntry>();
-            list2.Add(new UserListEntry("andi", ""));
-            list2.Add(new UserListEntry("alex", ""));
+            foreach (GroupEntry groupEntry in messageData.GroupsList)
+            {
+                groupNames.Add(groupEntry.Name);
+                IList<UserListEntry> contacts = new List<UserListEntry>();
+                foreach (UserListEntry entry in groupEntry.Users)
+                {
+                    contacts.Add(entry);
+                }
+                contactsByGroups.Add(groupEntry.Name, contacts);
+            }
+            //groupNames.Add("grup1");
+            //groupNames.Add("grup2");
+            //IList<UserListEntry> list1 = new List<UserListEntry>();
+            //list1.Add(new UserListEntry("ion", "a"));
+            //list1.Add(new UserListEntry("dod", "b"));
+            //IList<UserListEntry> list2 = new List<UserListEntry>();
+            //list2.Add(new UserListEntry("andi", "c"));
+            //list2.Add(new UserListEntry("alex", "d"));
 
-            contactsByGroups.Add("grup1", list1);
-            contactsByGroups.Add("grup2", list2);
+            //contactsByGroups.Add("grup1", list1);
+            //contactsByGroups.Add("grup2", list2);
 
             _mainView.SetGroupSource(groupNames, contactsByGroups);
             return GetNextState(message.Header.ServiceType);
