@@ -2,6 +2,8 @@
 #define CONNECTION_MANAGER_H
 
 #include "client.h"
+#include "data_access.h"
+#include "protocol.h"
 
 #include <map>
 #include <set>
@@ -16,11 +18,31 @@
 class Client;
 
 class ConnectionManager {
+    const static int portno = 18005;
+    const static int MAX_CLIENTS = 128;
+    const static timeval DEFAULT_SELECT_TIMEOUT;
+
+    fd_set read_fds;	        // fd_set used to monitor sockets for write
+    fd_set write_fds;	        // fd_set used to monitor sockets for write
+
+    int fdmax;		            // the highest file descriptor that is monitored
+
+    QueryExecuter queryExecuter;
+    Protocol protocol;
+
     int onlineClientsNo;                            // number of online clients.
     std::map< int, std::string > onlineClients;     // the ids and status of the online clients. dont't know if we should store ids or names.
-    std::map< int, sockaddr_in > clientsAddress;    // the addresses of the clients.
     std::map< int, Client * > socketClients;        // maps each socket to a client.
-    std::set< Client * > clientsMan;                // set with all the clients managers
+    std::set< Client * > clientsSet;                // set with all the clients managers
+
+    /*
+     *	Is called when a new connection is created. Creates a new Client to monitor the connection.
+     */
+    int newConnection(int sock_fd);
+    int closeConnection(int sock_fd);
+    int readFromSocket(int sock_fd);
+    int writeToSocket(int sock_fd);
+
 public:
     ConnectionManager();
     ~ConnectionManager();

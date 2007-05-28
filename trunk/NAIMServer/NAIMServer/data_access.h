@@ -3,19 +3,27 @@
 
 #include <sqlite3.h>
 
+#include <string>
+
 /* Holds details about a client */
 
 struct ClientDetails {
     int dbID;
-    char * username;
-    char * password;
+    std::string username;
+    std::string password;
+};
+
+struct ContactDetails {
+    int dbID;                           // the ID of the username
+    std::string username;
+    std::string group;
 };
 
 /* Holds details about a group */
 
 struct GroupDetails {
     int dbID;
-    char * name;
+    std::string name;
 };
 
 /* Contains functions for database access */
@@ -54,7 +62,7 @@ public:
     virtual GroupDetails * getGroupsList(const char * clientName, GroupDetails *& groups, unsigned int & groupsNo) = 0;
     
     /* Returns a list with all the contacts in clientName's list */
-    virtual ClientDetails * getContactsList(const char * clientName, ClientDetails *& contacts, unsigned int & contactsNo) = 0;
+    virtual ContactDetails * getContactsList(const char * clientName, ClientDetails *& contacts, unsigned int & contactsNo) = 0;
     
     /* Returns true if the client clientName is in the database */
     virtual bool isClient(const char * clientName) = 0;
@@ -63,8 +71,22 @@ public:
     virtual int openDB(const char * path) = 0;
 };
 
-class QueryExecuter : IQueryExecuter {
+class QueryExecuter : public IQueryExecuter {
     sqlite3 * database;
+public:
+    void addClient(const char * username, const char * password);
+    void addGroup(const char * groupName, const char * clientName);
+    void addContact(const char * contactName, const char * groupName, const char * clientName);
+    void deleteClient(const char * clientName);
+    void deleteGroup(const char * groupName, const char * clientName);
+    void deleteContact(const char * contactName, const char * clientName);
+    void moveContatct(const char *contactName, const char * clientName, const char * groupName);
+    ClientDetails getClient(const char * clientName);
+    ClientDetails * getContactsList(ClientDetails *& clients, unsigned int & contactsNo);
+    GroupDetails * getGroupsList(const char * clientName, GroupDetails *& groups, unsigned int & groupsNo);
+    ContactDetails * getContactsList(const char * clientName, ClientDetails *& contacts, unsigned int & contactsNo);
+    bool isClient(const char * clientName);
+    int openDB(const char * path);
 };
 
 #endif  /* DATA_ACCESS_H */

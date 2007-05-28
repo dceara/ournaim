@@ -30,6 +30,10 @@ enum Services {
     FILE_TRANSFER_SEND  = 13,
     FILE_TRANSFER_GET   = 14,
     FILE_LIST           = 15,
+
+    // internal
+    
+    CONNECTION_CLOSED   = 64,
 };
 
 /* Class that contains functions specific to the NAIM protocol */
@@ -46,12 +50,21 @@ public:
      * Packs the data from packet in a contiguous buffer that can be sent through a TCP connection. The buffer is 
      * allocated dynamically so it should be deleted after use.
      */
-    char * packetToBuffer(NAIMpacket packet);
+    char * packetToBuffer(NAIMpacket * packet, char * & buffer, int & bufferLength);
     /*
      * Reads and returns the first NAIM packet from the TCP connection. The data ahead of the packet is discarded.
      * The packet is allocated dynamically and should be deleted after use.
      */
     NAIMpacket * readPacket(int socket);
+
+    /*
+     *	Functions for creating packets
+     */
+
+    NAIMpacket * createACK();
+
+    NAIMpacket * createCONNECTION_CLOSED();
+    
 };
 
 #endif  /* PROTOCOL_H */
