@@ -9,7 +9,13 @@ using namespace std;
  */
 
 Client::Client(ConnectionManager * parent) {
+    cMan = parent;
+    inputQueue = queue< NAIMpacket * >();
+    outputQueue = queue< NAIMpacket * >();
+    
+    protocol = Protocol();
 
+    outputQueue.push(protocol.createACK());
 }
 
 Client::~Client() {
@@ -46,7 +52,7 @@ int Console::processPacket() {
  *	Peer
  */
 
-Peer::Peer(ConnectionManager * parent, int clientID, time_t lastActiveTime) : Client(parent) {
+Peer::Peer(ConnectionManager * parent) : Client(parent) {
 
 }
 
