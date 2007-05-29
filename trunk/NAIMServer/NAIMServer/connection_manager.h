@@ -33,15 +33,23 @@ class ConnectionManager {
     int onlineClientsNo;                            // number of online clients.
     std::map< int, std::string > onlineClients;     // the ids and status of the online clients. dont't know if we should store ids or names.
     std::map< int, Client * > socketClients;        // maps each socket to a client.
+    std::map< int, Protocol > socketProtocols;      // an instance of Protocol is needed for each client
     std::set< Client * > clientsSet;                // set with all the clients managers
+    
 
     /*
      *	Is called when a new connection is created. Creates a new Client to monitor the connection.
      */
     int newConnection(int sock_fd);
     int closeConnection(int sock_fd);
-    int readFromSocket(int sock_fd);
-    int writeToSocket(int sock_fd);
+    /*
+     *	Reads a packet from the socket and dispatches it to the corresponding Client
+     */
+    int readClientInput(int sock_fd);
+    /*
+     *	Writes a packet from a Clients output to the socket
+     */
+    int writeClientOutput(int sock_fd);
 
 public:
     ConnectionManager();
