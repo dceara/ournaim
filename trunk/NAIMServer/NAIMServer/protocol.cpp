@@ -1,4 +1,5 @@
 #include "protocol.h"
+#include "utils.h"
 
 #include <winsock.h>
 
@@ -24,8 +25,8 @@ char * Protocol::packetToBuffer(NAIMpacket * packet, char * & buffer, int & buff
     bufferLength = 8 + packet->dataSize;
     buffer = new char[bufferLength];
     memcpy(buffer, packet->header, 4);
-    *(unsigned short *)(buffer + 4) = htons(packet->service);
-    *(unsigned short *)(buffer + 6) = htons(packet->dataSize);
+    writeUShort(htons(packet->service), buffer + 4);
+    writeUShort(htons(packet->dataSize), buffer + 6);
     memcpy(buffer + 8, packet->data, packet->dataSize);
 
     return NULL;
@@ -48,8 +49,8 @@ int Protocol::readPacket(int socket, NAIMpacket * & packet) {
     // if the header has been read, create a new packet
     if (readHeaderSize == HEADER_LENGTH && tempPacket == NULL) {
         tempPacket = new NAIMpacket();
-        tempPacket->service = ntohs(*(unsigned short *)(header + 4));
-        tempPacket->dataSize = ntohs(*(unsigned short *)(header + 6));
+        tempPacket->service = ntohs(readUShort(header + 4));
+        tempPacket->dataSize = ntohs(readUShort(header + 6));
     }
 
     // if the packet has been created but the data has not been read completely, read the remaining data
