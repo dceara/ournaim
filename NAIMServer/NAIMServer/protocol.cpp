@@ -3,6 +3,7 @@
 #include <winsock.h>
 
 #include <cstdlib>
+#include <cstring>
 
 using namespace std;
 
@@ -17,6 +18,16 @@ Protocol::~Protocol() {
 }
 
 char * Protocol::packetToBuffer(NAIMpacket * packet, char * & buffer, int & bufferLength) {
+    // TODO: find another way. this is inefficient
+    // remove hard coding
+
+    bufferLength = 8 + packet->dataSize;
+    buffer = new char[bufferLength];
+    memcpy(buffer, packet->header, 4);
+    *(unsigned short *)(buffer + 4) = htons(packet->service);
+    *(unsigned short *)(buffer + 6) = htons(packet->dataSize);
+    memcpy(buffer + 8, packet->data, packet->dataSize);
+
     return NULL;
 }
 
@@ -45,6 +56,7 @@ int Protocol::readPacket(int socket, NAIMpacket * & packet) {
     if (tempPacket != NULL && readDataSize != tempPacket->dataSize) {
         int n = recv(socket, tempPacket->data + readDataSize, tempPacket->dataSize, 0);
         if (n <= 0) {
+            delete packet;
             packet = NULL;
             return n;
         }

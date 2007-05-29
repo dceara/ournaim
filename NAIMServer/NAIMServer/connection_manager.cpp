@@ -30,6 +30,7 @@ ConnectionManager::ConnectionManager() {
     
     onlineClients = map< int, string >();
     socketClients = map< int, Client * >();
+    socketProtocols = map< int, Protocol >();
     clientsSet = set< Client * >();
     
 }
@@ -66,7 +67,9 @@ int ConnectionManager::clientDisconnect(int clientID, Client * clientMan) {
     return 0;
 }
 
-
+/*
+ *	Is called when a new connection is created. Creates a new Client to monitor the connection.
+ */
 int ConnectionManager::newConnection(int sock_fd) {
     FD_SET(sock_fd, &read_fds);
     FD_SET(sock_fd, &write_fds);
@@ -79,6 +82,9 @@ int ConnectionManager::newConnection(int sock_fd) {
     return 0;
 }
 
+/*
+ *	Is called when a connection is closed or timeouts
+ */
 int ConnectionManager::closeConnection(int sock_fd) {
     CLOSE(sock_fd);
     socketClients[sock_fd]->addInputPacket(protocol.createCONNECTION_CLOSED());
@@ -87,10 +93,27 @@ int ConnectionManager::closeConnection(int sock_fd) {
     return 0;
 }
 
+/*
+ *	Reads a packet from the socket and dispatches it to the corresponding Client
+ */
 int ConnectionManager::readClientInput(int sock_fd) {
+    NAIMpacket * packet;
+    int n = socketProtocols[sock_fd].readPacket(sock_fd, packet);
+    if (n == 0) {
+        closeConnection(sock_fd);
+        return -1;
+    }
+
+    if (packet != NULL) {
+        socketClients[sock_fd]->addInputPacket(packet);
+    }
+
     return 0;
 }
 
+/*
+ *	Writes a packet from a Clients output to the socket
+ */
 int ConnectionManager::writeClientOutput(int sock_fd) {
     NAIMpacket * packet = socketClients[sock_fd]->getOutputPacket();        // DELETE
     if (packet == NULL) {
@@ -116,6 +139,10 @@ int ConnectionManager::writeClientOutput(int sock_fd) {
 
     return 0;
 }
+
+/*
+ *	Initializes connection variables and runs the main loop
+ */ 
 
 int ConnectionManager::run() {
 

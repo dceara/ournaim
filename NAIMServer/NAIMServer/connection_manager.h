@@ -41,6 +41,9 @@ class ConnectionManager {
      *	Is called when a new connection is created. Creates a new Client to monitor the connection.
      */
     int newConnection(int sock_fd);
+    /*
+     *	Is called when a connection is closed or timeouts
+     */
     int closeConnection(int sock_fd);
     /*
      *	Reads a packet from the socket and dispatches it to the corresponding Client
@@ -76,7 +79,9 @@ public:
     /* Removes a client from the online list. Called when a client disconnects. */
     int clientDisconnect(int clientID, Client * clientMan);
 
-    /* Runs the main loop */
+    /*
+     *	Runs the main loop
+     */ 
     int run();
 };
 
