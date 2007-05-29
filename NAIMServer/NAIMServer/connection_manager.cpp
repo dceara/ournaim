@@ -87,11 +87,11 @@ int ConnectionManager::closeConnection(int sock_fd) {
     return 0;
 }
 
-int ConnectionManager::readFromSocket(int sock_fd) {
+int ConnectionManager::readClientInput(int sock_fd) {
     return 0;
 }
 
-int ConnectionManager::writeToSocket(int sock_fd) {
+int ConnectionManager::writeClientOutput(int sock_fd) {
     NAIMpacket * packet = socketClients[sock_fd]->getOutputPacket();        // DELETE
     if (packet == NULL) {
         return 0;
@@ -99,12 +99,13 @@ int ConnectionManager::writeToSocket(int sock_fd) {
 
     char * buffer;                                                          // DELETE
     int length;
-    if (protocol.packetToBuffer(packet, buffer, length) == NULL) {          // buffer and length are refrences
+    if (protocol.packetToBuffer(packet, buffer, length) == NULL) {          // buffer and length are references
         delete packet;
         return -1;
     }
     delete packet;
 
+    // TODO: add a timeout. the packet should not be removed from the queue if send fails.
     int n = send(sock_fd, buffer, length, 0);
     if (n != length) {
         printf("ERROR writing packet to socket: %d", sock_fd);
@@ -195,7 +196,7 @@ int ConnectionManager::run() {
                     }
                 }
                 else {
-                    readFromSocket(i);
+                    readClientInput(i);
                 }
             }
         }
@@ -214,7 +215,7 @@ int ConnectionManager::run() {
 
         for(int i = 0; i <= fdmax; i++) {
             if (FD_ISSET(i, &tmp_write_fds)) {
-                writeToSocket(i);
+                writeClientOutput(i);
             }
         }
     }

@@ -6,7 +6,7 @@
 struct NAIMpacket {
     static const char * header;
     unsigned short service;
-    unsigned short dataLength;
+    unsigned short dataSize;
     char * data;
 };
 
@@ -39,9 +39,12 @@ enum Services {
 /* Class that contains functions specific to the NAIM protocol */
 
 class Protocol {
-    char * inBuffer;            // internal buffer
-    NAIMpacket * tempPacket;    // the packet that will be returned
-    unsigned int rdLength;      // the length of the data currently read
+    const static unsigned short HEADER_LENGTH = 8;
+    char header[16];
+    unsigned int bufferSize;                // current size of the buffer.
+    NAIMpacket * tempPacket;                // the packet that will be returned.
+    unsigned short readHeaderSize;          // the size of the part of the header already read.
+    unsigned short readDataSize;            // the size of the data currently read.
 public:
     Protocol();
     ~Protocol();
@@ -55,7 +58,7 @@ public:
      * Reads and returns the first NAIM packet from the TCP connection. The data ahead of the packet is discarded.
      * The packet is allocated dynamically and should be deleted after use.
      */
-    NAIMpacket * readPacket(int socket);
+    int readPacket(int socket, NAIMpacket * & packet);
 
     /*
      *	Functions for creating packets
