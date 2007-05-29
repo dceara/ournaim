@@ -9,14 +9,6 @@
 
 using namespace std;
 
-void test() {
-    ConnectionManager cMan = ConnectionManager();
-
-    const string * mystr = cMan.getStatus(3);
-
-}
-
-
 /*
  *	ConnectionManager
  */
