@@ -14,8 +14,6 @@ Client::Client(ConnectionManager * parent) {
     outputQueue = queue< NAIMpacket * >();
     
     protocol = Protocol();
-
-    outputQueue.push(protocol.createACK());
 }
 
 Client::~Client() {
@@ -23,11 +21,21 @@ Client::~Client() {
 }
 
 int Client::addInputPacket(NAIMpacket * packet) {
+    inputQueue.push(packet);
     return 0;
 }
 
+/*
+ *	Returns the first packet in the output queue and removes it.
+ *  TODO: this should not remove the packet because it might not have been sent
+ */
 NAIMpacket * Client::getOutputPacket() {
-    return NULL;
+    NAIMpacket * tempPacket = NULL;
+    if (outputQueue.size() > 0) {
+        tempPacket = outputQueue.front();
+        outputQueue.pop();
+    }
+    return tempPacket;
 }
 
 int Client::processPacket() {
@@ -42,6 +50,18 @@ int Client::processPacket() {
  */
 
 int Console::processPacket() {
+    if (inputQueue.size() > 0) {
+        NAIMpacket * packet = inputQueue.front();
+        inputQueue.pop();
+
+        if (strncmp(packet->data, "quit", packet->dataSize) == 0) {
+            cMan->quit();
+        }
+
+        delete packet->data;
+        delete packet;
+    }
+
     return 0;
 }
 
@@ -53,7 +73,7 @@ int Console::processPacket() {
  */
 
 Peer::Peer(ConnectionManager * parent) : Client(parent) {
-
+    outputQueue.push(protocol.createACK());
 }
 
 Peer::~Peer() {
@@ -61,6 +81,20 @@ Peer::~Peer() {
 }
 
 int Peer::processPacket() {
+    if (inputQueue.size() > 0) {
+        NAIMpacket * packet = inputQueue.front();
+
+        printf("Packet received: \n");
+        printf("Service: %d\n", packet->service);
+        printf("Data: ");
+        for (int i = 0; i < packet->dataSize; ++i)
+            printf("%c", packet->data[i]);
+        printf("\n");
+
+        delete packet->data;
+        delete packet;
+        inputQueue.pop();
+    } 
     return 0;
 }
 
