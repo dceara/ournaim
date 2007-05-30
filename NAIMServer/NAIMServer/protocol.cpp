@@ -1,7 +1,13 @@
 #include "protocol.h"
 #include "utils.h"
 
+#ifdef WIN32
 #include <winsock.h>
+#else
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <arpa/inet.h>
+#endif
 
 #include <cstdlib>
 #include <cstring>
