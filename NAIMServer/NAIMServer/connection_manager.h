@@ -35,24 +35,30 @@ class ConnectionManager {
     std::map< int, Client * > socketClients;        // maps each socket to a client.
     std::map< int, Protocol > socketProtocols;      // an instance of Protocol is needed for each client
     std::set< Client * > clientsSet;                // set with all the clients managers
-    
+
+    bool quiting;                                   // if this is set to true, the server will close.
 
     /*
      *	Is called when a new connection is created. Creates a new Client to monitor the connection.
      */
     int newConnection(int sock_fd);
     /*
-     *	Is called when a connection is closed or timeouts
+     *	Is called when a connection is closed or timeouts.
      */
     int closeConnection(int sock_fd);
     /*
-     *	Reads a packet from the socket and dispatches it to the corresponding Client
+     *	Reads a packet from the socket and dispatches it to the corresponding Client.
      */
     int readClientInput(int sock_fd);
     /*
-     *	Writes a packet from a Clients output to the socket
+     *	Writes a packet from a Clients output to the socket.
      */
     int writeClientOutput(int sock_fd);
+
+    /*
+     *	Releases all resources and closes the server.
+     */
+    void terminate();
 
 public:
     ConnectionManager();
@@ -83,6 +89,11 @@ public:
      *	Runs the main loop
      */ 
     int run();
+
+    /*
+     *	Tells the server to quit.
+     */
+    void quit();
 };
 
 #endif  /* CONNECTION_MANAGER_H */

@@ -34,6 +34,7 @@ enum Services {
     // internal
     
     CONNECTION_CLOSED   = 64,
+    COMMAND             = 65,
 };
 
 /* Class that contains functions specific to the NAIM protocol */
@@ -41,7 +42,6 @@ enum Services {
 class Protocol {
     const static unsigned short HEADER_LENGTH = 8;
     char header[16];
-    unsigned int bufferSize;                // current size of the buffer.
     NAIMpacket * tempPacket;                // the packet that will be returned.
     unsigned short readHeaderSize;          // the size of the part of the header already read.
     unsigned short readDataSize;            // the size of the data currently read.
@@ -65,6 +65,8 @@ public:
      */
 
     NAIMpacket * createACK();
+
+    NAIMpacket * createCOMMAND(const char * command, unsigned int length);
 
     NAIMpacket * createCONNECTION_CLOSED();
     

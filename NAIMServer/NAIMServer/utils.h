@@ -7,6 +7,8 @@
 
 /* Closes a socket */
 #define CLOSE(socket) closesocket(socket)
+#define STDIN_FILENO 0
+#define STDOUT_FILENO 1
 
 #elif
 

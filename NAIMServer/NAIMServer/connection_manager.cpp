@@ -3,6 +3,8 @@
 #include "protocol.h"
 #include "utils.h"
 
+#include <io.h>
+#include <sys/types.h>
 #include <winsock.h>
 
 #include <string>
@@ -24,7 +26,11 @@ ConnectionManager::ConnectionManager() {
     socketClients = map< int, Client * >();
     socketProtocols = map< int, Protocol >();
     clientsSet = set< Client * >();
-    
+
+    Client * console = new Console(this);
+    socketClients.insert(pair< int, Client * >(STDIN_FILENO, console));
+
+    quiting = false;
 }
 
 ConnectionManager::~ConnectionManager() {
@@ -71,15 +77,19 @@ int ConnectionManager::newConnection(int sock_fd) {
     Client * client = new Peer(this);
     clientsSet.insert(client);
     socketClients.insert(pair< int, Client * >(sock_fd, client));
+    socketProtocols.insert(pair< int, Protocol >(sock_fd, Protocol()));
     return 0;
 }
 
 /*
- *	Is called when a connection is closed or timeouts
+ *	Is called when a connection is closed or timeouts.
  */
 int ConnectionManager::closeConnection(int sock_fd) {
+    printf("Closing connection on socket: %d\n", sock_fd);
     CLOSE(sock_fd);
     socketClients[sock_fd]->addInputPacket(protocol.createCONNECTION_CLOSED());
+    socketClients.erase(sock_fd);
+    socketProtocols.erase(sock_fd);
     FD_CLR(sock_fd, &read_fds);
     FD_CLR(sock_fd, &write_fds);
     return 0;
@@ -92,6 +102,9 @@ int ConnectionManager::readClientInput(int sock_fd) {
     NAIMpacket * packet;
     int n = socketProtocols[sock_fd].readPacket(sock_fd, packet);
     if (n == 0) {
+#ifdef WIN32
+        int err = WSAGetLastError();
+#endif
         closeConnection(sock_fd);
         return -1;
     }
@@ -115,9 +128,12 @@ int ConnectionManager::writeClientOutput(int sock_fd) {
     char * buffer;                                                          // DELETE
     int length;
     if (protocol.packetToBuffer(packet, buffer, length) == NULL) {          // buffer and length are references
+        // don't know if i should do something else
+        delete packet->data;
         delete packet;
         return -1;
     }
+    delete packet->data;
     delete packet;
 
     // TODO: add a timeout. the packet should not be removed from the queue if send fails.
@@ -177,11 +193,14 @@ int ConnectionManager::run() {
         return -1;
     }
 
+    // add the console to the read list
+    FD_SET(STDIN_FILENO, &read_fds);
     // the socket for listening is added to the monitored list
     FD_SET(listen_sockfd, &read_fds);
     fdmax = listen_sockfd;
 
     int newsockfd;
+    char consoleCommand[1025];
     // main loop    
     for(;;) {
         tmp_read_fds = read_fds; 
@@ -199,7 +218,17 @@ int ConnectionManager::run() {
 
         for(int i = 0; i <= fdmax; i++) {
             if (FD_ISSET(i, &tmp_read_fds)) {
-                if (i == listen_sockfd) {
+                if (i == STDIN_FILENO) {
+                    // TODO: remove hard coding
+#ifdef WIN32
+                    int n = _read(i, consoleCommand, 1024);
+                    socketClients[i]->addInputPacket(protocol.createCOMMAND(consoleCommand, n));
+#else
+                    int n = read(i, consoleCommand, 1024);
+                    socketClients[i].addInputPacket(protocol.createCOMMAND(consoleCommand, n));
+#endif
+                }
+                else if (i == listen_sockfd) {
                     // new connection was detected
                     sockaddr_in cli_addr;
                     int clilen = (int)sizeof(cli_addr);
@@ -237,6 +266,11 @@ int ConnectionManager::run() {
                 writeClientOutput(i);
             }
         }
+    
+        if (quiting) {
+            terminate();
+            return 0;
+        }
     }
 
     CLOSE(newsockfd);
@@ -244,3 +278,20 @@ int ConnectionManager::run() {
     return 0;
 }
 
+void ConnectionManager::terminate() {
+    for (set< Client * >::iterator it = clientsSet.begin(); it != clientsSet.end(); ++it) {
+        delete *it;
+    }
+
+#ifdef WIN32
+    WSACleanup();
+#else
+    for (map< int, Client * >::iterator it = socketClients.begin(); it != socketClients.end(); ++it) {
+        CLOSE(it->first);
+    }
+#endif
+}
+
+void ConnectionManager::quit() {
+    quiting = true;
+}
