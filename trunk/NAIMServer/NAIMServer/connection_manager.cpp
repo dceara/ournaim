@@ -3,9 +3,17 @@
 #include "protocol.h"
 #include "utils.h"
 
-#include <io.h>
-#include <sys/types.h>
+#ifdef WIN32
 #include <winsock.h>
+#include <io.h>
+#else
+#include 
+#include <errno.h>
+#include <netinet/ip.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#endif
 
 #include <string>
 

@@ -13,6 +13,8 @@
 #include <winsock.h>
 #else
 #include <sys/socket.h>
+#include <sys/types.h>
+#include <netinet/ip.h>
 #endif
 
 class Client;

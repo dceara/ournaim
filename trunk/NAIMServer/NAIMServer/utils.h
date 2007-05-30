@@ -10,7 +10,7 @@
 #define STDIN_FILENO 0
 #define STDOUT_FILENO 1
 
-#elif
+#else
 
 #define CLOSE(socket) close(socket)
 

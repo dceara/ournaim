@@ -45,9 +45,9 @@ ContactDetails * QueryExecuter::getContactsList(const char * clientName, ClientD
 }
 
 bool QueryExecuter::isClient(const char * clientName) {
-    return NULL;
+    return false;
 }
 
 int QueryExecuter::openDB(const char * path) {
-    return NULL;
+    return 0;
 }
