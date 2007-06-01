@@ -1,11 +1,16 @@
 #include "data_access.h"
 
+#include <map>
+#include <string>
+
+using namespace std;
+
 IQueryExecuter::~IQueryExecuter() {
 
 }
 
 void QueryExecuter::addClient(const char * username, const char * password) {
-
+    clients.insert(pair< string, string >(string(username), string(password)));
 }
 
 void QueryExecuter::addGroup(const char * groupName, const char * clientName) {
@@ -49,6 +54,9 @@ ContactDetails * QueryExecuter::getContactsList(const char * clientName, ClientD
 }
 
 bool QueryExecuter::isClient(const char * clientName) {
+    if (clients.count(string(clientName)) > 0) {
+        return true;
+    }
     return false;
 }
 

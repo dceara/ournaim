@@ -31,7 +31,7 @@ ConnectionManager::ConnectionManager() {
     queryExecuter = QueryExecuter();
     protocol = Protocol();
     
-    onlineClients = map< int, string >();
+    onlineClients = map< string, string >();
     socketClients = map< int, Client * >();
     socketProtocols = map< int, Protocol >();
     clientsSet = set< Client * >();
@@ -157,8 +157,8 @@ int ConnectionManager::writeClientOutput(int sock_fd) {
 }
 
 /*
-*	Runs a tread for listening on the console. It uses a socket to communicate.
-*/
+ *	Runs a tread for listening on the console. It uses a socket to communicate.
+ */
 void * commandThread(void *) {
 
     int com_sock = socket(AF_INET, SOCK_STREAM, 0);
