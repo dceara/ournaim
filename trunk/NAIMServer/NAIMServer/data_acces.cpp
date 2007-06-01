@@ -1,5 +1,9 @@
 #include "data_access.h"
 
+IQueryExecuter::~IQueryExecuter() {
+
+}
+
 void QueryExecuter::addClient(const char * username, const char * password) {
 
 }

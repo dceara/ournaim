@@ -7,9 +7,9 @@
 #include <winsock.h>
 #include <io.h>
 #else
-#include 
 #include <errno.h>
 #include <netinet/ip.h>
+#include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -201,20 +201,18 @@ int ConnectionManager::run() {
         return -1;
     }
 
-    // add the console to the read list
-    FD_SET(STDIN_FILENO, &read_fds);
     // the socket for listening is added to the monitored list
     FD_SET(listen_sockfd, &read_fds);
     fdmax = listen_sockfd;
 
     int newsockfd;
-    char consoleCommand[1025];
+    timeval timeout = DEFAULT_SELECT_TIMEOUT;
     // main loop    
     for(;;) {
         tmp_read_fds = read_fds; 
         tmp_write_fds = write_fds;
 
-        if (select(fdmax + 1, &tmp_read_fds, &tmp_write_fds, NULL, &DEFAULT_SELECT_TIMEOUT) == -1) {
+        if (select(fdmax + 1, &tmp_read_fds, &tmp_write_fds, NULL, &timeout) == -1) {
             printf("ERROR in select: %d", errno);
             CLOSE(listen_sockfd);
             return -1;
@@ -226,20 +224,10 @@ int ConnectionManager::run() {
 
         for(int i = 0; i <= fdmax; i++) {
             if (FD_ISSET(i, &tmp_read_fds)) {
-                if (i == STDIN_FILENO) {
-                    // TODO: remove hard coding
-#ifdef WIN32
-                    int n = _read(i, consoleCommand, 1024);
-                    socketClients[i]->addInputPacket(protocol.createCOMMAND(consoleCommand, n));
-#else
-                    int n = read(i, consoleCommand, 1024);
-                    socketClients[i].addInputPacket(protocol.createCOMMAND(consoleCommand, n));
-#endif
-                }
-                else if (i == listen_sockfd) {
+                if (i == listen_sockfd) {
                     // new connection was detected
                     sockaddr_in cli_addr;
-                    int clilen = (int)sizeof(cli_addr);
+                    unsigned int clilen = (int)sizeof(cli_addr);
                     if ((newsockfd = accept(listen_sockfd, (struct sockaddr *)&cli_addr, &clilen)) == -1) {
                         printf("ERROR on accept: %d", errno);
                     } else {
