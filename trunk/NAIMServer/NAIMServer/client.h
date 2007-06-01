@@ -70,6 +70,31 @@ public:
     Peer(ConnectionManager * parent);
     ~Peer();
 
+    /*
+     *	Functions for processing packets.
+     */
+
+    /*
+     *	SIGN_UP
+     */
+    int processSIGN_UP(NAIMpacket * packet);
+    /*
+     *	LOGIN
+     */
+    int processLOGIN(NAIMpacket * packet);
+    /*
+     *	TEXT
+     */
+    int processTEXT(NAIMpacket * packet);
+    /*
+     *	CONNECTION_REQ
+     */
+    int processCONNECTION_REQ(NAIMpacket * packet);
+    /*
+     *	CONNECTION_DATA
+     */
+    int processCONNECTIONDATA(NAIMpacket * packet);
+
     /* Override */
     int processPacket();
 

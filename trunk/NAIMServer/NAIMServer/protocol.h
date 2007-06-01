@@ -43,6 +43,12 @@ enum Errors {
 
 };
 
+/*
+ *	Special statuses.
+ */
+const char AVAILABLE[]  = "Available";
+const char INVISIBLE[]  = "Invisible";
+
 /* Class that contains functions specific to the NAIM protocol */
 
 class Protocol {
@@ -67,7 +73,7 @@ public:
     int readPacket(int socket, NAIMpacket * & packet);
 
     /*
-     *	Functions for creating packets
+     *	Functions for creating packets.
      */
 
     static NAIMpacket * createACK();
@@ -76,6 +82,54 @@ public:
 
     static NAIMpacket * createCONNECTION_CLOSED();
     
+    /*
+     *	Functions for processing packets.
+     */
+
+    /*
+     *	Returns the username from a SIGN_UP packet.
+     */
+    static char * getSIGN_UPUsername(NAIMpacket * packetSIGN_UP, char * & username, unsigned short & length);
+    /*
+     *	Returns the password from a SIGN_UP packet.
+     */
+    static char * getSIGN_UPPassword(NAIMpacket * packetSIGN_UP, char * & password, unsigned short & length);
+    /*
+     *	Returns the username from a LOGIN packet.
+     */
+    static char * getLOGINUsername(NAIMpacket * packetLOGIN, char * & username, unsigned short & length);
+    /*
+     *	Returns the password from a LOGIN packet.
+     */
+    static char * getLOGINPPassword(NAIMpacket * packetLOGIN, char * & password, unsigned short & length);
+    /*
+     *	Returns the status from a LOGIN packet.
+     */
+    static char * getLOGINPStatus(NAIMpacket * packetLOGIN, char * & status, unsigned short & length);
+    /*
+     *	Returns the sender from a TEXT packet.
+     */
+    static char * getTEXTSender(NAIMpacket * packetTEXT, char * & sender, unsigned short & length);
+    /*
+     *	Returns the receiver from a TEXT packet.
+     */
+    static char * getTEXTReceiver(NAIMpacket * packetTEXT, char * & receiver, unsigned short & length);
+    /*
+     *	Returns the sender from a CONNECTION_REQ packet.
+     */
+    static char * getCONNECTION_REQSender(NAIMpacket * packetCONNECTION_REQ, char * & sender, unsigned short & length);
+    /*
+     *	Returns the receiver from a CONNECTION_DATA packet.
+     */
+    static char * getCONNECTION_REQReceiver(NAIMpacket * packetCONNECTION_REQ, char * & receiver, unsigned short & length);
+    /*
+     *	Returns the sender from a CONNECTION_REQ packet.
+     */
+    static char * getCONNECTION_DATASender(NAIMpacket * packetCONNECTION_DATA, char * & sender, unsigned short & length);
+    /*
+     *	Returns the receiver from a CONNECTION_DATA packet.
+     */
+    static char * getCONNECTION_DATAReceiver(NAIMpacket * packetCONNECTION_DATA, char * & receiver, unsigned short & length);
 };
 
 #endif  /* PROTOCOL_H */

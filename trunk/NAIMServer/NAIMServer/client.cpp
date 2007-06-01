@@ -89,6 +89,37 @@ Peer::~Peer() {
 
 }
 
+/*
+ *	SIGN_UP
+ */
+int Peer::processSIGN_UP(NAIMpacket * packet) {
+    char * username, * password;
+    int length;
+    Protocol::getSIGN_UPUsername(packet, username, length);
+}
+
+/*
+ *	LOGIN
+ */
+int Peer::processLOGIN(NAIMpacket * packet);
+
+/*
+ *	TEXT
+ */
+int Peer::processTEXT(NAIMpacket * packet) {
+
+}
+
+/*
+ *	CONNECTION_REQ
+ */
+int Peer::processCONNECTION_REQ(NAIMpacket * packet);
+
+/*
+ *	CONNECTION_DATA
+ */
+int Peer::processCONNECTIONDATA(NAIMpacket * packet);
+
 int Peer::processPacket() {
     if (inputQueue.size() > 0) {
         NAIMpacket * packet = inputQueue.front();
@@ -99,6 +130,31 @@ int Peer::processPacket() {
         for (int i = 0; i < packet->dataSize; ++i)
             printf("%c", packet->data[i]);
         printf("\n");
+
+
+        switch(packet->service) {
+            case 3: {
+                processSIGN_UP(packet);
+                break;
+                    }
+            case 4: {
+                processLOGIN(packet);
+                break;
+                    }
+            case 6: {
+                processTEXT(packet);
+                break;
+                    }
+            case 10: {
+                processCONNECTION_REQ(packet);
+                break;
+                    }
+            case 11: {
+                processCONNECTIONDATA(packet);
+                break;
+                    }
+        }
+
 
         delete packet->data;
         delete packet;
