@@ -26,6 +26,15 @@ int Client::addInputPacket(NAIMpacket * packet) {
 }
 
 /*
+ *	Adds a packet to the output queue of the client. The packet will be deleted after being processed so
+ *  DO NOT delete it externally :P
+ */
+int Client::addOutputPacket(NAIMpacket * packet) {
+    outputQueue.push(packet);
+    return 0;
+}
+
+/*
  *	Returns the first packet in the output queue and removes it.
  *  TODO: this should not remove the packet because it might not have been sent
  */

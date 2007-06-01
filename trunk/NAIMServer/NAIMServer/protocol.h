@@ -41,7 +41,7 @@ enum Services {
 
 enum Errors {
 
-}
+};
 
 /* Class that contains functions specific to the NAIM protocol */
 
