@@ -219,7 +219,7 @@ int ConnectionManager::run() {
         }
 
         /*
-         *	Reads packets and dispatches them to the corresponding client
+         *	Reads packets and dispatches them to the corresponding client.
          */
 
         for(int i = 0; i <= fdmax; i++) {
