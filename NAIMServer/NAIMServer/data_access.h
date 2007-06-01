@@ -4,7 +4,6 @@
 #include <sqlite3.h>
 
 #include <map>
-#include <string>
 #include <vector>
 
 /* Holds details about a client */
