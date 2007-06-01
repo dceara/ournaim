@@ -17,15 +17,19 @@
 #include <netinet/ip.h>
 #endif
 
+/*
+*	Runs a tread for listening on the console. It uses a socket to communicate.
+*/
+void * commandThread(void *);
+
 class Client;
 
 class ConnectionManager {
-    const static int PORTNO = 18005;
-    const static int MAX_CLIENTS = 128;
-    const static timeval DEFAULT_SELECT_TIMEOUT;
-
     fd_set read_fds;	        // fd_set used to monitor sockets for write
     fd_set write_fds;	        // fd_set used to monitor sockets for write
+
+    fd_set tmp_read_fds;	    // fd_set used temporary to preserve read_fds
+    fd_set tmp_write_fds;	    // fd_set used temporary to preserve read_fds
 
     int fdmax;		            // the highest file descriptor that is monitored
 
@@ -56,13 +60,20 @@ class ConnectionManager {
      *	Writes a packet from a Clients output to the socket.
      */
     int writeClientOutput(int sock_fd);
-
+    /*
+     *	Creates the thread for listening on the console.
+     */
+    void CreateCommandThread();
     /*
      *	Releases all resources and closes the server.
      */
     void terminate();
 
 public:
+    const static int PORTNO = 18005;
+    const static int MAX_CLIENTS = 128;
+    const static timeval DEFAULT_SELECT_TIMEOUT;
+
     ConnectionManager();
     ~ConnectionManager();
 

@@ -98,8 +98,8 @@ NAIMpacket * Protocol::createCOMMAND(const char * command, unsigned int length) 
     NAIMpacket * temp = new NAIMpacket();
     temp->service = CONNECTION_CLOSED;
     temp->dataSize = length;
-    temp->data = new char[length + 1];
-    memcpy(temp->data, command, length + 1);
+    temp->data = new char[length];
+    memcpy(temp->data, command, length);
 
     return temp;
 }

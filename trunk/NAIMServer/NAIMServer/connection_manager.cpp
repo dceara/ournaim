@@ -15,6 +15,7 @@
 #include <unistd.h>
 #endif
 
+#include <pthread.h>
 #include <string>
 
 using namespace std;
@@ -34,9 +35,6 @@ ConnectionManager::ConnectionManager() {
     socketClients = map< int, Client * >();
     socketProtocols = map< int, Protocol >();
     clientsSet = set< Client * >();
-
-    Client * console = new Console(this);
-    socketClients.insert(pair< int, Client * >(STDIN_FILENO, console));
 
     quiting = false;
 }
@@ -99,7 +97,9 @@ int ConnectionManager::closeConnection(int sock_fd) {
     socketClients.erase(sock_fd);
     socketProtocols.erase(sock_fd);
     FD_CLR(sock_fd, &read_fds);
+    FD_CLR(sock_fd, &tmp_read_fds);
     FD_CLR(sock_fd, &write_fds);
+    FD_CLR(sock_fd, &tmp_write_fds);
     return 0;
 }
 
@@ -157,6 +157,51 @@ int ConnectionManager::writeClientOutput(int sock_fd) {
 }
 
 /*
+*	Runs a tread for listening on the console. It uses a socket to communicate.
+*/
+void * commandThread(void *) {
+
+    int com_sock = socket(AF_INET, SOCK_STREAM, 0);
+    sockaddr_in serv_addr;
+
+    memset((char *) &serv_addr, 0, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1");	                    // uses localhost ip
+    serv_addr.sin_port = htons(ConnectionManager::PORTNO);
+
+    if (connect(com_sock,(struct sockaddr*) &serv_addr,sizeof(serv_addr)) < 0) {
+        printf("ERROR on creating socket for console communication");
+        return NULL;
+    }
+        
+    char buffer[256];
+    while(1) {
+        memset(buffer, 0, 256);
+        fgets(buffer, 255, stdin);
+        if (strncmp("terminate", buffer, 9) == 0) {
+            NAIMpacket * packet = Protocol::createCOMMAND("terminate", 9);
+            char * buffer;
+            int length;
+            Protocol::packetToBuffer(packet, buffer, length);
+            length = send(com_sock, buffer, length, 0);
+            
+            delete packet->data;
+            delete packet;
+            delete buffer;
+            break;
+        }
+    }
+
+    return NULL;
+}
+
+void ConnectionManager::CreateCommandThread() {
+    pthread_t thread;
+    pthread_create(&thread, NULL, &commandThread, NULL);
+}
+
+
+/*
  *	Initializes connection variables and runs the main loop
  */ 
 
@@ -166,9 +211,6 @@ int ConnectionManager::run() {
     WSADATA wsaData;
     WSAStartup(0x0101, &wsaData);		
 #endif
-    
-    fd_set tmp_read_fds;	    // fd_set used temporary to preserve read_fds
-    fd_set tmp_write_fds;	    // fd_set used temporary to preserve read_fds
 
     // read_fds and tmp_fds are zeroed
     FD_ZERO(&read_fds);
@@ -201,12 +243,41 @@ int ConnectionManager::run() {
         return -1;
     }
 
-    int consoleSocket = socket()
-
-
     // the socket for listening is added to the monitored list
     FD_SET(listen_sockfd, &read_fds);
     fdmax = listen_sockfd;
+
+    
+    // Starts the thread that listens to the console
+    CreateCommandThread();
+
+
+    sockaddr_in cli_addr;
+#ifdef WIN32
+    int clilen = (int)sizeof(cli_addr);
+#else
+    unsigned int clilen = (int)sizeof(cli_addr);
+#endif
+
+    // accept the connection from the console monitoring thread
+
+    int console_sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if ((console_sockfd = accept(listen_sockfd, (struct sockaddr *)&cli_addr, &clilen)) == -1) {
+        printf("ERROR, could not establish communication with the console\n");
+        CLOSE(console_sockfd);
+    }
+    else {
+        FD_SET(console_sockfd, &read_fds);
+        if (console_sockfd > fdmax)
+            fdmax = console_sockfd;
+
+        Client * console = new Console(this);
+        clientsSet.insert(console);
+        socketClients.insert(pair< int, Client * >(console_sockfd, console));
+        socketProtocols.insert(pair< int, Protocol >(console_sockfd, Protocol()));
+    }
+
+
 
     int newsockfd;
     timeval timeout = DEFAULT_SELECT_TIMEOUT;
@@ -229,8 +300,6 @@ int ConnectionManager::run() {
             if (FD_ISSET(i, &tmp_read_fds)) {
                 if (i == listen_sockfd) {
                     // new connection was detected
-                    sockaddr_in cli_addr;
-                    unsigned int clilen = (int)sizeof(cli_addr);
                     if ((newsockfd = accept(listen_sockfd, (struct sockaddr *)&cli_addr, &clilen)) == -1) {
                         printf("ERROR on accept: %d", errno);
                     } else {
@@ -278,10 +347,6 @@ int ConnectionManager::run() {
 }
 
 void ConnectionManager::terminate() {
-    for (set< Client * >::iterator it = clientsSet.begin(); it != clientsSet.end(); ++it) {
-        delete *it;
-    }
-
 #ifdef WIN32
     WSACleanup();
 #else
