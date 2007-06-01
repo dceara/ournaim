@@ -32,7 +32,13 @@ public:
     virtual int addInputPacket(NAIMpacket * packet);
 
     /*
-     *	Gets a packet from the input queue. After processing the memory should be freed.
+     *	Adds a packet to the output queue of the client. The packet will be deleted after being processed so
+     *  DO NOT delete it externally :P
+     */
+    virtual int addOutputPacket(NAIMpacket * packet);
+
+    /*
+     *	Gets a packet from the output queue. After processing the memory should be freed.
      */
     virtual NAIMpacket * getOutputPacket();
 

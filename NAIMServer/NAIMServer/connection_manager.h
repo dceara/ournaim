@@ -36,13 +36,14 @@ class ConnectionManager {
     QueryExecuter queryExecuter;
     Protocol protocol;
 
-    int onlineClientsNo;                            // number of online clients.
+    int onlineClientsNo;                                    // number of online clients.
     std::map< std::string, std::string > onlineClients;     // the ids and status of the online clients. dont't know if we should store ids or names.
-    std::map< int, Client * > socketClients;        // maps each socket to a client.
-    std::map< int, Protocol > socketProtocols;      // an instance of Protocol is needed for each client
-    std::set< Client * > clientsSet;                // set with all the clients managers
+    std::map< int, Client * > socketClients;                // maps each socket to a client.
+    std::map< std::string, Client * > clientClients;                  // maps each client to its manager
+    std::map< int, Protocol > socketProtocols;              // an instance of Protocol is needed for each client
+    std::set< Client * > clientsSet;                        // set with all the clients managers
 
-    bool quiting;                                   // if this is set to true, the server will close.
+    bool quiting;                                           // if this is set to true, the server will close.
 
     /*
      *	Is called when a new connection is created. Creates a new Client to monitor the connection.
@@ -61,6 +62,10 @@ class ConnectionManager {
      */
     int writeClientOutput(int sock_fd);
     /*
+     *	Sends a packet from sender to receiver by transferring it to the receivers output queue
+     */
+    int transfferPacket(const std::string * receiver, NAIMpacket * packet);
+    /*
      *	Creates the thread for listening on the console.
      */
     void CreateCommandThread();
@@ -78,25 +83,22 @@ public:
     ~ConnectionManager();
 
     /* Returns true if the client with clientID is online */
-    bool isOnline(int clientID);
+    bool isOnline(const std::string * client);
 
     /*
      *  Returns the status of the specified client. If the client is not online it returns NULL. If the client
      *  has no status it returns "".
      */
-    const std::string * getStatus(int clientID);
+    const std::string * getStatus(const std::string * client);
 
     /* Sets the status of a client */
-    int setStatus(int clientID, std::string status);
-
-    /* Gets the address of the client */
-    const sockaddr_in * getClientAddress(int clientID);
+    int setStatus(const std::string * client, const std::string * status);
 
     /* Ads a client to the online list. */
-    int clientConnect(int clientID, std::string status, sockaddr_in address);
+    int clientConnect(Client * clientMan, const std::string * client, const std::string * status);
 
     /* Removes a client from the online list. Called when a client disconnects. */
-    int clientDisconnect(int clientID, Client * clientMan);
+    int clientDisconnect(Client * clientMan, const std::string * client);
 
     /*
      *	Runs the main loop

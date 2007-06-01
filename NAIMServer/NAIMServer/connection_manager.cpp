@@ -33,6 +33,7 @@ ConnectionManager::ConnectionManager() {
     
     onlineClients = map< string, string >();
     socketClients = map< int, Client * >();
+    clientClients = map< string, Client * >();
     socketProtocols = map< int, Protocol >();
     clientsSet = set< Client * >();
 
@@ -47,27 +48,32 @@ ConnectionManager::~ConnectionManager() {
     }
 }
 
-bool ConnectionManager::isOnline(int clientID) {
-    return false;
+bool ConnectionManager::isOnline(const string * client) {
+    if (onlineClients.count(*client) > 0)
+        return true;
+    else
+        return false;
 }
 
-const string * ConnectionManager::getStatus(int clientID) {
-    return NULL;
+const string * ConnectionManager::getStatus(const string * client) {
+    return &onlineClients[*client];
 }
 
-int ConnectionManager::setStatus(int clientID, string status) {
+int ConnectionManager::setStatus(const string * client, const string * status) {
+    onlineClients[*client] = *status;
     return 0;
 }
 
-const sockaddr_in * ConnectionManager::getClientAddress(int clientID) {
-    return NULL;
-}
-
-int ConnectionManager::clientConnect(int clientID, std::string status, sockaddr_in address) {
+int ConnectionManager::clientConnect(Client * clientMan, const string * client, const string * status) {
+    onlineClients.insert(pair< string, string >(*client, *status));
+    clientClients.insert(pair< string, Client * >(*client, clientMan));
     return 0;
 }
 
-int ConnectionManager::clientDisconnect(int clientID, Client * clientMan) {
+int ConnectionManager::clientDisconnect(Client * clientMan, const string * client) {
+    onlineClients.erase(*client);
+    clientClients.erase(*client);
+    clientsSet.erase(clientMan);
     return 0;
 }
 
@@ -153,6 +159,14 @@ int ConnectionManager::writeClientOutput(int sock_fd) {
     }
     delete buffer;
 
+    return 0;
+}
+
+/*
+ *	Sends a packet from sender to receiver by transferring it to the receivers output queue
+ */
+int ConnectionManager::transfferPacket(const string * receiver, NAIMpacket * packet) {
+    clientClients[*receiver]->addOutputPacket(packet);
     return 0;
 }
 
