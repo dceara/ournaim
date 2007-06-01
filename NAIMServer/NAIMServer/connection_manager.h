@@ -20,7 +20,7 @@
 class Client;
 
 class ConnectionManager {
-    const static int portno = 18005;
+    const static int PORTNO = 18005;
     const static int MAX_CLIENTS = 128;
     const static timeval DEFAULT_SELECT_TIMEOUT;
 

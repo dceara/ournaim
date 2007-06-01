@@ -187,7 +187,7 @@ int ConnectionManager::run() {
     memset((char *) &serv_addr, 0, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;	                    // uses localhost ip
-    serv_addr.sin_port = htons(portno);
+    serv_addr.sin_port = htons(PORTNO);
 
     if (bind(listen_sockfd, (struct sockaddr *) &serv_addr, sizeof(struct sockaddr)) < 0) {
         printf("ERROR on binding: %d", errno);
@@ -200,6 +200,9 @@ int ConnectionManager::run() {
         CLOSE(listen_sockfd);
         return -1;
     }
+
+    int consoleSocket = socket()
+
 
     // the socket for listening is added to the monitored list
     FD_SET(listen_sockfd, &read_fds);
