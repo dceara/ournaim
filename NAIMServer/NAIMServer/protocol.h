@@ -53,7 +53,7 @@ public:
      * Packs the data from packet in a contiguous buffer that can be sent through a TCP connection. The buffer is 
      * allocated dynamically so it should be deleted after use.
      */
-    char * packetToBuffer(NAIMpacket * packet, char * & buffer, int & bufferLength);
+    static char * packetToBuffer(NAIMpacket * packet, char * & buffer, int & bufferLength);
     /*
      * Reads and returns the first NAIM packet from the TCP connection. The data ahead of the packet is discarded.
      * The packet is allocated dynamically and should be deleted after use.
@@ -64,11 +64,11 @@ public:
      *	Functions for creating packets
      */
 
-    NAIMpacket * createACK();
+    static NAIMpacket * createACK();
 
-    NAIMpacket * createCOMMAND(const char * command, unsigned int length);
+    static NAIMpacket * createCOMMAND(const char * command, unsigned int length);
 
-    NAIMpacket * createCONNECTION_CLOSED();
+    static NAIMpacket * createCONNECTION_CLOSED();
     
 };
 

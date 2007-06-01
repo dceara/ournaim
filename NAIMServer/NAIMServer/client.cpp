@@ -54,7 +54,7 @@ int Console::processPacket() {
         NAIMpacket * packet = inputQueue.front();
         inputQueue.pop();
 
-        if (strncmp(packet->data, "quit", packet->dataSize) == 0) {
+        if (strncmp(packet->data, "terminate", 9) == 0) {
             cMan->quit();
         }
 
