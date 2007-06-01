@@ -23,7 +23,7 @@ protected:
     std::queue< NAIMpacket * > outputQueue;      // output packet queue
 public:
     Client(ConnectionManager * parent);
-    ~Client();
+    virtual ~Client();
 
     /*
      *	Adds a packet in the input queue of the client. The packet will be deleted after being processed so

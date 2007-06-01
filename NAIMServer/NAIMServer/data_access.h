@@ -30,6 +30,7 @@ struct GroupDetails {
 
 class IQueryExecuter {
 public:
+    virtual ~IQueryExecuter();
     
     /* Adds a new client to the database */
     virtual void addClient(const char * username, const char * password) = 0;
@@ -74,6 +75,7 @@ public:
 class QueryExecuter : public IQueryExecuter {
     sqlite3 * database;
 public:
+
     void addClient(const char * username, const char * password);
     void addGroup(const char * groupName, const char * clientName);
     void addContact(const char * contactName, const char * groupName, const char * clientName);
