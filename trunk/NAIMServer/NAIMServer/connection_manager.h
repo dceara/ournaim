@@ -37,7 +37,7 @@ class ConnectionManager {
     Protocol protocol;
 
     int onlineClientsNo;                            // number of online clients.
-    std::map< int, std::string > onlineClients;     // the ids and status of the online clients. dont't know if we should store ids or names.
+    std::map< std::string, std::string > onlineClients;     // the ids and status of the online clients. dont't know if we should store ids or names.
     std::map< int, Client * > socketClients;        // maps each socket to a client.
     std::map< int, Protocol > socketProtocols;      // an instance of Protocol is needed for each client
     std::set< Client * > clientsSet;                // set with all the clients managers

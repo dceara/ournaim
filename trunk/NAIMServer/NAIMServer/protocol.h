@@ -37,6 +37,12 @@ enum Services {
     COMMAND             = 65,
 };
 
+/* Enumeration of the errors used by the NAIM protocol */
+
+enum Errors {
+
+}
+
 /* Class that contains functions specific to the NAIM protocol */
 
 class Protocol {

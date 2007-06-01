@@ -4,6 +4,7 @@
 #include <sqlite3.h>
 
 #include <string>
+#include <map>
 
 /* Holds details about a client */
 
@@ -74,6 +75,8 @@ public:
 
 class QueryExecuter : public IQueryExecuter {
     sqlite3 * database;
+
+    std::map< std::string, std::string > clients;
 public:
 
     void addClient(const char * username, const char * password);
