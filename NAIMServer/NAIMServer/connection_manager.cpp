@@ -64,9 +64,9 @@ int ConnectionManager::setStatus(const string * client, const string * status) {
     return 0;
 }
 
-int ConnectionManager::clientConnect(Client * clientMan, const string * client, const string * status) {
-    onlineClients.insert(pair< string, string >(*client, *status));
-    clientClients.insert(pair< string, Client * >(*client, clientMan));
+int ConnectionManager::clientConnect(Client * clientMan, const char * client, const char * status) {
+    onlineClients.insert(pair< string, string >(string(*client), string(*status)));
+    clientClients.insert(pair< string, Client * >(string(*client), clientMan));
     return 0;
 }
 

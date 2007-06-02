@@ -93,24 +93,28 @@ Peer::~Peer() {
  *	SIGN_UP
  */
 int Peer::processSIGN_UP(NAIMpacket * packet) {
-    // TODO: delete username and password
     char * username, * password;
     Protocol::getSIGN_UPUsername(packet, username);
     if (cMan->queryExecuter.isClient(username)) {
         NAIMpacket * packet = Protocol::createNACK();
         addOutputPacket(packet);
-        return 0;
     }
     else {
+        // TODO: Send contacts list.
         Protocol::getSIGN_UPPassword(packet, password);
 
         cMan->queryExecuter.addClient(username, password);
         cMan->queryExecuter.addGroup("Friends", username);
 
+        cMan->clientConnect(this, username, AVAILABLE);
+
         NAIMpacket * packet = Protocol::createACK();
         addOutputPacket(packet);
-        return 0;
     }
+
+    delete username;
+    delete password;
+    return 0;
 }
 
 /*
@@ -129,6 +133,7 @@ int Peer::processTEXT(NAIMpacket * packet) {
 
     cMan->transferPacket(receiver, packet);
 
+    delete receiver;
     return 0;
 }
 
@@ -159,6 +164,10 @@ int Peer::processPacket() {
 
 
         switch(packet->service) {
+            // PING
+            case 2: {
+                break;
+                    }
             case 3: {
                 processSIGN_UP(packet);
                 break;

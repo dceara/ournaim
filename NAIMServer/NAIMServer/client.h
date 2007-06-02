@@ -17,7 +17,7 @@ class Client {
 protected:
     ConnectionManager * cMan;                   // reference to it's parent. this is needed to access information about
                                                 // all the other clients
-    Protocol protocol;                          // for protocol usage
+    Protocol protocol;                          // for protocol usage    
 
     std::queue< NAIMpacket * > inputQueue;       // input packet queue
     std::queue< NAIMpacket * > outputQueue;      // output packet queue
@@ -66,6 +66,8 @@ public:
 class Peer : public Client {
     int clientID;                       // the database id of the client it handles. the name might also be needed
     time_t lastActiveTime;              // the time the client was last active.
+    char * clientName;                  // the name of the client that is managed. if it is NULL no client is logged in on this socket
+
 public:
     Peer(ConnectionManager * parent);
     ~Peer();
