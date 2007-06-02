@@ -63,6 +63,32 @@ class ConnectionManager {
      *	Writes a packet from a Clients output to the socket.
      */
     int writeClientOutput(int sock_fd);
+    /* 
+     *  Returns true if the client with clientID is online 
+     */
+    bool isOnline(const std::string * client);
+    /*
+     *  Returns the status of the specified client. If the client is not online it returns NULL. If the client
+     *  has no status it returns "".
+     */
+    const std::string * getStatus(const std::string * client);
+    /*
+     *  Sets the status of a client 
+     */
+    int setStatus(const std::string * client, const std::string * status);
+    /* 
+     *  Ads a client to the online list. 
+     */
+    int clientConnect(Client * clientMan, const std::string * client, const std::string * status);
+    /* 
+     *  Removes a client from the online list. Called when a client disconnects. 
+     */
+    int clientDisconnect(Client * clientMan, const std::string * client);
+    /*
+     *	Sends a packet from sender to receiver by transferring it to the receivers output queue
+     */
+    int transferPacket(const std::string * receiver, NAIMpacket * packet);
+    
     /*
      *	Creates the thread for listening on the console.
      */
@@ -79,28 +105,6 @@ public:
 
     ConnectionManager();
     ~ConnectionManager();
-
-    /* Returns true if the client with clientID is online */
-    bool isOnline(const std::string * client);
-
-    /*
-     *  Returns the status of the specified client. If the client is not online it returns NULL. If the client
-     *  has no status it returns "".
-     */
-    const std::string * getStatus(const std::string * client);
-
-    /* Sets the status of a client */
-    int setStatus(const std::string * client, const std::string * status);
-
-    /* Ads a client to the online list. */
-    int clientConnect(Client * clientMan, const std::string * client, const std::string * status);
-
-    /* Removes a client from the online list. Called when a client disconnects. */
-    int clientDisconnect(Client * clientMan, const std::string * client);
-    /*
-     *	Sends a packet from sender to receiver by transferring it to the receivers output queue
-     */
-    int transfferPacket(const std::string * receiver, NAIMpacket * packet);
 
     /*
      *	Runs the main loop

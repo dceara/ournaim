@@ -165,8 +165,8 @@ int ConnectionManager::writeClientOutput(int sock_fd) {
 /*
  *	Sends a packet from sender to receiver by transferring it to the receivers output queue
  */
-int ConnectionManager::transfferPacket(const string * receiver, NAIMpacket * packet) {
-    clientClients[*receiver]->addOutputPacket(packet);
+int ConnectionManager::transferPacket(const char * receiver, NAIMpacket * packet) {
+    clientClients[string(*receiver)]->addOutputPacket(packet);
     return 0;
 }
 
