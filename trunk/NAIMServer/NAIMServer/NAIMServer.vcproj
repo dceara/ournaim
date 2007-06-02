@@ -201,10 +201,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\server_old.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\utils.cpp"
 				>
 			</File>
