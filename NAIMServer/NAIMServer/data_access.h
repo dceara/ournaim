@@ -55,7 +55,7 @@ public:
     virtual void moveContatct(const char *contactName, const char * clientName, const char * groupName) = 0;
     
     /* Returns details about clientName */
-    virtual ClientDetails getClient(const char * clientName) = 0;
+    virtual ClientDetails * getClient(const char * clientName) = 0;
     
     /* Returns a list with all the clients in the database */
     virtual ClientDetails * getContactsList(ClientDetails *& clients, unsigned int & contactsNo) = 0;
@@ -87,7 +87,7 @@ public:
     void deleteGroup(const char * groupName, const char * clientName);
     void deleteContact(const char * contactName, const char * clientName);
     void moveContatct(const char *contactName, const char * clientName, const char * groupName);
-    ClientDetails getClient(const char * clientName);
+    ClientDetails * getClient(const char * clientName);
     ClientDetails * getContactsList(ClientDetails *& clients, unsigned int & contactsNo);
     GroupDetails * getGroupsList(const char * clientName, GroupDetails *& groups, unsigned int & groupsNo);
     char * getContactsList(const char * clientName, char *& buffer, unsigned int & length);

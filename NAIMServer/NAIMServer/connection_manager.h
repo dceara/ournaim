@@ -45,6 +45,8 @@ class ConnectionManager {
 
     bool quiting;                                           // if this is set to true, the server will close.
 
+    friend class Peer;
+
     /*
      *	Is called when a new connection is created. Creates a new Client to monitor the connection.
      */
@@ -61,10 +63,6 @@ class ConnectionManager {
      *	Writes a packet from a Clients output to the socket.
      */
     int writeClientOutput(int sock_fd);
-    /*
-     *	Sends a packet from sender to receiver by transferring it to the receivers output queue
-     */
-    int transfferPacket(const std::string * receiver, NAIMpacket * packet);
     /*
      *	Creates the thread for listening on the console.
      */
@@ -99,6 +97,10 @@ public:
 
     /* Removes a client from the online list. Called when a client disconnects. */
     int clientDisconnect(Client * clientMan, const std::string * client);
+    /*
+     *	Sends a packet from sender to receiver by transferring it to the receivers output queue
+     */
+    int transfferPacket(const std::string * receiver, NAIMpacket * packet);
 
     /*
      *	Runs the main loop

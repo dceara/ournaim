@@ -94,6 +94,15 @@ NAIMpacket * Protocol::createACK() {
     return temp;
 }
 
+NAIMpacket * Protocol::createNACK() {
+    NAIMpacket * temp = new NAIMpacket();
+    temp->service = NACK;
+    temp->dataSize = 0;
+    temp->data = NULL;
+
+    return temp;
+}
+
 NAIMpacket * Protocol::createCOMMAND(const char * command, unsigned int length) {
     NAIMpacket * temp = new NAIMpacket();
     temp->service = CONNECTION_CLOSED;
@@ -120,15 +129,16 @@ NAIMpacket * Protocol::createCONNECTION_CLOSED() {
  */
 char * Protocol::getSIGN_UPUsername(NAIMpacket * packetSIGN_UP, char * & username, unsigned short & length) {
     username = packetSIGN_UP->data + sizeof(short);
-    length = readUShort(packetSIGN_UP->data);
+    length = ntohs(readUShort(packetSIGN_UP->data));
     return username;
 }
 /*
  *	Returns the password from a SIGN_UP packet.
  */
 char * Protocol::getSIGN_UPPassword(NAIMpacket * packetSIGN_UP, char * & password, unsigned short & length) {
-    password = packetSIGN_UP->data + 2 * sizeof(short) + readUShort(packetSIGN_UP->data);
-    length = readUShort(packetSIGN_UP->data + sizeof(short) + readUShort(packetSIGN_UP->data));
+    unsigned short userLen = ntohs(readUShort(packetSIGN_UP->data));
+    password = packetSIGN_UP->data + 2 * sizeof(short) + userLen;
+    length = ntohs(readUShort(packetSIGN_UP->data + sizeof(short) + userLen));
     return password;
 }
 /*
@@ -136,23 +146,26 @@ char * Protocol::getSIGN_UPPassword(NAIMpacket * packetSIGN_UP, char * & passwor
  */
 char * Protocol::getLOGINUsername(NAIMpacket * packetLOGIN, char * & username, unsigned short & length) {
     username = packetLOGIN->data + sizeof(short);
-    length = readUShort(packetLOGIN->data);
+    length = ntohs(readUShort(packetLOGIN->data));
     return username;
 }
 /*
  *	Returns the password from a LOGIN packet.
  */
 char * Protocol::getLOGINPPassword(NAIMpacket * packetLOGIN, char * & password, unsigned short & length) {
-    password = packetLOGIN->data + 2 * sizeof(short) + readUShort(packetLOGIN->data);
-    length = readUShort(packetLOGIN->data + sizeof(short) + readUShort(packetLOGIN->data));
+    unsigned short userLen = ntohs(readUShort(packetLOGIN->data));
+    password = packetLOGIN->data + 2 * sizeof(short) + userLen;
+    length = readUShort(packetLOGIN->data + sizeof(short) + userLen);
     return password;
 }
 /*
  *	Returns the status from a LOGIN packet.
  */
 char * Protocol::getLOGINPStatus(NAIMpacket * packetLOGIN, char * & status, unsigned short & length) {
-    status = packetLOGIN->data + 3 * sizeof(short) + readUShort(packetLOGIN->data) + readUShort(packetLOGIN->data + sizeof(short) + readUShort(packetLOGIN->data));
-    length = 2 * sizeof(short) + readUShort(packetLOGIN->data) + readUShort(packetLOGIN->data + sizeof(short) + readUShort(packetLOGIN->data));
+    unsigned short userLen = ntohs(readUShort(packetLOGIN->data));
+    unsigned short passLen = ntohs(readUShort(packetLOGIN->data + sizeof(short) + userLen));
+    status = packetLOGIN->data + 3 * sizeof(short) + userLen + passLen;
+    length = ntohs(readUShort(packetLOGIN->data + 2 * sizeof(short) + userLen + passLen));
     return status;
 }
 /*
@@ -160,15 +173,16 @@ char * Protocol::getLOGINPStatus(NAIMpacket * packetLOGIN, char * & status, unsi
  */
 char * Protocol::getTEXTSender(NAIMpacket * packetTEXT, char * & sender, unsigned short & length) {
     sender = packetTEXT->data + sizeof(short);
-    length = readUShort(packetTEXT->data);
+    length = ntohs(readUShort(packetTEXT->data));
     return sender;
 }
 /*
  *	Returns the receiver from a TEXT packet.
  */
 char * Protocol::getTEXTReceiver(NAIMpacket * packetTEXT, char * & receiver, unsigned short & length) {
+    unsigned short senderLen = ntohs(readUShort(packetTEXT->data));
     receiver = packetTEXT->data + 2 * sizeof(short) + readUShort(packetTEXT->data);
-    length = readUShort(packetTEXT->data + sizeof(short) + readUShort(packetTEXT->data));
+    length = ntohs(readUShort(packetTEXT->data + sizeof(short) + senderLen));
     return receiver;
 }
 /*
@@ -176,15 +190,16 @@ char * Protocol::getTEXTReceiver(NAIMpacket * packetTEXT, char * & receiver, uns
  */
 char * Protocol::getCONNECTION_REQSender(NAIMpacket * packetCONNECTION_REQ, char * & sender, unsigned short & length) {
     sender = packetCONNECTION_REQ->data + sizeof(short);
-    length = readUShort(packetCONNECTION_REQ->data);
+    length = ntohs(readUShort(packetCONNECTION_REQ->data));
     return sender;
 }
 /*
  *	Returns the receiver from a CONNECTION_DATA packet.
  */
 char * Protocol::getCONNECTION_REQReceiver(NAIMpacket * packetCONNECTION_REQ, char * & receiver, unsigned short & length) {
-    receiver = packetCONNECTION_REQ->data + 2 * sizeof(short) + readUShort(packetCONNECTION_REQ->data);
-    length = readUShort(packetCONNECTION_REQ->data + sizeof(short) + readUShort(packetCONNECTION_REQ->data));
+    unsigned short senderLen = ntohs(readUShort(packetCONNECTION_REQ->data));
+    receiver = packetCONNECTION_REQ->data + 2 * sizeof(short) + senderLen;
+    length = ntohs(readUShort(packetCONNECTION_REQ->data + sizeof(short) + senderLen));
     return receiver;
 }
 /*
@@ -192,14 +207,15 @@ char * Protocol::getCONNECTION_REQReceiver(NAIMpacket * packetCONNECTION_REQ, ch
  */
 char * Protocol::getCONNECTION_DATASender(NAIMpacket * packetCONNECTION_DATA, char * & sender, unsigned short & length) {
     sender = packetCONNECTION_DATA->data + sizeof(short);
-    length = readUShort(packetCONNECTION_DATA->data);
+    length = ntohs(readUShort(packetCONNECTION_DATA->data));
     return sender;
 }
 /*
  *	Returns the receiver from a CONNECTION_DATA packet.
  */
 char * Protocol::getCONNECTION_DATAReceiver(NAIMpacket * packetCONNECTION_DATA, char * & receiver, unsigned short & length) {
-    receiver = packetCONNECTION_DATA->data + 2 * sizeof(short) + readUShort(packetCONNECTION_DATA->data);
-    length = readUShort(packetCONNECTION_DATA->data + sizeof(short) + readUShort(packetCONNECTION_DATA->data));
+    unsigned short senderLen = ntohs(readUShort(packetCONNECTION_DATA->data));
+    receiver = packetCONNECTION_DATA->data + 2 * sizeof(short) + senderLen;
+    length = ntohs(readUShort(packetCONNECTION_DATA->data + sizeof(short) + senderLen));
     return receiver;
 }

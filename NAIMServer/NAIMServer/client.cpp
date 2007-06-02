@@ -93,32 +93,63 @@ Peer::~Peer() {
  *	SIGN_UP
  */
 int Peer::processSIGN_UP(NAIMpacket * packet) {
+    // TODO: find a solution for building the string. This is very ugly and inefficient :P
     char * username, * password;
-    int length;
+    char bufferu[250], bufferp[250];
+    unsigned short int length;
     Protocol::getSIGN_UPUsername(packet, username, length);
+    memcpy(bufferu, username, length);
+    bufferu[length] = '\0';
+    if (cMan->queryExecuter.isClient(bufferu)) {
+        NAIMpacket * packet = Protocol::createNACK();
+        addOutputPacket(packet);
+        return 0;
+    }
+    else {
+        Protocol::getSIGN_UPPassword(packet, password, length);
+        memcpy(bufferp, password, length);
+        bufferp[length] = '\0';
+
+        cMan->queryExecuter.addClient(bufferu, bufferp);
+        cMan->queryExecuter.addGroup("Friends", bufferu);
+
+        
+
+        NAIMpacket * packet = Protocol::createACK();
+        addOutputPacket(packet);
+        return 0;
+    }
 }
 
 /*
  *	LOGIN
  */
-int Peer::processLOGIN(NAIMpacket * packet);
+int Peer::processLOGIN(NAIMpacket * packet) {
+    return 0;
+}
 
 /*
  *	TEXT
  */
 int Peer::processTEXT(NAIMpacket * packet) {
+    
 
+    return 0;
 }
 
 /*
  *	CONNECTION_REQ
  */
-int Peer::processCONNECTION_REQ(NAIMpacket * packet);
+int Peer::processCONNECTION_REQ(NAIMpacket * packet) {
+    return 0;
+}
 
 /*
  *	CONNECTION_DATA
  */
-int Peer::processCONNECTIONDATA(NAIMpacket * packet);
+int Peer::processCONNECTIONDATA(NAIMpacket * packet) {
+    return 0;
+}
 
 int Peer::processPacket() {
     if (inputQueue.size() > 0) {
