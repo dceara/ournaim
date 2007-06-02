@@ -30,6 +30,8 @@ enum Services {
     FILE_TRANSFER_SEND  = 13,
     FILE_TRANSFER_GET   = 14,
     FILE_LIST           = 15,
+    ADD_CONTACT         = 16,
+    REMOVE_CONTACT      = 17,
 
     // internal
     

@@ -73,7 +73,10 @@ int ConnectionManager::clientConnect(Client * clientMan, const char * client, co
 int ConnectionManager::clientDisconnect(Client * clientMan, const string * client) {
     onlineClients.erase(*client);
     clientClients.erase(*client);
-    clientsSet.erase(clientMan);
+    
+    set< Client * >::iterator it = clientsSet.find(clientMan);
+    delete *it;
+    clientsSet.erase(it);
     return 0;
 }
 

@@ -130,7 +130,7 @@ NAIMpacket * Protocol::createCONNECTION_CLOSED() {
 char * Protocol::getSIGN_UPUsername(NAIMpacket * packetSIGN_UP, char * & username) {
     unsigned short length = ntohs(readUShort(packetSIGN_UP->data));
     username = new char[length + 1];
-    memcpy(username, packetSIGN_UP + sizeof(short), length);
+    memcpy(username, packetSIGN_UP->data + sizeof(short), length);
     username[length] = '\0';
     return username;
 }
@@ -194,7 +194,7 @@ char * Protocol::getTEXTSender(NAIMpacket * packetTEXT, char * & sender) {
 char * Protocol::getTEXTReceiver(NAIMpacket * packetTEXT, char * & receiver) {
     unsigned short senderLen = ntohs(readUShort(packetTEXT->data));
     unsigned short length = ntohs(readUShort(packetTEXT->data + sizeof(short) + senderLen));
-    receiver = new char[length];
+    receiver = new char[length + 1];
     memcpy(receiver, packetTEXT->data + 2 * sizeof(short) + senderLen, length);
     receiver[length] = '\0';
     return receiver;

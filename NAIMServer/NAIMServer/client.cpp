@@ -2,6 +2,9 @@
 #include "connection_manager.h"
 #include "protocol.h"
 
+#include <cstring>
+#include <ctime>
+
 using namespace std;
 
 /*
@@ -83,10 +86,13 @@ int Console::processPacket() {
 
 Peer::Peer(ConnectionManager * parent) : Client(parent) {
     outputQueue.push(protocol.createACK());
+    clientName = NULL;
 }
 
 Peer::~Peer() {
-
+    if (clientName != NULL) {
+        delete clientName;
+    }
 }
 
 /*
@@ -100,13 +106,15 @@ int Peer::processSIGN_UP(NAIMpacket * packet) {
         addOutputPacket(packet);
     }
     else {
-        // TODO: Send contacts list.
+        // TODO: Send contacts list. Check if there is no client already logged in on this socket
         Protocol::getSIGN_UPPassword(packet, password);
 
         cMan->queryExecuter.addClient(username, password);
         cMan->queryExecuter.addGroup("Friends", username);
+        delete password;
 
-        
+        clientName = new char[strlen(username) + 1];
+        strcpy(clientName, username);
         cMan->clientConnect(this, username, AVAILABLE);        
 
         NAIMpacket * packet = Protocol::createACK();
@@ -114,7 +122,8 @@ int Peer::processSIGN_UP(NAIMpacket * packet) {
     }
 
     delete username;
-    delete password;
+    delete packet->data;
+    delete packet;
     return 0;
 }
 
@@ -129,6 +138,7 @@ int Peer::processLOGIN(NAIMpacket * packet) {
  *	TEXT
  */
 int Peer::processTEXT(NAIMpacket * packet) {
+    // TODO: check the sender
     char * receiver;
     Protocol::getTEXTReceiver(packet, receiver);
 
@@ -167,34 +177,36 @@ int Peer::processPacket() {
         switch(packet->service) {
             // PING
             case 2: {
-                //lastActiveTime = 
+                time(&lastActiveTime);
                 break;
                     }
             case 3: {
+                time(&lastActiveTime);
                 processSIGN_UP(packet);
                 break;
                     }
             case 4: {
+                time(&lastActiveTime);
                 processLOGIN(packet);
                 break;
                     }
             case 6: {
+                time(&lastActiveTime);
                 processTEXT(packet);
                 break;
                     }
             case 10: {
+                time(&lastActiveTime);
                 processCONNECTION_REQ(packet);
                 break;
                     }
             case 11: {
+                time(&lastActiveTime);
                 processCONNECTIONDATA(packet);
                 break;
                     }
         }
 
-
-        delete packet->data;
-        delete packet;
         inputQueue.pop();
     } 
     return 0;
