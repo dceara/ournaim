@@ -106,7 +106,8 @@ int Peer::processSIGN_UP(NAIMpacket * packet) {
         cMan->queryExecuter.addClient(username, password);
         cMan->queryExecuter.addGroup("Friends", username);
 
-        cMan->clientConnect(this, username, AVAILABLE);
+        
+        cMan->clientConnect(this, username, AVAILABLE);        
 
         NAIMpacket * packet = Protocol::createACK();
         addOutputPacket(packet);
@@ -166,6 +167,7 @@ int Peer::processPacket() {
         switch(packet->service) {
             // PING
             case 2: {
+                //lastActiveTime = 
                 break;
                     }
             case 3: {

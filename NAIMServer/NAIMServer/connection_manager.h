@@ -79,7 +79,7 @@ class ConnectionManager {
     /* 
      *  Ads a client to the online list. 
      */
-    int clientConnect(Client * clientMan, const std::string * client, const std::string * status);
+    int clientConnect(Client * clientMan, const char * client, const char * status);
     /* 
      *  Removes a client from the online list. Called when a client disconnects. 
      */
@@ -87,7 +87,7 @@ class ConnectionManager {
     /*
      *	Sends a packet from sender to receiver by transferring it to the receivers output queue
      */
-    int transferPacket(const std::string * receiver, NAIMpacket * packet);
+    int transferPacket(const char * receiver, NAIMpacket * packet);
     
     /*
      *	Creates the thread for listening on the console.

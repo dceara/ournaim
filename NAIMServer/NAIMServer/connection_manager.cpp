@@ -65,8 +65,8 @@ int ConnectionManager::setStatus(const string * client, const string * status) {
 }
 
 int ConnectionManager::clientConnect(Client * clientMan, const char * client, const char * status) {
-    onlineClients.insert(pair< string, string >(string(*client), string(*status)));
-    clientClients.insert(pair< string, Client * >(string(*client), clientMan));
+    onlineClients.insert(pair< string, string >(string(client), string(status)));
+    clientClients.insert(pair< string, Client * >(string(client), clientMan));
     return 0;
 }
 
@@ -166,7 +166,7 @@ int ConnectionManager::writeClientOutput(int sock_fd) {
  *	Sends a packet from sender to receiver by transferring it to the receivers output queue
  */
 int ConnectionManager::transferPacket(const char * receiver, NAIMpacket * packet) {
-    clientClients[string(*receiver)]->addOutputPacket(packet);
+    clientClients[string(receiver)]->addOutputPacket(packet);
     return 0;
 }
 
