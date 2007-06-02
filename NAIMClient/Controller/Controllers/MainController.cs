@@ -423,7 +423,7 @@ namespace Controllers
             IPHostEntry hostEntry = null;
 
             hostEntry = Dns.GetHostEntry("localhost");
-            port = 10000;
+            port = 18005;
 
             if (hostEntry.AddressList.Length <= 0)
             {
