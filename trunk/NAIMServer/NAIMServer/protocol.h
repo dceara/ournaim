@@ -78,6 +78,8 @@ public:
 
     static NAIMpacket * createACK();
 
+    static NAIMpacket * createNACK();
+
     static NAIMpacket * createCOMMAND(const char * command, unsigned int length);
 
     static NAIMpacket * createCONNECTION_CLOSED();
