@@ -25,7 +25,14 @@ namespace Controllers
 
         public void ReceiveServerMessage(Message message)
         {
-            throw new Exception("The method or operation is not implemented.");
+            switch (message.Header.ServiceType)
+            {
+                case Common.ServiceTypes.CONNECTION_DATA:
+                    break;
+                case Common.ServiceTypes.CONNECTION_REQ:
+                    break;
+            }
+            //throw new Exception("The method or operation is not implemented.");
         }
 
         public void ReceiveTextMessage(TextMessageData messageData)
@@ -38,12 +45,13 @@ namespace Controllers
         /// <summary>
         /// This creates a new thread where the file will be transfered
         /// </summary>
-        private void StartPeer2PeerReceiver(string filename, ConnectionDetails connectionDetails)
+        private void StartPeer2PeerReceiver(string filename, string senderUserName)
         {
+
             throw new System.NotImplementedException();
         }
 
-        private void StartPeer2PeerSender(string filename, ConnectionDetails connectionDetails)
+        private void StartPeer2PeerSender(string filename, string receiverUserName)
         {
             throw new System.NotImplementedException();
         }
