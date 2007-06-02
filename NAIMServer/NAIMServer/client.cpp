@@ -93,27 +93,19 @@ Peer::~Peer() {
  *	SIGN_UP
  */
 int Peer::processSIGN_UP(NAIMpacket * packet) {
-    // TODO: find a solution for building the string. This is very ugly and inefficient :P
+    // TODO: delete username and password
     char * username, * password;
-    char bufferu[250], bufferp[250];
-    unsigned short int length;
-    Protocol::getSIGN_UPUsername(packet, username, length);
-    memcpy(bufferu, username, length);
-    bufferu[length] = '\0';
-    if (cMan->queryExecuter.isClient(bufferu)) {
+    Protocol::getSIGN_UPUsername(packet, username);
+    if (cMan->queryExecuter.isClient(username)) {
         NAIMpacket * packet = Protocol::createNACK();
         addOutputPacket(packet);
         return 0;
     }
     else {
-        Protocol::getSIGN_UPPassword(packet, password, length);
-        memcpy(bufferp, password, length);
-        bufferp[length] = '\0';
+        Protocol::getSIGN_UPPassword(packet, password);
 
-        cMan->queryExecuter.addClient(bufferu, bufferp);
-        cMan->queryExecuter.addGroup("Friends", bufferu);
-
-        
+        cMan->queryExecuter.addClient(username, password);
+        cMan->queryExecuter.addGroup("Friends", username);
 
         NAIMpacket * packet = Protocol::createACK();
         addOutputPacket(packet);
@@ -132,7 +124,10 @@ int Peer::processLOGIN(NAIMpacket * packet) {
  *	TEXT
  */
 int Peer::processTEXT(NAIMpacket * packet) {
-    
+    char * receiver;
+    Protocol::getTEXTReceiver(packet, receiver);
+
+    cMan->transferPacket(receiver, packet);
 
     return 0;
 }
