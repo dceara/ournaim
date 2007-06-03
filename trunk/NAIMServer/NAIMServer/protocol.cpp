@@ -128,9 +128,9 @@ NAIMpacket * Protocol::createCONNECTION_CLOSED() {
  *	Returns the username from a SIGN_UP packet. Returns a pointer into the packet data.
  */
 char * Protocol::getSIGN_UPUsername(NAIMpacket * packetSIGN_UP, char * & username) {
-    unsigned short length = ntohs(readUShort(packetSIGN_UP->data));
+    unsigned char length = (unsigned char)packetSIGN_UP->data;
     username = new char[length + 1];
-    memcpy(username, packetSIGN_UP->data + sizeof(short), length);
+    memcpy(username, packetSIGN_UP->data + sizeof(char), length);
     username[length] = '\0';
     return username;
 }
@@ -138,8 +138,8 @@ char * Protocol::getSIGN_UPUsername(NAIMpacket * packetSIGN_UP, char * & usernam
  *	Returns the password from a SIGN_UP packet.
  */
 char * Protocol::getSIGN_UPPassword(NAIMpacket * packetSIGN_UP, char * & password) {
-    unsigned short userLen = ntohs(readUShort(packetSIGN_UP->data));
-    unsigned short length = ntohs(readUShort(packetSIGN_UP->data + sizeof(short) + userLen));
+    unsigned char userLen = (unsigned char)packetSIGN_UP->data;
+    unsigned char length = (unsigned char)(packetSIGN_UP->data + sizeof(char) + userLen);
     password = new char[length + 1];
     memcpy(password, packetSIGN_UP->data + 2 * sizeof(short) + userLen, length);
     password[length] = '\0';
@@ -149,7 +149,7 @@ char * Protocol::getSIGN_UPPassword(NAIMpacket * packetSIGN_UP, char * & passwor
  *	Returns the username from a LOGIN packet.
  */
 char * Protocol::getLOGINUsername(NAIMpacket * packetLOGIN, char * & username) {
-    unsigned short length = ntohs(readUShort(packetLOGIN->data));
+    unsigned char length = (unsigned char)packetLOGIN->data;
     username = new char[length + 1];
     memcpy(username, packetLOGIN->data + sizeof(short), length);
     username[length] = '\0';
@@ -159,8 +159,8 @@ char * Protocol::getLOGINUsername(NAIMpacket * packetLOGIN, char * & username) {
  *	Returns the password from a LOGIN packet.
  */
 char * Protocol::getLOGINPPassword(NAIMpacket * packetLOGIN, char * & password) {
-    unsigned short userLen = ntohs(readUShort(packetLOGIN->data));
-    unsigned short length = readUShort(packetLOGIN->data + sizeof(short) + userLen);
+    unsigned char userLen = (unsigned char)packetLOGIN->data;
+    unsigned char length = (unsigned char)(packetLOGIN->data + sizeof(char) + userLen);
     password = new char[length + 1];
     memcpy(password, packetLOGIN->data + 2 * sizeof(short) + userLen, length);
     password[length] = '\0';
@@ -170,9 +170,9 @@ char * Protocol::getLOGINPPassword(NAIMpacket * packetLOGIN, char * & password) 
  *	Returns the status from a LOGIN packet.
  */
 char * Protocol::getLOGINPStatus(NAIMpacket * packetLOGIN, char * & status) {
-    unsigned short userLen = ntohs(readUShort(packetLOGIN->data));
-    unsigned short passLen = ntohs(readUShort(packetLOGIN->data + sizeof(short) + userLen));
-    unsigned short length = ntohs(readUShort(packetLOGIN->data + 2 * sizeof(short) + userLen + passLen));
+    unsigned char userLen = (unsigned char)packetLOGIN->data;
+    unsigned char passLen = (unsigned char)(packetLOGIN->data + sizeof(char) + userLen);
+    unsigned char length = (unsigned char)(packetLOGIN->data + 2 * sizeof(char) + userLen + passLen);
     status = new char[length + 1];
     memcpy(status, packetLOGIN->data + 3 * sizeof(short) + userLen + passLen, length);
     status[length] = '\0';
@@ -182,7 +182,7 @@ char * Protocol::getLOGINPStatus(NAIMpacket * packetLOGIN, char * & status) {
  *	Returns the sender from a TEXT packet.
  */
 char * Protocol::getTEXTSender(NAIMpacket * packetTEXT, char * & sender) {
-    unsigned short length = ntohs(readUShort(packetTEXT->data));
+    unsigned char length = (unsigned char)packetTEXT->data;
     sender = new char[length + 1];
     memcpy(sender, packetTEXT->data + sizeof(short), length);
     sender[length] = '\0';
@@ -192,8 +192,8 @@ char * Protocol::getTEXTSender(NAIMpacket * packetTEXT, char * & sender) {
  *	Returns the receiver from a TEXT packet.
  */
 char * Protocol::getTEXTReceiver(NAIMpacket * packetTEXT, char * & receiver) {
-    unsigned short senderLen = ntohs(readUShort(packetTEXT->data));
-    unsigned short length = ntohs(readUShort(packetTEXT->data + sizeof(short) + senderLen));
+    unsigned char senderLen = (unsigned char)packetTEXT->data;
+    unsigned char length = (unsigned char)(packetTEXT->data + sizeof(char) + senderLen);
     receiver = new char[length + 1];
     memcpy(receiver, packetTEXT->data + 2 * sizeof(short) + senderLen, length);
     receiver[length] = '\0';
@@ -203,7 +203,7 @@ char * Protocol::getTEXTReceiver(NAIMpacket * packetTEXT, char * & receiver) {
  *	Returns the sender from a CONNECTION_REQ packet.
  */
 char * Protocol::getCONNECTION_REQSender(NAIMpacket * packetCONNECTION_REQ, char * & sender) {
-    unsigned short length = ntohs(readUShort(packetCONNECTION_REQ->data));
+    unsigned char length = (unsigned char)packetCONNECTION_REQ->data;
     sender = new char[length + 1];
     memcpy(sender, packetCONNECTION_REQ->data + sizeof(short), length);
     sender[length] = '\0';
@@ -213,8 +213,8 @@ char * Protocol::getCONNECTION_REQSender(NAIMpacket * packetCONNECTION_REQ, char
  *	Returns the receiver from a CONNECTION_DATA packet.
  */
 char * Protocol::getCONNECTION_REQReceiver(NAIMpacket * packetCONNECTION_REQ, char * & receiver) {
-    unsigned short senderLen = ntohs(readUShort(packetCONNECTION_REQ->data));
-    unsigned short length = ntohs(readUShort(packetCONNECTION_REQ->data + sizeof(short) + senderLen));
+    unsigned char senderLen = (unsigned char)packetCONNECTION_REQ->data;
+    unsigned char length = (unsigned char)(packetCONNECTION_REQ->data + sizeof(char) + senderLen);
     receiver = new char[length];
     memcpy(receiver, packetCONNECTION_REQ->data + 2 * sizeof(short) + senderLen, length);
     receiver[length] = '\0';
@@ -224,7 +224,7 @@ char * Protocol::getCONNECTION_REQReceiver(NAIMpacket * packetCONNECTION_REQ, ch
  *	Returns the sender from a CONNECTION_REQ packet.
  */
 char * Protocol::getCONNECTION_DATASender(NAIMpacket * packetCONNECTION_DATA, char * & sender) {
-    unsigned short length = ntohs(readUShort(packetCONNECTION_DATA->data));
+    unsigned char length = (unsigned char)packetCONNECTION_DATA->data;
     sender = new char[length + 1];
     memcpy(sender, packetCONNECTION_DATA->data + sizeof(short), length);
     sender[length] = '\0';
@@ -234,8 +234,8 @@ char * Protocol::getCONNECTION_DATASender(NAIMpacket * packetCONNECTION_DATA, ch
  *	Returns the receiver from a CONNECTION_DATA packet.
  */
 char * Protocol::getCONNECTION_DATAReceiver(NAIMpacket * packetCONNECTION_DATA, char * & receiver) {
-    unsigned short senderLen = ntohs(readUShort(packetCONNECTION_DATA->data));
-    unsigned short length = ntohs(readUShort(packetCONNECTION_DATA->data + sizeof(short) + senderLen));
+    unsigned char senderLen = (unsigned char)packetCONNECTION_DATA->data;
+    unsigned char length = (unsigned char)(packetCONNECTION_DATA->data + sizeof(char) + senderLen);
     receiver = new char[length];
     memcpy(receiver, packetCONNECTION_DATA->data + 2 * sizeof(short) + senderLen, length);
     receiver[length] = '\0'; 
