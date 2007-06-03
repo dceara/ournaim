@@ -6,7 +6,7 @@ using Common.Protocol;
 namespace Common.ProtocolEntities
 {
    
-    class RemoveContactMessageData : AMessageData
+    public class RemoveContactMessageData : AMessageData
     {
         private string _userName;
 

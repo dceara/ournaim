@@ -16,6 +16,11 @@ namespace Common.Interfaces
 
         event CancelFileTransferEventHandler CancelFileTransferEvent;
 
+        string CurrentUserName
+        {
+            set;
+        }
+
         void OnSendMessageEvent(string message);
 
         void AddMessage(string message);

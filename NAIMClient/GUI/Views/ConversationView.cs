@@ -35,7 +35,7 @@ namespace GUI
 
         public void AddMessage(string message)
         {
-            throw new Exception("The method or operation is not implemented.");
+            this.txtMessageList.Text = txtMessageList.Text + "\n" + this.Text + ": " + message;
         }
 
         public void Initialise(string caption)
@@ -70,6 +70,16 @@ namespace GUI
             this.cancelCloseEvent = true;
             this.Close();
         }
+
+        private string currentUserName;
+        public string CurrentUserName
+        {
+            set
+            {
+                currentUserName = value;
+            }
+        }
+        
         #endregion
 
         #region GUI Event Handlers
@@ -82,6 +92,7 @@ namespace GUI
         private void btnSend_Click(object sender, EventArgs e)
         {
             string message = this.txtMessage.Text;
+            this.txtMessageList.Text = txtMessageList.Text + "\n" + this.currentUserName + ": " + message;
             OnSendMessageEvent(message);
         }
         #endregion

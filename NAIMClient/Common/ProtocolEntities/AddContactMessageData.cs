@@ -5,7 +5,7 @@ using Common.Protocol;
 
 namespace Common.ProtocolEntities
 {
-    class AddContactMessageData: AMessageData
+    public class AddContactMessageData: AMessageData
     {
         private string _userName;
 
