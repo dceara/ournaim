@@ -43,7 +43,7 @@ namespace GUI
 
         public void ShowView()
         {
-            this.Show();
+            this.ShowDialog();
         }
         public void CloseView()
         {
