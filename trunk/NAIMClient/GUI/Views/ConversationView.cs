@@ -78,8 +78,13 @@ namespace GUI
         {
             OnCloseEvent();
         }
-        #endregion
 
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+            string message = this.txtMessage.Text;
+            OnSendMessageEvent(message);
+        }
+        #endregion
        
     }
 }

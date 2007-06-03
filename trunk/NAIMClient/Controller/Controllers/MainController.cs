@@ -61,6 +61,10 @@ namespace Controllers
             set { port = value; }
         }
 
+        private string currentUserName;
+
+        private string currentPassword;
+
 
         public IMainView MainView
         {
@@ -135,7 +139,8 @@ namespace Controllers
         public void InitialiseConversation(string userName,IConversationView conversationView)
         {
             ConversationController newConversationController = new ConversationController();
-            newConversationController.Name = userName;
+            newConversationController.ReceiverName = userName;
+            newConversationController.CurrentClientName = this.currentUserName;
             newConversationController.SendServerMessageEvent += new SendServerMessageEventHandler(newConversationController_SendServerMessageEvent);
             newConversationController.DisposeConversationControllerEvent += new DisposeConversationController(newConversationController_DisposeConversationControllerEvent);
             newConversationController.InitialiseView(conversationView);
@@ -275,6 +280,9 @@ namespace Controllers
 
         void mainView_LoginEvent(string userName, string password)
         {
+            this.currentUserName = userName;
+            this.currentPassword = password;
+
             EmptyCurrentStateOutputBuffer();
 
             mainView.AfterSignIn();
@@ -320,7 +328,8 @@ namespace Controllers
         #region ConversationControllers Event Handlers
         void newConversationController_SendServerMessageEvent(Common.Protocol.Message message)
         {
-            throw new Exception("The method or operation is not implemented.");
+            this.outputMessageQueue.Add(message);
+            //throw new Exception("The method or operation is not implemented.");
         }
 
         void newConversationController_DisposeConversationControllerEvent(string name)
