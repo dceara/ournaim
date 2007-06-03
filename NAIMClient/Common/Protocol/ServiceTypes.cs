@@ -23,7 +23,10 @@ namespace Common
         FILE_LIST_GET = 15,
         ADD_CONTACT = 16,
         REMOVE_CONTACT = 17,
-         
-
+    }
+    public static class DefaultStatuses
+    {
+        public const string AVAILABLE = "Available";
+        public const string INVISIBLE = "Invisible";
     }
 }
