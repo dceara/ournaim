@@ -4,6 +4,7 @@ using System.Text;
 using Common.Interfaces;
 using Common.Protocol;
 using Common.ProtocolEntities;
+using Common;
 
 namespace Controller.StateObjects
 {
@@ -54,7 +55,7 @@ namespace Controller.StateObjects
 
         void mainView_LoginEvent(string userName, string password)
         {
-            AMessageData loginMessageData = new LoginMessageData(userName, password);
+            AMessageData loginMessageData = new LoginMessageData(userName, password, DefaultStatuses.AVAILABLE );
             Message message = new Message(new MessageHeader(Common.ServiceTypes.LOGIN), loginMessageData);
 
             _outputMessagesList.Add(message);
