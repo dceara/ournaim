@@ -33,7 +33,11 @@ namespace Common.ProtocolEntities
 
         public override byte[] Serialize()
         {
-            return AMessageData.ToByteArray(_userName);
+            byte[] toReturn = new byte[_userName + 1];
+            toReturn[0] = (byte)_userName.Length;
+            byte[] uname = AMessageData.ToByteArray(_userName);
+            Array.Copy(uname,0,toReturn,1,uname.Length);
+            return toReturn;
         }
     }
 }
