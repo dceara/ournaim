@@ -66,6 +66,7 @@ namespace Controllers
         {
             this.conversationView = view;
             view.Initialise(this.receiverName);
+            view.CurrentUserName = currentClientName;
             conversationView.CancelFileTransferEvent += new CancelFileTransferEventHandler(conversationView_CancelFileTransferEvent);
             conversationView.CloseEvent += new CloseEventDelegate(conversationView_CloseEvent);
             conversationView.SendMessageEvent += new SendMessageDelegate(conversationView_SendMessageEvent);

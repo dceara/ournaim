@@ -204,24 +204,36 @@ namespace Controllers
         }
 
         #region MainView Event Handlers
-        void mainView_ChangeStatusEvent(string eventArgs)
+        void mainView_ChangeStatusEvent(string status)
         {
-            //throw new Exception("The method or operation is not implemented.");
-            mainView.ChangeStatus(eventArgs);
+            AMessageData messageData = new LoginMessageData(this.currentUserName, this.currentPassword, status);
+            Common.Protocol.Message changeStatusMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.LOGIN), messageData);
+            this.outputMessageQueue.Add(changeStatusMessage);
+            mainView.ChangeStatus(status);
         }
 
-        void mainView_ChangeContactGroupEvent(string username, string newgroup)
+        void mainView_ChangeContactGroupEvent(string contact, string newgroup)
         {
-            throw new Exception("The method or operation is not implemented.");
+            AMessageData messageData = new AddContactMessageData(this.currentUserName, newgroup, contact);
+            Common.Protocol.Message changeContactGroupMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.ADD_CONTACT), messageData);
+            outputMessageQueue.Add(changeContactGroupMessage);
+#warning to change user group in GUI too
         }
 
         void mainView_AddContactEvent(string uname, string group)
         {
-            throw new Exception("The method or operation is not implemented.");
+            AMessageData messageData = new AddContactMessageData(this.currentUserName, group, uname);
+            Common.Protocol.Message addContactMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.ADD_CONTACT), messageData);
+            this.outputMessageQueue.Add(addContactMessage);
+#warning to add user in group in GUI too
+
         }
         void mainView_RemoveContactEvent(string username)
         {
-            throw new Exception("The method or operation is not implemented.");
+            AMessageData messageData = new RemoveContactMessageData(this.currentUserName, username);
+            Common.Protocol.Message removeContactMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.REMOVE_CONTACT), messageData);
+            this.outputMessageQueue.Add(removeContactMessage);
+#warning to remove user from GUI too
         }
 
         void mainView_OpenFileTransferViewEvent()
