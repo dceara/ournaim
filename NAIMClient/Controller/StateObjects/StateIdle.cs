@@ -21,6 +21,22 @@ namespace Controller.StateObjects
             _transitionsTable.Add(Common.ServiceTypes.CONNECTION_REQ, typeof(StateIdle));
         }
 
+        private IDictionary<string, IList<UserListEntry>> _contactsByGroups;
+            
+        public IDictionary<string,IList<UserListEntry> > ContactsByGroups
+        {
+            get { return _contactsByGroups; }
+            set { _contactsByGroups = value; }
+        }
+
+        private IDictionary<string, UserListEntry> _onlineContacts;
+
+        public IDictionary<string, UserListEntry> OnlineContacts
+        {
+            get { return _onlineContacts; }
+            set { _onlineContacts = value; }
+        }
+
         public override AState AnalyzeMessage(Common.Protocol.Message message)
         {
             AMessageData messageData = Message.GetMessageData(message);
@@ -35,11 +51,27 @@ namespace Controller.StateObjects
                     break;
                 case Common.ServiceTypes.USER_CONNECTED:
                     UserConnectedMessageData userConnectedData = (UserConnectedMessageData)messageData;
-                    _mainView.ClientOnline(userConnectedData.UserName, userConnectedData.Status);
+                    UserListEntry contact = _onlineContacts[userConnectedData.UserName];
+                    if (contact == null)
+                    {
+                        string groupName = GetGroupName(userConnectedData.UserName);
+                        _mainView.ClientOnline(userConnectedData.UserName, userConnectedData.Status);
+                        _onlineContacts.Add(userConnectedData.UserName, new UserListEntry(userConnectedData.UserName, userConnectedData.Status));
+                    }
+                    else
+                    {
+                        _mainView.ChangeClientStatus(userConnectedData.UserName, userConnectedData.Status);
+                        UserListEntry user = _onlineContacts[userConnectedData.UserName];
+                        if (user != null)
+                        {
+                            user.Status = userConnectedData.Status;
+                        }
+                    }
                     break;
                 case Common.ServiceTypes.USER_DISCONNECTED:
                     UserDisconnectedMessageData userDisconenctedData = (UserDisconnectedMessageData)messageData;
                     _mainView.ClientOffline(userDisconenctedData.UserName);
+                    _onlineContacts.Remove(userDisconenctedData.UserName);
                     break;
                 case Common.ServiceTypes.CONNECTION_DATA:
                     RedirectMessageToConversationController(message,((ConnectionDataMessageData)messageData).Sender);
@@ -49,6 +81,26 @@ namespace Controller.StateObjects
                     break;
             }
             return this;
+        }
+
+        private string GetGroupName(string username)
+        {
+            foreach (KeyValuePair<string, IList<UserListEntry>> entry in _contactsByGroups)
+            {
+                IList<UserListEntry> list = entry.Value;
+                bool found = false;
+                foreach (UserListEntry user in list)
+                {
+                    if (user.UserName == username)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found)
+                    return entry.Key;
+            }
+            throw new Exception("User isn't in my contacts list!");
         }
 
         
