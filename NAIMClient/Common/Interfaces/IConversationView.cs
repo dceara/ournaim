@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Common.Interfaces
 {
-    public delegate void SendMessageDelegate(object eventArgs);
+    public delegate void SendMessageDelegate(string message);
 
     public interface IConversationView
     {

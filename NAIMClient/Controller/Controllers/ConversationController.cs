@@ -10,7 +10,8 @@ namespace Controllers
     class ConversationController : IConversationController
     {
         private IConversationView conversationView;
-        private string name;
+        private string receiverName;
+        private string currentClientName;
         #region IConversationController Members
 
         public event SendServerMessageEventHandler SendServerMessageEvent;
@@ -28,8 +29,10 @@ namespace Controllers
             switch (message.Header.ServiceType)
             {
                 case Common.ServiceTypes.CONNECTION_DATA:
+#warning not implemented yet
                     break;
                 case Common.ServiceTypes.CONNECTION_REQ:
+#warning not implemented yet
                     break;
             }
             //throw new Exception("The method or operation is not implemented.");
@@ -62,21 +65,35 @@ namespace Controllers
         public void InitialiseView(IConversationView view)
         {
             this.conversationView = view;
-            view.Initialise(this.name);
+            view.Initialise(this.receiverName);
             conversationView.CancelFileTransferEvent += new CancelFileTransferEventHandler(conversationView_CancelFileTransferEvent);
             conversationView.CloseEvent += new CloseEventDelegate(conversationView_CloseEvent);
+            conversationView.SendMessageEvent += new SendMessageDelegate(conversationView_SendMessageEvent);
+            conversationView.StartFileTransferEvent += new StartFileTransferEventHandler(conversationView_StartFileTransferEvent);
             conversationView.ShowView();
         }
 
-        public string Name
+        public string ReceiverName
         {
             get
             {
-                return name;
+                return receiverName;
             }
             set
             {
-                this.name = value;
+                this.receiverName = value;
+            }
+        }
+
+        public string CurrentClientName
+        {
+            get
+            {
+                return this.currentClientName;
+            }
+            set
+            {
+                this.currentClientName = value;
             }
         }
 
@@ -101,7 +118,7 @@ namespace Controllers
 
         void conversationView_CloseEvent()
         {
-            OnDisposeConversationController(this.name);
+            OnDisposeConversationController(this.receiverName);
         }
 
         void conversationView_CancelFileTransferEvent(object eventArgs)
@@ -109,6 +126,17 @@ namespace Controllers
             throw new Exception("The method or operation is not implemented.");
         }
 
+        void conversationView_StartFileTransferEvent(object eventArgs)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        void conversationView_SendMessageEvent(string messageText)
+        {
+            AMessageData messageData = new TextMessageData(this.currentClientName, this.receiverName, messageText);
+            Message toSend = new Message(new MessageHeader(Common.ServiceTypes.TEXT), messageData);
+            OnSendServerMessage(toSend);
+        }
         #endregion
 
     }

@@ -79,7 +79,10 @@ namespace Controller.StateObjects
         {
             string senderName = message.Sender;
             IConversationController conversationController = _conversationControllers[senderName];
-            conversationController.ReceiveTextMessage(message);
+            if (conversationController != null)
+            {
+                conversationController.ReceiveTextMessage(message);
+            }
         }
 
         private void RedirectMessageToConversationController(Message message, string sender)

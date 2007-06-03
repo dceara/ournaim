@@ -14,7 +14,13 @@ namespace Common.Interfaces
 
         event DisposeConversationController DisposeConversationControllerEvent;
 
-        string Name
+        string ReceiverName
+        {
+            get;
+            set;
+        }
+
+        string CurrentClientName
         {
             get;
             set;
