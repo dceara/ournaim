@@ -101,7 +101,7 @@ namespace Controller.StateObjects
             Type nextType = _transitionsTable[type];
             AState state = (AState)nextType.Assembly.CreateInstance(nextType.FullName);
             state.MainView = this._mainView;
-            state._conversationControllers = this._conversationControllers;
+            state.ConversationControllers = this._conversationControllers;
             return state;
         }
         /// <summary>

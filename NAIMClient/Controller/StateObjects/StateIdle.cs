@@ -59,12 +59,12 @@ namespace Controller.StateObjects
 
         protected override void InitializeConversationControllersHandlers()
         {
-            throw new Exception("The method or operation is not implemented.");
+            //throw new Exception("The method or operation is not implemented.");
         }
 
         protected override void InitializeAccountViewHandlers()
         {
-            throw new Exception("The method or operation is not implemented.");
+            //throw new Exception("The method or operation is not implemented.");
         }
 
         public override AState MoveState()
