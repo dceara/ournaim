@@ -6,6 +6,10 @@
 #include <map>
 #include <vector>
 
+/* The name of the NAIM database */
+
+const char NAIM_DATABASE_NAME[] = "Database/NAIM.db";
+
 /* Holds details about a client */
 
 struct ClientDetails {
@@ -45,9 +49,6 @@ public:
     /* Deletes a client */
     virtual void deleteClient(const char * clientName) = 0;
     
-    /* Deletes the group groupName from the list of the client clientName */
-    virtual void deleteGroup(const char * groupName, const char * clientName) = 0;
-    
     /* Deletes the contact contactName from clientName's list */
     virtual void deleteContact(const char * contactName, const char * clientName) = 0;
     
@@ -68,9 +69,17 @@ public:
 
     /* Opens the database at the specified path */
     virtual int openDB(const char * path) = 0;
+
+	/* Executes a returning query and returns the result table as a vector of strings. Returns NULL if the operation fails and sets errMessage*/
+	virtual char** executeQuery(const char *query, int &nrows, int & ncols, char * & errMsg) = 0;
+
+	/* Executes a non query and returns true if the operation succedeed. Sets errMessage if operation fails */
+	virtual bool executeNonQuery(const char *query, char * & errMessage) = 0;
+
 };
 
 class QueryExecuter : public IQueryExecuter {
+
     sqlite3 * database;
 
     std::map< std::string, std::string > clients;
@@ -81,7 +90,6 @@ public:
     void addGroup(const char * groupName, const char * clientName);
     void addContact(const char * contactName, const char * groupName, const char * clientName);
     void deleteClient(const char * clientName);
-    void deleteGroup(const char * groupName, const char * clientName);
     void deleteContact(const char * contactName, const char * clientName);
     void moveContatct(const char *contactName, const char * clientName, const char * groupName);
     char * getPassword(const char * clientName, char * & password);
@@ -89,6 +97,8 @@ public:
     char * getContactsList(const char * clientName, char *& buffer, unsigned int & length);
     bool isClient(const char * clientName);
     int openDB(const char * path);
+	char** executeQuery(const char *query, int & nrows, int &ncols, char * & errMsg);
+	bool executeNonQuery(const char *query, char * & errMessage);
 };
 
 #endif  /* DATA_ACCESS_H */
