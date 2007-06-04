@@ -38,19 +38,13 @@ void QueryExecuter::moveContatct(const char *contactName, const char * clientNam
 
 }
 
-ClientDetails * QueryExecuter::getClient(const char * clientName) {
+char * QueryExecuter::getPassword(const char * clientName, char * & password) {
     ClientDetails * details = new ClientDetails();
-    details->dbID = 0;
-    details->username = string(clientName);
-    details->password = clients[details->username];
-    return details;
+    //password = clients[clientName];
+    return password;
 }
 
-ClientDetails * QueryExecuter::getContactsList(ClientDetails *& clients, unsigned int & contactsNo) {
-    return NULL;
-}
-
-GroupDetails * QueryExecuter::getGroupsList(const char * clientName, GroupDetails *& groups, unsigned int & groupsNo) {
+char ** QueryExecuter::getClientsList(char ** & clientsList, unsigned short & contactsNo) {
     return NULL;
 }
 

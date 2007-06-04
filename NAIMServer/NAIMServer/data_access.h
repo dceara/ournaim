@@ -55,16 +55,13 @@ public:
     virtual void moveContatct(const char *contactName, const char * clientName, const char * groupName) = 0;
     
     /* Returns details about clientName */
-    virtual ClientDetails * getClient(const char * clientName) = 0;
+    virtual char * getPassword(const char * clientName, char * & password) = 0;
     
     /* Returns a list with all the clients in the database */
-    virtual ClientDetails * getContactsList(ClientDetails *& clients, unsigned int & contactsNo) = 0;
-    
-    /* Returns a list with all the groups in clientName's list */
-    virtual GroupDetails * getGroupsList(const char * clientName, GroupDetails *& groups, unsigned int & groupsNo) = 0;
+    virtual char ** getClientsList(char ** & clientsList, unsigned short & contactsNo) = 0;
     
     /* Returns a list with all the contacts in clientName's list */
-    virtual char * getContactsList(const char * clientName, char *& buffer, unsigned int & length) = 0;
+    virtual char * getContactsList(const char * clientName, char *& contactsList, unsigned int & length) = 0;
     
     /* Returns true if the client clientName is in the database */
     virtual bool isClient(const char * clientName) = 0;
@@ -87,9 +84,8 @@ public:
     void deleteGroup(const char * groupName, const char * clientName);
     void deleteContact(const char * contactName, const char * clientName);
     void moveContatct(const char *contactName, const char * clientName, const char * groupName);
-    ClientDetails * getClient(const char * clientName);
-    ClientDetails * getContactsList(ClientDetails *& clients, unsigned int & contactsNo);
-    GroupDetails * getGroupsList(const char * clientName, GroupDetails *& groups, unsigned int & groupsNo);
+    char * getPassword(const char * clientName, char * & password);
+    char ** getClientsList(char ** & clientsList, unsigned short & contactsNo);
     char * getContactsList(const char * clientName, char *& buffer, unsigned int & length);
     bool isClient(const char * clientName);
     int openDB(const char * path);
