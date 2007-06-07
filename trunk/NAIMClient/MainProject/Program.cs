@@ -23,15 +23,15 @@ namespace MainProject
             Application.SetCompatibleTextRenderingDefault(false);
 
 
-            Test test = new Test();
+            //Test test = new Test();
 
-            test.ShowDialog();
+            //test.ShowDialog();
 
             MainView mainView = new MainView();
 
             mainController = new MainController();
 
-            mainController.LocalPort = (ushort)test.numericUpDown1.Value;
+            //mainController.LocalPort = (ushort)test.numericUpDown1.Value;
 
             mainController.InstantiateConversationViewEvent += new InstantiateConversationView(mainController_InstantiateConversationViewEvent);
 
