@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Common.Protocol;
 using Common.ProtocolEntities;
+using System.IO;
+using Controller.File_Transfer;
 
 namespace Common.Interfaces
 {
@@ -26,6 +28,26 @@ namespace Common.Interfaces
             set;
         }
 
+        ushort LocalPort
+        {
+            set;
+        }
+
+        IDictionary<int, string> FileList
+        {
+            set;
+        }
+
+        void AddItemToFileList(int id, string filename);
+
+        void RemoveItemFromFileList(int id);
+
+        IList<string> GetPeerFileList();
+
+        void CancelFileTransfer();
+
+        void ReceiveFile(string filename, string writeLocation);
+
         void OnSendServerMessage(Message message);
 
         void OnDisposeConversationController(string userName);
@@ -40,9 +62,17 @@ namespace Common.Interfaces
         /// </summary>
         void InitialiseView(IConversationView view);
 
+        void InitialiseController();
+
         void CloseView();
 
         void ReceiveTextMessage(TextMessageData messagedata);
+
+
+        /// <summary>
+        /// this is called before initiating the first file transfer
+        /// </summary>
+        void CreatePeerToPeerConnection();
     }
 
     public delegate void SendServerMessageEventHandler(Message message);

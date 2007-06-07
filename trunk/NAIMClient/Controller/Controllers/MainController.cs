@@ -21,7 +21,7 @@ namespace Controllers
 
     public class MainController
     {
-        private bool withoutServerMode = true;
+        private bool withoutServerMode = false;
 
         private AState currentState = null;
 
@@ -65,6 +65,32 @@ namespace Controllers
 
         private string currentPassword;
 
+        #region Client Peer Connection data
+        /// <summary>
+        /// the address for accepting peer to peer connections
+        /// </summary>
+        private string localIpAddress = "localhost";
+
+        public string LocalIpAddress
+        {
+            get { return localIpAddress; }
+            set { localIpAddress = value; }
+        }
+
+        /// <summary>
+        /// the port for accepting peer to peer connections
+        /// </summary>
+        private ushort localPort;
+
+        public ushort LocalPort
+        {
+            get { return localPort; }
+            set { localPort = value; }
+        }
+	
+	
+        #endregion
+
 
         public IMainView MainView
         {
@@ -104,6 +130,7 @@ namespace Controllers
         public void Initialise(IMainView mainView)
         {
             this.currentState = new StateInitial();
+
             currentState.MainView = mainView;
 
             this.mainView = mainView;
@@ -132,6 +159,7 @@ namespace Controllers
                 if (!CreateServerConnection())
                 {
                     MessageBox.Show("Eroare la conectarea la server!!!");
+                    return;
                 }
             }
 
@@ -141,6 +169,8 @@ namespace Controllers
             ConversationController newConversationController = new ConversationController();
             newConversationController.ReceiverName = userName;
             newConversationController.CurrentClientName = this.currentUserName;
+            newConversationController.LocalPort = this.localPort;
+            newConversationController.InitialiseController();
             newConversationController.SendServerMessageEvent += new SendServerMessageEventHandler(newConversationController_SendServerMessageEvent);
             newConversationController.DisposeConversationControllerEvent += new DisposeConversationController(newConversationController_DisposeConversationControllerEvent);
             newConversationController.InitialiseView(conversationView);
@@ -160,14 +190,10 @@ namespace Controllers
 
         public void InitialiseFileTransferManager(IFileTransferView newFileTransferView)
         {
-            this.fileTransferView = newFileTransferView;
-            this.fileTransferView.Initialise();
-            this.fileTransferView.CancelFileTransferEvent += new CancelFileTransferEventHandler(fileTransferView_CancelFileTransferEvent);
-            this.fileTransferView.FileTransferCloseViewEvent += new FileTransferCloseViewEventHandler(fileTransferView_FileTransferCloseViewEvent);
-            this.fileTransferView.GetFileListEvent += new GetFileListEventHandler(fileTransferView_GetFileListEvent);
-            this.fileTransferView.StartFileTransferEvent += new StartFileTransferEventHandler(fileTransferView_StartFileTransferEvent);
-            this.fileTransferView.CloseFileTransferViewEvent += new CloseFileTransferViewEventHandler(fileTransferView_CloseFileTransferViewEvent);
-            this.fileTransferView.ShowView();
+            if (this.currentState is StateIdle)
+            {
+                ((StateIdle)currentState).InitialiseFileTransferManager(newFileTransferView);
+            }
         }
 
         private void MainLoop()
@@ -351,35 +377,6 @@ namespace Controllers
 
         #endregion
 
-        #region FileTransferView Event Handlers
-        
-        void fileTransferView_CancelFileTransferEvent(object eventArgs)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        void fileTransferView_FileTransferCloseViewEvent(object eventArgs)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        void fileTransferView_GetFileListEvent(object eventArgs)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        void fileTransferView_StartFileTransferEvent(object eventArgs)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        void fileTransferView_CloseFileTransferViewEvent()
-        {
-            this.fileTransferView = null;
-            this.mainView.ShowView();
-        }
-        #endregion
-
         #region Main Controller Events
         public event InstantiateConversationView InstantiateConversationViewEvent;
 
@@ -434,6 +431,12 @@ namespace Controllers
             {
                 Common.Protocol.Message firstMessage = inputMessageQueue[0];
                 currentState = currentState.AnalyzeMessage(firstMessage);
+                if (currentState is StateIdle)
+                {
+                    ((StateIdle)currentState).UserName = this.currentUserName;
+                    ((StateIdle)currentState).Ip = this.localIpAddress;
+                    ((StateIdle)currentState).Port = this.localPort;
+                }
                 inputMessageQueue.RemoveAt(0);
             }
             EmptyCurrentStateOutputBuffer();

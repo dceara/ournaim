@@ -29,18 +29,19 @@ namespace Common.Interfaces
 
         void OnCloseEvent();
 
-        void OnStartFileTransferEvent(object eventArgs);
+        void OnStartFileTransferEvent(string fileName, string writeLocation);
 
-        void OnCancelFileTransferEvent(object eventArgs);
+        void OnCancelFileTransferEvent(string filename);
 
         void ShowView();
 
         void CloseView();
+
     }
 
     public delegate void CloseEventDelegate();
 
-    public delegate void StartFileTransferEventHandler(object eventArgs);
+    public delegate void StartFileTransferEventHandler(string fileName, string writeLocation);
 
-    public delegate void CancelFileTransferEventHandler(object eventArgs);
+    public delegate void CancelFileTransferEventHandler(string filename);
 }

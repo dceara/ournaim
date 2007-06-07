@@ -6,6 +6,8 @@ namespace Common.Protocol
 {
     public abstract class AMessageData
     {
+        public const int MAX_MESSAGE_SIZE = 512;
+
         protected byte[] _data;
 
         public byte[] Data
@@ -59,9 +61,9 @@ namespace Common.Protocol
             return toReturn;
         }
 
-        public static short ToShort(byte first, byte second)
+        public static ushort ToShort(byte first, byte second)
         {
-            short toReturn = (short)((short)(first<<8) + (short)second);
+            ushort toReturn = (ushort)((ushort)(first<<8) + (ushort)second);
             return toReturn;
         }
 

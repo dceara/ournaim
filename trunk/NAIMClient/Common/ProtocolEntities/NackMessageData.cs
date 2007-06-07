@@ -13,6 +13,9 @@ namespace Common.ProtocolEntities
         {
         }
 
+        public NackMessageData()
+        {
+        }
         protected override void Deserialize()
         {
         }
