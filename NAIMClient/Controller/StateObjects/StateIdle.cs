@@ -5,6 +5,7 @@ using Common.Protocol;
 using Common;
 using Common.ProtocolEntities;
 using Common.Interfaces;
+using System.Windows.Forms;
 
 namespace Controller.StateObjects
 {
@@ -37,50 +38,100 @@ namespace Controller.StateObjects
             set { _onlineContacts = value; }
         }
 
+        private IFileTransferView _fileTransferView;
+
+        private string _userName;
+
+        public string UserName
+        {
+            get { return _userName; }
+            set { _userName = value; }
+        }
+	
+
+        private string _ip;
+
+        public string Ip
+        {
+            get { return _ip; }
+            set { _ip = value; }
+        }
+
+        private ushort _port;
+
+        public ushort Port
+        {
+            get { return _port; }
+            set { _port = value; }
+        }
+	
+
         public override AState AnalyzeMessage(Common.Protocol.Message message)
         {
-            AMessageData messageData = Message.GetMessageData(message);
+            AMessageData messageData = Common.Protocol.Message.GetMessageData(message);
             switch (message.Header.ServiceType)
             {
                 case Common.ServiceTypes.PING:
-                    Message response = new Message(new MessageHeader(ServiceTypes.ACK), new AckMessageData());
-                    _outputMessagesList.Add(response);
+                    HandlePingMessage();
                     break;
                 case Common.ServiceTypes.TEXT:
                     RedirectTextMessageToConversationController((TextMessageData)messageData);
                     break;
                 case Common.ServiceTypes.USER_CONNECTED:
-                    UserConnectedMessageData userConnectedData = (UserConnectedMessageData)messageData;
-                    UserListEntry contact = _onlineContacts[userConnectedData.UserName];
-                    if (contact == null)
-                    {
-                        string groupName = GetGroupName(userConnectedData.UserName);
-                        _mainView.ClientOnline(userConnectedData.UserName, userConnectedData.Status);
-                        _onlineContacts.Add(userConnectedData.UserName, new UserListEntry(userConnectedData.UserName, userConnectedData.Status));
-                    }
-                    else
-                    {
-                        _mainView.ChangeClientStatus(userConnectedData.UserName, userConnectedData.Status);
-                        UserListEntry user = _onlineContacts[userConnectedData.UserName];
-                        if (user != null)
-                        {
-                            user.Status = userConnectedData.Status;
-                        }
-                    }
+                    HandleUserConnectedMessage((UserConnectedMessageData)messageData);
                     break;
                 case Common.ServiceTypes.USER_DISCONNECTED:
-                    UserDisconnectedMessageData userDisconenctedData = (UserDisconnectedMessageData)messageData;
-                    _mainView.ClientOffline(userDisconenctedData.UserName);
-                    _onlineContacts.Remove(userDisconenctedData.UserName);
+                    HandleUserDisconnectedMessage((UserDisconnectedMessageData)messageData);
                     break;
                 case Common.ServiceTypes.CONNECTION_DATA:
                     RedirectMessageToConversationController(message,((ConnectionDataMessageData)messageData).Sender);
                     break;
                 case Common.ServiceTypes.CONNECTION_REQ:
-                    RedirectMessageToConversationController(message,((ConnectionDataMessageData)messageData).Sender);
+                    SendConnectionDataResponse((ConnectionDataRequestedMessageData)messageData);
+                    RedirectMessageToConversationController(message, ((ConnectionDataRequestedMessageData)messageData).SenderUserName);
                     break;
             }
             return this;
+        }
+
+        private void HandleUserDisconnectedMessage(UserDisconnectedMessageData userDisconnectedData)
+        {
+            _mainView.ClientOffline(userDisconnectedData.UserName);
+            _onlineContacts.Remove(userDisconnectedData.UserName);
+        }
+
+        private void HandlePingMessage()
+        {
+            Common.Protocol.Message response = new Common.Protocol.Message(new MessageHeader(ServiceTypes.ACK), new AckMessageData());
+            _outputMessagesList.Add(response);
+        }
+
+        private void HandleUserConnectedMessage(UserConnectedMessageData messageData)
+        {
+            UserConnectedMessageData userConnectedData = (UserConnectedMessageData)messageData;
+            UserListEntry contact = _onlineContacts[userConnectedData.UserName];
+            if (contact == null)
+            {
+                string groupName = GetGroupName(userConnectedData.UserName);
+                _mainView.ClientOnline(userConnectedData.UserName, userConnectedData.Status);
+                _onlineContacts.Add(userConnectedData.UserName, new UserListEntry(userConnectedData.UserName, userConnectedData.Status));
+            }
+            else
+            {
+                _mainView.ChangeClientStatus(userConnectedData.UserName, userConnectedData.Status);
+                UserListEntry user = _onlineContacts[userConnectedData.UserName];
+                if (user != null)
+                {
+                    user.Status = userConnectedData.Status;
+                }
+            }
+        }
+
+        private void SendConnectionDataResponse(ConnectionDataRequestedMessageData receivedMessageData)
+        {
+            AMessageData messageData = new ConnectionDataMessageData(this._userName, receivedMessageData.SenderUserName, this._ip, this._port);
+            Common.Protocol.Message response = new Common.Protocol.Message(new MessageHeader(ServiceTypes.CONNECTION_DATA), messageData);
+            _outputMessagesList.Add(response);
         }
 
         private string GetGroupName(string username)
@@ -111,12 +162,10 @@ namespace Controller.StateObjects
 
         protected override void InitializeConversationControllersHandlers()
         {
-            //throw new Exception("The method or operation is not implemented.");
         }
 
         protected override void InitializeAccountViewHandlers()
         {
-            //throw new Exception("The method or operation is not implemented.");
         }
 
         public override AState MoveState()
@@ -137,12 +186,65 @@ namespace Controller.StateObjects
             }
         }
 
-        private void RedirectMessageToConversationController(Message message, string sender)
+        private void RedirectMessageToConversationController(Common.Protocol.Message message, string sender)
         {
             IConversationController conversationController = _conversationControllers[sender];
             conversationController.ReceiveServerMessage(message);
         }
 
-        
+
+
+        public void InitialiseFileTransferManager(IFileTransferView newFileTransferView)
+        {
+            this._fileTransferView = newFileTransferView;
+            this._fileTransferView.Initialise();
+            this._fileTransferView.SetClientsListSource(_contactsByGroups);
+            this._fileTransferView.CancelFileTransferEvent += new CancelFileTransferGenericEventHandler(fileTransferView_CancelFileTransferEvent);
+            this._fileTransferView.FileTransferCloseViewEvent += new FileTransferCloseViewEventHandler(fileTransferView_FileTransferCloseViewEvent);
+            this._fileTransferView.GetFileListEvent += new GetFileListEventHandler(fileTransferView_GetFileListEvent);
+            this._fileTransferView.StartFileTransferEvent += new StartFileTransferGenericEventHandler(fileTransferView_StartFileTransferEvent);
+            this._fileTransferView.CloseFileTransferViewEvent += new CloseFileTransferViewEventHandler(fileTransferView_CloseFileTransferViewEvent);
+            this._fileTransferView.ShowView();
+        }
+
+
+        #region FileTransferView Event Handlers
+
+        void fileTransferView_CancelFileTransferEvent(string username,string fileName)
+        {
+            IConversationController conversationController = _conversationControllers[username];
+            conversationController.CancelFileTransfer();
+        }
+
+        void fileTransferView_FileTransferCloseViewEvent(object eventArgs)
+        {
+            this._fileTransferView = null;
+        }
+
+        void fileTransferView_GetFileListEvent(string username)
+        {
+            IConversationController conversationController = _conversationControllers[username];
+            IList<string> fileList = conversationController.GetPeerFileList();
+            while (fileList == null)
+            {
+                Application.DoEvents();
+                fileList = conversationController.GetPeerFileList();
+            }
+            _fileTransferView.ShowFileList(fileList);
+        }
+
+        void fileTransferView_StartFileTransferEvent(string username, string fileName, string writeLocation)
+        {
+            IConversationController conversationController = _conversationControllers[username];
+            conversationController.ReceiveFile(fileName, writeLocation);
+        }
+
+        void fileTransferView_CloseFileTransferViewEvent()
+        {
+            this._fileTransferView = null;
+            this._mainView.ShowView();
+        }
+        #endregion
+
     }
 }

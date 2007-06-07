@@ -15,15 +15,23 @@ namespace MainProject
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
+
             Application.EnableVisualStyles();
 
             Application.SetCompatibleTextRenderingDefault(false);
 
+
+            Test test = new Test();
+
+            test.ShowDialog();
+
             MainView mainView = new MainView();
 
             mainController = new MainController();
+
+            mainController.LocalPort = (ushort)test.numericUpDown1.Value;
 
             mainController.InstantiateConversationViewEvent += new InstantiateConversationView(mainController_InstantiateConversationViewEvent);
 

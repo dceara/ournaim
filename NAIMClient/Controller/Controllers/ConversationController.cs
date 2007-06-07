@@ -4,6 +4,10 @@ using System.Text;
 using Common.Interfaces;
 using Common.Protocol;
 using Common.ProtocolEntities;
+using System.IO;
+using System.Threading;
+using Controller.File_Transfer;
+using Common;
 
 namespace Controllers
 {
@@ -12,9 +16,90 @@ namespace Controllers
         private IConversationView conversationView;
         private string receiverName;
         private string currentClientName;
+
+        #region Peer Transfer Handlers
+
+        PeerSenderConnectionHandler senderConnectionHandler = null;
+        PeerReceiverConnectionHandler receiverConnectionHandler = null;
+        Thread fileTransferSender = null;
+        Thread fileTransferReceiver = null;
+        //the key is the requested filename and the value is the writeLocation
+        bool alreadyRequested = false;
+        KeyValuePair<string, string> _lastRequestedFile;
+        
+        #endregion
+
         #region IConversationController Members
 
         public event SendServerMessageEventHandler SendServerMessageEvent;
+
+        private ushort _localPort;
+        public ushort LocalPort
+        {
+            set
+            {
+                this._localPort = value;
+            }
+        }
+        private IDictionary<int, string> _peerFileList;
+
+        private IDictionary<int, string> _fileList;
+        public IDictionary<int, string> FileList
+        {
+            set
+            {
+                this._fileList = value;
+            }
+        }
+
+        public void AddItemToFileList(int id, string filename)
+        {
+            if (this.senderConnectionHandler != null)
+            {
+                senderConnectionHandler.addItemToFileListDelegate.Invoke(id, filename);
+            }
+        }
+
+        public void RemoveItemFromFileList(int id)
+        {
+            if (this.senderConnectionHandler != null)
+            {
+                senderConnectionHandler.removeItemFromFileListDelegate(id);
+            }
+        }
+
+        public void CreatePeerToPeerConnection()
+        {
+            AMessageData messageData = new ConnectionDataRequestedMessageData(this.currentClientName, this.receiverName);
+            Message message = new Message(new MessageHeader(ServiceTypes.CONNECTION_REQ), messageData);
+            OnSendServerMessage(message);
+        }
+
+        public void CancelFileTransfer()
+        {
+            if (this.receiverConnectionHandler != null)
+            {
+                lock (this.receiverConnectionHandler.toCancel)
+                {
+                    this.receiverConnectionHandler.toCancel.Value = true;
+                }
+            }
+        }
+
+        public IList<string> GetPeerFileList()
+        {
+            if (this.receiverConnectionHandler != null)
+            {
+                this._peerFileList = receiverConnectionHandler.fileListDelegate.Invoke();
+                IList<string> toReturn = new List<string>();
+                foreach (KeyValuePair<int, string> pair in _peerFileList)
+                {
+                    toReturn.Add(pair.Value);
+                }
+                return toReturn;
+            }
+            return null;
+        }
 
         public void OnSendServerMessage(Message message)
         {
@@ -26,16 +111,16 @@ namespace Controllers
 
         public void ReceiveServerMessage(Message message)
         {
+            AMessageData messageData = Message.GetMessageData(message);
             switch (message.Header.ServiceType)
             {
                 case Common.ServiceTypes.CONNECTION_DATA:
-#warning not implemented yet
+                    StartFileTransferReceiver(((ConnectionDataMessageData)messageData).IpAddress, ((ConnectionDataMessageData)messageData).Port);
                     break;
                 case Common.ServiceTypes.CONNECTION_REQ:
-#warning not implemented yet
+                    StartFileTransferSender(((ConnectionDataRequestedMessageData)messageData).SenderUserName);
                     break;
             }
-            //throw new Exception("The method or operation is not implemented.");
         }
 
         public void ReceiveTextMessage(TextMessageData messageData)
@@ -43,21 +128,11 @@ namespace Controllers
             conversationView.AddMessage(messageData.Text);
         }
 
+        public void InitialiseController()
+        {
+        }
+
         #endregion
-
-        /// <summary>
-        /// This creates a new thread where the file will be transfered
-        /// </summary>
-        private void StartPeer2PeerReceiver(string filename, string senderUserName)
-        {
-
-            throw new System.NotImplementedException();
-        }
-
-        private void StartPeer2PeerSender(string filename, string receiverUserName)
-        {
-            throw new System.NotImplementedException();
-        }
 
         #region IConversationController Members
 
@@ -122,14 +197,40 @@ namespace Controllers
             OnDisposeConversationController(this.receiverName);
         }
 
-        void conversationView_CancelFileTransferEvent(object eventArgs)
+        void conversationView_CancelFileTransferEvent(string filename)
         {
             throw new Exception("The method or operation is not implemented.");
         }
 
-        void conversationView_StartFileTransferEvent(object eventArgs)
+        void conversationView_StartFileTransferEvent(string filename,string writeLocation)
         {
-            throw new Exception("The method or operation is not implemented.");
+            ReceiveFile(filename, writeLocation);
+        }
+
+        public void ReceiveFile(string filename, string writeLocation)
+        {
+            if (receiverConnectionHandler == null)
+            {
+                AMessageData messageData = new ConnectionDataRequestedMessageData(this.currentClientName, this.receiverName);
+                Message message = new Message(new MessageHeader(ServiceTypes.CONNECTION_REQ), messageData);
+                OnSendServerMessage(message);
+                this._lastRequestedFile = new KeyValuePair<string, string>(filename, writeLocation);
+                this.alreadyRequested = true;
+            }
+            else
+            {
+                int fileId = -1;
+                foreach (KeyValuePair<int, string> pair in _fileList)
+                {
+                    if (pair.Value == filename)
+                    {
+                        fileId = pair.Key;
+                    }
+                }
+                if (fileId == -1)
+                    return;
+                receiverConnectionHandler.receiveFileDelegate.Invoke(writeLocation, fileId);
+            }
         }
 
         void conversationView_SendMessageEvent(string messageText)
@@ -138,6 +239,56 @@ namespace Controllers
             Message toSend = new Message(new MessageHeader(Common.ServiceTypes.TEXT), messageData);
             OnSendServerMessage(toSend);
         }
+        #endregion
+
+        #region Peer 2 Peer File transfer
+
+        private void StartFileTransferSender(string senderUserName)
+        {
+            fileTransferSender = new Thread(StartSenderDelegate);
+            fileTransferSender.Start(senderUserName);
+        }
+
+        void StartSenderDelegate(object parameter)
+        {
+            if (senderConnectionHandler == null)
+            {
+                senderConnectionHandler = new PeerSenderConnectionHandler((string)parameter, this._localPort, this._fileList);
+                senderConnectionHandler.Run();
+            }
+        }
+
+        private void StartFileTransferReceiver(string ipAddress, ushort port)
+        {
+            fileTransferReceiver = new Thread(StartReceiverDelegate);
+            fileTransferReceiver.Start(new object[] { ipAddress, port });
+            if (this.alreadyRequested ==true)
+            {
+                int fileId = -1;
+                foreach(KeyValuePair<int,string> pair in _fileList)
+                {
+                    if(pair.Value == _lastRequestedFile.Key)
+                    {
+                        fileId = pair.Key;
+                    }
+                }
+                if (fileId == -1)
+                    return;
+                receiverConnectionHandler.receiveFileDelegate.Invoke(_lastRequestedFile.Value, fileId);
+                alreadyRequested = false;
+            }
+        }
+
+        void StartReceiverDelegate(object parameters)
+        {
+            if (receiverConnectionHandler == null)
+            {
+                object[] param = (object[])parameters;
+                receiverConnectionHandler = new PeerReceiverConnectionHandler((string)(param[0]), (ushort)(param[1]));
+                receiverConnectionHandler.Run();
+            }
+        }
+
         #endregion
 
     }

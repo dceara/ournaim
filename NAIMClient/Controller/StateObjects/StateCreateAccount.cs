@@ -52,6 +52,8 @@ namespace Controller.StateObjects
 
             Common.Protocol.Message signupMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.SIGNUP), signupMessageData);
 
+            _signUpAlreadySent = true;
+
             _outputMessagesList.Add(signupMessage);
 
         }

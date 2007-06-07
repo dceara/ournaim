@@ -43,6 +43,7 @@ namespace GUI
             this.txtMessage.Size = new System.Drawing.Size(330, 74);
             this.txtMessage.TabIndex = 0;
             this.txtMessage.Text = "";
+            this.txtMessage.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtMessage_KeyUp);
             // 
             // btnSend
             // 
@@ -57,6 +58,7 @@ namespace GUI
             // 
             // txtMessageList
             // 
+            this.txtMessageList.AcceptsReturn = true;
             this.txtMessageList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
@@ -65,6 +67,7 @@ namespace GUI
             this.txtMessageList.Multiline = true;
             this.txtMessageList.Name = "txtMessageList";
             this.txtMessageList.ReadOnly = true;
+            this.txtMessageList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtMessageList.Size = new System.Drawing.Size(406, 107);
             this.txtMessageList.TabIndex = 2;
             // 

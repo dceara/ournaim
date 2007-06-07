@@ -51,14 +51,20 @@ namespace GUI
             }
         }
 
-        public void OnStartFileTransferEvent(object eventArgs)
+        public void OnStartFileTransferEvent(string fileName, string writeLocation)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (StartFileTransferEvent != null)
+            {
+                StartFileTransferEvent(fileName,writeLocation);
+            }
         }
 
-        public void OnCancelFileTransferEvent(object eventArgs)
+        public void OnCancelFileTransferEvent(string fileName)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (CancelFileTransferEvent != null)
+            {
+                CancelFileTransferEvent(fileName);
+            }
         }
 
         public void ShowView()
@@ -91,11 +97,30 @@ namespace GUI
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            string message = this.txtMessage.Text;
-            this.txtMessageList.Text = txtMessageList.Text + "\n" + this.currentUserName + ": " + message;
+            this.txtMessage.Text += "\n";
+            SendMessage();
+        }
+        void SendMessage()
+        {
+            string message = this.txtMessage.Text.Remove(txtMessage.Text.Length-1);
+            this.txtMessageList.Text = txtMessageList.Text + this.currentUserName + ": " + message + "\r\n";
+            this.txtMessage.ResetText();
+            this.txtMessageList.ReadOnly = false;
+            this.txtMessageList.Focus();
+            this.txtMessageList.ScrollToCaret();
+            this.txtMessageList.Refresh();
+            this.txtMessageList.ReadOnly = true;
+            this.txtMessageList.Select(0, 0);
+            this.txtMessage.Focus();
             OnSendMessageEvent(message);
         }
-        #endregion
-       
+        private void txtMessage_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                SendMessage();
+            }
+        }
+        #endregion       
     }
 }

@@ -42,6 +42,7 @@ namespace Controller.StateObjects
             }
             _mainView.SetGroupSource(groupNames, contactsByGroups);
             
+            
             this._groupNames = groupNames;
             this._contactsByGroups = contactsByGroups;
             AState nextState = GetNextState(message.Header.ServiceType);
