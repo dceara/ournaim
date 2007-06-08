@@ -32,6 +32,8 @@ enum Services {
     FILE_LIST           = 15,
     ADD_CONTACT         = 16,
     REMOVE_CONTACT      = 17,
+    STATUS              = 18,
+    DISCONNECT          = 19,
 
     // internal
     
@@ -82,10 +84,22 @@ public:
 
     static NAIMpacket * createNACK();
 
-    static NAIMpacket * createCOMMAND(const char * command, unsigned int length);
+    static NAIMpacket * createPING();
+
+    static NAIMpacket * createUSER_CONNECTED(const char * username, const char * status);
+
+    static NAIMpacket * createUSER_DISCONNECTED(const char * username);
+
+    static NAIMpacket * createSTATUS(const char * username, const char * status);
+
+    static NAIMpacket * createUSER_LIST(const char * data, unsigned short length);
+
+    static NAIMpacket * createCOMMAND(const char * command, unsigned short length);
 
     static NAIMpacket * createCONNECTION_CLOSED();
-    
+
+    static NAIMpacket * createDISCONNECT();    
+
     /*
      *	Functions for processing packets.
      */
@@ -105,11 +119,11 @@ public:
     /*
      *	Returns the password from a LOGIN packet.
      */
-    static char * getLOGINPPassword(NAIMpacket * packetLOGIN, char * & password);
+    static char * getLOGINPassword(NAIMpacket * packetLOGIN, char * & password);
     /*
      *	Returns the status from a LOGIN packet.
      */
-    static char * getLOGINPStatus(NAIMpacket * packetLOGIN, char * & status);
+    static char * getLOGINStatus(NAIMpacket * packetLOGIN, char * & status);
     /*
      *	Returns the sender from a TEXT packet.
      */
@@ -134,6 +148,14 @@ public:
      *	Returns the receiver from a CONNECTION_DATA packet.
      */
     static char * getCONNECTION_DATAReceiver(NAIMpacket * packetCONNECTION_DATA, char * & receiver);
+    /*
+     *	Returns the username from a STATUS package;
+     */
+    static char * getSTATUSUsername(NAIMpacket * packetSTATUS, char * & username);
+    /*
+     *	Returns the status from a STATUS package;
+     */
+    static char * getSTATUSStatus(NAIMpacket * packetSTATUS, char * & status);
 };
 
 #endif  /* PROTOCOL_H */

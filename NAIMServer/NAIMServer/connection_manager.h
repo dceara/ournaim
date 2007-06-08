@@ -66,16 +66,16 @@ class ConnectionManager {
     /* 
      *  Returns true if the client with clientID is online 
      */
-    bool isOnline(const std::string * client);
+    bool isOnline(const char * client);
     /*
      *  Returns the status of the specified client. If the client is not online it returns NULL. If the client
      *  has no status it returns "".
      */
-    const std::string * getStatus(const std::string * client);
+    const char * getStatus(const char * client);
     /*
      *  Sets the status of a client 
      */
-    int setStatus(const std::string * client, const std::string * status);
+    int setStatus(const char * client, const char * status);
     /* 
      *  Ads a client to the online list. 
      */
@@ -83,7 +83,23 @@ class ConnectionManager {
     /* 
      *  Removes a client from the online list. Called when a client disconnects. 
      */
-    int clientDisconnect(Client * clientMan, const std::string * client);
+    int clientDisconnect(const char * client);    
+    /*
+     *	Notifies all of username's contacts that his status has changed
+     */
+    int notifyOfStatusChange(const char * username, const char * status);
+    /*
+     *	Notifies all of username's contacts that he has connected
+     */
+    int notifyOfUserConnect(const char * username, const char * status);  
+    /*
+     *	Notifies all of username's contacts that he has disconnected
+     */
+    int notifyOfUserDisconnect(const char * username);  
+    /*
+     *	Called when a user already connected connects from a different machine
+     */
+    int userConnectedRemotely(char * username);
     /*
      *	Sends a packet from sender to receiver by transferring it to the receivers output queue
      */
