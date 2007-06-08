@@ -232,8 +232,8 @@ namespace Controllers
         #region MainView Event Handlers
         void mainView_ChangeStatusEvent(string status)
         {
-            AMessageData messageData = new LoginMessageData(this.currentUserName, this.currentPassword, status);
-            Common.Protocol.Message changeStatusMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.LOGIN), messageData);
+            AMessageData messageData = new StatusMessageData(this.currentUserName, status);
+            Common.Protocol.Message changeStatusMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.STATUS), messageData);
             this.outputMessageQueue.Add(changeStatusMessage);
             mainView.ChangeStatus(status);
         }
