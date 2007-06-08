@@ -48,38 +48,98 @@ ConnectionManager::~ConnectionManager() {
     }
 }
 
-bool ConnectionManager::isOnline(const string * client) {
-    if (onlineClients.count(*client) > 0)
+bool ConnectionManager::isOnline(const char * client) {
+    if (onlineClients.count(string(client)) > 0)
         return true;
     else
         return false;
 }
 
-const string * ConnectionManager::getStatus(const string * client) {
-    return &onlineClients[*client];
+const char * ConnectionManager::getStatus(const char * client) {
+    return onlineClients[string(client)].c_str();
 }
 
-int ConnectionManager::setStatus(const string * client, const string * status) {
-    onlineClients[*client] = *status;
+int ConnectionManager::setStatus(const char * client, const char * status) {
+    onlineClients[string(client)] = string(status);
+    return 0;
+}
+/*
+*	Notifies all of username's clients that his status has changed
+*/
+int ConnectionManager::notifyOfStatusChange(const char * username, const char * status) {
+    unsigned short contactsLen;
+    char ** contactsList;
+
+    queryExecuter.getContactsList(username, contactsList, contactsLen);
+    for (int i = 0; i < contactsLen; ++i) {
+        NAIMpacket * tempPacket = Protocol::createSTATUS(username, status);
+        clientClients[string(contactsList[i])]->addOutputPacket(tempPacket);
+    }
+
+    return 0;
+}
+/*
+*	Notifies all of username's clients that his status has changed
+*/
+int ConnectionManager::notifyOfUserConnect(const char * username, const char * status) {
+    unsigned short contactsLen;
+    char ** contactsList;
+
+    queryExecuter.getContactsList(username, contactsList, contactsLen);
+    for (int i = 0; i < contactsLen; ++i) {
+        NAIMpacket * tempPacket = Protocol::createUSER_CONNECTED(username, status);
+        clientClients[string(contactsList[i])]->addOutputPacket(tempPacket);
+    }
+
     return 0;
 }
 
+/*
+*	Notifies all of username's clients that he has disconnected
+*/
+int ConnectionManager::notifyOfUserDisconnect(const char * username) {
+    unsigned short contactsLen;
+    char ** contactsList;
+
+    queryExecuter.getContactsList(username, contactsList, contactsLen);
+    for (int i = 0; i < contactsLen; ++i) {
+        NAIMpacket * tempPacket = Protocol::createUSER_DISCONNECTED(username);
+        clientClients[string(contactsList[i])]->addOutputPacket(tempPacket);
+    }
+
+    return 0;
+}
+
+/*
+ *	Called when a user connects
+ */
 int ConnectionManager::clientConnect(Client * clientMan, const char * client, const char * status) {
     onlineClients.insert(pair< string, string >(string(client), string(status)));
     clientClients.insert(pair< string, Client * >(string(client), clientMan));
+
+    notifyOfUserConnect(client, status);
+
+    return 0;
+}
+/*
+ *	Called when an user connects
+ */
+int ConnectionManager::clientDisconnect(const char * client) {
+    onlineClients.erase(string(client));
+    clientClients.erase(string(client));
+
+    notifyOfUserDisconnect(client);
+
     return 0;
 }
 
-int ConnectionManager::clientDisconnect(Client * clientMan, const string * client) {
-    onlineClients.erase(*client);
-    clientClients.erase(*client);
-    
-    set< Client * >::iterator it = clientsSet.find(clientMan);
-    delete *it;
-    clientsSet.erase(it);
+/*
+ *	Called when a user already connected connects from a different machine
+ */
+int ConnectionManager::userConnectedRemotely(char * username) {
+    clientClients[string(username)]->disconnect(Protocol::createDISCONNECT());
     return 0;
 }
-
 /*
  *	Is called when a new connection is created. Creates a new Client to monitor the connection.
  */
@@ -337,15 +397,18 @@ int ConnectionManager::run() {
         /*
          *	Processes packets from the clients.
          */
-
         for (set< Client * >::iterator it = clientsSet.begin(); it != clientsSet.end(); ++it) {
-            (*it)->processPacket();
+            if ((*it)->isDisposable()) {
+                delete *it;
+                clientsSet.erase(it);
+            }
+            else 
+                (*it)->processPacket();
         }
 
         /*
          *	Writes packets from the clients.
          */
-
         for(int i = 0; i <= fdmax; i++) {
             if (FD_ISSET(i, &tmp_write_fds)) {
                 writeClientOutput(i);

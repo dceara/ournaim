@@ -53,16 +53,19 @@ public:
     virtual void deleteContact(const char * contactName, const char * clientName) = 0;
     
     /* Moves contactName in clientName' list to the group groupName */
-    virtual void moveContatct(const char *contactName, const char * clientName, const char * groupName) = 0;
+    virtual void moveContact(const char *contactName, const char * clientName, const char * groupName) = 0;
     
     /* Returns details about clientName */
     virtual char * getPassword(const char * clientName, char * & password) = 0;
     
     /* Returns a list with all the clients in the database */
     virtual char ** getClientsList(char ** & clientsList, unsigned short & contactsNo) = 0;
-    
+
     /* Returns a list with all the contacts in clientName's list */
-    virtual char * getContactsList(const char * clientName, char *& contactsList, unsigned int & length) = 0;
+    virtual char * getContactsBuffer(const char * clientName, char *& contactsList, unsigned short & length) = 0;
+
+    /* Returns a list with all the contacts in clientName's list */
+    virtual char ** getContactsList(const char * clientName, char **& contactsList, unsigned short & length) = 0;
     
     /* Returns true if the client clientName is in the database */
     virtual bool isClient(const char * clientName) = 0;
@@ -82,19 +85,19 @@ class QueryExecuter : public IQueryExecuter {
 
     sqlite3 * database;
 
-    std::map< std::string, std::string > clients;
-    std::map< std::string, std::map< std::string, std::vector < std::string> > > contacts;
 public:
+    ~QueryExecuter();
 
     void addClient(const char * username, const char * password);
     void addGroup(const char * groupName, const char * clientName);
     void addContact(const char * contactName, const char * groupName, const char * clientName);
     void deleteClient(const char * clientName);
     void deleteContact(const char * contactName, const char * clientName);
-    void moveContatct(const char *contactName, const char * clientName, const char * groupName);
+    void moveContact(const char *contactName, const char * clientName, const char * groupName);
     char * getPassword(const char * clientName, char * & password);
     char ** getClientsList(char ** & clientsList, unsigned short & contactsNo);
-    char * getContactsList(const char * clientName, char *& buffer, unsigned int & length);
+    char * getContactsBuffer(const char * clientName, char *& buffer, unsigned short & length);
+    char ** getContactsList(const char * clientName, char **& buffer, unsigned short & length);
     bool isClient(const char * clientName);
     int openDB(const char * path);
 	char** executeQuery(const char *query, int & nrows, int &ncols, char * & errMsg);

@@ -21,6 +21,8 @@ protected:
 
     std::queue< NAIMpacket * > inputQueue;       // input packet queue
     std::queue< NAIMpacket * > outputQueue;      // output packet queue
+
+    bool disposable;
 public:
     Client(ConnectionManager * parent);
     virtual ~Client();
@@ -46,7 +48,22 @@ public:
      *	Processes a packet from the input queue. It does not process all the packets to maintain asynchronous
      *  operation.
      */
-    virtual int processPacket();
+    virtual int processPacket();    
+
+    /*
+     *	Returns true if the client may be disposed.
+     */
+    virtual bool isDisposable();
+
+    /*
+     *	Disconnects the user.
+     */
+    virtual int disconnect(NAIMpacket * packetDISCONNECT);
+
+    /*
+     *	Pings the client. Should be called before the packets in the output queue are processed.
+     */
+    virtual int ping();
 };
 
 /*
@@ -68,10 +85,12 @@ class Peer : public Client {
     time_t lastActiveTime;              // the time the client was last active.
     char * clientName;                  // the name of the client that is managed. if it is NULL no client is logged in on this socket
 
-public:
-    Peer(ConnectionManager * parent);
-    ~Peer();
+    /*
+     *	Internal functions.
+     */
 
+
+    
     /*
      *	Functions for processing packets.
      */
@@ -96,9 +115,30 @@ public:
      *	CONNECTION_DATA
      */
     int processCONNECTIONDATA(NAIMpacket * packet);
+    /*
+     *	STATUS
+     */
+    int processSTATUS(NAIMpacket * packet);
+    /*
+     *	CONNECTION_CLOSED
+     */
+    int processCONNECTION_CLOSED(NAIMpacket * packet);
+    /*
+     *	CONNECTION_CLOSED
+     */
+    int processDISCONNECT(NAIMpacket * packet);
+
+public:
+    Peer(ConnectionManager * parent);
+    ~Peer();
 
     /* Override */
     int processPacket();
+
+    /*
+     *	Disconnects the user.
+     */
+    int disconnect(NAIMpacket * packetDISCONNECT);
 
     /*
      *	Pings the client. Should be called before the packets in the output queue are processed.

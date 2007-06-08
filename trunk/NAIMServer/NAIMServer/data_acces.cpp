@@ -6,8 +6,10 @@
 
 using namespace std;
 
-IQueryExecuter::~IQueryExecuter() {
+IQueryExecuter::~IQueryExecuter(){}
 
+QueryExecuter::~QueryExecuter() {
+    sqlite3_close(database);
 }
 
 void QueryExecuter::addClient(const char * username, const char * password) {
@@ -106,7 +108,7 @@ void QueryExecuter::deleteContact(const char * contactName, const char * clientN
 	delete []query;
 }
 
-void QueryExecuter::moveContatct(const char *contactName, const char * clientName, const char * groupName) {
+void QueryExecuter::moveContact(const char *contactName, const char * clientName, const char * groupName) {
 	deleteContact(contactName,clientName);
 	addContact(contactName,groupName,clientName);
 }
@@ -165,7 +167,71 @@ char ** QueryExecuter::getClientsList(char ** & clientsList, unsigned short & co
 }
 
 /* the output buffer is: group_count(1) group_name_len(1) group_name(group_name_len) user_count(1) username_len(1) username(username_len).....*/
-char * QueryExecuter::getContactsList(const char * clientName, char *& buffer, unsigned int & length) {
+char * QueryExecuter::getContactsBuffer(const char * clientName, char *& buffer, unsigned short & length) {
+    char *errMessage;
+    int rowCnt;
+    int colCnt;
+    const char first_part_group[] = "select Nume from Grupuri where IdClient = (select Id from Clienti where UserName = '";
+    const char second_part_group[] = "')";
+    char *query = new char[strlen(first_part_group) + strlen(second_part_group) + strlen(clientName) + 1];
+    sprintf(query,"%s%s%s",first_part_group,clientName, second_part_group);
+    char **groupsTable = executeQuery(query,rowCnt,colCnt,errMessage);
+    if(groupsTable == NULL)
+    {
+        length = 0;
+        buffer = NULL;
+        delete []query;
+        return buffer;
+    }
+    delete []query;
+    string sbuffer = "";
+    //append group count
+    sbuffer+=(char)(rowCnt-1);
+    for(int i = 1; i < rowCnt;i++)
+    {
+        //append group_name_len_i
+
+        // bai eu zic ca-ti aloca el automat spatiu cand faci un append :)
+        sbuffer+=(char)(strlen(groupsTable[i]));
+        sbuffer+=groupsTable[i];
+        int usersColCnt;
+        int usersRowCnt;
+        const char first_part_users[] = " select c.UserName from Clienti c inner join Contacte ct on c.Id = ct.IdClient\
+                                        inner join Grupuri g on ct.IdGrup = g.Id\
+                                        where g.IdClient = (select c2.Id from Clienti c2 where c2.UserName = '";
+        const char second_part_users[] = "') and g.Nume = '";
+        const char third_part_users[] = "'";
+        query = new char[strlen(first_part_users) + strlen(second_part_users) + strlen(third_part_users) + strlen(groupsTable[i]) + strlen(clientName) + 1];
+        sprintf(query,"%s%s%s%s%s",first_part_users,clientName,second_part_users,groupsTable[i],third_part_users);
+        char **usersTable = executeQuery(query,usersRowCnt,usersColCnt,errMessage);
+        if(usersTable == NULL)
+        {
+            length = 0;
+            buffer = NULL;
+            delete []query;
+            return buffer;
+        }
+        //append users_cnt
+        sbuffer+=(char)(usersRowCnt-1);
+        for(int j = 1; j<usersRowCnt;j++)
+        {
+            sbuffer+=(char)strlen(usersTable[j]);
+            sbuffer+=usersTable[j];
+        }
+        sqlite3_free_table(usersTable);
+        delete []query;
+    }
+    length = sbuffer.size();
+    buffer = new char[length+1];
+    strcpy(buffer,sbuffer.c_str());
+    return buffer;
+}
+
+
+/*
+ *	Returns a list with all the contacts of the client
+ */ 
+char ** QueryExecuter::getContactsList(const char * clientName, char **& list, unsigned short & length) {
     char *errMessage;
 	int rowCnt;
 	int colCnt;
@@ -177,19 +243,19 @@ char * QueryExecuter::getContactsList(const char * clientName, char *& buffer, u
 	if(groupsTable == NULL)
 	{
 		length = 0;
-		buffer = NULL;
+		list = NULL;
 		delete []query;
-		return buffer;
+		return list;
 	}
 	delete []query;
-    string sbuffer = "";
-	//append group count
-	sbuffer+=(char)(rowCnt-1);
+    
+    char *** usersTables = new char ** [rowCnt];
+    int * usersTablesLength = new int[rowCnt];
+
+    length = 0;
+
 	for(int i = 1; i < rowCnt;i++)
 	{
-		//append group_name_len_i
-		sbuffer+=(char)(strlen(groupsTable[i]));
-		sbuffer+=groupsTable[i];
 		int usersColCnt;
 		int usersRowCnt;
 		const char first_part_users[] = " select c.UserName from Clienti c inner join Contacte ct on c.Id = ct.IdClient\
@@ -203,24 +269,32 @@ char * QueryExecuter::getContactsList(const char * clientName, char *& buffer, u
 		if(usersTable == NULL)
 		{
 			length = 0;
-			buffer = NULL;
+			list = NULL;
 			delete []query;
-			return buffer;
+			return list;
 		}
-		//append users_cnt
-		sbuffer+=(char)(usersRowCnt-1);
-		for(int j = 1; j<usersRowCnt;j++)
-		{
-			sbuffer+=(char)strlen(usersTable[j]);
-			sbuffer+=usersTable[j];
-		}
-		sqlite3_free_table(usersTable);
+    
+        length += usersRowCnt - 1;
+        usersTablesLength[i] = usersRowCnt;
+        usersTables[i] = usersTable;
+        
 		delete []query;
 	}
-	length = sbuffer.size();
-	buffer = new char[length+1];
-	strcpy(buffer,sbuffer.c_str());
-	return buffer;
+    
+    list = new char * [length];
+    int index = 0;
+    for (int i = 1; i < rowCnt; ++i) {
+        for (int j = 1; j < usersTablesLength[i]; ++j) {
+            int len = strlen(usersTables[i][j]);
+            list[index] = new char[len + 1];
+            memcpy(list[index], usersTables[i][j], len);
+            list[len] = '\0';
+            
+            sqlite3_free_table(usersTables[i]);
+        }
+    }
+
+	return list;
 }
 
 bool QueryExecuter::isClient(const char * clientName) {
@@ -264,6 +338,9 @@ int QueryExecuter::openDB(const char * path) {
 
 char** QueryExecuter::executeQuery(const char *query, int & nrows, int & ncols, char * & errMsg)
 {
+    if (database == NULL)
+        return NULL;
+
 	char **result = NULL;
 	int queryResult = sqlite3_get_table(database,query,&result,&nrows,&ncols,&errMsg);
 	if(queryResult)
@@ -278,6 +355,9 @@ char** QueryExecuter::executeQuery(const char *query, int & nrows, int & ncols, 
 
 bool QueryExecuter::executeNonQuery(const char *query,char * & errMsg)
 {
+    if (database == NULL)
+        return false;
+
 	int result = sqlite3_exec(database,query,NULL,NULL,&errMsg);
 	if(result)
 		return false;
