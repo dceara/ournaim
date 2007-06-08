@@ -83,6 +83,8 @@ namespace Common.Protocol
                     return new AddContactMessageData(mes._data);
                 case ServiceTypes.REMOVE_CONTACT:
                     return new RemoveContactMessageData(mes._data);
+                case ServiceTypes.STATUS:
+                    return new StatusMessageData(mes._data);
             }
             throw new UnknownServiceException();
         }
