@@ -55,6 +55,7 @@
     <Compile Include="ProtocolEntities\PingMessageData.cs" />
     <Compile Include="ProtocolEntities\RemoveContactMessageData.cs" />
     <Compile Include="ProtocolEntities\SignUpMessageData.cs" />
+    <Compile Include="ProtocolEntities\StatusMessageData.cs" />
     <Compile Include="ProtocolEntities\TextMessageData.cs" />
     <Compile Include="ProtocolEntities\UserConnectedMessageData.cs" />
     <Compile Include="ProtocolEntities\UserDisconnectedMessageData.cs" />

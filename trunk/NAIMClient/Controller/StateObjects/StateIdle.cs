@@ -80,6 +80,9 @@ namespace Controller.StateObjects
                 case Common.ServiceTypes.USER_CONNECTED:
                     HandleUserConnectedMessage((UserConnectedMessageData)messageData);
                     break;
+                case Common.ServiceTypes.STATUS:
+                    HandleStatusMessage((StatusMessageData)messageData);
+                    break;
                 case Common.ServiceTypes.USER_DISCONNECTED:
                     HandleUserDisconnectedMessage((UserDisconnectedMessageData)messageData);
                     break;
@@ -119,11 +122,27 @@ namespace Controller.StateObjects
             else
             {
                 _mainView.ChangeClientStatus(userConnectedData.UserName, userConnectedData.Status);
+                // TODO: ??? why do you create another entry when you already have contact?
                 UserListEntry user = _onlineContacts[userConnectedData.UserName];
                 if (user != null)
                 {
                     user.Status = userConnectedData.Status;
                 }
+            }
+        }
+
+        private void HandleStatusMessage(StatusMessageData messageData)
+        {
+            StatusMessageData statusData = (StatusMessageData)messageData;
+            UserListEntry contact = _onlineContacts[statusData.UserName];
+            if (contact != null)
+            {
+                _mainView.ChangeClientStatus(statusData.UserName, statusData.Status);
+                contact.Status = statusData.Status;
+            }
+            else
+            {
+                // TODO: Throw an exception ?
             }
         }
 
