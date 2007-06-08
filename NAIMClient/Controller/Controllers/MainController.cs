@@ -21,6 +21,9 @@ namespace Controllers
 
     public class MainController
     {
+        /// <summary>
+        /// this is for debugging purposes only. Should be set on true if testing without a server!!!
+        /// </summary>
         private bool withoutServerMode = false;
 
         private AState currentState = null;
