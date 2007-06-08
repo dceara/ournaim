@@ -18,7 +18,7 @@ namespace Controller.File_Transfer
     public class PeerReceiverConnectionHandler
     {
         private string _peerAddress;
-        private ushort _peerPort;
+        private ushort _peerPort; 
 
         public GetFileListDelegate fileListDelegate = null;
         public ReceiveFileDelegate receiveFileDelegate = null;

@@ -16,7 +16,7 @@ namespace Common.File_Transfer
 
         public LockableBool(bool value)
         {
-            _innerValue = value;
+            _innerValue = value; 
         }
 	
     }
