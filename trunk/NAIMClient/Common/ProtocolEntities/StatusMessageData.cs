@@ -28,6 +28,12 @@ namespace Common.ProtocolEntities
         {
         }
 
+        public StatusMessageData(string userName, string status)
+        {
+            this._userName = userName;
+            this._status = status;
+        }
+
         protected override void Deserialize()
         {
             int unameLen = _data[0];
