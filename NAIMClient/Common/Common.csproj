@@ -33,8 +33,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="File Transfer\LockableBool.cs" />
-    <Compile Include="File Transfer\PeerConnectionHandler.cs" />
+    <Compile Include="FileTransfer\LockableBool.cs" />
+    <Compile Include="FileTransfer\PeerConnectionHandler.cs" />
     <Compile Include="Interfaces\IConversationController.cs" />
     <Compile Include="Interfaces\IConversationView.cs" />
     <Compile Include="Interfaces\ICreateAccountView.cs" />
