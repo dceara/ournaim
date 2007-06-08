@@ -23,6 +23,7 @@ namespace Common
         FILE_LIST_GET       = 15,
         ADD_CONTACT         = 16,
         REMOVE_CONTACT      = 17,
+        STATUS              = 18,
     }
     public static class DefaultStatuses
     {
