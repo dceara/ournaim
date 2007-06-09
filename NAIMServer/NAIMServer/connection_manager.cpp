@@ -24,13 +24,15 @@ using namespace std;
  *	ConnectionManager
  */
 
+const time_t ConnectionManager::TIME_TO_PING = 1000;
+const time_t ConnectionManager::TIMEOUT = 1000;
 const timeval ConnectionManager::DEFAULT_SELECT_TIMEOUT = {0, 10000};
 
 ConnectionManager::ConnectionManager() {
     onlineClientsNo = 0;
     queryExecuter = QueryExecuter();
     // TODO: Remove hardcoding.
-    queryExecuter.openDB("Database/database.dat");
+    queryExecuter.openDB(NAIM_DATABASE_NAME);
 
     protocol = Protocol();
     
@@ -128,6 +130,7 @@ int ConnectionManager::clientConnect(Client * clientMan, const char * client, co
  *	Called when an user connects
  */
 int ConnectionManager::clientDisconnect(const char * client) {
+    // TODO: create a string and use it in both calls.
     onlineClients.erase(string(client));
     clientClients.erase(string(client));
 
@@ -139,8 +142,16 @@ int ConnectionManager::clientDisconnect(const char * client) {
 /*
  *	Called when a user already connected connects from a different machine
  */
-int ConnectionManager::userConnectedRemotely(char * username) {
-    clientClients[string(username)]->disconnect(Protocol::createDISCONNECT());
+int ConnectionManager::userConnectedRemotely(Client * clientMan, char * username, const char * status) {
+    string sUsername = string(username);
+    clientClients[sUsername]->disconnect(Protocol::createDISCONNECT());
+    
+    clientClients[sUsername] = clientMan;
+    if (strcmp(onlineClients[sUsername].c_str(), status) != 0) {
+        setStatus(username, status);
+        notifyOfStatusChange(username, status);
+    }
+
     return 0;
 }
 /*
@@ -164,7 +175,6 @@ int ConnectionManager::newConnection(int sock_fd) {
  */
 int ConnectionManager::closeConnection(int sock_fd) {
     printf("Closing connection on socket: %d\n", sock_fd);
-    CLOSE(sock_fd);
     socketClients[sock_fd]->addInputPacket(protocol.createCONNECTION_CLOSED());
     socketClients.erase(sock_fd);
     socketProtocols.erase(sock_fd);
@@ -172,6 +182,7 @@ int ConnectionManager::closeConnection(int sock_fd) {
     FD_CLR(sock_fd, &tmp_read_fds);
     FD_CLR(sock_fd, &write_fds);
     FD_CLR(sock_fd, &tmp_write_fds);
+    CLOSE(sock_fd);
     return 0;
 }
 
@@ -213,6 +224,7 @@ int ConnectionManager::writeClientOutput(int sock_fd) {
         delete packet;
         return -1;
     }
+    printf("%d\n",packet->service);
     delete[] packet->data;
     delete packet;
 
@@ -417,11 +429,32 @@ int ConnectionManager::run() {
          */
         for (set< Client * >::iterator it = clientsSet.begin(); it != clientsSet.end(); ++it) {
             if ((*it)->isDisposable()) {
-                delete *it;
-                clientsSet.erase(it);
+                set< Client * >::iterator old_it = it;
+                --it;
+                delete *old_it;
+                clientsSet.erase(old_it);
             }
             else 
                 (*it)->processPacket();
+        }
+
+        /*
+         *	Check timeouts.
+         */
+        time_t currentTime;
+        time(&currentTime);
+        for(int i = 0; i < fdmax; ++i) {
+            if (FD_ISSET(i, &read_fds)) {
+                if (i != console_sockfd && socketClients.count(i) > 0) {
+                    Client * client = socketClients[i];
+                    if (currentTime - *client->getLastActiveTime() > TIMEOUT) {
+                        closeConnection(i);
+                    }
+                    else if (currentTime - *client->getLastActiveTime() > TIME_TO_PING &&
+                             currentTime - *client->getLastPingTime() > TIME_TO_PING) {                        client->ping();
+                    }
+                }
+            }
         }
 
         /*
@@ -432,7 +465,7 @@ int ConnectionManager::run() {
                 writeClientOutput(i);
             }
         }
-    
+        
         if (quiting) {
             terminate();
             return 0;

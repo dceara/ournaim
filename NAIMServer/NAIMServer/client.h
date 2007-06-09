@@ -19,9 +19,11 @@ protected:
                                                 // all the other clients
     Protocol protocol;                          // for protocol usage    
 
-    std::queue< NAIMpacket * > inputQueue;       // input packet queue
-    std::queue< NAIMpacket * > outputQueue;      // output packet queue
+    std::queue< NAIMpacket * > inputQueue;      // input packet queue
+    std::queue< NAIMpacket * > outputQueue;     // output packet queue
 
+    time_t lastActiveTime;                      // the time the client was last active.
+    time_t lastPingTime;
     bool disposable;
 public:
     Client(ConnectionManager * parent);
@@ -61,6 +63,21 @@ public:
     virtual int disconnect(NAIMpacket * packetDISCONNECT);
 
     /*
+     *	Returns the number of seconds since the connection was active
+     */
+    virtual const time_t * getLastActiveTime();
+
+    /*
+    *	Returns the number of seconds since the connection was pinged
+    */
+    virtual const time_t * getLastPingTime();
+
+    /*
+     *	Resets the lastActiveTime to currentTime;
+     */
+    virtual void resetLastActiveTime();
+
+    /*
      *	Pings the client. Should be called before the packets in the output queue are processed.
      */
     virtual int ping();
@@ -81,8 +98,7 @@ public:
  *	Handles communication with a peer.
  */
 class Peer : public Client {
-    int clientID;                       // the database id of the client it handles. the name might also be needed
-    time_t lastActiveTime;              // the time the client was last active.
+    int clientID;                       // the database id of the client it handles. the name might also be 
     char * clientName;                  // the name of the client that is managed. if it is NULL no client is logged in on this socket
 
     /*
@@ -151,6 +167,16 @@ public:
      *	Disconnects the user.
      */
     int disconnect(NAIMpacket * packetDISCONNECT);
+
+    /*
+     *	Returns the number of seconds since the connection was active
+     */
+    const time_t * getLastActiveTime();
+
+    /*
+     *	Returns the number of seconds since the connection was pinged
+     */
+    const time_t * getLastPingTime();
 
     /*
      *	Pings the client. Should be called before the packets in the output queue are processed.

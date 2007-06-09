@@ -18,6 +18,8 @@ Client::Client(ConnectionManager * parent) {
     
     protocol = Protocol();
 
+    time(&lastActiveTime);
+    time(&lastPingTime);
     disposable = false;
 }
 
@@ -69,6 +71,30 @@ bool Client::isDisposable() {
 int Client::disconnect(NAIMpacket * packetDISCONNECT) {
     return 0;
 }
+
+/*
+ *	Returns the number of seconds since the connection was active
+ */
+const time_t * Client::getLastActiveTime() {
+    time(&lastActiveTime);
+    return &lastActiveTime;
+}
+
+/*
+ *	Returns the number of seconds since the connection was pinged
+ */
+const time_t * Client::getLastPingTime() {
+    time(&lastPingTime);
+    return &lastPingTime;
+}
+
+/*
+ *	Resets the lastActiveTime to current time
+ */
+void Client::resetLastActiveTime() {
+    time(&lastActiveTime);
+}
+
 /*
  *	Implemented by Peer
  */
@@ -194,8 +220,8 @@ int Peer::processLOGIN(NAIMpacket * packet) {
     
         // If all is ok send ACK
         // Hmmm, se pare ca clientul nu asteapta asta :)
-        //NAIMpacket * tempPacket = Protocol::createACK();
-        //addOutputPacket(tempPacket);
+        NAIMpacket * tempPacket = Protocol::createACK();
+        addOutputPacket(tempPacket);
 
         delete[] password;
         delete[] dbPassword;
@@ -228,13 +254,11 @@ int Peer::processLOGIN(NAIMpacket * packet) {
 
         // If the client is already logged in on another connection, log him out on that connection
         if (cMan->isOnline(username)) {
-            cMan->userConnectedRemotely(username);
-            cMan->notifyOfStatusChange(username, status);
+            cMan->userConnectedRemotely(this, username, status);
         }
         else {
-            cMan->notifyOfUserConnect(username, status);
+            cMan->clientConnect(this, clientName, status);
         }
-        cMan->setStatus(username, status);
         
     }
 
@@ -562,6 +586,20 @@ int Peer::processPacket() {
 }
 
 /*
+ *	Returns the number of seconds since the connection was active
+ */
+const time_t * Peer::getLastActiveTime() {
+    return &lastActiveTime;
+}
+
+/*
+ *	Returns the number of seconds since the connection was pinged
+ */
+const time_t * Peer::getLastPingTime() {
+    return &lastPingTime;
+}
+
+/*
  *	Disconnects the user.
  */
 int Peer::disconnect(NAIMpacket * packetDISCONNECT) {
@@ -575,6 +613,7 @@ int Peer::disconnect(NAIMpacket * packetDISCONNECT) {
  *	Pings the client
  */
 int Peer::ping() {
+    time(&lastPingTime);
     outputQueue.push(Protocol::createPING());
     return 0;
 }

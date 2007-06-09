@@ -135,7 +135,7 @@ char * QueryExecuter::getPassword(const char * clientName, char * & password) {
 		return password;
 	}
 
-	password = new char[strlen(resultTable[1])];
+	password = new char[strlen(resultTable[1]) + 1];
 	strcpy(password,resultTable[1]);
 
 	/*cleanup the query results*/
@@ -160,7 +160,7 @@ char ** QueryExecuter::getClientsList(char ** & clientsList, unsigned short & co
 	for(int i = 1;i<rowCnt;i++)
 	{
 		int len = strlen(clientsTable[i]);
-		clientsList[i-1] = new char[len];
+		clientsList[i-1] = new char[len+1];
 		strcpy(clientsList[i-1],clientsTable[i]);
 	}
 
