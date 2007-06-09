@@ -157,14 +157,14 @@ namespace Controllers
             
             currentState.ConversationControllers = conversationControllers;
 
-            if (!withoutServerMode)
-            {
-                if (!CreateServerConnection())
-                {
-                    MessageBox.Show("Eroare la conectarea la server!!!");
-                    return;
-                }
-            }
+            //if (!withoutServerMode)
+            //{
+            //    if (!CreateServerConnection())
+            //    {
+            //        MessageBox.Show("Eroare la conectarea la server!!!");
+            //        return;
+            //    }
+            //}
 
         }
         public void InitialiseConversation(string userName,IConversationView conversationView)
@@ -201,6 +201,15 @@ namespace Controllers
 
         private void MainLoop()
         {
+            if (!withoutServerMode)
+            {
+                if (!CreateServerConnection())
+                {
+                    MessageBox.Show("Eroare la conectarea la server!!!");
+                    return;
+                }
+            }
+
             while (true)
             {
                 if (toBreak)
@@ -212,10 +221,14 @@ namespace Controllers
                 {
                     if (serverSocket.Poll(1, SelectMode.SelectRead))
                     {
-                        byte[] receivedBuffer = new byte[ushort.MaxValue];
-                        int n = serverSocket.Receive(receivedBuffer);
-                        byte[] messageBuffer = new byte[n];
-                        Array.Copy(receivedBuffer, messageBuffer, n);
+                        byte[] headerBuffer = new byte[8];
+                        int n = serverSocket.Receive(headerBuffer);
+                        ushort contentLength = AMessageData.ToShort(headerBuffer[6], headerBuffer[7]);
+                        byte[] rawData = new byte[contentLength];
+                        n = serverSocket.Receive(rawData);
+                        byte[] messageBuffer = new byte[headerBuffer.Length+contentLength];
+                        Array.Copy(headerBuffer, messageBuffer, headerBuffer.Length);
+                        Array.Copy(rawData, 0, messageBuffer,headerBuffer.Length, contentLength);
                         Common.Protocol.Message newMessage = new Common.Protocol.Message(messageBuffer);
                         inputMessageQueue.Add(newMessage);
                     }
