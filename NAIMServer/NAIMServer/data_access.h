@@ -86,6 +86,7 @@ class QueryExecuter : public IQueryExecuter {
     sqlite3 * database;
 
 public:
+    QueryExecuter();
     ~QueryExecuter();
 
     void addClient(const char * username, const char * password);

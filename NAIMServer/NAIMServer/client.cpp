@@ -88,6 +88,20 @@ int Console::processPacket() {
         if (strncmp(packet->data, "terminate", 9) == 0) {
             cMan->quit();
         }
+        if (strncmp(packet->data, "list", 4) == 0) {
+            printf("==LIST:\n");
+
+            char ** clients;
+            unsigned short len;
+            cMan->queryExecuter.getClientsList(clients, len);
+            for(int i = 0; i < len; ++i)
+                printf("CLIENT: %s\n", clients[i]);
+
+            for (int i = 0; i < len; ++i)
+                delete[] clients[i];
+            
+            delete[] clients;
+        }
 
         delete[] packet->data;
         delete packet;
@@ -104,7 +118,8 @@ int Console::processPacket() {
  */
 
 Peer::Peer(ConnectionManager * parent) : Client(parent) {
-    outputQueue.push(protocol.createACK());
+    // Hmmm, se pare ca clientul nu asteapta asta :)
+    //outputQueue.push(protocol.createACK());
     clientName = NULL;
 }
 
@@ -178,8 +193,9 @@ int Peer::processLOGIN(NAIMpacket * packet) {
         }
     
         // If all is ok send ACK
-        NAIMpacket * tempPacket = Protocol::createACK();
-        addOutputPacket(tempPacket);
+        // Hmmm, se pare ca clientul nu asteapta asta :)
+        //NAIMpacket * tempPacket = Protocol::createACK();
+        //addOutputPacket(tempPacket);
 
         delete[] password;
         delete[] dbPassword;
