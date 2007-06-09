@@ -206,29 +206,32 @@ int ConnectionManager::writeClientOutput(int sock_fd) {
     int length;
     if (protocol.packetToBuffer(packet, buffer, length) == NULL) {          // buffer and length are references
         // don't know if i should do something else
-        delete packet->data;
+        delete[] packet->data;
         delete packet;
         return -1;
     }
-    delete packet->data;
+    delete[] packet->data;
     delete packet;
 
     // TODO: add a timeout. the packet should not be removed from the queue if send fails.
     int n = send(sock_fd, buffer, length, 0);
     if (n != length) {
         printf("ERROR writing packet to socket: %d", sock_fd);
-        delete buffer;
+        delete[] buffer;
         return -1;
     }
-    delete buffer;
+    delete[] buffer;
 
     return 0;
 }
 
 /*
- *	Sends a packet from sender to receiver by transferring it to the receivers output queue
+ *	Sends a packet from sender to receiver by transferring it to the receivers output queue. Check if the
+ *  receiver exists before calling otherwise the receiver will be created.
  */
 int ConnectionManager::transferPacket(const char * receiver, NAIMpacket * packet) {
+    // TODO: check if the receiver is online. this might be redundant if the check is made before the 
+    // function call
     clientClients[string(receiver)]->addOutputPacket(packet);
     return 0;
 }
@@ -262,9 +265,9 @@ void * commandThread(void *) {
             Protocol::packetToBuffer(packet, buffer, length);
             length = send(com_sock, buffer, length, 0);
             
-            delete packet->data;
+            delete[] packet->data;
             delete packet;
-            delete buffer;
+            delete[] buffer;
             break;
         }
     }
@@ -427,6 +430,8 @@ int ConnectionManager::run() {
 }
 
 void ConnectionManager::terminate() {
+    // TODO: release all resources on exit. Close the database.
+
 #ifdef WIN32
     WSACleanup();
 #else

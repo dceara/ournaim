@@ -104,6 +104,10 @@ class Peer : public Client {
      */
     int processLOGIN(NAIMpacket * packet);
     /*
+     *	LOGOUT
+     */
+    int processLOGOUT(NAIMpacket * packet);
+    /*
      *	TEXT
      */
     int processTEXT(NAIMpacket * packet);
@@ -115,6 +119,14 @@ class Peer : public Client {
      *	CONNECTION_DATA
      */
     int processCONNECTIONDATA(NAIMpacket * packet);
+    /*
+     *	ADD_CONTACT
+     */
+    int processADD_CONTACT(NAIMpacket * packet);
+    /*
+     *	REMOVE_CONTACT
+     */
+    int processREMOVE_CONTACT(NAIMpacket * packet);
     /*
      *	STATUS
      */
