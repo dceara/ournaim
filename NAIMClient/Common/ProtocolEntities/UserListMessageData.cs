@@ -41,9 +41,12 @@ namespace Common.ProtocolEntities
                 index += _data[index] + 1;
                 GroupEntry entry = new GroupEntry(name);
                 int userCnt = _data[index++];
-                UserListEntry userEntry = new UserListEntry();
-                index = GetNextUserListEntry(index, ref userEntry);
-                entry.Users.Add(userEntry);
+                for (int j = 0; j < userCnt; j++)
+                {
+                    UserListEntry userEntry = new UserListEntry();
+                    index = GetNextUserListEntry(index, ref userEntry);
+                    entry.Users.Add(userEntry);
+                }
                 _groupsList[i] = entry;
             }
             index = GetUserAvailabilities(index, ref _groupsList);
