@@ -32,7 +32,8 @@ namespace Common.Protocol
 
         public Message(byte[] rawData)
         {
-            _header = new MessageHeader((ServiceTypes)rawData[4]);
+            ushort service = AMessageData.ToShort(rawData[4], rawData[5]);
+            _header = new MessageHeader((ServiceTypes)service);
             _data = new byte[rawData.Length - 5];
             Array.Copy(rawData, 5, _data, 0, rawData.Length - 5);
         }

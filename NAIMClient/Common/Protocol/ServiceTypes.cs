@@ -2,7 +2,7 @@ using System;
 
 namespace Common
 {
-    public enum ServiceTypes:byte
+    public enum ServiceTypes:ushort
     {
         ACK                 = 0,
         NACK                = 1,
