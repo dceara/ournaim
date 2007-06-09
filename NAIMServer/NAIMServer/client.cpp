@@ -89,7 +89,7 @@ int Console::processPacket() {
             cMan->quit();
         }
 
-        delete packet->data;
+        delete[] packet->data;
         delete packet;
     }
 
@@ -110,7 +110,7 @@ Peer::Peer(ConnectionManager * parent) : Client(parent) {
 
 Peer::~Peer() {
     if (clientName != NULL) {
-        delete clientName;
+        delete[] clientName;
     }
 }
 
@@ -129,17 +129,18 @@ int Peer::processSIGN_UP(NAIMpacket * packet) {
 
         cMan->queryExecuter.addClient(username, password);
         cMan->queryExecuter.addGroup("Friends", username);
-        delete password;
+        delete[] password;
 
         NAIMpacket * tempPacket = Protocol::createACK();
         addOutputPacket(tempPacket);
     }
 
-    delete username;
-    delete packet->data;
+    delete[] username;
+    delete[] packet->data;
     delete packet;
     return 0;
 }
+
 
 /*
  *	LOGIN
@@ -154,8 +155,8 @@ int Peer::processLOGIN(NAIMpacket * packet) {
         NAIMpacket * tempPacket = Protocol::createNACK();
         addOutputPacket(tempPacket);
 
-        delete username;
-        delete packet->data;
+        delete[] username;
+        delete[] packet->data;
         delete packet;
         return -1;
     }
@@ -168,10 +169,10 @@ int Peer::processLOGIN(NAIMpacket * packet) {
             NAIMpacket * tempPacket = Protocol::createNACK();
             addOutputPacket(tempPacket);
 
-            delete username;
-            delete password;
-            delete dbPassword;
-            delete packet->data;
+            delete[] username;
+            delete[] password;
+            delete[] dbPassword;
+            delete[] packet->data;
             delete packet;
             return -1;
         }
@@ -180,8 +181,8 @@ int Peer::processLOGIN(NAIMpacket * packet) {
         NAIMpacket * tempPacket = Protocol::createACK();
         addOutputPacket(tempPacket);
 
-        delete password;
-        delete dbPassword;
+        delete[] password;
+        delete[] dbPassword;
     }
 
     char * status;
@@ -199,7 +200,7 @@ int Peer::processLOGIN(NAIMpacket * packet) {
         // Else disconnect the old user.
         else {
             cMan->clientDisconnect(username);
-            delete clientName;
+            delete[] clientName;
             clientName = NULL;
         }
     }
@@ -212,11 +213,16 @@ int Peer::processLOGIN(NAIMpacket * packet) {
         // If the client is already logged in on another connection, log him out on that connection
         if (cMan->isOnline(username)) {
             cMan->userConnectedRemotely(username);
+            cMan->notifyOfStatusChange(username, status);
         }
-        cMan->notifyOfStatusChange(username, status);
+        else {
+            cMan->notifyOfUserConnect(username, status);
+        }
+        cMan->setStatus(username, status);
+        
     }
 
-    delete status;
+    delete[] status;
 
 
     // Send the contacts list
@@ -258,10 +264,26 @@ int Peer::processLOGIN(NAIMpacket * packet) {
 
     NAIMpacket * tempPacket = Protocol::createUSER_LIST(data, contactsBufferLen + availability.size() + statuses.size());
     addOutputPacket(tempPacket);
-    delete data;
+    delete[] data;
 
-    delete username;
-    delete packet->data;
+    delete[] username;
+    delete[] packet->data;
+    delete packet;
+    return 0;
+}
+
+
+/*
+ *	LOGOUT
+ */
+int Peer::processLOGOUT(NAIMpacket * packet) {
+    if (clientName != NULL) {
+        cMan->clientDisconnect(clientName);
+        delete[] clientName;
+        clientName = NULL;
+    }
+
+    delete[] packet->data;
     delete packet;
     return 0;
 }
@@ -270,13 +292,23 @@ int Peer::processLOGIN(NAIMpacket * packet) {
  *	TEXT
  */
 int Peer::processTEXT(NAIMpacket * packet) {
-    // TODO: check the sender
-    char * receiver;
-    Protocol::getTEXTReceiver(packet, receiver);
+    if (clientName != NULL) {
+        char * sender;
+        Protocol::getTEXTSender(packet, sender);
 
-    cMan->transferPacket(receiver, packet);
+        if (strcmp(clientName, sender) == 0) {
+            char * receiver;
+            Protocol::getTEXTReceiver(packet, receiver);
 
-    delete receiver;
+            if (cMan->isOnline(receiver))
+                cMan->transferPacket(receiver, packet);
+
+            delete[] receiver;
+        }
+
+        delete[] sender;
+    }
+
     return 0;
 }
 
@@ -284,6 +316,23 @@ int Peer::processTEXT(NAIMpacket * packet) {
  *	CONNECTION_REQ
  */
 int Peer::processCONNECTION_REQ(NAIMpacket * packet) {
+    if (clientName != NULL) {
+        char * sender;
+        Protocol::getCONNECTION_REQSender(packet, sender);
+
+        if (strcmp(clientName, sender) == 0) {
+            char * receiver;
+            Protocol::getCONNECTION_REQReceiver(packet, receiver);
+
+            if (cMan->isOnline(receiver))
+                cMan->transferPacket(receiver, packet);
+
+            delete[] receiver;
+        }
+
+        delete[] sender;
+    }
+
     return 0;
 }
 
@@ -291,6 +340,75 @@ int Peer::processCONNECTION_REQ(NAIMpacket * packet) {
  *	CONNECTION_DATA
  */
 int Peer::processCONNECTIONDATA(NAIMpacket * packet) {
+    if (clientName != NULL) {
+        char * sender;
+        Protocol::getCONNECTION_DATASender(packet, sender);
+
+        if (strcmp(clientName, sender) == 0) {
+            char * receiver;
+            Protocol::getCONNECTION_DATAReceiver(packet, receiver);
+
+            if (cMan->isOnline(receiver))
+                cMan->transferPacket(receiver, packet);
+
+            delete[] receiver;
+        }
+
+        delete[] sender;
+    }
+
+    return 0;
+}
+
+/*
+ *	ADD_CONTACT
+ */
+int Peer::processADD_CONTACT(NAIMpacket * packet) {
+    if (clientName != NULL) {
+        char * username;
+        Protocol::getADD_CONTACTUsername(packet, username);
+        
+        if (strcmp(clientName, username) == 0) {
+            char * contact, * group;
+            Protocol::getADD_CONTACTContact(packet, contact);
+            Protocol::getADD_CONTACTGroup(packet, group);
+
+            cMan->queryExecuter.addContact(contact, group, username);
+
+            delete[] contact;
+            delete[] group;
+        }
+
+        delete[] username;
+    }
+
+    delete[] packet->data;
+    delete packet;
+    return 0;
+}
+
+/*
+ *	REMOVE_CONTACT
+ */
+int Peer::processREMOVE_CONTACT(NAIMpacket * packet) {
+    if (clientName != NULL) {
+        char * username;
+        Protocol::getREMOVE_CONTACTUsername(packet, username);
+
+        if (strcmp(clientName, username) == 0) {
+            char * contact;
+            Protocol::getREMOVE_CONTACTContact(packet, contact);
+
+            cMan->queryExecuter.deleteContact(contact, username);
+
+            delete[] contact;
+        }
+
+        delete[] username;
+    }
+
+    delete[] packet->data;
+    delete packet;
     return 0;
 }
 
@@ -298,15 +416,23 @@ int Peer::processCONNECTIONDATA(NAIMpacket * packet) {
  *	STATUS
  */
 int Peer::processSTATUS(NAIMpacket * packet) {
-    // TODO: check if sender is the same as clientName
-    // Notify all of it's contacts
-    char * status;
-    Protocol::getLOGINStatus(packet, status);
+    if (clientName != NULL) {
+        char * username;
+        Protocol::getSIGN_UPUsername(packet, username);
 
-    cMan->notifyOfUserConnect(clientName, status);
+        if (strcmp(username, clientName) == 0) {
+            char * status;
+            Protocol::getSTATUSStatus(packet, status);
 
-    delete status;
-    delete packet->data;
+            cMan->notifyOfStatusChange(clientName, status);
+
+            delete[] status;
+        }
+        
+        delete[] username;
+    }
+    
+    delete[] packet->data;
     delete packet;
     return 0;
 }
@@ -317,7 +443,8 @@ int Peer::processCONNECTION_CLOSED(NAIMpacket * packet) {
     disposable = true;
     if (clientName != NULL) {
         cMan->clientDisconnect(clientName);
-        delete clientName;
+        
+        delete[] clientName;
         clientName = NULL;
     }
     
@@ -328,11 +455,19 @@ int Peer::processCONNECTION_CLOSED(NAIMpacket * packet) {
  *	DISCONNECT
  */
 int Peer::processDISCONNECT(NAIMpacket * packet) {
-    addOutputPacket(packet);
-    disposable = true;
+    if (clientName != NULL) {
+        addOutputPacket(packet);
+        disposable = true;
+        delete[] clientName;
+    }
+
     return 0;
 }
 
+
+/*
+ *	Processes the packets.
+ */
 int Peer::processPacket() {
     if (inputQueue.size() > 0) {
         NAIMpacket * packet = inputQueue.front();
@@ -346,7 +481,6 @@ int Peer::processPacket() {
 
 
         switch(packet->service) {
-            // PING
             case PING: {
                 time(&lastActiveTime);
                 break;
@@ -361,6 +495,11 @@ int Peer::processPacket() {
                 processLOGIN(packet);
                 break;
                     }
+            case LOGOUT: {
+                time(&lastActiveTime);
+                processLOGIN(packet);
+                break;
+                     }
             case TEXT: {
                 time(&lastActiveTime);
                 processTEXT(packet);
@@ -376,6 +515,16 @@ int Peer::processPacket() {
                 processCONNECTIONDATA(packet);
                 break;
                     }
+            case ADD_CONTACT: {
+                time(&lastActiveTime);
+                processADD_CONTACT(packet);
+                break;                      
+                    }
+            case REMOVE_CONTACT: {
+                time(&lastActiveTime);
+                processREMOVE_CONTACT(packet);
+                break;                      
+                    }
             case STATUS: {
                 time(&lastActiveTime);
                 processSTATUS(packet);
@@ -388,7 +537,7 @@ int Peer::processPacket() {
             case DISCONNECT: {
                 processDISCONNECT(packet);
                 break;
-                     }
+                    }
         }
 
         inputQueue.pop();

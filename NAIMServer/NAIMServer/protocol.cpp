@@ -26,6 +26,9 @@ Protocol::~Protocol() {
 
 }
 
+/*
+ *	packetToBuffer
+ */
 char * Protocol::packetToBuffer(NAIMpacket * packet, char * & buffer, int & bufferLength) {
     // TODO: find another way. this is inefficient
     // remove hard coding
@@ -40,6 +43,9 @@ char * Protocol::packetToBuffer(NAIMpacket * packet, char * & buffer, int & buff
     return buffer;
 }
 
+/*
+ *	readPacket
+ */
 int Protocol::readPacket(int socket, NAIMpacket * & packet) {
     packet = NULL;
     
@@ -67,7 +73,7 @@ int Protocol::readPacket(int socket, NAIMpacket * & packet) {
     if (tempPacket != NULL && readDataSize != tempPacket->dataSize) {
         int n = recv(socket, tempPacket->data + readDataSize, tempPacket->dataSize, 0);
         if (n <= 0) {
-            delete packet->data;
+            delete[] packet->data;
             delete packet;
             return n;
         }
@@ -85,6 +91,9 @@ int Protocol::readPacket(int socket, NAIMpacket * & packet) {
     return 1;
 }
 
+/*
+ *	ACK
+ */
 NAIMpacket * Protocol::createACK() {
     NAIMpacket * temp = new NAIMpacket();
     temp->service = ACK;
@@ -94,6 +103,9 @@ NAIMpacket * Protocol::createACK() {
     return temp;
 }
 
+/*
+ *	NACK
+ */
 NAIMpacket * Protocol::createNACK() {
     NAIMpacket * temp = new NAIMpacket();
     temp->service = NACK;
@@ -103,6 +115,9 @@ NAIMpacket * Protocol::createNACK() {
     return temp;
 }
 
+/*
+ *	PING
+ */
 NAIMpacket * Protocol::createPING() {
     NAIMpacket * temp = new NAIMpacket();
     temp->service = PING;
@@ -112,6 +127,9 @@ NAIMpacket * Protocol::createPING() {
     return temp;
 }
 
+/*
+ *	USER_CONNECTED
+ */
 NAIMpacket * Protocol::createUSER_CONNECTED(const char * username, const char * status) {
     unsigned char usernameLen = strlen(username);
     unsigned char statusLen = strlen(status);
@@ -128,6 +146,9 @@ NAIMpacket * Protocol::createUSER_CONNECTED(const char * username, const char * 
     return temp;
 }
 
+/*
+ *	USER_DISCONNECTED
+ */
 NAIMpacket * Protocol::createUSER_DISCONNECTED(const char * username) {
     unsigned char usernameLen = strlen(username);
 
@@ -141,6 +162,9 @@ NAIMpacket * Protocol::createUSER_DISCONNECTED(const char * username) {
     return temp;
 }
 
+/*
+ *	STATUS
+ */
 NAIMpacket * Protocol::createSTATUS(const char * username, const char * status) {
     unsigned char usernameLen = strlen(username);
     unsigned char statusLen = strlen(status);
@@ -157,6 +181,9 @@ NAIMpacket * Protocol::createSTATUS(const char * username, const char * status) 
     return temp;
 }
 
+/*
+ *	USER_LIST
+ */
 NAIMpacket * Protocol::createUSER_LIST(const char * data, const unsigned short size) {
     NAIMpacket * temp = new NAIMpacket();
     temp->service = USER_LIST;
@@ -168,6 +195,9 @@ NAIMpacket * Protocol::createUSER_LIST(const char * data, const unsigned short s
     return temp;
 }
 
+/*
+ *	COMMAND
+ */
 NAIMpacket * Protocol::createCOMMAND(const char * command, unsigned short length) {
     NAIMpacket * temp = new NAIMpacket();
     temp->service = CONNECTION_CLOSED;
@@ -178,6 +208,9 @@ NAIMpacket * Protocol::createCOMMAND(const char * command, unsigned short length
     return temp;
 }
 
+/*
+ *	CONNECTION_CLOSED
+ */
 NAIMpacket * Protocol::createCONNECTION_CLOSED() {
     NAIMpacket * temp = new NAIMpacket();
     temp->service = CONNECTION_CLOSED;
@@ -187,6 +220,9 @@ NAIMpacket * Protocol::createCONNECTION_CLOSED() {
     return temp;
 }
 
+/*
+ *	DISCONNECT
+ */
 NAIMpacket * Protocol::createDISCONNECT() {
     NAIMpacket * temp = new NAIMpacket();
     temp->service = DISCONNECT;
@@ -225,7 +261,7 @@ char * Protocol::getSIGN_UPPassword(NAIMpacket * packetSIGN_UP, char * & passwor
 char * Protocol::getLOGINUsername(NAIMpacket * packetLOGIN, char * & username) {
     unsigned char length = (unsigned char)packetLOGIN->data; 
     username = new char[length + 1];
-    memcpy(username, packetLOGIN->data + sizeof(short), length);
+    memcpy(username, packetLOGIN->data + sizeof(char), length);
     username[length] = '\0';
     return username;
 }
@@ -236,7 +272,7 @@ char * Protocol::getLOGINPassword(NAIMpacket * packetLOGIN, char * & password) {
     unsigned char userLen = (unsigned char)packetLOGIN->data;
     unsigned char length = (unsigned char)(packetLOGIN->data + sizeof(char) + userLen);
     password = new char[length + 1];
-    memcpy(password, packetLOGIN->data + 2 * sizeof(short) + userLen, length);
+    memcpy(password, packetLOGIN->data + 2 * sizeof(char) + userLen, length);
     password[length] = '\0';
     return password;
 }
@@ -248,7 +284,7 @@ char * Protocol::getLOGINStatus(NAIMpacket * packetLOGIN, char * & status) {
     unsigned char passLen = (unsigned char)(packetLOGIN->data + sizeof(char) + userLen);
     unsigned char length = (unsigned char)(packetLOGIN->data + 2 * sizeof(char) + userLen + passLen);
     status = new char[length + 1];
-    memcpy(status, packetLOGIN->data + 3 * sizeof(short) + userLen + passLen, length);
+    memcpy(status, packetLOGIN->data + 3 * sizeof(char) + userLen + passLen, length);
     status[length] = '\0';
     return status;
 }
@@ -258,7 +294,7 @@ char * Protocol::getLOGINStatus(NAIMpacket * packetLOGIN, char * & status) {
 char * Protocol::getTEXTSender(NAIMpacket * packetTEXT, char * & sender) {
     unsigned char length = (unsigned char)packetTEXT->data;
     sender = new char[length + 1];
-    memcpy(sender, packetTEXT->data + sizeof(short), length);
+    memcpy(sender, packetTEXT->data + sizeof(char), length);
     sender[length] = '\0';
     return sender;
 }
@@ -269,7 +305,7 @@ char * Protocol::getTEXTReceiver(NAIMpacket * packetTEXT, char * & receiver) {
     unsigned char senderLen = (unsigned char)packetTEXT->data;
     unsigned char length = (unsigned char)(packetTEXT->data + sizeof(char) + senderLen);
     receiver = new char[length + 1];
-    memcpy(receiver, packetTEXT->data + 2 * sizeof(short) + senderLen, length);
+    memcpy(receiver, packetTEXT->data + 2 * sizeof(char) + senderLen, length);
     receiver[length] = '\0';
     return receiver;
 }
@@ -279,7 +315,7 @@ char * Protocol::getTEXTReceiver(NAIMpacket * packetTEXT, char * & receiver) {
 char * Protocol::getCONNECTION_REQSender(NAIMpacket * packetCONNECTION_REQ, char * & sender) {
     unsigned char length = (unsigned char)packetCONNECTION_REQ->data;
     sender = new char[length + 1];
-    memcpy(sender, packetCONNECTION_REQ->data + sizeof(short), length);
+    memcpy(sender, packetCONNECTION_REQ->data + sizeof(char), length);
     sender[length] = '\0';
     return sender;
 }
@@ -290,7 +326,7 @@ char * Protocol::getCONNECTION_REQReceiver(NAIMpacket * packetCONNECTION_REQ, ch
     unsigned char senderLen = (unsigned char)packetCONNECTION_REQ->data;
     unsigned char length = (unsigned char)(packetCONNECTION_REQ->data + sizeof(char) + senderLen);
     receiver = new char[length];
-    memcpy(receiver, packetCONNECTION_REQ->data + 2 * sizeof(short) + senderLen, length);
+    memcpy(receiver, packetCONNECTION_REQ->data + 2 * sizeof(char) + senderLen, length);
     receiver[length] = '\0';
     return receiver;
 }
@@ -300,7 +336,7 @@ char * Protocol::getCONNECTION_REQReceiver(NAIMpacket * packetCONNECTION_REQ, ch
 char * Protocol::getCONNECTION_DATASender(NAIMpacket * packetCONNECTION_DATA, char * & sender) {
     unsigned char length = (unsigned char)packetCONNECTION_DATA->data;
     sender = new char[length + 1];
-    memcpy(sender, packetCONNECTION_DATA->data + sizeof(short), length);
+    memcpy(sender, packetCONNECTION_DATA->data + sizeof(char), length);
     sender[length] = '\0';
     return sender;
 }
@@ -311,14 +347,68 @@ char * Protocol::getCONNECTION_DATAReceiver(NAIMpacket * packetCONNECTION_DATA, 
     unsigned char senderLen = (unsigned char)packetCONNECTION_DATA->data;
     unsigned char length = (unsigned char)(packetCONNECTION_DATA->data + sizeof(char) + senderLen);
     receiver = new char[length];
-    memcpy(receiver, packetCONNECTION_DATA->data + 2 * sizeof(short) + senderLen, length);
+    memcpy(receiver, packetCONNECTION_DATA->data + 2 * sizeof(char) + senderLen, length);
     receiver[length] = '\0'; 
     return receiver;
 }
 /*
+*	Returns the username from a ADD_CONTACT package;
+*/
+char * Protocol::getADD_CONTACTUsername(NAIMpacket * packetADD_CONTACT, char * & username) {
+    unsigned char length = (unsigned char)packetADD_CONTACT->data; 
+    username = new char[length + 1];
+    memcpy(username, packetADD_CONTACT->data + sizeof(char), length);
+    username[length] = '\0';
+    return username;
+}
+/*
+*	Returns the new contact from a ADD_CONTACT package;
+*/
+char * Protocol::getADD_CONTACTContact(NAIMpacket * packetADD_CONTACT, char * & contact) {
+    unsigned char userLen = (unsigned char)packetADD_CONTACT->data;
+    unsigned char length = (unsigned char)(packetADD_CONTACT->data + sizeof(char) + userLen);
+    contact = new char[length + 1];
+    memcpy(contact, packetADD_CONTACT->data + 2 * sizeof(char) + userLen, length);
+    contact[length] = '\0';
+    return contact;
+}
+/*
+*	Returns the group from a ADD_CONTACT package;
+*/
+char * Protocol::getADD_CONTACTGroup(NAIMpacket * packetADD_CONTACT, char * & group) {
+    unsigned char userLen = (unsigned char)packetADD_CONTACT->data;
+    unsigned char contactLen = (unsigned char)(packetADD_CONTACT->data + sizeof(char) + userLen);
+    unsigned char length = (unsigned char)(packetADD_CONTACT->data + 2 * sizeof(char) + userLen + contactLen);
+    group = new char[length + 1];
+    memcpy(group, packetADD_CONTACT->data + 3 * sizeof(char) + userLen + contactLen, length);
+    group[length] = '\0';
+    return group;
+}
+/*
+*	Returns the username from a REMOVE_CONTACT package;
+*/
+char * Protocol::getREMOVE_CONTACTUsername(NAIMpacket * packetREMOVE_CONTACT, char * & username) {
+    unsigned char length = (unsigned char)packetREMOVE_CONTACT->data; 
+    username = new char[length + 1];
+    memcpy(username, packetREMOVE_CONTACT->data + sizeof(char), length);
+    username[length] = '\0';
+    return username;
+}
+/*
+*	Returns the new contact from a REMOVE_CONTACT package;
+*/
+char * Protocol::getREMOVE_CONTACTContact(NAIMpacket * packetREMOVE_CONTACT, char * & contact) {
+    unsigned char userLen = (unsigned char)packetREMOVE_CONTACT->data;
+    unsigned char length = (unsigned char)(packetREMOVE_CONTACT->data + sizeof(char) + userLen);
+    contact = new char[length + 1];
+    memcpy(contact, packetREMOVE_CONTACT->data + 2 * sizeof(char) + userLen, length);
+    contact[length] = '\0';
+    return contact;
+}
+/*
  *	Returns the username from a STATUS package;
  */
-static char * getSTATUSUsername(NAIMpacket * packetSTATUS, char * & username) {
+char * Protocol::getSTATUSUsername(NAIMpacket * packetSTATUS, char * & username) {
     unsigned char length = (unsigned char)*packetSTATUS->data;
     username = new char[length + 1];
     memcpy(username, packetSTATUS->data + sizeof(char), length);
@@ -328,7 +418,7 @@ static char * getSTATUSUsername(NAIMpacket * packetSTATUS, char * & username) {
 /*
  *	Returns the status from a STATUS package;
  */
-static char * getSTATUSStatus(NAIMpacket * packetSTATUS, char * & status) {
+char * Protocol::getSTATUSStatus(NAIMpacket * packetSTATUS, char * & status) {
     unsigned char userLen = (unsigned char)*packetSTATUS->data;
     unsigned char length = (unsigned char)(packetSTATUS->data + sizeof(char) + userLen);
     status = new char[length + 1];

@@ -149,6 +149,26 @@ public:
      */
     static char * getCONNECTION_DATAReceiver(NAIMpacket * packetCONNECTION_DATA, char * & receiver);
     /*
+     *	Returns the username from a ADD_CONTACT package;
+     */
+    static char * getADD_CONTACTUsername(NAIMpacket * packetADD_CONTACT, char * & username);
+    /*
+     *	Returns the new contact from a ADD_CONTACT package;
+     */
+    static char * getADD_CONTACTContact(NAIMpacket * packetADD_CONTACT, char * & contact);
+    /*
+     *	Returns the group from a ADD_CONTACT package;
+     */
+    static char * getADD_CONTACTGroup(NAIMpacket * packetADD_CONTACT, char * & group);
+    /*
+     *	Returns the username from a REMOVE_CONTACT package;
+     */
+    static char * getREMOVE_CONTACTUsername(NAIMpacket * packetREMOVE_CONTACT, char * & username);
+    /*
+     *	Returns the new contact from a REMOVE_CONTACT package;
+     */
+    static char * getREMOVE_CONTACTContact(NAIMpacket * packetREMOVE_CONTACT, char * & contact);
+    /*
      *	Returns the username from a STATUS package;
      */
     static char * getSTATUSUsername(NAIMpacket * packetSTATUS, char * & username);
