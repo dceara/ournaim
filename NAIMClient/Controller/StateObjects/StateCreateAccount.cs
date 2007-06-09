@@ -22,11 +22,14 @@ namespace Controller.StateObjects
             if (message.Header.ServiceType == Common.ServiceTypes.NACK)
             {
                 _signUpAlreadySent = false;
+                this.ToCloseConnection = true;
                 return this;
             }
             if (_signUpAlreadySent && message.Header.ServiceType == Common.ServiceTypes.ACK)
             {
-                return GetNextState(message.Header.ServiceType);
+                AState nextState = GetNextState(message.Header.ServiceType);
+                nextState.ToCloseConnection = true;
+                return nextState;
             }
             return this;
         }

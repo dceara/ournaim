@@ -51,18 +51,18 @@ namespace Common.ProtocolEntities
         {
             _fileId = AMessageData.ToInt(_data);
             _fileLength = AMessageData.ToInt(_data, 4);
-            _content = new byte[_data.Length - 8];
-            Array.Copy(_data, 8, _content, 0, _data.Length - 8);
+            _content = new byte[_data.Length - MessageHeader.HEADER_SIZE];
+            Array.Copy(_data, MessageHeader.HEADER_SIZE, _content, 0, _data.Length - MessageHeader.HEADER_SIZE);
         }
 
         public override byte[] Serialize()
         {
-            byte[] toReturn = new byte[_content.Length + 8];
+            byte[] toReturn = new byte[_content.Length + MessageHeader.HEADER_SIZE];
             byte[] fileId = AMessageData.ToByteArray(_fileId);
             byte[] fileLength = AMessageData.ToByteArray(_fileLength);
-            Array.Copy(fileId, toReturn, 4);
-            Array.Copy(fileLength, 0, toReturn, 4, 4);
-            Array.Copy(_content, 0, toReturn, 8, _content.Length);
+            Array.Copy(fileId, toReturn, sizeof(Int32));
+            Array.Copy(fileLength, 0, toReturn, sizeof(Int32), sizeof(Int32));
+            Array.Copy(_content, 0, toReturn, MessageHeader.HEADER_SIZE, _content.Length);
             return toReturn;
         }
     }

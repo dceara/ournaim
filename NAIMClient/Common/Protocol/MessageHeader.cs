@@ -6,6 +6,7 @@ namespace Common.Protocol
 {
     public class MessageHeader
     {
+        public const int HEADER_SIZE = 8;
 
         private const string _header = "NAIM";
 
@@ -30,7 +31,7 @@ namespace Common.Protocol
 
         public byte[] Serialize(ushort contentLength)
         {
-            byte[] toreturn = new byte[8];
+            byte[] toreturn = new byte[HEADER_SIZE];
             byte[] header = AMessageData.ToByteArray(_header);
             Array.Copy(header, toreturn, header.Length);
             byte[] service = AMessageData.ToByteArray((ushort)_serviceType);

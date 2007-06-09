@@ -201,13 +201,10 @@ namespace Controllers
 
         private void MainLoop()
         {
-            if (!withoutServerMode)
+            if (!CreateServerConnection())
             {
-                if (!CreateServerConnection())
-                {
-                    MessageBox.Show("Eroare la conectarea la server!!!");
-                    return;
-                }
+                MessageBox.Show("Eroare la conectarea la server!!!");
+                return;
             }
 
             while (true)
@@ -215,34 +212,33 @@ namespace Controllers
                 if (toBreak)
                 {
                     toBreak = false;
+                    mainLoopStarted = false;
                     break;
                 }
-                if (!withoutServerMode)
+                if (serverSocket.Poll(1, SelectMode.SelectRead))
                 {
-                    if (serverSocket.Poll(1, SelectMode.SelectRead))
+                    byte[] headerBuffer = new byte[MessageHeader.HEADER_SIZE];
+                    int n = serverSocket.Receive(headerBuffer);
+                    ushort contentLength = AMessageData.ToShort(headerBuffer[MessageHeader.HEADER_SIZE - 2], headerBuffer[MessageHeader.HEADER_SIZE - 1]);
+                    byte[] rawData = new byte[contentLength];
+                    if (contentLength > 0)
                     {
-                        byte[] headerBuffer = new byte[8];
-                        int n = serverSocket.Receive(headerBuffer);
-                        ushort contentLength = AMessageData.ToShort(headerBuffer[6], headerBuffer[7]);
-                        byte[] rawData = new byte[contentLength];
                         n = serverSocket.Receive(rawData);
-                        byte[] messageBuffer = new byte[headerBuffer.Length+contentLength];
-                        Array.Copy(headerBuffer, messageBuffer, headerBuffer.Length);
-                        Array.Copy(rawData, 0, messageBuffer,headerBuffer.Length, contentLength);
-                        Common.Protocol.Message newMessage = new Common.Protocol.Message(messageBuffer);
-                        inputMessageQueue.Add(newMessage);
                     }
+                    byte[] messageBuffer = new byte[headerBuffer.Length+contentLength];
+                    Array.Copy(headerBuffer, messageBuffer, headerBuffer.Length);
+                    Array.Copy(rawData, 0, messageBuffer,headerBuffer.Length, contentLength);
+                    Common.Protocol.Message newMessage = new Common.Protocol.Message(messageBuffer);
+                    inputMessageQueue.Add(newMessage);
                 }
                 ProcessInputQueue();
                 Application.DoEvents();
-                if (!withoutServerMode)
+                if (serverSocket.Poll(1, SelectMode.SelectWrite))
                 {
-                    if (serverSocket.Poll(1, SelectMode.SelectWrite))
-                    {
-                        ProcessOutputQueue();
-                    }
+                    ProcessOutputQueue();
                 }
             }
+            CloseServerConnection();
         }
 
         #region MainView Event Handlers
@@ -339,7 +335,7 @@ namespace Controllers
 
             EmptyCurrentStateOutputBuffer();
 
-            mainView.AfterSignIn();
+            
 
             if (mainLoopStarted == false)
             {
@@ -380,10 +376,10 @@ namespace Controllers
         #endregion
 
         #region ConversationControllers Event Handlers
+
         void newConversationController_SendServerMessageEvent(Common.Protocol.Message message)
         {
             this.outputMessageQueue.Add(message);
-            //throw new Exception("The method or operation is not implemented.");
         }
 
         void newConversationController_DisposeConversationControllerEvent(string name)
@@ -453,9 +449,18 @@ namespace Controllers
                     ((StateIdle)currentState).Ip = this.localIpAddress;
                     ((StateIdle)currentState).Port = this.localPort;
                 }
+                if (currentState.ToCloseConnection)
+                {
+                    toBreak = true;
+                }
                 inputMessageQueue.RemoveAt(0);
             }
             EmptyCurrentStateOutputBuffer();
+        }
+
+        private void CloseServerConnection()
+        {
+            serverSocket.Close();
         }
 
         private bool CreateServerConnection()
