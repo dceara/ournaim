@@ -8,8 +8,13 @@ using namespace std;
 
 IQueryExecuter::~IQueryExecuter(){}
 
+QueryExecuter::QueryExecuter() {
+    database = NULL;
+}
+
 QueryExecuter::~QueryExecuter() {
-    sqlite3_close(database);
+    if (database != NULL)
+        sqlite3_close(database);
 }
 
 void QueryExecuter::addClient(const char * username, const char * password) {

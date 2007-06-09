@@ -29,6 +29,9 @@ const timeval ConnectionManager::DEFAULT_SELECT_TIMEOUT = {0, 10000};
 ConnectionManager::ConnectionManager() {
     onlineClientsNo = 0;
     queryExecuter = QueryExecuter();
+    // TODO: Remove hardcoding.
+    queryExecuter.openDB("Database/database.dat");
+
     protocol = Protocol();
     
     onlineClients = map< string, string >();
@@ -265,6 +268,18 @@ void * commandThread(void *) {
             Protocol::packetToBuffer(packet, buffer, length);
             length = send(com_sock, buffer, length, 0);
             
+            delete[] packet->data;
+            delete packet;
+            delete[] buffer;
+            break;
+        }
+        if (strncmp("list", buffer, 4) == 0) {
+            NAIMpacket * packet = Protocol::createCOMMAND("list", 4);
+            char * buffer;
+            int length;
+            Protocol::packetToBuffer(packet, buffer, length);
+            length = send(com_sock, buffer, length, 0);
+
             delete[] packet->data;
             delete packet;
             delete[] buffer;

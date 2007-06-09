@@ -46,6 +46,7 @@ class ConnectionManager {
     bool quiting;                                           // if this is set to true, the server will close.
 
     friend class Peer;
+    friend class Console;
 
     /*
      *	Is called when a new connection is created. Creates a new Client to monitor the connection.
