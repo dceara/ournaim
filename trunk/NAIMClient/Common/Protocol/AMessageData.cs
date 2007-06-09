@@ -45,7 +45,7 @@ namespace Common.Protocol
         
         public static byte[] ToByteArray(ushort value)
         {
-            byte[] toReturn = new byte[2];
+            byte[] toReturn = new byte[sizeof(ushort)];
             toReturn[0] = (byte)(value >> 8);
             toReturn[1] = (byte)(value % (byte.MaxValue + 1));
             return toReturn;
@@ -53,7 +53,7 @@ namespace Common.Protocol
 
         public static byte[] ToByteArray(int value)
         {
-            byte[] toReturn = new byte[4];
+            byte[] toReturn = new byte[sizeof(Int32)];
             toReturn[0] = (byte)(value >> 24);
             toReturn[1] = (byte)(value >> 16);
             toReturn[2] = (byte)(value >> 8);

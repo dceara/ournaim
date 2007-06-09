@@ -122,12 +122,7 @@ namespace Controller.StateObjects
             else
             {
                 _mainView.ChangeClientStatus(userConnectedData.UserName, userConnectedData.Status);
-                // TODO: ??? why do you create another entry when you already have contact?
-                UserListEntry user = _onlineContacts[userConnectedData.UserName];
-                if (user != null)
-                {
-                    user.Status = userConnectedData.Status;
-                }
+                contact.Status = userConnectedData.Status;
             }
         }
 
@@ -143,6 +138,7 @@ namespace Controller.StateObjects
             else
             {
                 // TODO: Throw an exception ?
+                // NOTTODO: No exception.... This must be a server bug... :p
             }
         }
 
@@ -191,6 +187,10 @@ namespace Controller.StateObjects
         {
             AState newState = new StateInitial();
             newState.MainView = _mainView;
+            ToCloseConnection = true;
+            AMessageData messageData = new LogoutMessageData(this._userName);
+            Common.Protocol.Message signoutMessage = new Common.Protocol.Message(new MessageHeader(ServiceTypes.LOGOUT), messageData);
+            newState.OutputMessagesList.Add(signoutMessage);
             return newState;
         }
 

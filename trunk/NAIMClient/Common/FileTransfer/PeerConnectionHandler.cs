@@ -58,15 +58,15 @@ namespace Controller.File_Transfer
             byte[] buffer = fileListGetMessage.Serialize();
             receiverStream.Write(buffer, 0, buffer.Length);
 
-            byte[] headerBuffer = new byte[8];
-            int readBytes = receiverStream.Read(headerBuffer, 0, 8);
-            if (readBytes < 8)
+            byte[] headerBuffer = new byte[MessageHeader.HEADER_SIZE];
+            int readBytes = receiverStream.Read(headerBuffer, 0, MessageHeader.HEADER_SIZE);
+            if (readBytes < MessageHeader.HEADER_SIZE)
             {
 #warning must test this part!!!!!!!!
                 receiverStream.Flush();
                 return new Dictionary<int,string>();
             }
-            ushort contentLength = AMessageData.ToShort(headerBuffer[6], headerBuffer[7]);
+            ushort contentLength = AMessageData.ToShort(headerBuffer[MessageHeader.HEADER_SIZE - 2], headerBuffer[MessageHeader.HEADER_SIZE-1]);
             byte[] rawDataBuffer = new byte[headerBuffer.Length + contentLength];
             Array.Copy(headerBuffer, 0, rawDataBuffer, 0, headerBuffer.Length);
             readBytes = receiverStream.Read(rawDataBuffer, headerBuffer.Length, contentLength);
@@ -94,9 +94,9 @@ namespace Controller.File_Transfer
         {
             FileStream localFileStream = new FileStream(writeLocation, FileMode.OpenOrCreate);
             int receivedSize = 0;
-            byte[] headerBuffer = new byte[8];
-            int readBytes = receiverStream.Read(headerBuffer, 0, 8);
-            ushort contentLength = AMessageData.ToShort(headerBuffer[6], headerBuffer[7]);
+            byte[] headerBuffer = new byte[MessageHeader.HEADER_SIZE];
+            int readBytes = receiverStream.Read(headerBuffer, 0, MessageHeader.HEADER_SIZE);
+            ushort contentLength = AMessageData.ToShort(headerBuffer[MessageHeader.HEADER_SIZE - 2], headerBuffer[MessageHeader.HEADER_SIZE - 1]);
             byte[] contentBuffer = new byte[contentLength];
             readBytes = receiverStream.Read(contentBuffer, 0, contentLength);
             byte[] rawData = new byte[headerBuffer.Length+contentLength];
@@ -122,9 +122,9 @@ namespace Controller.File_Transfer
                         return;
                     }
                 }
-                headerBuffer = new byte[8];
-                readBytes = receiverStream.Read(headerBuffer, 0, 8);
-                contentLength = AMessageData.ToShort(headerBuffer[6], headerBuffer[7]);
+                headerBuffer = new byte[MessageHeader.HEADER_SIZE];
+                readBytes = receiverStream.Read(headerBuffer, 0, MessageHeader.HEADER_SIZE);
+                contentLength = AMessageData.ToShort(headerBuffer[MessageHeader.HEADER_SIZE - 2], headerBuffer[MessageHeader.HEADER_SIZE - 1]);
                 contentBuffer = new byte[contentLength];
                 readBytes = receiverStream.Read(contentBuffer, 0, contentLength);
                 rawData = new byte[headerBuffer.Length + contentLength];
@@ -251,15 +251,15 @@ namespace Controller.File_Transfer
         private void ProccessInputs()
         {
             NetworkStream clientStream = client.GetStream();
-            byte[] headerBuffer = new byte[8];
-            int readBytes = clientStream.Read(headerBuffer, 0, 8);
-            if (readBytes < 8)
+            byte[] headerBuffer = new byte[MessageHeader.HEADER_SIZE];
+            int readBytes = clientStream.Read(headerBuffer, 0, MessageHeader.HEADER_SIZE);
+            if (readBytes < MessageHeader.HEADER_SIZE)
             {
 #warning must test this part!!!!!!!!
                 clientStream.Flush();
                 return;
             }
-            ushort contentLength = AMessageData.ToShort(headerBuffer[6], headerBuffer[7]);
+            ushort contentLength = AMessageData.ToShort(headerBuffer[MessageHeader.HEADER_SIZE - 2], headerBuffer[MessageHeader.HEADER_SIZE - 1]);
             byte[] rawDataBuffer = new byte[headerBuffer.Length + contentLength];
             Array.Copy(headerBuffer,0,rawDataBuffer,0,headerBuffer.Length);
             readBytes = clientStream.Read(rawDataBuffer, headerBuffer.Length, contentLength);

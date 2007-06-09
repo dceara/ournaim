@@ -28,6 +28,7 @@ namespace Controller.StateObjects
             }
             if (_signInAlreadySent && message.Header.ServiceType == Common.ServiceTypes.ACK)
             {
+                _mainView.AfterSignIn();
                 return GetNextState(message.Header.ServiceType);
             }
             return this;

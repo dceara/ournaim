@@ -31,6 +31,9 @@ namespace Controller.StateObjects
                 return this._outputMessagesList;
             }
         }
+
+        public bool ToCloseConnection = false;
+
         /// <summary>
         /// keeps the relationship between the possible inputs and the next states
         /// </summary>
