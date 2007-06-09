@@ -259,7 +259,7 @@ char * Protocol::getSIGN_UPPassword(NAIMpacket * packetSIGN_UP, char * & passwor
  *	Returns the username from a LOGIN packet.
  */
 char * Protocol::getLOGINUsername(NAIMpacket * packetLOGIN, char * & username) {
-    unsigned char length = (unsigned char)packetLOGIN->data; 
+    unsigned char length = (unsigned char)*packetLOGIN->data; 
     username = new char[length + 1];
     memcpy(username, packetLOGIN->data + sizeof(char), length);
     username[length] = '\0';

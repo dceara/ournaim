@@ -25,6 +25,9 @@ void * commandThread(void *);
 class Client;
 
 class ConnectionManager {
+    const static time_t TIME_TO_PING;
+    const static time_t TIMEOUT;
+
     fd_set read_fds;	        // fd_set used to monitor sockets for write
     fd_set write_fds;	        // fd_set used to monitor sockets for write
 
@@ -100,7 +103,7 @@ class ConnectionManager {
     /*
      *	Called when a user already connected connects from a different machine
      */
-    int userConnectedRemotely(char * username);
+    int userConnectedRemotely(Client * clientMan, char * username, const char * status);
     /*
      *	Sends a packet from sender to receiver by transferring it to the receivers output queue
      */
