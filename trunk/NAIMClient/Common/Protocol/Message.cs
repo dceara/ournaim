@@ -34,8 +34,8 @@ namespace Common.Protocol
         {
             ushort service = AMessageData.ToShort(rawData[4], rawData[5]);
             _header = new MessageHeader((ServiceTypes)service);
-            _data = new byte[rawData.Length - 5];
-            Array.Copy(rawData, 5, _data, 0, rawData.Length - 5);
+            _data = new byte[rawData.Length - 8];
+            Array.Copy(rawData, 8, _data, 0, rawData.Length - 8);
         }
 
         public Message(MessageHeader header, AMessageData messageData)
