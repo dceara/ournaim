@@ -8,12 +8,20 @@ namespace GUI
 {
     public partial class CreateAccountView : Form,ICreateAccountView
     {
+        #region Members
+
         private bool cancelCloseEvent = false;
+
+        #endregion
+
+        #region Constructors
 
         public CreateAccountView()
         {
             InitializeComponent();
         }
+
+        #endregion
 
         #region ICreateAccountView Members
 

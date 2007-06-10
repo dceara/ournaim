@@ -8,8 +8,12 @@ using System.Windows.Forms;
 
 namespace GUI.Views
 {
+#warning TODO: This should look a lot better
+
     public partial class StatusesView : Form
     {
+        #region Properties
+
         private Point startLocation = new Point(-1, -1);
 
         public Point StartLocation
@@ -20,6 +24,7 @@ namespace GUI.Views
 
 
         private string status;
+
         public string Status
         {
             get
@@ -27,16 +32,20 @@ namespace GUI.Views
                 return status;
             }
         }
-	
+ 
+        #endregion
+
+        #region Constructors
+
         public StatusesView()
         {
             InitializeComponent();
         }
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        
+        #endregion 
+        
+        #region GUI Events
+        
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             status = (string)(listBox1.Items[listBox1.SelectedIndex]);
@@ -55,7 +64,8 @@ namespace GUI.Views
                 this.StartPosition = FormStartPosition.Manual;
                 this.Location = startLocation;
             }
-        }
+        } 
+        #endregion
         
     }
 }

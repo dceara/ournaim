@@ -8,12 +8,20 @@ namespace GUI
 {
     public partial class ConversationView : Form,IConversationView
     {
+        #region Members
+
         private bool cancelCloseEvent = false;
+
+        #endregion
+
+        #region Constructors
 
         public ConversationView()
         {
             InitializeComponent();
         }
+        
+        #endregion
 
         #region IConversationView Members
 

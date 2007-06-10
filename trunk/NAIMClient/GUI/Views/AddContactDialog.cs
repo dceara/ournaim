@@ -10,6 +10,7 @@ namespace GUI.Views
 {
     public partial class AddContactDialog : Form
     {
+        #region Properties
 
         public string Username
         {
@@ -20,19 +21,17 @@ namespace GUI.Views
         {
             get { return group_comboBox.Text; }
         }
-	
 
+        #endregion
 
-
+        #region Constructors
 
         public AddContactDialog()
         {
             InitializeComponent();
         }
+        
+        #endregion
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

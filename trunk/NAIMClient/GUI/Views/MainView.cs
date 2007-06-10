@@ -11,15 +11,22 @@ namespace GUI
 {
     public partial class MainView : Form,IMainView
     {
+        #region Members
+
         private Button btnSignOut;
 
         private IList<string> groupNames;
+
+        #endregion
+
+        #region Constructors
 
         public MainView()
         {
             InitializeComponent();
         }
-
+        
+        #endregion
         #region IMainView Members
 
         public event LoginEventHandler LoginEvent;
