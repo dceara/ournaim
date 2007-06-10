@@ -4,22 +4,55 @@ using System.Text;
 
 namespace Common.Protocol
 {
+    #region AMessageData Abstract Class
+
     public abstract class AMessageData
     {
-        public const int MAX_MESSAGE_SIZE = 512;
+        #region Constants
+
+        /// <summary>
+        /// this is the maximum data size for file transfer packets
+        /// </summary>
+        public const int MAX_MESSAGE_SIZE = 504;
+
+        #endregion
+
+        #region Properties
 
         protected byte[] _data;
 
+        /// <summary>
+        /// sets/gets the data field of the message
+        /// </summary>
         public byte[] Data
         {
             get { return _data; }
             set { _data = value; }
         }
 
+        #endregion
+
+        #region Abstract Methods
+
+        /// <summary>
+        /// Is called from the base constructor and deserializes the data field according to the service type
+        /// </summary>
         protected abstract void Deserialize();
 
+        /// <summary>
+        /// Creates the byte array for the current packet. It is implemented by the inheriting classes
+        /// </summary>
+        /// <returns></returns>
         public abstract byte[] Serialize();
 
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initialises the message data object and deserializes the data field
+        /// </summary>
+        /// <param name="data"></param>
         public AMessageData(byte[] data)
         {
             _data = new byte[data.Length];
@@ -31,6 +64,10 @@ namespace Common.Protocol
         {
             _data = new byte[0];
         }
+
+        #endregion
+
+        #region Static Methods Used for serializing and deserializing the Data field
 
         public static byte[] ToByteArray(string str)
         {
@@ -86,5 +123,9 @@ namespace Common.Protocol
         {
             return (int)((int)(data[startIndex] << 24) + (int)(data[startIndex + 1] << 16) + (int)(data[startIndex + 2] << 8) + (int)(data[startIndex + 3]));
         }
+
+        #endregion
     }
+
+    #endregion
 }
