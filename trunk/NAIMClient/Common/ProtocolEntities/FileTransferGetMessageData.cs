@@ -8,6 +8,8 @@ namespace Common.ProtocolEntities
 {
     public class FileTransferGetMessageData : AMessageData
     {
+        #region Properties
+
         private int _id;
 
         public int Id
@@ -15,6 +17,10 @@ namespace Common.ProtocolEntities
             get { return _id; }
             set { _id = value; }
         }
+
+        #endregion
+
+        #region Constructors
 
         public FileTransferGetMessageData(byte[] data)
             :base(data)
@@ -25,6 +31,10 @@ namespace Common.ProtocolEntities
         {
             _id = id;
         }
+
+        #endregion
+
+        #region AMessageData Methods
 
         protected override void Deserialize()
         {
@@ -37,5 +47,6 @@ namespace Common.ProtocolEntities
             Array.Copy(AMessageData.ToByteArray(IPAddress.HostToNetworkOrder(_id)), toReturn, 4);
             return toReturn;
         }
+        #endregion
     }
 }

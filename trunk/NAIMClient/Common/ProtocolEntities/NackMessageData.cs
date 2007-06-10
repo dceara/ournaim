@@ -5,9 +5,10 @@ using Common.Protocol;
 
 namespace Common.ProtocolEntities
 {
-#warning DE DISCUTAT CODURILE DE EROARE
     public class NackMessageData : AMessageData
     {
+        #region Constructors
+
         public NackMessageData(byte[] data)
             :base(data)
         {
@@ -16,6 +17,10 @@ namespace Common.ProtocolEntities
         public NackMessageData()
         {
         }
+        #endregion
+
+        #region AMessageData Methods
+
         protected override void Deserialize()
         {
         }
@@ -24,5 +29,6 @@ namespace Common.ProtocolEntities
         {
             return new byte[0];
         }
+        #endregion
     }
 }

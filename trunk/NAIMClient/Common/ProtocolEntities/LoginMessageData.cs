@@ -7,6 +7,8 @@ namespace Common.ProtocolEntities
 {
     public class LoginMessageData : AMessageData
     {
+        #region Properties
+
         private string _userName;
 
         public string UserName
@@ -30,7 +32,9 @@ namespace Common.ProtocolEntities
             get { return _status; }
             set { _status = value; }
         }
-	
+        #endregion
+
+        #region Constructors
 
         public LoginMessageData(byte[] data)
             :base(data)
@@ -43,6 +47,10 @@ namespace Common.ProtocolEntities
             _password = password;
             _status = status;
         }
+
+        #endregion
+
+        #region AMessageData Methods
 
         protected override void Deserialize()
         {
@@ -67,5 +75,6 @@ namespace Common.ProtocolEntities
 
             return toReturn;
         }
+        #endregion
     }
 }

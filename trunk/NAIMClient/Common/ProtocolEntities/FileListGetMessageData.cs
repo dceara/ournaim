@@ -7,6 +7,8 @@ namespace Common.ProtocolEntities
 {
     public class FileListGetMessageData:AMessageData
     {
+        #region Properties
+
         int _idsCount;
 
         public int IdsCount
@@ -27,6 +29,10 @@ namespace Common.ProtocolEntities
             }
         }
 
+        #endregion
+
+        #region Constructors
+
         public FileListGetMessageData(byte[] data)
             :base(data)
         {
@@ -37,6 +43,10 @@ namespace Common.ProtocolEntities
             _idsCount = filelist.Count;
             _filelist = filelist;
         }
+
+        #endregion
+
+        #region AMessageData Methods
 
         protected override void Deserialize()
         {
@@ -72,5 +82,6 @@ namespace Common.ProtocolEntities
             }
             return new byte[0];
         }
+        #endregion
     }
 }

@@ -7,6 +7,8 @@ namespace Common.ProtocolEntities
 {
     public class SignUpMessageData : AMessageData
     {
+        #region Properties
+
         private string _userName;
 
         public string UserName
@@ -22,7 +24,10 @@ namespace Common.ProtocolEntities
             get { return _password; }
             set { _password = value; }
         }
-	
+
+        #endregion
+
+        #region Constructors
 
         public SignUpMessageData(byte[] data)
             :base(data)
@@ -34,6 +39,10 @@ namespace Common.ProtocolEntities
             _userName = userName;
             _password = password;
         }
+
+        #endregion
+
+        #region AMessageData Methods
 
         protected override void Deserialize()
         {
@@ -53,5 +62,7 @@ namespace Common.ProtocolEntities
             Array.Copy(pass, 0, toReturn, unameLen + 2, passLen);
             return toReturn;
         }
+
+        #endregion
     }
 }

@@ -114,8 +114,8 @@ namespace Common.Protocol
                     return new FileTransferGetMessageData(mes._data);
                 case ServiceTypes.FILE_TRANSFER_SEND:
                     return new FileTransferSendMessageData(mes._data);
-                case ServiceTypes.HELLO:
-                    return new HelloMessageData(mes._data);
+                //case ServiceTypes.HELLO:
+                //    return new HelloMessageData(mes._data);
                 case ServiceTypes.LOGIN:
                     return new LoginMessageData(mes._data);
                 case ServiceTypes.LOGOUT:

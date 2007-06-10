@@ -7,7 +7,7 @@ namespace Common.ProtocolEntities
 {
     public class FileTransferSendMessageData : AMessageData
     {
-        private const int MAXLENGTH = 256;
+        #region Properties
 
         private int _fileId;
 
@@ -32,7 +32,10 @@ namespace Common.ProtocolEntities
             get { return _content; }
             set { _content = value; }
         }
-	
+
+        #endregion
+
+        #region Constructors
 
         public FileTransferSendMessageData(byte[] data)
             :base(data)
@@ -46,6 +49,9 @@ namespace Common.ProtocolEntities
             _content = new byte[content.Length];
             Array.Copy(content, _content, content.Length);
         }
+        #endregion
+
+        #region AMessageData Methods
 
         protected override void Deserialize()
         {
@@ -65,5 +71,7 @@ namespace Common.ProtocolEntities
             Array.Copy(_content, 0, toReturn, MessageHeader.HEADER_SIZE, _content.Length);
             return toReturn;
         }
+
+        #endregion
     }
 }

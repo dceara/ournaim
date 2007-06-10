@@ -8,6 +8,8 @@ namespace Common.ProtocolEntities
    
     public class RemoveContactMessageData : AMessageData
     {
+        #region Properties
+
         private string _userName;
 
         public string UserName
@@ -24,6 +26,9 @@ namespace Common.ProtocolEntities
             set { _oldContact = value; }
         }
 
+        #endregion
+
+        #region Constructors
 
         public RemoveContactMessageData(byte[] data)
             :base (data)
@@ -35,6 +40,10 @@ namespace Common.ProtocolEntities
             _userName = userName;
             _oldContact = oldCOntact;
         }
+
+        #endregion
+
+        #region AMessageData Methods
 
         protected override void Deserialize()
         {
@@ -54,5 +63,7 @@ namespace Common.ProtocolEntities
             Array.Copy(oldContact, 0, toReturn, unameLen + 2, oldContactLen);
             return toReturn;
         }
+
+        #endregion
     }
 }

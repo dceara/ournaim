@@ -7,15 +7,20 @@ namespace Common.ProtocolEntities
 {
     public class AckMessageData:AMessageData
     {
+        #region Constructors
+
         public AckMessageData(byte[] data)
             :base (data)
         {
-            
+
         }
+        #endregion
 
         public AckMessageData()
         {
         }
+
+        #region AMessageData Methods
 
         protected override void Deserialize()
         {
@@ -25,5 +30,6 @@ namespace Common.ProtocolEntities
         {
             return new byte[0];
         }
+        #endregion
     }
 }
