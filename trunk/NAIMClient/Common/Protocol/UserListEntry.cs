@@ -4,8 +4,14 @@ using System.Text;
 
 namespace Common.Protocol
 {
+    #region UserListEntry Class
+    /// <summary>
+    /// Holds information about a contact.
+    /// </summary>
     public class UserListEntry
     {
+        #region Properties
+
         private string _userName;
 
         public string UserName
@@ -29,6 +35,11 @@ namespace Common.Protocol
             get { return _status; }
             set { _status = value; }
         }
+
+        #endregion
+
+        #region Constructors
+
         public UserListEntry()
         {
             _userName = string.Empty;
@@ -46,5 +57,8 @@ namespace Common.Protocol
             _availability = true;
             _status = status;
         }
+        #endregion
     }
+
+    #endregion
 }
