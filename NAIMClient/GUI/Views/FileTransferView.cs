@@ -8,11 +8,14 @@ namespace GUI
 {
     public partial class FileTransferView : Form,IFileTransferView
     {
+        #region Constructors
+        
         public FileTransferView()
         {
             InitializeComponent();
         }
 
+        #endregion
         #region IFileTransferView Members
 
         public event FileTransferCloseViewEventHandler FileTransferCloseViewEvent;
@@ -175,7 +178,6 @@ namespace GUI
             }
         }
         #endregion
-
         
     }
 }

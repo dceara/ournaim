@@ -52,7 +52,6 @@ namespace GUI.Views
             this.usernickname.Name = "usernickname";
             this.usernickname.Size = new System.Drawing.Size(100, 20);
             this.usernickname.TabIndex = 1;
-            this.usernickname.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label2
             // 

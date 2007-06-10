@@ -10,18 +10,22 @@ namespace GUI.Views
 {
     public partial class ChangeStatusDialog : Form
     {
-       
-        public ChangeStatusDialog()
-        {
-            InitializeComponent();
-        }
+        #region Properties
 
         public string Status
         {
             get { return txtStatus.Text; }
         }
-	
-       
         
+        #endregion
+
+        #region Constructors
+
+        public ChangeStatusDialog()
+        {
+            InitializeComponent();
+        }
+        
+        #endregion
     }
 }

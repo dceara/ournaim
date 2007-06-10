@@ -11,14 +11,20 @@ namespace GUI.Views
     public partial class AddGroupView : Form
     {
 
+        #region Properties
+		
         public String Groupname
         {
             get { return this.groupname_textBox.Text; }
         }
-	
+	    #endregion
+
+        #region COnstructors
+
         public AddGroupView()
         {
             InitializeComponent();
         }
+        #endregion
     }
 }
