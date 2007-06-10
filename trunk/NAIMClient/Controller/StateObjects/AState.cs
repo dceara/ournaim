@@ -9,6 +9,8 @@ namespace Controller.StateObjects
 {
     public abstract class AState
     {
+        #region Properties and Members
+
         /// <summary>
         /// keeps the messages that don't corespond to the current state
         /// </summary>
@@ -72,8 +74,9 @@ namespace Controller.StateObjects
                 InitializeAccountViewHandlers();
             }
         }
+        #endregion
 
-        
+        #region Constructors
 
         public AState()
         {
@@ -81,6 +84,10 @@ namespace Controller.StateObjects
             _transitionsTable = new Dictionary<ServiceTypes, Type>();
             _outputMessagesList = new List<Message>();
         }
+
+        #endregion
+
+        #region Methods
 
         public AState AddMessage(Message message)
         {
@@ -107,6 +114,11 @@ namespace Controller.StateObjects
             state.ConversationControllers = this._conversationControllers;
             return state;
         }
+
+        #endregion
+
+        #region Abstract Methods
+
         /// <summary>
         /// analyzes the received message
         /// </summary>
@@ -122,5 +134,6 @@ namespace Controller.StateObjects
 
         public abstract AState MoveState();
 
+        #endregion
     }
 }
