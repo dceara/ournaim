@@ -4,20 +4,29 @@ using System.Text;
 
 namespace Common.File_Transfer
 {
-    public class LockableBool
+    /// <summary>
+    /// This is used so base types can be locked in multi-threading.
+    /// </summary>
+    
+    public class LockableObject<T>
     {
-        private bool _innerValue;
+        #region Properties
+        private T _innerValue;
 
-        public bool Value
+        public T Value
         {
             get { return _innerValue; }
             set { _innerValue = value; }
         }
 
-        public LockableBool(bool value)
+        #endregion
+
+        #region Constructor
+
+        public LockableObject(T value)
         {
-            _innerValue = value; 
+            _innerValue = value;
         }
-	
+        #endregion
     }
 }
