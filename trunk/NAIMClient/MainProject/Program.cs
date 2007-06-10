@@ -9,6 +9,8 @@ namespace MainProject
     
     static class Program
     {
+        #region Main Controller
+
         static MainController mainController;
 
         /// <summary>
@@ -44,7 +46,7 @@ namespace MainProject
             Application.Run(mainView);
         }
 
-        
+        #endregion
 
         #region Main Controller Event Handlers
 
