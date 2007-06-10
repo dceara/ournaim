@@ -8,7 +8,13 @@ namespace Controller.StateObjects
 {
     public class StateCreateAccount:AState
     {
+        #region Members
+
         private bool _signUpAlreadySent = false;
+
+        #endregion
+
+        #region Constructors
 
         public StateCreateAccount()
             : base()
@@ -16,6 +22,9 @@ namespace Controller.StateObjects
             _transitionsTable.Add(Common.ServiceTypes.ACK, typeof(StateInitial));
             _transitionsTable.Add(Common.ServiceTypes.NACK, typeof(StateCreateAccount));
         }
+        #endregion
+
+        #region AState Methods
 
         public override AState AnalyzeMessage(Common.Protocol.Message message)
         {
@@ -65,6 +74,6 @@ namespace Controller.StateObjects
         {
             throw new Exception("The method or operation is not implemented.");
         }
-
+        #endregion
     }
 }

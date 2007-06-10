@@ -10,7 +10,13 @@ namespace Controller.StateObjects
 {
     public class StateInitial:AState
     {
-        private bool _signInAlreadySent = false;
+        #region Members
+
+        private bool _signInAlreadySent = false; 
+        
+        #endregion
+
+        #region Constructors
 
         public StateInitial()
             : base()
@@ -18,6 +24,10 @@ namespace Controller.StateObjects
             _transitionsTable.Add(Common.ServiceTypes.ACK, typeof(StateBeforeIdle));
             _transitionsTable.Add(Common.ServiceTypes.NACK, typeof(StateInitial));
         }
+        
+        #endregion
+
+        #region AState Methods
 
         public override AState AnalyzeMessage(Common.Protocol.Message message)
         {
@@ -39,7 +49,7 @@ namespace Controller.StateObjects
             this._mainView.LoginEvent += new LoginEventHandler(mainView_LoginEvent);
         }
 
-        
+
 
         protected override void InitializeConversationControllersHandlers()
         {
@@ -54,6 +64,14 @@ namespace Controller.StateObjects
             return newState;
         }
 
+        protected override void InitializeAccountViewHandlers()
+        {
+        }
+        
+        #endregion
+
+        #region Main View Event Handlers
+
         void mainView_LoginEvent(string userName, string password)
         {
             AMessageData loginMessageData = new LoginMessageData(userName, password, DefaultStatuses.AVAILABLE );
@@ -62,9 +80,6 @@ namespace Controller.StateObjects
             _outputMessagesList.Add(message);
             _signInAlreadySent = true;
         }
-
-        protected override void InitializeAccountViewHandlers()
-        {
-        }
+        #endregion
     }
 }
