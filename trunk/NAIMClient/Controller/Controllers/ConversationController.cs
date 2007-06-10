@@ -13,9 +13,15 @@ namespace Controllers
 {
     class ConversationController : IConversationController
     {
+        #region Private Members
+
         private IConversationView conversationView;
+        
         private string receiverName;
+        
         private string currentClientName;
+
+        #endregion
 
         #region Peer Transfer Handlers
 
@@ -131,11 +137,6 @@ namespace Controllers
         public void InitialiseController()
         {
         }
-
-        #endregion
-
-        #region IConversationController Members
-
 
         public void InitialiseView(IConversationView view)
         {
