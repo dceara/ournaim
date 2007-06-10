@@ -11,20 +11,11 @@ namespace Controller.StateObjects
 {
     public class StateIdle:AState
     {
-        public StateIdle()
-            : base()
-        {
-            _transitionsTable.Add(Common.ServiceTypes.PING, typeof(StateIdle));
-            _transitionsTable.Add(Common.ServiceTypes.TEXT, typeof(StateIdle));
-            _transitionsTable.Add(Common.ServiceTypes.USER_CONNECTED, typeof(StateIdle));
-            _transitionsTable.Add(Common.ServiceTypes.USER_DISCONNECTED, typeof(StateIdle));
-            _transitionsTable.Add(Common.ServiceTypes.CONNECTION_DATA, typeof(StateIdle));
-            _transitionsTable.Add(Common.ServiceTypes.CONNECTION_REQ, typeof(StateIdle));
-        }
+        #region Properties
 
         private IDictionary<string, IList<UserListEntry>> _contactsByGroups;
-            
-        public IDictionary<string,IList<UserListEntry> > ContactsByGroups
+
+        public IDictionary<string, IList<UserListEntry>> ContactsByGroups
         {
             get { return _contactsByGroups; }
             set { _contactsByGroups = value; }
@@ -47,7 +38,7 @@ namespace Controller.StateObjects
             get { return _userName; }
             set { _userName = value; }
         }
-	
+
 
         private string _ip;
 
@@ -64,7 +55,25 @@ namespace Controller.StateObjects
             get { return _port; }
             set { _port = value; }
         }
-	
+
+        #endregion
+
+        #region Constructors
+
+        public StateIdle()
+            : base()
+        {
+            _transitionsTable.Add(Common.ServiceTypes.PING, typeof(StateIdle));
+            _transitionsTable.Add(Common.ServiceTypes.TEXT, typeof(StateIdle));
+            _transitionsTable.Add(Common.ServiceTypes.USER_CONNECTED, typeof(StateIdle));
+            _transitionsTable.Add(Common.ServiceTypes.USER_DISCONNECTED, typeof(StateIdle));
+            _transitionsTable.Add(Common.ServiceTypes.CONNECTION_DATA, typeof(StateIdle));
+            _transitionsTable.Add(Common.ServiceTypes.CONNECTION_REQ, typeof(StateIdle));
+        }
+        
+        #endregion
+
+        #region AState Methods
 
         public override AState AnalyzeMessage(Common.Protocol.Message message)
         {
@@ -87,7 +96,7 @@ namespace Controller.StateObjects
                     HandleUserDisconnectedMessage((UserDisconnectedMessageData)messageData);
                     break;
                 case Common.ServiceTypes.CONNECTION_DATA:
-                    RedirectMessageToConversationController(message,((ConnectionDataMessageData)messageData).Sender);
+                    RedirectMessageToConversationController(message, ((ConnectionDataMessageData)messageData).Sender);
                     break;
                 case Common.ServiceTypes.CONNECTION_REQ:
                     SendConnectionDataResponse((ConnectionDataRequestedMessageData)messageData);
@@ -96,6 +105,34 @@ namespace Controller.StateObjects
             }
             return this;
         }
+
+
+        protected override void InitializeMainViewEventHandlers()
+        {
+        }
+
+        protected override void InitializeConversationControllersHandlers()
+        {
+        }
+
+        protected override void InitializeAccountViewHandlers()
+        {
+        }
+
+        public override AState MoveState()
+        {
+            AState newState = new StateInitial();
+            newState.MainView = _mainView;
+            ToCloseConnection = true;
+            AMessageData messageData = new LogoutMessageData(this._userName);
+            Common.Protocol.Message signoutMessage = new Common.Protocol.Message(new MessageHeader(ServiceTypes.LOGOUT), messageData);
+            newState.OutputMessagesList.Add(signoutMessage);
+            return newState;
+        }
+        
+        #endregion
+
+        #region Methods
 
         private void HandleUserDisconnectedMessage(UserDisconnectedMessageData userDisconnectedData)
         {
@@ -169,32 +206,6 @@ namespace Controller.StateObjects
             throw new Exception("User isn't in my contacts list!");
         }
 
-        
-
-        protected override void InitializeMainViewEventHandlers()
-        {
-        }
-
-        protected override void InitializeConversationControllersHandlers()
-        {
-        }
-
-        protected override void InitializeAccountViewHandlers()
-        {
-        }
-
-        public override AState MoveState()
-        {
-            AState newState = new StateInitial();
-            newState.MainView = _mainView;
-            ToCloseConnection = true;
-            AMessageData messageData = new LogoutMessageData(this._userName);
-            Common.Protocol.Message signoutMessage = new Common.Protocol.Message(new MessageHeader(ServiceTypes.LOGOUT), messageData);
-            newState.OutputMessagesList.Add(signoutMessage);
-            return newState;
-        }
-
-
         private void RedirectTextMessageToConversationController(TextMessageData message)
         {
             string senderName = message.Sender;
@@ -226,6 +237,7 @@ namespace Controller.StateObjects
             this._fileTransferView.ShowView();
         }
 
+        #endregion
 
         #region FileTransferView Event Handlers
 

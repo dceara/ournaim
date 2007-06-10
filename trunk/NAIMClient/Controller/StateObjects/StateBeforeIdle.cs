@@ -8,17 +8,26 @@ namespace Controller.StateObjects
 {
     public class StateBeforeIdle:AState
     {
-        public StateBeforeIdle()
-            : base()
-        {
-            _transitionsTable.Add(Common.ServiceTypes.USER_LIST, typeof(StateIdle));
-        }
+        #region Members
 
         private IList<string> _groupNames;
 
         private IDictionary<string, IList<UserListEntry>> _contactsByGroups;
 
         private IDictionary<string,UserListEntry> _contacts;
+
+        #endregion
+
+        #region Constructors
+
+        public StateBeforeIdle()
+            : base()
+        {
+            _transitionsTable.Add(Common.ServiceTypes.USER_LIST, typeof(StateIdle));
+        }
+        #endregion
+
+        #region AState Methods
 
         public override AState AnalyzeMessage(Common.Protocol.Message message)
         {
@@ -70,5 +79,6 @@ namespace Controller.StateObjects
         protected override void InitializeAccountViewHandlers()
         {
         }
+        #endregion
     }
 }
