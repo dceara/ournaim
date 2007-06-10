@@ -13,18 +13,21 @@ using Controller.StateObjects;
 
 namespace Controllers
 {
+    #region MainController Class
+
+    #region Delegates
+
     public delegate void InstantiateConversationView(string username);
 
     public delegate void InstantiateCreateAccountView();
 
     public delegate void InstantiateFileTransferView();
 
+    #endregion
+
     public class MainController
     {
-        /// <summary>
-        /// this is for debugging purposes only. Should be set on true if testing without a server!!!
-        /// </summary>
-        private bool withoutServerMode = false;
+        #region Members
 
         private AState currentState = null;
 
@@ -41,6 +44,38 @@ namespace Controllers
         private IList<Common.Protocol.Message> outputMessageQueue;
 
         private IMainView mainView;
+
+        public IMainView MainView
+        {
+            get
+            {
+                return mainView;
+            }
+            set
+            {
+                mainView = value;
+            }
+        }
+
+        private IFileTransferView fileTransferView;
+
+        public IFileTransferView FileTransferView
+        {
+            get
+            {
+                return fileTransferView;
+            }
+        }
+
+        private ICreateAccountView createAccountView;
+
+        public ICreateAccountView CreateAccountView
+        {
+            get
+            {
+                return createAccountView;
+            }
+        }
 
         private Socket serverSocket = null;
 
@@ -94,38 +129,9 @@ namespace Controllers
 	
         #endregion
 
+        #endregion
 
-        public IMainView MainView
-        {
-            get 
-            {
-                return mainView;
-            }
-            set 
-            { 
-                mainView = value;
-            }
-        }
-
-        private IFileTransferView fileTransferView;
-
-        public IFileTransferView FileTransferView
-        {
-            get
-            {
-                return fileTransferView;
-            }
-        }
-
-        private ICreateAccountView createAccountView;
-
-        public ICreateAccountView CreateAccountView
-        {
-            get
-            {
-                return createAccountView;
-            }
-        }
+        #region Methods
 
         /// <summary>
         /// This is called from the main class.
@@ -152,20 +158,8 @@ namespace Controllers
             this.conversationControllers = new Dictionary<string,IConversationController>();
             this.inputMessageQueue = new List<Common.Protocol.Message>();
             this.outputMessageQueue = new List<Common.Protocol.Message>();
-
-            
             
             currentState.ConversationControllers = conversationControllers;
-
-            //if (!withoutServerMode)
-            //{
-            //    if (!CreateServerConnection())
-            //    {
-            //        MessageBox.Show("Eroare la conectarea la server!!!");
-            //        return;
-            //    }
-            //}
-
         }
         public void InitialiseConversation(string userName,IConversationView conversationView)
         {
@@ -195,6 +189,7 @@ namespace Controllers
         {
             if (this.currentState is StateIdle)
             {
+                this.fileTransferView = newFileTransferView;
                 ((StateIdle)currentState).InitialiseFileTransferManager(newFileTransferView);
             }
         }
@@ -240,6 +235,8 @@ namespace Controllers
             }
             CloseServerConnection();
         }
+
+        #endregion
 
         #region MainView Event Handlers
         void mainView_ChangeStatusEvent(string status)
@@ -300,6 +297,7 @@ namespace Controllers
         void mainView_LogoutEvent()
         {
             global::System.Windows.Forms.MessageBox.Show("NOW SIGNING OFF!");
+
             foreach (KeyValuePair<string,IConversationController> pair in conversationControllers)
             {
                 pair.Value.CloseView();
@@ -310,14 +308,9 @@ namespace Controllers
 
             EmptyCurrentStateOutputBuffer();
             
-            if (!withoutServerMode)
-            {
-                //clear the input messages
-                inputMessageQueue.Clear();
+            inputMessageQueue.Clear();
 
-                //process the output queue
-                ProcessOutputQueue();
-            }
+            ProcessOutputQueue();
 
             toBreak = true;
             mainLoopStarted = false;
@@ -421,7 +414,6 @@ namespace Controllers
         }
         #endregion
 
-
         #region MainController Methods
         
         private void ProcessOutputQueue()
@@ -510,6 +502,7 @@ namespace Controllers
             currentState.OutputMessagesList.Clear();
         }
         #endregion
-
     }
+
+    #endregion
 }
