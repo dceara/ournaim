@@ -7,6 +7,8 @@ namespace Common.ProtocolEntities
 {
     public class UserConnectedMessageData : AMessageData
     {
+        #region Properties
+
         private string _userName;
 
         public string UserName
@@ -22,11 +24,19 @@ namespace Common.ProtocolEntities
             get { return _status; }
             set { _status = value; }
         }
-	
+
+        #endregion
+
+        #region Constructors
+
         public UserConnectedMessageData(byte[] data)
             :base(data)
         {
         }
+
+        #endregion
+
+        #region AMessageData Methods
 
         protected override void Deserialize()
         {
@@ -40,5 +50,7 @@ namespace Common.ProtocolEntities
         {
             throw new Exception("This method should be implemented by the server!");
         }
+
+        #endregion
     }
 }

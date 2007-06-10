@@ -7,6 +7,7 @@ namespace Common.ProtocolEntities
 {
     public class UserListMessageData:AMessageData
     {
+        #region Properties
 
         private byte _groupCount;
 
@@ -23,12 +24,18 @@ namespace Common.ProtocolEntities
             get { return _groupsList; }
             set { _groupsList = value; }
         }
-	
+        #endregion
+
+        #region Constructors
 
         public UserListMessageData(byte[] data):
             base(data)
         {
         }
+
+        #endregion
+
+        #region AMessageData Methods
 
         protected override void Deserialize()
         {
@@ -57,7 +64,16 @@ namespace Common.ProtocolEntities
         {
             throw new Exception("This method should be implemented by the server.");
         }
+        #endregion
 
+        #region Private Methods
+
+        /// <summary>
+        /// Gets the next user entry.
+        /// </summary>
+        /// <param name="index">the index in the data field</param>
+        /// <param name="entry">the entry that will be returned</param>
+        /// <returns>the new index in the data field</returns>
         private int GetNextUserListEntry(int index, ref UserListEntry entry)
         {
             int unameLen = _data[index];
@@ -65,6 +81,7 @@ namespace Common.ProtocolEntities
             index += unameLen + 1;
             return index;
         }
+
         private int GetUserAvailabilities(int index, ref GroupEntry[] groupList)
         {
             for (int i = 0; i < groupList.Length; i++)
@@ -79,6 +96,7 @@ namespace Common.ProtocolEntities
             }
             return index;
         }
+
         private int GetUserStatuses(int index, ref GroupEntry[] groupsList)
         {
             for (int i = 0; i < groupsList.Length; i++)
@@ -95,5 +113,6 @@ namespace Common.ProtocolEntities
             }
             return index;
         }
+        #endregion
     }
 }

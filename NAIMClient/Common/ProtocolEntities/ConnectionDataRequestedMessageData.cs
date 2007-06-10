@@ -7,6 +7,8 @@ namespace Common.ProtocolEntities
 {
     public class ConnectionDataRequestedMessageData : AMessageData
     {
+        #region Properties
+
         private string _senderUserName;
 
         public string SenderUserName
@@ -22,7 +24,10 @@ namespace Common.ProtocolEntities
             get { return _requestedUser; }
             set { _requestedUser = value; }
         }
-	
+
+        #endregion
+
+        #region Constructors
 
         public ConnectionDataRequestedMessageData(byte[] data)
             : base(data)
@@ -34,6 +39,9 @@ namespace Common.ProtocolEntities
             _senderUserName = senderUsername;
             _requestedUser = requestedUser;
         }
+        #endregion
+
+        #region AMessageData Methods
 
         protected override void Deserialize()
         {
@@ -67,5 +75,6 @@ namespace Common.ProtocolEntities
             Array.Copy(requestedUser, 0, toReturn, senderUnameLen + 2, requestedUserLen);
             return toReturn;
         }
+        #endregion
     }
 }

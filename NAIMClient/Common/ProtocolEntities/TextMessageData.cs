@@ -7,6 +7,8 @@ namespace Common.ProtocolEntities
 {
     public class TextMessageData:AMessageData
     {
+        #region Properties
+
         private string _text;
 
         public string Text
@@ -26,11 +28,14 @@ namespace Common.ProtocolEntities
         private string _receiver;
 
         public string Receiver
-            {
+        {
             get { return _receiver; }
             set { _receiver = value; }
         }
-	
+
+        #endregion
+
+        #region Constructors
 
         public TextMessageData(string sender,string receiver, string text)
         {
@@ -43,6 +48,11 @@ namespace Common.ProtocolEntities
             :base(data)
         {
         }
+
+        #endregion
+
+        #region AMessageData Methods
+
         protected override void Deserialize()
         {
             int senderLen = _data[0];
@@ -70,5 +80,6 @@ namespace Common.ProtocolEntities
             Array.Copy(text, 0, toReturn, senderLen + receiverLen + 3, textLen);
             return toReturn;
         }
+        #endregion
     }
 }

@@ -7,6 +7,8 @@ namespace Common.ProtocolEntities
 {
     public class LogoutMessageData : AMessageData
     {
+        #region Properties
+
         private string _userName;
 
         public string UserName
@@ -14,7 +16,9 @@ namespace Common.ProtocolEntities
             get { return _userName; }
             set { _userName = value; }
         }
-	
+        #endregion
+
+        #region Constructors
 
         public LogoutMessageData(byte[] data)
             :base(data)
@@ -25,6 +29,10 @@ namespace Common.ProtocolEntities
         {
             this._userName = userName;
         }
+
+        #endregion
+
+        #region AMessageData Methods
 
         protected override void Deserialize()
         {
@@ -39,5 +47,6 @@ namespace Common.ProtocolEntities
             Array.Copy(uname,0,toReturn,1,uname.Length);
             return toReturn;
         }
+        #endregion
     }
 }

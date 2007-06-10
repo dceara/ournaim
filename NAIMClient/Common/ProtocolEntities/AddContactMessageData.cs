@@ -7,6 +7,8 @@ namespace Common.ProtocolEntities
 {
     public class AddContactMessageData: AMessageData
     {
+        #region Properties
+
         private string _userName;
 
         public string UserName
@@ -30,7 +32,10 @@ namespace Common.ProtocolEntities
             get { return _group; }
             set { _group = value; }
         }
-	
+
+        #endregion
+
+        #region Constructors
 
         public AddContactMessageData(byte[] data)
             :base(data)
@@ -43,6 +48,9 @@ namespace Common.ProtocolEntities
             _group = group;
             _newContact = newContact;
         }
+        #endregion
+
+        #region AMessageData Methods
 
         protected override void Deserialize()
         {
@@ -66,5 +74,6 @@ namespace Common.ProtocolEntities
             Array.Copy(group, 0, toReturn, unameLen + newContactLen + 3, groupLen);
             return toReturn;
         }
+        #endregion
     }
 }

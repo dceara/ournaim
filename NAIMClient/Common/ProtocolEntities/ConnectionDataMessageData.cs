@@ -8,6 +8,8 @@ namespace Common.ProtocolEntities
 {
     public class ConnectionDataMessageData : AMessageData
     {
+        #region Properties
+
         private string _sender;
 
         public string Sender
@@ -40,8 +42,11 @@ namespace Common.ProtocolEntities
             get { return _port; }
             set { _port = value; }
         }
-	
-	
+
+        #endregion
+
+        #region Constructors
+        
         public ConnectionDataMessageData(byte[] data)
         {
             _data = new byte[data.Length];
@@ -55,6 +60,10 @@ namespace Common.ProtocolEntities
             this._ipAddress = ip;
             this._port = port;
         }
+        #endregion
+
+        #region AMessageData Methods
+
         protected override void Deserialize()
         {
             int senderLen = _data[0];
@@ -88,6 +97,6 @@ namespace Common.ProtocolEntities
             Array.Copy(port, 0, toReturn, sender.Length + receiver.Length + 7, 2);
             return toReturn;
         }
-
+        #endregion
     }
 }
