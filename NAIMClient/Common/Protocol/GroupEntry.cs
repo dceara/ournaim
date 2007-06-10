@@ -4,8 +4,15 @@ using System.Text;
 
 namespace Common.Protocol
 {
+    #region GroupEntry Class
+
+    /// <summary>
+    /// This is used to hold information about a group of contacts.
+    /// </summary>
     public class GroupEntry
     {
+        #region Properties
+
         private string _name;
 
         public string Name
@@ -22,11 +29,17 @@ namespace Common.Protocol
             set { _users = value; }
         }
 
+        #endregion
+
+        #region Constructors
+
         public GroupEntry(string name)
         {
             _name = name;
             _users = new List<UserListEntry>();
         }
-	
+        #endregion
     }
+
+    #endregion
 }
