@@ -10,26 +10,26 @@
 
 const char NAIM_DATABASE_NAME[] = "Database/NAIM.db";
 
-/* Holds details about a client */
-
-struct ClientDetails {
-    int dbID;
-    std::string username;
-    std::string password;
-};
-
-struct ContactDetails {
-    int dbID;                           // the ID of the username
-    std::string username;
-    std::string group;
-};
-
-/* Holds details about a group */
-
-struct GroupDetails {
-    int dbID;
-    std::string name;
-};
+///* Holds details about a client */
+//
+//struct ClientDetails {
+//    int dbID;
+//    std::string username;
+//    std::string password;
+//};
+//
+//struct ContactDetails {
+//    int dbID;                           // the ID of the username
+//    std::string username;
+//    std::string group;
+//};
+//
+///* Holds details about a group */
+//
+//struct GroupDetails {
+//    int dbID;
+//    std::string name;
+//};
 
 /* Contains functions for database access */
 
