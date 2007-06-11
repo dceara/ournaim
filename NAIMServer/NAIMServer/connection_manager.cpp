@@ -338,6 +338,9 @@ int ConnectionManager::run() {
     serv_addr.sin_addr.s_addr = INADDR_ANY;	                    // uses localhost ip
     serv_addr.sin_port = htons(PORTNO);
 
+    int reuseaddr = 1;                                          // non-zero to activate boolean option
+    setsockopt(listen_sockfd, SOL_SOCKET, SO_REUSEADDR, &reuseaddr, sizeof(int));
+
     if (bind(listen_sockfd, (struct sockaddr *) &serv_addr, sizeof(struct sockaddr)) < 0) {
         printf("ERROR on binding: %d", errno);
         CLOSE(listen_sockfd);
