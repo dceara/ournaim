@@ -1,10 +1,9 @@
 SRC=$(wildcard *.cpp)
 HDR=$(wildcard *.h)
 
-
 all: debug
 
-sqlite3: ./SqLite/sqlite3.c
+./bin/sqlite3.o: ./SqLite/sqlite3.c
 	gcc -c -o ./bin/sqlite3.o ./SqLite/sqlite3.c
 
 release: $(SRC) $(HDR) ./bin/sqlite3.o
