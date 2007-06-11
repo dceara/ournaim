@@ -339,7 +339,7 @@ int ConnectionManager::run() {
     serv_addr.sin_port = htons(PORTNO);
 
     int reuseaddr = 1;                                          // non-zero to activate boolean option
-    setsockopt(listen_sockfd, SOL_SOCKET, SO_REUSEADDR, &reuseaddr, sizeof(int));
+    setsockopt(listen_sockfd, SOL_SOCKET, SO_REUSEADDR, (char *)&reuseaddr, sizeof(int));
 
     if (bind(listen_sockfd, (struct sockaddr *) &serv_addr, sizeof(struct sockaddr)) < 0) {
         printf("ERROR on binding: %d", errno);
