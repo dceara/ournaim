@@ -437,7 +437,6 @@ namespace Controllers
 
         private void ProcessOutputQueue()
         {
-#warning OUTPUT QUEUE NOT IMPLEMENTED
             while (outputMessageQueue.Count > 0)
             {
                 Common.Protocol.Message firstMessage = outputMessageQueue.Dequeue();
