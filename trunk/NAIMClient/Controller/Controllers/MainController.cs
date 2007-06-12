@@ -277,6 +277,13 @@ namespace Controllers
 
         void mainView_AddContactEvent(string uname, string group)
         {
+            if (!(currentState is StateIdle))
+                return;
+            if (AState.CheckIfContactExists(uname,((StateIdle)currentState).ContactsByGroups))
+            {
+                MessageBox.Show("Contact already in contacts list!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                return;
+            }
             AMessageData messageData = new AddContactMessageData(this.currentUserName, group, uname);
             Common.Protocol.Message addContactMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.ADD_CONTACT), messageData);
             this.outputMessageQueue.Enqueue(addContactMessage);
@@ -366,8 +373,6 @@ namespace Controllers
         {
             this.currentUserName = userName;
             this.currentPassword = password;
-
-            
 
             EmptyCurrentStateOutputBuffer();
 
