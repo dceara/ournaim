@@ -368,9 +368,9 @@ namespace Controllers
             this.currentUserName = userName;
             this.currentPassword = password;
 
-            EmptyCurrentStateOutputBuffer();
-
             
+
+            EmptyCurrentStateOutputBuffer();
 
             if (mainLoopStarted == false)
             {

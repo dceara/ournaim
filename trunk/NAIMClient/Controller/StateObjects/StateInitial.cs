@@ -12,8 +12,9 @@ namespace Controller.StateObjects
     {
         #region Members
 
-        private bool _signInAlreadySent = false; 
-        
+        private bool _signInAlreadySent = false;
+        private string _userName;
+
         #endregion
 
         #region Constructors
@@ -39,7 +40,7 @@ namespace Controller.StateObjects
             }
             if (_signInAlreadySent && message.Header.ServiceType == Common.ServiceTypes.ACK)
             {
-                _mainView.AfterSignIn();
+                _mainView.AfterSignIn(_userName);
                 ClearCurrentEventHandlers();
                 return GetNextState(message.Header.ServiceType);
             }
@@ -87,6 +88,7 @@ namespace Controller.StateObjects
 
             _outputMessagesList.Add(message);
             _signInAlreadySent = true;
+            _userName = userName;
         }
         #endregion
     }

@@ -181,7 +181,7 @@ namespace Common.Interfaces
         /// <summary>
         /// This is called by the controller to initialise the view after sign in.
         /// </summary>
-        void AfterSignIn();
+        void AfterSignIn(string userName);
 
         /// <summary>
         /// This fires the Close view event.

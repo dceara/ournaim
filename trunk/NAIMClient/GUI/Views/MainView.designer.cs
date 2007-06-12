@@ -54,8 +54,7 @@ namespace GUI
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.status_label = new System.Windows.Forms.Label();
-            this.status_button = new System.Windows.Forms.Button();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.cbStatuses = new System.Windows.Forms.ComboBox();
             this.ctvContacts = new GUI.Controls.ContactsTree();
             this.menuStrip1.SuspendLayout();
@@ -276,28 +275,20 @@ namespace GUI
             this.helpToolStripMenuItem1.Size = new System.Drawing.Size(114, 22);
             this.helpToolStripMenuItem1.Text = "&Help";
             // 
-            // status_label
+            // lblStatus
             // 
-            this.status_label.AutoSize = true;
-            this.status_label.Location = new System.Drawing.Point(12, 30);
-            this.status_label.Name = "status_label";
-            this.status_label.Size = new System.Drawing.Size(37, 13);
-            this.status_label.TabIndex = 12;
-            this.status_label.Text = "Status";
-            // 
-            // status_button
-            // 
-            this.status_button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.status_button.Location = new System.Drawing.Point(55, 25);
-            this.status_button.Name = "status_button";
-            this.status_button.Size = new System.Drawing.Size(43, 23);
-            this.status_button.TabIndex = 13;
-            this.status_button.Text = "Available";
-            this.status_button.UseVisualStyleBackColor = true;
-            this.status_button.Click += new System.EventHandler(this.status_button_Click);
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.Location = new System.Drawing.Point(12, 30);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(43, 13);
+            this.lblStatus.TabIndex = 12;
+            this.lblStatus.Text = "Status";
             // 
             // cbStatuses
             // 
+            this.cbStatuses.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.cbStatuses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbStatuses.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cbStatuses.FormattingEnabled = true;
@@ -308,9 +299,9 @@ namespace GUI
             "Be Right Back",
             "Not At My Desk",
             "New Status Message..."});
-            this.cbStatuses.Location = new System.Drawing.Point(104, 27);
+            this.cbStatuses.Location = new System.Drawing.Point(55, 27);
             this.cbStatuses.Name = "cbStatuses";
-            this.cbStatuses.Size = new System.Drawing.Size(113, 21);
+            this.cbStatuses.Size = new System.Drawing.Size(162, 21);
             this.cbStatuses.TabIndex = 15;
             // 
             // ctvContacts
@@ -347,8 +338,7 @@ namespace GUI
             this.ClientSize = new System.Drawing.Size(229, 602);
             this.Controls.Add(this.cbStatuses);
             this.Controls.Add(this.ctvContacts);
-            this.Controls.Add(this.status_button);
-            this.Controls.Add(this.status_label);
+            this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnSignUp);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.lblUserName);
@@ -393,8 +383,7 @@ namespace GUI
         private ToolStripMenuItem deleteToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem1;
-        private Label status_label;
-        private Button status_button;
+        private Label lblStatus;
         private GUI.Controls.ContactsTree ctvContacts;
         private ComboBox cbStatuses;
     }
