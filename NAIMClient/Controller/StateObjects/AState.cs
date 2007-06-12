@@ -115,6 +115,7 @@ namespace Controller.StateObjects
             return state;
         }
 
+        
         #endregion
 
         #region Abstract Methods
@@ -124,7 +125,7 @@ namespace Controller.StateObjects
         /// </summary>
         /// <param name="message"></param>
         /// <returns>the next state</returns>
-        public abstract AState AnalyzeMessage(Message message);
+        
 
         protected abstract void InitializeMainViewEventHandlers();
 
@@ -132,7 +133,11 @@ namespace Controller.StateObjects
 
         protected abstract void InitializeAccountViewHandlers();
 
+        protected abstract void ClearCurrentEventHandlers();
+
         public abstract AState MoveState();
+
+        public abstract AState AnalyzeMessage(Message message);
 
         #endregion
     }

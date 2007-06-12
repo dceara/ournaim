@@ -60,6 +60,7 @@ namespace Controller.StateObjects
                 ((StateIdle)nextState).ContactsByGroups = contactsByGroups;
                 ((StateIdle)nextState).OnlineContacts = _contacts;
             }
+
             return nextState;
         }
 
@@ -77,6 +78,10 @@ namespace Controller.StateObjects
         }
 
         protected override void InitializeAccountViewHandlers()
+        {
+        }
+
+        protected override void ClearCurrentEventHandlers()
         {
         }
         #endregion

@@ -38,6 +38,7 @@ namespace Controller.StateObjects
             {
                 AState nextState = GetNextState(message.Header.ServiceType);
                 nextState.ToCloseConnection = true;
+                ClearCurrentEventHandlers();
                 return nextState;
             }
             return this;
@@ -73,6 +74,11 @@ namespace Controller.StateObjects
         public override AState MoveState()
         {
             throw new Exception("The method or operation is not implemented.");
+        }
+
+        protected override void ClearCurrentEventHandlers()
+        {
+            this._createAccountView.CreateAccountEvent -= _createAccountView_CreateAccountEvent;
         }
         #endregion
     }
