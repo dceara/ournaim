@@ -163,8 +163,7 @@ namespace Controller.StateObjects
         private void HandleUserConnectedMessage(UserConnectedMessageData messageData)
         {
             UserConnectedMessageData userConnectedData = (UserConnectedMessageData)messageData;
-            UserListEntry contact = _onlineContacts[userConnectedData.UserName];
-            if (contact == null)
+            if (!_onlineContacts.ContainsKey(userConnectedData.UserName))
             {
                 string groupName = GetGroupName(userConnectedData.UserName);
                 _mainView.ClientOnline(userConnectedData.UserName, userConnectedData.Status);
@@ -172,6 +171,7 @@ namespace Controller.StateObjects
             }
             else
             {
+                UserListEntry contact = _onlineContacts[userConnectedData.UserName];
                 _mainView.ChangeClientStatus(userConnectedData.UserName, userConnectedData.Status);
                 contact.Status = userConnectedData.Status;
             }
