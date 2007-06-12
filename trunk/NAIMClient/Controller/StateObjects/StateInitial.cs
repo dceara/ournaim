@@ -34,11 +34,13 @@ namespace Controller.StateObjects
             if (message.Header.ServiceType == Common.ServiceTypes.NACK)
             {
                 _signInAlreadySent = false;
+                ClearCurrentEventHandlers();
                 return GetNextState(message.Header.ServiceType);
             }
             if (_signInAlreadySent && message.Header.ServiceType == Common.ServiceTypes.ACK)
             {
                 _mainView.AfterSignIn();
+                ClearCurrentEventHandlers();
                 return GetNextState(message.Header.ServiceType);
             }
             return this;
@@ -57,6 +59,7 @@ namespace Controller.StateObjects
 
         public override AState MoveState()
         {
+            ClearCurrentEventHandlers();
             AState newState = new StateCreateAccount();
             newState.MainView = _mainView;
             newState.ConversationControllers = _conversationControllers;
@@ -67,7 +70,12 @@ namespace Controller.StateObjects
         protected override void InitializeAccountViewHandlers()
         {
         }
-        
+
+        protected override void ClearCurrentEventHandlers()
+        {
+            this._mainView.LoginEvent -= mainView_LoginEvent;
+        }
+
         #endregion
 
         #region Main View Event Handlers

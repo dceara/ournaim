@@ -36,12 +36,12 @@ namespace Controllers
         /// <summary>
         /// contains the messages received from the server
         /// </summary>
-        private IList<Common.Protocol.Message> inputMessageQueue;
+        private Queue<Common.Protocol.Message> inputMessageQueue;
 
         /// <summary>
         /// contains the messages to be sent to the server
         /// </summary>
-        private IList<Common.Protocol.Message> outputMessageQueue;
+        private Queue<Common.Protocol.Message> outputMessageQueue;
 
         private IMainView mainView;
 
@@ -156,8 +156,8 @@ namespace Controllers
             this.mainView.Initialise();
 
             this.conversationControllers = new Dictionary<string,IConversationController>();
-            this.inputMessageQueue = new List<Common.Protocol.Message>();
-            this.outputMessageQueue = new List<Common.Protocol.Message>();
+            this.inputMessageQueue = new Queue<Common.Protocol.Message>();
+            this.outputMessageQueue = new Queue<Common.Protocol.Message>();
             
             currentState.ConversationControllers = conversationControllers;
         }
@@ -198,7 +198,9 @@ namespace Controllers
         {
             if (!CreateServerConnection())
             {
-                MessageBox.Show("Eroare la conectarea la server!!!");
+                mainLoopStarted = false;
+                toBreak = false;
+                ForceEmptyOutputQueue();
                 return;
             }
 
@@ -224,7 +226,7 @@ namespace Controllers
                     Array.Copy(headerBuffer, messageBuffer, headerBuffer.Length);
                     Array.Copy(rawData, 0, messageBuffer,headerBuffer.Length, contentLength);
                     Common.Protocol.Message newMessage = new Common.Protocol.Message(messageBuffer);
-                    inputMessageQueue.Add(newMessage);
+                    inputMessageQueue.Enqueue(newMessage);
                 }
                 ProcessInputQueue();
                 Application.DoEvents();
@@ -243,7 +245,7 @@ namespace Controllers
         {
             AMessageData messageData = new StatusMessageData(this.currentUserName, status);
             Common.Protocol.Message changeStatusMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.STATUS), messageData);
-            this.outputMessageQueue.Add(changeStatusMessage);
+            this.outputMessageQueue.Enqueue(changeStatusMessage);
             mainView.ChangeStatus(status);
         }
 
@@ -251,7 +253,7 @@ namespace Controllers
         {
             AMessageData messageData = new AddContactMessageData(this.currentUserName, newgroup, contact);
             Common.Protocol.Message changeContactGroupMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.ADD_CONTACT), messageData);
-            outputMessageQueue.Add(changeContactGroupMessage);
+            outputMessageQueue.Enqueue(changeContactGroupMessage);
 #warning to change user group in GUI too
         }
 
@@ -259,7 +261,7 @@ namespace Controllers
         {
             AMessageData messageData = new AddContactMessageData(this.currentUserName, group, uname);
             Common.Protocol.Message addContactMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.ADD_CONTACT), messageData);
-            this.outputMessageQueue.Add(addContactMessage);
+            this.outputMessageQueue.Enqueue(addContactMessage);
 #warning to add user in group in GUI too
 
         }
@@ -267,7 +269,7 @@ namespace Controllers
         {
             AMessageData messageData = new RemoveContactMessageData(this.currentUserName, username);
             Common.Protocol.Message removeContactMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.REMOVE_CONTACT), messageData);
-            this.outputMessageQueue.Add(removeContactMessage);
+            this.outputMessageQueue.Enqueue(removeContactMessage);
 #warning to remove user from GUI too
         }
 
@@ -290,21 +292,32 @@ namespace Controllers
 
         void mainView_MainCloseEvent()
         {
-            global::System.Windows.Forms.MessageBox.Show("NOW EXITING");
+            currentState = currentState.MoveState();
+
+            EmptyCurrentStateOutputBuffer();
+
+            inputMessageQueue.Clear();
+
+            ProcessOutputQueue();
+
             toBreak = true;
+
+            mainLoopStarted = false;
         }
 
         void mainView_LogoutEvent()
         {
-            global::System.Windows.Forms.MessageBox.Show("NOW SIGNING OFF!");
-
             foreach (KeyValuePair<string,IConversationController> pair in conversationControllers)
             {
                 pair.Value.CloseView();
             }
             conversationControllers.Clear();
 
+            this.mainView.LoginEvent -= mainView_LoginEvent;
+
             currentState = currentState.MoveState();
+
+            this.mainView.LoginEvent += mainView_LoginEvent;
 
             EmptyCurrentStateOutputBuffer();
             
@@ -313,6 +326,7 @@ namespace Controllers
             ProcessOutputQueue();
 
             toBreak = true;
+
             mainLoopStarted = false;
 
             mainView.Initialise();
@@ -372,7 +386,7 @@ namespace Controllers
 
         void newConversationController_SendServerMessageEvent(Common.Protocol.Message message)
         {
-            this.outputMessageQueue.Add(message);
+            this.outputMessageQueue.Enqueue(message);
         }
 
         void newConversationController_DisposeConversationControllerEvent(string name)
@@ -415,17 +429,20 @@ namespace Controllers
         #endregion
 
         #region MainController Methods
-        
+
+        private void ForceEmptyOutputQueue()
+        {
+            outputMessageQueue.Clear();
+        }
+
         private void ProcessOutputQueue()
         {
 #warning OUTPUT QUEUE NOT IMPLEMENTED
             while (outputMessageQueue.Count > 0)
             {
-                Common.Protocol.Message firstMessage = outputMessageQueue[0];
+                Common.Protocol.Message firstMessage = outputMessageQueue.Dequeue();
 
                 SendServerMessage(firstMessage);
-
-                outputMessageQueue.RemoveAt(0);
             }
         }
 
@@ -433,7 +450,7 @@ namespace Controllers
         {
             while (inputMessageQueue.Count > 0)
             {
-                Common.Protocol.Message firstMessage = inputMessageQueue[0];
+                Common.Protocol.Message firstMessage = inputMessageQueue.Dequeue();
                 currentState = currentState.AnalyzeMessage(firstMessage);
                 if (currentState is StateIdle)
                 {
@@ -445,14 +462,17 @@ namespace Controllers
                 {
                     toBreak = true;
                 }
-                inputMessageQueue.RemoveAt(0);
             }
             EmptyCurrentStateOutputBuffer();
         }
 
         private void CloseServerConnection()
         {
-            serverSocket.Close();
+            if (serverSocket != null)
+            {
+                serverSocket.Close();
+                serverSocket = null;
+            }
         }
 
         private bool CreateServerConnection()
@@ -466,23 +486,31 @@ namespace Controllers
             {
                 return false;
             }
-            foreach (IPAddress address in hostEntry.AddressList)
+            try
             {
-                IPEndPoint ipe = new IPEndPoint(address, port);
-                Socket tempSocket =
-                    new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
-                tempSocket.Connect(ipe);
-
-                if (tempSocket.Connected)
+                foreach (IPAddress address in hostEntry.AddressList)
                 {
-                    serverSocket = tempSocket;
-                    break;
+                    IPEndPoint ipe = new IPEndPoint(address, port);
+                    Socket tempSocket =
+                        new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+
+                    tempSocket.Connect(ipe);
+
+                    if (tempSocket.Connected)
+                    {
+                        serverSocket = tempSocket;
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
-                else
-                {
-                    continue;
-                }
+            }
+            catch (SocketException ex)
+            {
+                MessageBox.Show("The connection with the server could not be established !","Connection Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                return false;
             }
             return true;
         }
@@ -497,7 +525,7 @@ namespace Controllers
 
             foreach (Common.Protocol.Message message in currentState.OutputMessagesList)
             {
-                this.outputMessageQueue.Add(message);
+                this.outputMessageQueue.Enqueue(message);
             }
             currentState.OutputMessagesList.Clear();
         }

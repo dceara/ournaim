@@ -121,6 +121,7 @@ namespace Controller.StateObjects
 
         public override AState MoveState()
         {
+            ClearCurrentEventHandlers();
             AState newState = new StateInitial();
             newState.MainView = _mainView;
             ToCloseConnection = true;
@@ -129,7 +130,11 @@ namespace Controller.StateObjects
             newState.OutputMessagesList.Add(signoutMessage);
             return newState;
         }
-        
+
+        protected override void ClearCurrentEventHandlers()
+        {
+        }
+
         #endregion
 
         #region Methods
