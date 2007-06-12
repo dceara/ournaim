@@ -42,15 +42,16 @@ namespace GUI.Views
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 13);
+            this.label1.Size = new System.Drawing.Size(80, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "User\'s nickname";
+            this.label1.Text = "User\'s NAIM id:";
             // 
             // usernickname
             // 
-            this.usernickname.Location = new System.Drawing.Point(104, 16);
+            this.usernickname.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.usernickname.Location = new System.Drawing.Point(16, 35);
             this.usernickname.Name = "usernickname";
-            this.usernickname.Size = new System.Drawing.Size(100, 20);
+            this.usernickname.Size = new System.Drawing.Size(192, 20);
             this.usernickname.TabIndex = 1;
             // 
             // label2
@@ -64,8 +65,9 @@ namespace GUI.Views
             // 
             // group_comboBox
             // 
+            this.group_comboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.group_comboBox.FormattingEnabled = true;
-            this.group_comboBox.Location = new System.Drawing.Point(266, 15);
+            this.group_comboBox.Location = new System.Drawing.Point(227, 34);
             this.group_comboBox.Name = "group_comboBox";
             this.group_comboBox.Size = new System.Drawing.Size(121, 21);
             this.group_comboBox.TabIndex = 3;
@@ -73,7 +75,8 @@ namespace GUI.Views
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button1.Location = new System.Drawing.Point(108, 54);
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button1.Location = new System.Drawing.Point(185, 85);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 4;
@@ -83,7 +86,8 @@ namespace GUI.Views
             // button2
             // 
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button2.Location = new System.Drawing.Point(217, 54);
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button2.Location = new System.Drawing.Point(273, 85);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 5;
@@ -95,8 +99,9 @@ namespace GUI.Views
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.CancelButton = this.button2;
-            this.ClientSize = new System.Drawing.Size(401, 101);
+            this.ClientSize = new System.Drawing.Size(365, 124);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.group_comboBox);

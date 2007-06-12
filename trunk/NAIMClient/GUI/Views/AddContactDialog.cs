@@ -26,9 +26,14 @@ namespace GUI.Views
 
         #region Constructors
 
-        public AddContactDialog()
+        public AddContactDialog(string[] groups)
         {
             InitializeComponent();
+
+            foreach(string group in groups)
+            {
+                group_comboBox.Items.Add(group);
+            }
         }
         
         #endregion

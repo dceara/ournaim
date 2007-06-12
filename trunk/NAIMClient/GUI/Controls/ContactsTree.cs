@@ -170,10 +170,26 @@ namespace GUI.Controls
                 TreeNode contactNode = group.Nodes[contact];
                 if (contactNode != null) {
                     contactNode.Text = contact + " - " + status;
+                    contactNode.ToolTipText = status;
                     break;
                 }
             }
             EndUpdate();
+        }
+
+        public void AddContact(string contact, string group) {
+            TreeNode groupNode = Nodes[group];
+            if (groupNode != null && Nodes[group].Nodes[contact] == null) {
+                TreeNode contactNode = new TreeNode();
+                contactNode.Name = contact;
+                contactNode.NodeFont = _offlineContactFont;
+                contactNode.ForeColor = _offlineContactColor;
+                contactNode.ImageIndex = 2;
+                contactNode.SelectedImageIndex = 2;
+                contactNode.Text = contact;
+
+                groupNode.Nodes.Add(contactNode);
+            }
         }
 
         public void ContactOnline(string contact, string status) {
@@ -188,6 +204,7 @@ namespace GUI.Controls
                     contactNode.ImageIndex = 1;
                     contactNode.SelectedImageIndex = 1;
                     contactNode.Text = contact + " - " + status;
+                    contactNode.ToolTipText = status;
                 }
             }
             EndUpdate();
@@ -205,9 +222,21 @@ namespace GUI.Controls
                     contactNode.ImageIndex = 2;
                     contactNode.SelectedImageIndex = 2;
                     contactNode.Text = contact;
+                    contactNode.ToolTipText = string.Empty;
                 }
             }
             EndUpdate();
+        }
+
+        public string[] GetGroups() {
+            string[] groups = new string[Nodes.Count];
+            
+            for (int i = 0; i < Nodes.Count; ++i) 
+            {
+                groups[i] = Nodes[i].Name;
+            }
+
+            return groups;
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
