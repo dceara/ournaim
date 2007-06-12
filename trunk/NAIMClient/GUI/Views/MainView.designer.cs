@@ -56,6 +56,7 @@ namespace GUI
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.status_label = new System.Windows.Forms.Label();
             this.status_button = new System.Windows.Forms.Button();
+            this.cbStatuses = new System.Windows.Forms.ComboBox();
             this.ctvContacts = new GUI.Controls.ContactsTree();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -278,7 +279,7 @@ namespace GUI
             // status_label
             // 
             this.status_label.AutoSize = true;
-            this.status_label.Location = new System.Drawing.Point(26, 30);
+            this.status_label.Location = new System.Drawing.Point(12, 30);
             this.status_label.Name = "status_label";
             this.status_label.Size = new System.Drawing.Size(37, 13);
             this.status_label.TabIndex = 12;
@@ -287,13 +288,30 @@ namespace GUI
             // status_button
             // 
             this.status_button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.status_button.Location = new System.Drawing.Point(67, 25);
+            this.status_button.Location = new System.Drawing.Point(55, 25);
             this.status_button.Name = "status_button";
-            this.status_button.Size = new System.Drawing.Size(115, 23);
+            this.status_button.Size = new System.Drawing.Size(43, 23);
             this.status_button.TabIndex = 13;
             this.status_button.Text = "Available";
             this.status_button.UseVisualStyleBackColor = true;
             this.status_button.Click += new System.EventHandler(this.status_button_Click);
+            // 
+            // cbStatuses
+            // 
+            this.cbStatuses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbStatuses.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.cbStatuses.FormattingEnabled = true;
+            this.cbStatuses.Items.AddRange(new object[] {
+            "Available",
+            "Busy",
+            "Stepped Out",
+            "Be Right Back",
+            "Not At My Desk",
+            "New Status Message..."});
+            this.cbStatuses.Location = new System.Drawing.Point(104, 27);
+            this.cbStatuses.Name = "cbStatuses";
+            this.cbStatuses.Size = new System.Drawing.Size(113, 21);
+            this.cbStatuses.TabIndex = 15;
             // 
             // ctvContacts
             // 
@@ -327,6 +345,7 @@ namespace GUI
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.ClientSize = new System.Drawing.Size(229, 602);
+            this.Controls.Add(this.cbStatuses);
             this.Controls.Add(this.ctvContacts);
             this.Controls.Add(this.status_button);
             this.Controls.Add(this.status_label);
@@ -377,5 +396,6 @@ namespace GUI
         private Label status_label;
         private Button status_button;
         private GUI.Controls.ContactsTree ctvContacts;
+        private ComboBox cbStatuses;
     }
 }
