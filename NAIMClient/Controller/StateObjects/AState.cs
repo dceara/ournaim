@@ -7,8 +7,25 @@ using Common.Interfaces;
 
 namespace Controller.StateObjects
 {
+    public delegate IConversationController OpenConversationDelegate(string username);
+
     public abstract class AState
     {
+        #region Events
+
+        public event OpenConversationDelegate OpenConversationEvent;
+
+        protected virtual IConversationController OnOpenConversationEvent(string username)
+        {
+            if(OpenConversationEvent!=null)
+            {
+                return OpenConversationEvent(username);
+            }
+            return null;
+        }
+
+        #endregion
+
         #region Properties and Members
 
         /// <summary>

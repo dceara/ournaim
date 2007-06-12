@@ -54,7 +54,14 @@ namespace Common.ProtocolEntities
 
         public override byte[] Serialize()
         {
-            throw new Exception("This method should be implemented by the server!");
+            byte[] uname = AMessageData.ToByteArray(_userName);
+            byte[] status = AMessageData.ToByteArray(_status);
+            byte[] toReturn = new byte[uname.Length + status.Length + 2];
+            toReturn[0] = (byte)uname.Length;
+            Array.Copy(uname, 0, toReturn, 1, uname.Length);
+            toReturn[uname.Length + 1] = (byte)status.Length;
+            Array.Copy(status, 0, toReturn, uname.Length + 2, status.Length);
+            return toReturn;
         }
 
         #endregion
