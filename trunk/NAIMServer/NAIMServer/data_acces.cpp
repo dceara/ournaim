@@ -304,7 +304,7 @@ char ** QueryExecuter::getContactsList(const char * clientName, char **& list, u
 
 // TODO
 char ** QueryExecuter::getClientsToUpdateList(const char * clientName, char **& clientsList, unsigned short & length) {
-
+    return NULL;
 }
 
 bool QueryExecuter::isClient(const char * clientName) {
@@ -332,7 +332,6 @@ bool QueryExecuter::isClient(const char * clientName) {
 	/*cleanup the query results*/
 	sqlite3_free_table(tableResult);
 	return false;
-    
 }
 
 int QueryExecuter::openDB(const char * path) {
