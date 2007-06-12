@@ -164,6 +164,52 @@ namespace GUI.Controls
             EndUpdate();
         }
 
+        public void ChangeContactStatus(string contact, string status) {
+            BeginUpdate();
+            foreach (TreeNode group in Nodes) {
+                TreeNode contactNode = group.Nodes[contact];
+                if (contactNode != null) {
+                    contactNode.Text = contact + " - " + status;
+                    break;
+                }
+            }
+            EndUpdate();
+        }
+
+        public void ContactOnline(string contact, string status) {
+            BeginUpdate();
+            foreach (TreeNode group in Nodes)
+            {
+                TreeNode contactNode = group.Nodes[contact];
+                if (contactNode != null)
+                {
+                    contactNode.NodeFont = _onlineContactFont;
+                    contactNode.ForeColor = _onlineContactColor;
+                    contactNode.ImageIndex = 1;
+                    contactNode.SelectedImageIndex = 1;
+                    contactNode.Text = contact + " - " + status;
+                }
+            }
+            EndUpdate();
+        }
+
+        public void ContactOffline(string contact) {
+            BeginUpdate();
+            foreach (TreeNode group in Nodes)
+            {
+                TreeNode contactNode = group.Nodes[contact];
+                if (contactNode != null)
+                {
+                    contactNode.NodeFont = _offlineContactFont;
+                    contactNode.ForeColor = _offlineContactColor;
+                    contactNode.ImageIndex = 2;
+                    contactNode.SelectedImageIndex = 2;
+                    contactNode.Text = contact;
+                }
+            }
+            EndUpdate();
+        }
+
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
