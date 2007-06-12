@@ -69,6 +69,7 @@ namespace Controller.StateObjects
             _transitionsTable.Add(Common.ServiceTypes.USER_DISCONNECTED, typeof(StateIdle));
             _transitionsTable.Add(Common.ServiceTypes.CONNECTION_DATA, typeof(StateIdle));
             _transitionsTable.Add(Common.ServiceTypes.CONNECTION_REQ, typeof(StateIdle));
+            _transitionsTable.Add(Common.ServiceTypes.DISCONNECT, typeof(StateInitial));
         }
         
         #endregion
@@ -102,6 +103,14 @@ namespace Controller.StateObjects
                     SendConnectionDataResponse((ConnectionDataRequestedMessageData)messageData);
                     RedirectMessageToConversationController(message, ((ConnectionDataRequestedMessageData)messageData).SenderUserName);
                     break;
+                case Common.ServiceTypes.DISCONNECT:
+                    AState newState = new StateInitial();
+                    newState.MainView = _mainView;
+                    newState.ToCloseConnection = true;
+                    newState.Disconected = true;
+                    MessageBox.Show("You're not worthy! You have been signed out because you were logged in on another computer",
+                        "",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                    return newState;
             }
             return this;
         }
