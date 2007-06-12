@@ -114,8 +114,6 @@ namespace Common.Protocol
                     return new FileTransferGetMessageData(mes._data);
                 case ServiceTypes.FILE_TRANSFER_SEND:
                     return new FileTransferSendMessageData(mes._data);
-                //case ServiceTypes.HELLO:
-                //    return new HelloMessageData(mes._data);
                 case ServiceTypes.LOGIN:
                     return new LoginMessageData(mes._data);
                 case ServiceTypes.LOGOUT:
@@ -130,6 +128,8 @@ namespace Common.Protocol
                     return new RemoveContactMessageData(mes._data);
                 case ServiceTypes.STATUS:
                     return new StatusMessageData(mes._data);
+                case ServiceTypes.DISCONNECT:
+                    return new DisconnectMessageData(mes._data);
             }
             throw new UnknownServiceException();
         }
