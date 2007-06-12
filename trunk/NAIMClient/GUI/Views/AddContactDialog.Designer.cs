@@ -65,6 +65,7 @@ namespace GUI.Views
             // 
             // group_comboBox
             // 
+            this.group_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.group_comboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.group_comboBox.FormattingEnabled = true;
             this.group_comboBox.Location = new System.Drawing.Point(227, 34);
