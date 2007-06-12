@@ -9,10 +9,10 @@ namespace GUI.Controls
 {
     public class ContactsTree : TreeView
     {
-        Color DEFAULT_GROUPS_COLOR = Color.RoyalBlue;
-        Color DEFAULT_ONLINE_CONTACT_COLOR = Color.Black;
-        Color DEFAULT_OFFLINE_CONTACT_COLOR = Color.Black;
-        Color DEFAULT_INVISIBLE_CONTACT_COLOR = Color.Black;
+        Color   DEFAULT_GROUPS_COLOR            = Color.RoyalBlue;
+        Color   DEFAULT_ONLINE_CONTACT_COLOR    = Color.Black;
+        Color   DEFAULT_OFFLINE_CONTACT_COLOR   = Color.Black;
+        Color   DEFAULT_INVISIBLE_CONTACT_COLOR = Color.Black;
         Font    DEFAULT_GROUPS_FONT             = new Font("Arial", 9, FontStyle.Bold);        
         Font    DEFAULT_ONLINE_CONTACT_FONT     = new Font("Arial", 9, FontStyle.Bold);
         Font    DEFAULT_OFFLINE_CONTACT_FONT    = new Font("Arial", 9, FontStyle.Regular);
@@ -74,8 +74,7 @@ namespace GUI.Controls
             set { _invisibleContactFont = value; }
         }
 
-        IList<string> _groupNames;
-        IDictionary<string, IList<UserListEntry>> _contactsByGroups;
+        ImageList icons;
 
         public ContactsTree() {
             _groupsColor = DEFAULT_GROUPS_COLOR;
@@ -88,6 +87,8 @@ namespace GUI.Controls
             _offlineContactFont = DEFAULT_OFFLINE_CONTACT_FONT;
             _invisibleContactFont = DEFAULT_INVISIBLE_CONTACT_FONT;
 
+
+            
         }
 
         public void LoadContacts(IList<string> groupNames, IDictionary<string,IList<UserListEntry>> contactsByGroups) {
@@ -97,10 +98,11 @@ namespace GUI.Controls
 
             foreach (string group in groupNames)
             {
-                TreeNode groupNode = new TreeNode(group);
+                TreeNode groupNode = new TreeNode();
                 groupNode.NodeFont = _groupsFont;
                 groupNode.ForeColor = _groupsColor;
                 int nodeIndex = Nodes.Add(groupNode);
+
 
                 IList<UserListEntry> contacts = contactsByGroups[group];
 

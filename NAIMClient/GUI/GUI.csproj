@@ -38,6 +38,11 @@
     <Compile Include="Controls\ContactsTree.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Resource1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\AddContactDialog.cs">
       <SubType>Form</SubType>
@@ -101,6 +106,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\Resource1.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\AddContactDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AddContactDialog.cs</DependentUpon>
@@ -133,6 +143,12 @@
       <SubType>Designer</SubType>
       <DependentUpon>StatusesView.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconOnline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconOffline.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
