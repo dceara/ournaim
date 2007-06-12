@@ -155,11 +155,13 @@ namespace GUI
                 MainCloseEvent();
             }
         }
-        public void AfterSignIn()
+        public void AfterSignIn(string userName)
         {
             ChangeControlsVisibility(false);
             
             ChangeMenuVisibility(true);
+
+            lblStatus.Text = userName + " - ";
         }
 
         public void Initialise()
@@ -176,7 +178,7 @@ namespace GUI
 
         public void ChangeStatus(string status)
         {
-            this.status_button.Text = status;
+            // TODO
         }
 
         public void SetGroupSource(IList<string> groupNames, IDictionary<string,IList<UserListEntry>> contactsByGroups)
@@ -233,7 +235,8 @@ namespace GUI
             }
         }
 
-        private void status_button_Click(object sender, EventArgs e)
+        // TODO
+/*        private void status_button_Click(object sender, EventArgs e)
         {
             StatusesView statusesView = new StatusesView();
             statusesView.StartLocation = status_button.PointToScreen(new Point(status_button.Left,status_button.Top));
@@ -253,7 +256,7 @@ namespace GUI
                     }
                 }
             }
-        }
+        }*/
 
 
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
@@ -303,8 +306,7 @@ namespace GUI
             this.txtUserName.Visible = value;
             this.btnSignUp.Visible = value;
             this.btnSignIn.Visible = value;
-            this.status_button.Visible = !value;
-            this.status_label.Visible = !value;
+            this.lblStatus.Visible = !value;
             this.cbStatuses.Visible = !value;
             this.ctvContacts.Visible = !value;
         }
