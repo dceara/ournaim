@@ -34,6 +34,8 @@ namespace GUI.Views
             {
                 group_comboBox.Items.Add(group);
             }
+
+            group_comboBox.SelectedIndex = 0;
         }
         
         #endregion
