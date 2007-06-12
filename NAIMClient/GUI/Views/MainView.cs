@@ -291,7 +291,6 @@ namespace GUI
             this.shareFilesToolStripMenuItem.Visible = value;
             this.fileTransferManagerToolStripMenuItem.Visible = value;
             this.signOutToolStripMenuItem.Visible = value;
-            this.ctvContacts.Visible = value;
         }
 
         private void ChangeControlsVisibility(bool value)
@@ -304,6 +303,8 @@ namespace GUI
             this.btnSignIn.Visible = value;
             this.status_button.Visible = !value;
             this.status_label.Visible = !value;
+            this.cbStatuses.Visible = !value;
+            this.ctvContacts.Visible = !value;
         }
         #endregion
 
