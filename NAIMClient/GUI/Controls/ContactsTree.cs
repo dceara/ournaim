@@ -68,15 +68,20 @@ namespace GUI.Controls
         }
 
         private Font _invisibleContactFont;
-        private System.ComponentModel.IContainer components;
-        private ContextMenuStrip cmsContacts;
-        private ToolStripMenuItem tsmiDeleteContact;
-    
         public Font InvisibleContactFont
         {
             get { return _invisibleContactFont; }
             set { _invisibleContactFont = value; }
         }
+
+
+
+        private System.ComponentModel.IContainer components;
+        private ContextMenuStrip cmsContacts;
+        private ToolStripMenuItem tsmiDeleteContact;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem tsmiSendMessage;
+
 
         ImageList icons = new ImageList();
 
@@ -100,6 +105,8 @@ namespace GUI.Controls
             icons.Images.Add(Icons.IconNoImage);
             icons.Images.Add(Icons.IconOnline);
             icons.Images.Add(Icons.IconOffline);
+
+            InitializeComponent();
         }
 
         public void LoadContacts(IList<string> groupNames, IDictionary<string,IList<UserListEntry>> contactsByGroups) {
@@ -170,21 +177,51 @@ namespace GUI.Controls
             this.components = new System.ComponentModel.Container();
             this.cmsContacts = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiDeleteContact = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiSendMessage = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsContacts.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmsContacts
             // 
+            this.cmsContacts.BackColor = System.Drawing.Color.MintCream;
+            this.cmsContacts.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cmsContacts.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiSendMessage,
+            this.toolStripSeparator1,
             this.tsmiDeleteContact});
             this.cmsContacts.Name = "contextMenuStrip1";
-            this.cmsContacts.Size = new System.Drawing.Size(156, 26);
+            this.cmsContacts.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.cmsContacts.ShowImageMargin = false;
+            this.cmsContacts.Size = new System.Drawing.Size(195, 54);
             // 
             // tsmiDeleteContact
             // 
+            this.tsmiDeleteContact.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tsmiDeleteContact.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiDeleteContact.Name = "tsmiDeleteContact";
-            this.tsmiDeleteContact.Size = new System.Drawing.Size(155, 22);
+            this.tsmiDeleteContact.Size = new System.Drawing.Size(194, 22);
             this.tsmiDeleteContact.Text = "Delete contact";
+            this.tsmiDeleteContact.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(185, 6);
+            // 
+            // tsmiSendMessage
+            // 
+            this.tsmiSendMessage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tsmiSendMessage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsmiSendMessage.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.tsmiSendMessage.Name = "tsmiSendMessage";
+            this.tsmiSendMessage.Size = new System.Drawing.Size(194, 22);
+            this.tsmiSendMessage.Text = "Send instant message...";
+            this.tsmiSendMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // ContactsTree
+            // 
+            this.LineColor = System.Drawing.Color.Black;
             this.cmsContacts.ResumeLayout(false);
             this.ResumeLayout(false);
 
