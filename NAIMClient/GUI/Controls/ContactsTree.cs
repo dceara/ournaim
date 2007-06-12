@@ -68,6 +68,10 @@ namespace GUI.Controls
         }
 
         private Font _invisibleContactFont;
+        private System.ComponentModel.IContainer components;
+        private ContextMenuStrip cmsContacts;
+        private ToolStripMenuItem tsmiDeleteContact;
+    
         public Font InvisibleContactFont
         {
             get { return _invisibleContactFont; }
@@ -75,6 +79,7 @@ namespace GUI.Controls
         }
 
         ImageList icons = new ImageList();
+
 
         public ContactsTree() {
             _groupsColor = DEFAULT_GROUPS_COLOR;
@@ -88,6 +93,7 @@ namespace GUI.Controls
             _invisibleContactFont = DEFAULT_INVISIBLE_CONTACT_FONT;
 
             this.ImageList = icons;
+
         }
 
         public void Initialize() {
@@ -118,7 +124,8 @@ namespace GUI.Controls
                 foreach (UserListEntry contact in contacts)
                 {
                     TreeNode contactNode = new TreeNode();
-                    contactNode.Name = contact.UserName;                    
+                    contactNode.Name = contact.UserName;
+                    contactNode.ContextMenuStrip = cmsContacts;
 
                     if (contact.Availability)
                     {
@@ -148,6 +155,39 @@ namespace GUI.Controls
 
             // Begin repainting the TreeView.
             EndUpdate();
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+
+            TreeNode selectedNode = GetNodeAt(e.Location);
+            SelectedNode = selectedNode;
+        }
+
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.cmsContacts = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiDeleteContact = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsContacts.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // cmsContacts
+            // 
+            this.cmsContacts.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiDeleteContact});
+            this.cmsContacts.Name = "contextMenuStrip1";
+            this.cmsContacts.Size = new System.Drawing.Size(156, 26);
+            // 
+            // tsmiDeleteContact
+            // 
+            this.tsmiDeleteContact.Name = "tsmiDeleteContact";
+            this.tsmiDeleteContact.Size = new System.Drawing.Size(155, 22);
+            this.tsmiDeleteContact.Text = "Delete contact";
+            this.cmsContacts.ResumeLayout(false);
+            this.ResumeLayout(false);
+
         }
     }
 }
