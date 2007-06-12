@@ -24,6 +24,8 @@ namespace GUI
         public MainView()
         {
             InitializeComponent();
+            
+            ctvContacts.Initialize();
         }
         
         #endregion

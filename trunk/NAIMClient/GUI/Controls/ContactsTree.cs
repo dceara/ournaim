@@ -74,7 +74,7 @@ namespace GUI.Controls
             set { _invisibleContactFont = value; }
         }
 
-        ImageList icons;
+        ImageList icons = new ImageList();
 
         public ContactsTree() {
             _groupsColor = DEFAULT_GROUPS_COLOR;
@@ -87,8 +87,13 @@ namespace GUI.Controls
             _offlineContactFont = DEFAULT_OFFLINE_CONTACT_FONT;
             _invisibleContactFont = DEFAULT_INVISIBLE_CONTACT_FONT;
 
+            this.ImageList = icons;
+        }
 
-            
+        public void Initialize() {
+            icons.Images.Add(Icons.IconNoImage);
+            icons.Images.Add(Icons.IconOnline);
+            icons.Images.Add(Icons.IconOffline);
         }
 
         public void LoadContacts(IList<string> groupNames, IDictionary<string,IList<UserListEntry>> contactsByGroups) {
@@ -98,9 +103,13 @@ namespace GUI.Controls
 
             foreach (string group in groupNames)
             {
-                TreeNode groupNode = new TreeNode();
-                groupNode.NodeFont = _groupsFont;
+                TreeNode groupNode = new TreeNode();                
                 groupNode.ForeColor = _groupsColor;
+                groupNode.Name = group;
+                groupNode.NodeFont = _groupsFont;
+                groupNode.Text = group;
+                groupNode.ImageIndex = -1;
+                groupNode.SelectedImageIndex = -1;
                 int nodeIndex = Nodes.Add(groupNode);
 
 
@@ -108,17 +117,25 @@ namespace GUI.Controls
 
                 foreach (UserListEntry contact in contacts)
                 {
-                    TreeNode contactNode = new TreeNode(contact.UserName);
+                    TreeNode contactNode = new TreeNode();
+                    contactNode.Name = contact.UserName;                    
 
                     if (contact.Availability)
                     {
                         contactNode.NodeFont = _onlineContactFont;
                         contactNode.ForeColor = _onlineContactColor;
+                        contactNode.ImageIndex = 1;
+                        contactNode.SelectedImageIndex = 1;
+                        contactNode.Text = contact.UserName + " - " + contact.Status;
+                        contactNode.ToolTipText = contact.Status;
                     }
                     else
                     {
                         contactNode.NodeFont = _offlineContactFont;
                         contactNode.ForeColor = _offlineContactColor;
+                        contactNode.ImageIndex = 2;
+                        contactNode.SelectedImageIndex = 2;
+                        contactNode.Text = contact.UserName;
                     }
                     Nodes[nodeIndex].Nodes.Add(contactNode);
                 }
