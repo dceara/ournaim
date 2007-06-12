@@ -304,6 +304,7 @@ char ** QueryExecuter::getContactsList(const char * clientName, char **& list, u
 
 // TODO
 char ** QueryExecuter::getClientsToUpdateList(const char * clientName, char **& clientsList, unsigned short & length) {
+    length = 0;
     return NULL;
 }
 
