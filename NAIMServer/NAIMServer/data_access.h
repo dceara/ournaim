@@ -10,27 +10,6 @@
 
 const char NAIM_DATABASE_NAME[] = "Database/NAIM.db";
 
-///* Holds details about a client */
-//
-//struct ClientDetails {
-//    int dbID;
-//    std::string username;
-//    std::string password;
-//};
-//
-//struct ContactDetails {
-//    int dbID;                           // the ID of the username
-//    std::string username;
-//    std::string group;
-//};
-//
-///* Holds details about a group */
-//
-//struct GroupDetails {
-//    int dbID;
-//    std::string name;
-//};
-
 /* Contains functions for database access */
 
 class IQueryExecuter {
@@ -66,7 +45,12 @@ public:
 
     /* Returns a list with all the contacts in clientName's list */
     virtual char ** getContactsList(const char * clientName, char **& contactsList, unsigned short & length) = 0;
-    
+
+    /* Returns a list with all the clients that have clientName on their contacts list.
+     * It is used to notify all those clients of a change in clientName's state.*/
+    // TODO
+    virtual char ** getClientsToUpdateList(const char * clientName, char **& clientsList, unsigned short & length) = 0;
+
     /* Returns true if the client clientName is in the database */
     virtual bool isClient(const char * clientName) = 0;
 
@@ -76,7 +60,7 @@ public:
 	/* Executes a returning query and returns the result table as a vector of strings. Returns NULL if the operation fails and sets errMessage*/
 	virtual char** executeQuery(const char *query, int &nrows, int & ncols, char * & errMsg) = 0;
 
-	/* Executes a non query and returns true if the operation succedeed. Sets errMessage if operation fails */
+	/* Executes a non query and returns true if the operation succeeded. Sets errMessage if operation fails */
 	virtual bool executeNonQuery(const char *query, char * & errMessage) = 0;
 
 };
@@ -99,6 +83,7 @@ public:
     char ** getClientsList(char ** & clientsList, unsigned short & contactsNo);
     char * getContactsBuffer(const char * clientName, char *& buffer, unsigned short & length);
     char ** getContactsList(const char * clientName, char **& buffer, unsigned short & length);
+    char ** getClientsToUpdateList(const char * clientName, char **& clientsList, unsigned short & length);
     bool isClient(const char * clientName);
     int openDB(const char * path);
 	char** executeQuery(const char *query, int & nrows, int &ncols, char * & errMsg);

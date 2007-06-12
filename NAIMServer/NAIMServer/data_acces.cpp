@@ -302,6 +302,11 @@ char ** QueryExecuter::getContactsList(const char * clientName, char **& list, u
 	return list;
 }
 
+// TODO
+char ** QueryExecuter::getClientsToUpdateList(const char * clientName, char **& clientsList, unsigned short & length) {
+
+}
+
 bool QueryExecuter::isClient(const char * clientName) {
 	const char first_part[] = "select count(*) as cnt from Clienti where UserName = '";
 	const char second_part[] = "'";
