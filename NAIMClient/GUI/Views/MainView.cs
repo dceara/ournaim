@@ -135,17 +135,17 @@ namespace GUI
 
         public void ChangeClientStatus(string userName, string newStatus)
         {
-            throw new Exception("The method or operation is not implemented.");
+            ctvContacts.ChangeContactStatus(userName, newStatus);
         }
 
         public void ClientOnline(string userName, string status)
         {
-            throw new Exception("The method or operation is not implemented.");
+            ctvContacts.ContactOnline(userName, status);
         }
 
         public void ClientOffline(string userName)
         {
-            throw new Exception("The method or operation is not implemented.");
+            ctvContacts.ContactOffline(userName);
         }
 
         public void OnMainClose()
@@ -246,7 +246,7 @@ namespace GUI
             }
             else 
             {
-                OnChangeStatusEvent(cbStatuses.SelectedText);
+                OnChangeStatusEvent(cbStatuses.SelectedItem.ToString());
             }
         }
 
