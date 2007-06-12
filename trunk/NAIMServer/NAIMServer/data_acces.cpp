@@ -302,10 +302,44 @@ char ** QueryExecuter::getContactsList(const char * clientName, char **& list, u
 	return list;
 }
 
-// TODO
 char ** QueryExecuter::getClientsToUpdateList(const char * clientName, char **& clientsList, unsigned short & length) {
-    length = 0;
-    return NULL;
+
+	char *errMessage;
+	int rowCnt;
+	int colCnt;
+	clientsList = NULL;
+	const char first_part[] = "select u2.username from Clienti u inner join Contacte ct \
+									on ct.IdClient = u.Id inner join Grupuri gr \
+									on gr.Id = ct.IdGrup inner join Clienti u2 \
+									on u2.Id = gr.IdClient where u.UserName = '";
+	const char second_part[] = "'";
+
+	char *query = new char[strlen(first_part) + strlen(second_part) + strlen(clientName) + 1];
+	sprintf(query,"%s%s%s",first_part,clientName,second_part);
+
+	char **usersTable = executeQuery(query,rowCnt,colCnt,errMessage);
+	if(usersTable == NULL)
+	{
+		length = 0;
+		delete []query;
+		return NULL;
+	}
+	delete []query;
+
+	length = rowCnt;
+
+	clientsList = new char*[rowCnt - 1];
+
+	for(int i = 1; i<rowCnt;i++)
+	{
+		int userLen = strlen(usersTable[i]);
+		clientsList[i - 1] = new char[userLen];
+		memcpy(clientsList[i - 1],usersTable[i],userLen);
+		clientsList[i - 1][userLen] = '\0';
+	}
+	sqlite3_free_table(usersTable);
+
+    return clientsList;
 }
 
 bool QueryExecuter::isClient(const char * clientName) {
