@@ -45,6 +45,7 @@
     <Compile Include="ProtocolEntities\AddContactMessageData.cs" />
     <Compile Include="ProtocolEntities\ConnectionDataMessageData.cs" />
     <Compile Include="ProtocolEntities\ConnectionDataRequestedMessageData.cs" />
+    <Compile Include="ProtocolEntities\DisconnectMessageData.cs" />
     <Compile Include="ProtocolEntities\FileListGetMessageData.cs" />
     <Compile Include="ProtocolEntities\FileTransferGetMessageData.cs" />
     <Compile Include="ProtocolEntities\FileTransferSendMessageData.cs" />
