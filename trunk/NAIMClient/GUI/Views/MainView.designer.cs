@@ -29,6 +29,7 @@ namespace GUI
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnSignOut = new System.Windows.Forms.Button();
             this.btnAddConversation = new System.Windows.Forms.Button();
             this.btnSignIn = new System.Windows.Forms.Button();
@@ -58,7 +59,6 @@ namespace GUI
             this.status_label = new System.Windows.Forms.Label();
             this.status_button = new System.Windows.Forms.Button();
             this.ctvContacts = new GUI.Controls.ContactsTree();
-            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSignOut
@@ -289,11 +289,16 @@ namespace GUI
             // 
             // ctvContacts
             // 
+            this.ctvContacts.AllowDrop = true;
+            this.ctvContacts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ctvContacts.GroupsColor = System.Drawing.Color.RoyalBlue;
             this.ctvContacts.GroupsFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
+            this.ctvContacts.HotTracking = true;
             this.ctvContacts.ImageIndex = 0;
+            this.ctvContacts.Indent = 19;
             this.ctvContacts.InvisibleContactColor = System.Drawing.Color.Black;
             this.ctvContacts.InvisibleContactFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Italic);
+            this.ctvContacts.ItemHeight = 20;
             this.ctvContacts.Location = new System.Drawing.Point(12, 54);
             this.ctvContacts.Name = "ctvContacts";
             this.ctvContacts.OfflineContactColor = System.Drawing.Color.Black;
@@ -326,8 +331,6 @@ namespace GUI
             this.Name = "MainView";
             this.Text = "NAIM";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainView_FormClosing);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -302,5 +302,6 @@ namespace GUI
             this.status_label.Visible = !value;
         }
         #endregion
+
     }
 }
