@@ -200,11 +200,6 @@ namespace Common.Interfaces
         /// </summary>
         void ShowView();
 
-        /// <summary>
-        /// This is called by the controller to change the status in the main view.
-        /// </summary>
-        /// <param name="status"></param>
-        void ChangeStatus(string status);
         #endregion
     }
 
