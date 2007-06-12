@@ -30,8 +30,6 @@ namespace GUI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.btnSignOut = new System.Windows.Forms.Button();
-            this.btnAddConversation = new System.Windows.Forms.Button();
             this.btnSignIn = new System.Windows.Forms.Button();
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
@@ -62,32 +60,12 @@ namespace GUI
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnSignOut
-            // 
-            this.btnSignOut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSignOut.Location = new System.Drawing.Point(67, 227);
-            this.btnSignOut.Name = "btnSignOut";
-            this.btnSignOut.Size = new System.Drawing.Size(83, 23);
-            this.btnSignOut.TabIndex = 0;
-            this.btnSignOut.Text = "Sign Out";
-            this.btnSignOut.UseVisualStyleBackColor = true;
-            this.btnSignOut.Click += new System.EventHandler(this.btnSignOut_Click);
-            // 
-            // btnAddConversation
-            // 
-            this.btnAddConversation.Location = new System.Drawing.Point(12, 566);
-            this.btnAddConversation.Name = "btnAddConversation";
-            this.btnAddConversation.Size = new System.Drawing.Size(125, 24);
-            this.btnAddConversation.TabIndex = 1;
-            this.btnAddConversation.Text = "Add Conversation View";
-            this.btnAddConversation.UseVisualStyleBackColor = true;
-            this.btnAddConversation.Click += new System.EventHandler(this.btnAddConversation_Click);
-            // 
             // btnSignIn
             // 
-            this.btnSignIn.Location = new System.Drawing.Point(110, 201);
+            this.btnSignIn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSignIn.Location = new System.Drawing.Point(126, 201);
             this.btnSignIn.Name = "btnSignIn";
-            this.btnSignIn.Size = new System.Drawing.Size(80, 21);
+            this.btnSignIn.Size = new System.Drawing.Size(75, 21);
             this.btnSignIn.TabIndex = 2;
             this.btnSignIn.Text = "Sign In";
             this.btnSignIn.UseVisualStyleBackColor = true;
@@ -95,42 +73,49 @@ namespace GUI
             // 
             // txtUserName
             // 
-            this.txtUserName.Location = new System.Drawing.Point(57, 84);
+            this.txtUserName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUserName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtUserName.Location = new System.Drawing.Point(45, 84);
             this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(104, 20);
+            this.txtUserName.Size = new System.Drawing.Size(139, 20);
             this.txtUserName.TabIndex = 3;
             this.txtUserName.Text = "ana";
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(57, 139);
+            this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtPassword.Location = new System.Drawing.Point(45, 129);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(104, 20);
+            this.txtPassword.Size = new System.Drawing.Size(139, 20);
             this.txtPassword.TabIndex = 4;
             this.txtPassword.Text = "pass";
             // 
             // lblUserName
             // 
-            this.lblUserName.Location = new System.Drawing.Point(76, 62);
+            this.lblUserName.Location = new System.Drawing.Point(42, 62);
             this.lblUserName.Name = "lblUserName";
             this.lblUserName.Size = new System.Drawing.Size(67, 19);
             this.lblUserName.TabIndex = 5;
             this.lblUserName.Text = "User Name:";
+            this.lblUserName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblPassword
             // 
-            this.lblPassword.Location = new System.Drawing.Point(81, 117);
+            this.lblPassword.Location = new System.Drawing.Point(42, 107);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(56, 19);
             this.lblPassword.TabIndex = 6;
             this.lblPassword.Text = "Password:";
+            this.lblPassword.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnSignUp
             // 
+            this.btnSignUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSignUp.Location = new System.Drawing.Point(29, 201);
             this.btnSignUp.Name = "btnSignUp";
-            this.btnSignUp.Size = new System.Drawing.Size(75, 20);
+            this.btnSignUp.Size = new System.Drawing.Size(75, 21);
             this.btnSignUp.TabIndex = 7;
             this.btnSignUp.Text = "Sign Up";
             this.btnSignUp.UseVisualStyleBackColor = true;
@@ -138,12 +123,15 @@ namespace GUI
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
+            this.menuStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.actionsToolStripMenuItem,
             this.contactsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.menuStrip1.Size = new System.Drawing.Size(229, 24);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
@@ -164,6 +152,7 @@ namespace GUI
             // 
             // statusToolStripMenuItem
             // 
+            this.statusToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.statusToolStripMenuItem.Name = "statusToolStripMenuItem";
             this.statusToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.statusToolStripMenuItem.Text = "&Status";
@@ -171,24 +160,28 @@ namespace GUI
             // 
             // accountInformationToolStripMenuItem
             // 
+            this.accountInformationToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.accountInformationToolStripMenuItem.Name = "accountInformationToolStripMenuItem";
             this.accountInformationToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.accountInformationToolStripMenuItem.Text = "Account &Information";
             // 
             // preferencesToolStripMenuItem
             // 
+            this.preferencesToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
             this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.preferencesToolStripMenuItem.Text = "&Preferences";
             // 
             // shareFilesToolStripMenuItem
             // 
+            this.shareFilesToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.shareFilesToolStripMenuItem.Name = "shareFilesToolStripMenuItem";
             this.shareFilesToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.shareFilesToolStripMenuItem.Text = "Share &Files";
             // 
             // fileTransferManagerToolStripMenuItem
             // 
+            this.fileTransferManagerToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.fileTransferManagerToolStripMenuItem.Name = "fileTransferManagerToolStripMenuItem";
             this.fileTransferManagerToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.fileTransferManagerToolStripMenuItem.Text = "File &Transfer Manager";
@@ -196,6 +189,7 @@ namespace GUI
             // 
             // signOutToolStripMenuItem
             // 
+            this.signOutToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.signOutToolStripMenuItem.Name = "signOutToolStripMenuItem";
             this.signOutToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.signOutToolStripMenuItem.Text = "Sign &Out";
@@ -203,6 +197,7 @@ namespace GUI
             // 
             // exitToolStripMenuItem
             // 
+            this.exitToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
@@ -222,6 +217,7 @@ namespace GUI
             // 
             // addToolStripMenuItem
             // 
+            this.addToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
             this.addToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.addToolStripMenuItem.Text = "&Add Contacts";
@@ -229,6 +225,7 @@ namespace GUI
             // 
             // addGroupToolStripMenuItem
             // 
+            this.addGroupToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.addGroupToolStripMenuItem.Name = "addGroupToolStripMenuItem";
             this.addGroupToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.addGroupToolStripMenuItem.Text = "Add &Group";
@@ -236,18 +233,21 @@ namespace GUI
             // 
             // showOfflineContactsToolStripMenuItem
             // 
+            this.showOfflineContactsToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.showOfflineContactsToolStripMenuItem.Name = "showOfflineContactsToolStripMenuItem";
             this.showOfflineContactsToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.showOfflineContactsToolStripMenuItem.Text = "Show O&ffline Contacts";
             // 
             // viewArchiveToolStripMenuItem
             // 
+            this.viewArchiveToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.viewArchiveToolStripMenuItem.Name = "viewArchiveToolStripMenuItem";
             this.viewArchiveToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.viewArchiveToolStripMenuItem.Text = "&View Archive";
             // 
             // deleteToolStripMenuItem
             // 
+            this.deleteToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.deleteToolStripMenuItem.Text = "&Delete";
@@ -263,12 +263,14 @@ namespace GUI
             // 
             // aboutToolStripMenuItem
             // 
+            this.aboutToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             // 
             // helpToolStripMenuItem1
             // 
+            this.helpToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
             this.helpToolStripMenuItem1.Size = new System.Drawing.Size(114, 22);
             this.helpToolStripMenuItem1.Text = "&Help";
@@ -284,6 +286,7 @@ namespace GUI
             // 
             // status_button
             // 
+            this.status_button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.status_button.Location = new System.Drawing.Point(67, 25);
             this.status_button.Name = "status_button";
             this.status_button.Size = new System.Drawing.Size(115, 23);
@@ -295,7 +298,10 @@ namespace GUI
             // ctvContacts
             // 
             this.ctvContacts.AllowDrop = true;
-            this.ctvContacts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ctvContacts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.ctvContacts.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ctvContacts.GroupsColor = System.Drawing.Color.RoyalBlue;
             this.ctvContacts.GroupsFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
             this.ctvContacts.HotTracking = true;
@@ -319,6 +325,7 @@ namespace GUI
             // 
             // MainView
             // 
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.ClientSize = new System.Drawing.Size(229, 602);
             this.Controls.Add(this.ctvContacts);
             this.Controls.Add(this.status_button);
@@ -329,11 +336,9 @@ namespace GUI
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUserName);
             this.Controls.Add(this.btnSignIn);
-            this.Controls.Add(this.btnAddConversation);
-            this.Controls.Add(this.btnSignOut);
             this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(237, 629);
             this.Name = "MainView";
             this.Text = "NAIM";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainView_FormClosing);
@@ -345,7 +350,6 @@ namespace GUI
         }
         #endregion
 
-        private Button btnAddConversation;
         private Button btnSignIn;
         private TextBox txtUserName;
         private TextBox txtPassword;

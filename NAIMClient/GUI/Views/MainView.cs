@@ -13,7 +13,6 @@ namespace GUI
     {
         #region Members
 
-        private Button btnSignOut;
 
         private IList<string> groupNames;
 
@@ -297,8 +296,6 @@ namespace GUI
 
         private void ChangeControlsVisibility(bool value)
         {
-            this.btnSignOut.Visible = !value;
-            this.btnAddConversation.Visible = !value;
             this.lblPassword.Visible = value;
             this.lblUserName.Visible = value;
             this.txtPassword.Visible = value;
