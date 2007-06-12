@@ -74,6 +74,8 @@ namespace Controller.StateObjects
                 InitializeAccountViewHandlers();
             }
         }
+
+        public bool Disconected = false;
         #endregion
 
         #region Constructors

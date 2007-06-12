@@ -292,7 +292,10 @@ namespace Controllers
 
         void mainView_MainCloseEvent()
         {
-            currentState = currentState.MoveState();
+            if (currentState is StateIdle)
+            {
+                currentState = currentState.MoveState();
+            }
 
             EmptyCurrentStateOutputBuffer();
 
@@ -460,6 +463,10 @@ namespace Controllers
                 if (currentState.ToCloseConnection)
                 {
                     toBreak = true;
+                }
+                if (currentState.Disconected)
+                {
+                    mainView.Initialise();
                 }
             }
             EmptyCurrentStateOutputBuffer();
