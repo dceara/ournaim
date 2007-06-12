@@ -159,5 +159,22 @@ namespace Controller.StateObjects
         public abstract AState AnalyzeMessage(Message message);
 
         #endregion
+
+        #region Static Methods
+
+        public static bool CheckIfContactExists(string username, IDictionary<string,IList<UserListEntry>> contactsByGroups)
+        {
+            foreach (KeyValuePair<string, IList<UserListEntry>> pair in contactsByGroups)
+            {
+                foreach (UserListEntry entry in pair.Value)
+                {
+                    if (entry.UserName == username)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        #endregion
     }
 }
