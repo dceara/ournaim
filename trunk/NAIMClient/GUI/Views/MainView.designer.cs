@@ -59,6 +59,7 @@ namespace GUI
             this.status_label = new System.Windows.Forms.Label();
             this.status_button = new System.Windows.Forms.Button();
             this.ctvContacts = new GUI.Controls.ContactsTree();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSignOut
@@ -137,6 +138,10 @@ namespace GUI
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.actionsToolStripMenuItem,
+            this.contactsToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(229, 24);
@@ -310,6 +315,7 @@ namespace GUI
             this.ctvContacts.ShowNodeToolTips = true;
             this.ctvContacts.Size = new System.Drawing.Size(205, 536);
             this.ctvContacts.TabIndex = 14;
+            this.ctvContacts.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.ctvContacts_NodeMouseDoubleClick);
             // 
             // MainView
             // 
@@ -331,6 +337,8 @@ namespace GUI
             this.Name = "MainView";
             this.Text = "NAIM";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainView_FormClosing);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
