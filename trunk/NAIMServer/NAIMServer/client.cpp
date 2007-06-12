@@ -251,6 +251,7 @@ int Peer::processLOGIN(NAIMpacket * packet) {
         unsigned short uLen = strlen(username);
         clientName = new char[uLen + 1];
         memcpy(clientName, username, uLen);
+        clientName[uLen] = '\0';
 
         // If the client is already logged in on another connection, log him out on that connection
         if (cMan->isOnline(username)) {
@@ -288,7 +289,8 @@ int Peer::processLOGIN(NAIMpacket * packet) {
 
             if (cMan->onlineClients.count(user) > 0) {
                 availability += (char)1;
-                statuses += cMan->onlineClients[user];
+                string status = cMan->onlineClients[user];
+                statuses += (char)status.size() + status;
             }
             else {
                 // WARNING: This is dangerous.
@@ -497,8 +499,8 @@ int Peer::processCONNECTION_CLOSED(NAIMpacket * packet) {
 int Peer::processDISCONNECT(NAIMpacket * packet) {
     if (clientName != NULL) {
         addOutputPacket(packet);
-        disposable = true;
         delete[] clientName;
+        clientName = NULL;
     }
 
     return 0;
@@ -537,7 +539,7 @@ int Peer::processPacket() {
                     }
             case LOGOUT: {
                 time(&lastActiveTime);
-                processLOGIN(packet);
+                processLOGOUT(packet);
                 break;
                      }
             case TEXT: {

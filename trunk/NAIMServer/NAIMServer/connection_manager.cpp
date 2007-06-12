@@ -296,7 +296,6 @@ void * commandThread(void *) {
             delete[] packet->data;
             delete packet;
             delete[] buffer;
-            break;
         }
     }
 
