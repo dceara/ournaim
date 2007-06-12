@@ -178,29 +178,7 @@ namespace GUI
 
         public void SetGroupSource(IList<string> groupNames, IDictionary<string,IList<UserListEntry>> contactsByGroups)
         {
-            
-            this.groupNames = groupNames;
-#warning must add contacts to the contacts listview
-            foreach (string group in groupNames)
-            {
-                ListViewGroup listGroup = new ListViewGroup(group, HorizontalAlignment.Left);
-                listGroup.Name = group;
-
-                listViewContacts.Groups.Add(listGroup);
-
-                IList<UserListEntry> contacts = contactsByGroups[group];
-                foreach (UserListEntry contact in contacts)
-                {
-                    if (contact.Availability)
-                    {
-                        ListViewItem item = new ListViewItem(contact.UserName);
-                        item.Group = listGroup;
-                        listViewContacts.Items.Add(item);
-                    }
-                }
-            }
-
-            listViewContacts.Invalidate();
+            ctvContacts.LoadContacts(groupNames, contactsByGroups);
         }
 
         
@@ -305,7 +283,7 @@ namespace GUI
             this.shareFilesToolStripMenuItem.Visible = value;
             this.fileTransferManagerToolStripMenuItem.Visible = value;
             this.signOutToolStripMenuItem.Visible = value;
-            this.listViewContacts.Visible = value;
+            this.ctvContacts.Visible = value;
         }
 
         private void ChangeControlsVisibility(bool value)

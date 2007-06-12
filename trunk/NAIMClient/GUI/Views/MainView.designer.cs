@@ -55,10 +55,9 @@ namespace GUI
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.listViewContacts = new System.Windows.Forms.ListView();
             this.status_label = new System.Windows.Forms.Label();
             this.status_button = new System.Windows.Forms.Button();
-            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+            this.ctvContacts = new GUI.Controls.ContactsTree();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -99,7 +98,7 @@ namespace GUI
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(104, 20);
             this.txtUserName.TabIndex = 3;
-            this.txtUserName.Text = "Username";
+            this.txtUserName.Text = "ana";
             // 
             // txtPassword
             // 
@@ -108,7 +107,7 @@ namespace GUI
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(104, 20);
             this.txtPassword.TabIndex = 4;
-            this.txtPassword.Text = "Password";
+            this.txtPassword.Text = "pass";
             // 
             // lblUserName
             // 
@@ -273,19 +272,6 @@ namespace GUI
             this.helpToolStripMenuItem1.Size = new System.Drawing.Size(114, 22);
             this.helpToolStripMenuItem1.Text = "&Help";
             // 
-            // listViewContacts
-            // 
-            this.listViewContacts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1});
-            this.listViewContacts.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.listViewContacts.Location = new System.Drawing.Point(12, 54);
-            this.listViewContacts.MultiSelect = false;
-            this.listViewContacts.Name = "listViewContacts";
-            this.listViewContacts.Size = new System.Drawing.Size(205, 506);
-            this.listViewContacts.TabIndex = 10;
-            this.listViewContacts.UseCompatibleStateImageBehavior = false;
-            this.listViewContacts.View = System.Windows.Forms.View.Details;
-            // 
             // status_label
             // 
             this.status_label.AutoSize = true;
@@ -305,12 +291,27 @@ namespace GUI
             this.status_button.UseVisualStyleBackColor = true;
             this.status_button.Click += new System.EventHandler(this.status_button_Click);
             // 
+            // ctvContacts
+            // 
+            this.ctvContacts.GroupsColor = System.Drawing.Color.RoyalBlue;
+            this.ctvContacts.GroupsFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
+            this.ctvContacts.InvisibleContactColor = System.Drawing.Color.Black;
+            this.ctvContacts.InvisibleContactFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Italic);
+            this.ctvContacts.Location = new System.Drawing.Point(12, 54);
+            this.ctvContacts.Name = "ctvContacts";
+            this.ctvContacts.OfflineContactColor = System.Drawing.Color.Black;
+            this.ctvContacts.OfflineContactFont = new System.Drawing.Font("Arial", 9F);
+            this.ctvContacts.OnlineContactColor = System.Drawing.Color.Black;
+            this.ctvContacts.OnlineContactFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
+            this.ctvContacts.Size = new System.Drawing.Size(205, 536);
+            this.ctvContacts.TabIndex = 14;
+            // 
             // MainView
             // 
             this.ClientSize = new System.Drawing.Size(229, 602);
+            this.Controls.Add(this.ctvContacts);
             this.Controls.Add(this.status_button);
             this.Controls.Add(this.status_label);
-            this.Controls.Add(this.listViewContacts);
             this.Controls.Add(this.btnSignUp);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.lblUserName);
@@ -358,9 +359,8 @@ namespace GUI
         private ToolStripMenuItem deleteToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem1;
-        private ListView listViewContacts;
         private Label status_label;
         private Button status_button;
-        private ColumnHeader columnHeader1;
+        private GUI.Controls.ContactsTree ctvContacts;
     }
 }
