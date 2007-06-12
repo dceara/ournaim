@@ -326,7 +326,7 @@ char ** QueryExecuter::getClientsToUpdateList(const char * clientName, char **& 
 	}
 	delete []query;
 
-	length = rowCnt;
+	length = rowCnt - 1;
 
 	clientsList = new char*[rowCnt - 1];
 
