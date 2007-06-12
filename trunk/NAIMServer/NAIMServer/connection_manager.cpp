@@ -78,6 +78,9 @@ int ConnectionManager::notifyOfStatusChange(const char * username, const char * 
 
     queryExecuter.getClientsToUpdateList(username, contactsList, contactsLen);
     for (int i = 0; i < contactsLen; ++i) {
+        if (!isOnline(contactsList[i])) {
+            continue;
+        }
         NAIMpacket * tempPacket = Protocol::createSTATUS(username, status);
         clientClients[string(contactsList[i])]->addOutputPacket(tempPacket);
     }
@@ -93,6 +96,9 @@ int ConnectionManager::notifyOfUserConnect(const char * username, const char * s
 
     queryExecuter.getClientsToUpdateList(username, contactsList, contactsLen);
     for (int i = 0; i < contactsLen; ++i) {
+        if (!isOnline(contactsList[i])) {
+            continue;
+        }
         NAIMpacket * tempPacket = Protocol::createUSER_CONNECTED(username, status);
         clientClients[string(contactsList[i])]->addOutputPacket(tempPacket);
     }
@@ -109,6 +115,9 @@ int ConnectionManager::notifyOfUserDisconnect(const char * username) {
 
     queryExecuter.getClientsToUpdateList(username, contactsList, contactsLen);
     for (int i = 0; i < contactsLen; ++i) {
+        if (!isOnline(contactsList[i])) {
+            continue;
+        }        
         NAIMpacket * tempPacket = Protocol::createUSER_DISCONNECTED(username);
         clientClients[string(contactsList[i])]->addOutputPacket(tempPacket);
     }
