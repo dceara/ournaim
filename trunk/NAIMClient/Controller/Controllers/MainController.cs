@@ -287,8 +287,8 @@ namespace Controllers
             AMessageData messageData = new AddContactMessageData(this.currentUserName, group, uname);
             Common.Protocol.Message addContactMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.ADD_CONTACT), messageData);
             this.outputMessageQueue.Enqueue(addContactMessage);
-#warning to add user in group in GUI too
-
+#warning check if the current state is StateIdle
+            ((StateIdle)currentState).ContactsByGroups[group].Add(new UserListEntry(uname));
         }
         void mainView_RemoveContactEvent(string username)
         {
