@@ -25,6 +25,8 @@ namespace GUI
             InitializeComponent();
             
             ctvContacts.Initialize();
+
+            cbStatuses.SelectedIndex = 0;
         }
         
         #endregion
