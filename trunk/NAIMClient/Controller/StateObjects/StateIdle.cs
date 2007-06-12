@@ -223,6 +223,10 @@ namespace Controller.StateObjects
         private void RedirectTextMessageToConversationController(TextMessageData message)
         {
             string senderName = message.Sender;
+            if (!_conversationControllers.ContainsKey(senderName))
+            {
+                OnOpenConversationEvent(senderName);
+            }
             IConversationController conversationController = _conversationControllers[senderName];
             if (conversationController != null)
             {

@@ -141,6 +141,7 @@ namespace Controllers
             this.currentState = new StateInitial();
 
             currentState.MainView = mainView;
+            currentState.OpenConversationEvent += new OpenConversationDelegate(currentState_OpenConversationEvent);
 
             this.mainView = mainView;
             this.mainView.AddContactEvent += new AddContactEventHandler(mainView_AddContactEvent);
@@ -161,6 +162,8 @@ namespace Controllers
             
             currentState.ConversationControllers = conversationControllers;
         }
+
+        
         public void InitialiseConversation(string userName,IConversationView conversationView)
         {
             ConversationController newConversationController = new ConversationController();
@@ -178,7 +181,13 @@ namespace Controllers
         {
             this.createAccountView = newCreateAccountView;
             currentState.CreateAccountView = newCreateAccountView;
+            AState lastState = currentState;
             currentState = currentState.MoveState();
+            if (currentState != lastState)
+            {
+                currentState.OpenConversationEvent+=new OpenConversationDelegate(currentState_OpenConversationEvent);
+            }
+            lastState = null;
             this.createAccountView.Initialise();
             this.createAccountView.CloseAccountViewEvent += new CloseAccountViewEventHandler(createAccountView_CloseAccountViewEvent);
             this.createAccountView.CreateAccountEvent += new CreateAccountEventHandler(createAccountView_CreateAccountEvent);
@@ -240,6 +249,16 @@ namespace Controllers
 
         #endregion
 
+        #region CurrentState Event Handlers
+
+        IConversationController currentState_OpenConversationEvent(string username)
+        {
+            OnInstantiateConversationView(username);
+            return null;
+        }
+
+        #endregion
+
         #region MainView Event Handlers
         void mainView_ChangeStatusEvent(string status)
         {
@@ -294,7 +313,13 @@ namespace Controllers
         {
             if (currentState is StateIdle)
             {
+                AState lastState = currentState;
                 currentState = currentState.MoveState();
+                if (currentState != lastState)
+                {
+                    currentState.OpenConversationEvent+=new OpenConversationDelegate(currentState_OpenConversationEvent);
+                }
+                lastState = null;
             }
 
             EmptyCurrentStateOutputBuffer();
@@ -453,7 +478,13 @@ namespace Controllers
             while (inputMessageQueue.Count > 0)
             {
                 Common.Protocol.Message firstMessage = inputMessageQueue.Dequeue();
+                AState lastState = currentState;
                 currentState = currentState.AnalyzeMessage(firstMessage);
+                if (currentState != lastState)
+                {
+                    currentState.OpenConversationEvent+=new OpenConversationDelegate(currentState_OpenConversationEvent);
+                }
+                lastState = null;
                 if (currentState is StateIdle)
                 {
                     ((StateIdle)currentState).UserName = this.currentUserName;
