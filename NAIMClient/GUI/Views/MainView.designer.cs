@@ -63,7 +63,7 @@ namespace GUI
             // btnSignIn
             // 
             this.btnSignIn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSignIn.Location = new System.Drawing.Point(126, 201);
+            this.btnSignIn.Location = new System.Drawing.Point(173, 228);
             this.btnSignIn.Name = "btnSignIn";
             this.btnSignIn.Size = new System.Drawing.Size(75, 21);
             this.btnSignIn.TabIndex = 2;
@@ -75,9 +75,9 @@ namespace GUI
             // 
             this.txtUserName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUserName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtUserName.Location = new System.Drawing.Point(45, 84);
+            this.txtUserName.Location = new System.Drawing.Point(45, 136);
             this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(139, 20);
+            this.txtUserName.Size = new System.Drawing.Size(237, 20);
             this.txtUserName.TabIndex = 3;
             this.txtUserName.Text = "ana";
             // 
@@ -85,16 +85,16 @@ namespace GUI
             // 
             this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPassword.Location = new System.Drawing.Point(45, 129);
+            this.txtPassword.Location = new System.Drawing.Point(45, 181);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(139, 20);
+            this.txtPassword.Size = new System.Drawing.Size(237, 20);
             this.txtPassword.TabIndex = 4;
             this.txtPassword.Text = "pass";
             // 
             // lblUserName
             // 
-            this.lblUserName.Location = new System.Drawing.Point(42, 62);
+            this.lblUserName.Location = new System.Drawing.Point(42, 114);
             this.lblUserName.Name = "lblUserName";
             this.lblUserName.Size = new System.Drawing.Size(67, 19);
             this.lblUserName.TabIndex = 5;
@@ -103,7 +103,7 @@ namespace GUI
             // 
             // lblPassword
             // 
-            this.lblPassword.Location = new System.Drawing.Point(42, 107);
+            this.lblPassword.Location = new System.Drawing.Point(42, 159);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(56, 19);
             this.lblPassword.TabIndex = 6;
@@ -113,7 +113,7 @@ namespace GUI
             // btnSignUp
             // 
             this.btnSignUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSignUp.Location = new System.Drawing.Point(29, 201);
+            this.btnSignUp.Location = new System.Drawing.Point(75, 228);
             this.btnSignUp.Name = "btnSignUp";
             this.btnSignUp.Size = new System.Drawing.Size(75, 21);
             this.btnSignUp.TabIndex = 7;
@@ -132,7 +132,7 @@ namespace GUI
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(229, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(327, 24);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -301,7 +301,7 @@ namespace GUI
             "New Status Message..."});
             this.cbStatuses.Location = new System.Drawing.Point(55, 27);
             this.cbStatuses.Name = "cbStatuses";
-            this.cbStatuses.Size = new System.Drawing.Size(162, 21);
+            this.cbStatuses.Size = new System.Drawing.Size(260, 21);
             this.cbStatuses.TabIndex = 15;
             this.cbStatuses.SelectedIndexChanged += new System.EventHandler(this.cbStatuses_SelectedIndexChanged);
             // 
@@ -320,7 +320,7 @@ namespace GUI
             this.ctvContacts.InvisibleContactColor = System.Drawing.Color.Black;
             this.ctvContacts.InvisibleContactFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Italic);
             this.ctvContacts.ItemHeight = 20;
-            this.ctvContacts.Location = new System.Drawing.Point(12, 54);
+            this.ctvContacts.Location = new System.Drawing.Point(6, 54);
             this.ctvContacts.Name = "ctvContacts";
             this.ctvContacts.OfflineContactColor = System.Drawing.Color.Black;
             this.ctvContacts.OfflineContactFont = new System.Drawing.Font("Arial", 9F);
@@ -329,14 +329,14 @@ namespace GUI
             this.ctvContacts.SelectedImageIndex = 0;
             this.ctvContacts.ShowLines = false;
             this.ctvContacts.ShowNodeToolTips = true;
-            this.ctvContacts.Size = new System.Drawing.Size(205, 536);
+            this.ctvContacts.Size = new System.Drawing.Size(316, 648);
             this.ctvContacts.TabIndex = 14;
             this.ctvContacts.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.ctvContacts_NodeMouseDoubleClick);
             // 
             // MainView
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
-            this.ClientSize = new System.Drawing.Size(229, 602);
+            this.ClientSize = new System.Drawing.Size(327, 706);
             this.Controls.Add(this.cbStatuses);
             this.Controls.Add(this.ctvContacts);
             this.Controls.Add(this.lblStatus);
@@ -348,7 +348,7 @@ namespace GUI
             this.Controls.Add(this.btnSignIn);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(237, 629);
+            this.MinimumSize = new System.Drawing.Size(335, 733);
             this.Name = "MainView";
             this.Text = "NAIM";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainView_FormClosing);

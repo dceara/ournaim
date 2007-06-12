@@ -162,6 +162,9 @@ namespace GUI
             ChangeMenuVisibility(true);
 
             lblStatus.Text = userName + " - ";
+            cbStatuses.Location = new Point(lblStatus.Location.X + lblStatus.Width, cbStatuses.Location.Y);
+            cbStatuses.Width = ctvContacts.Location.X + ctvContacts.Width - cbStatuses.Location.X;
+            cbStatuses.Refresh();
         }
 
         public void Initialise()
@@ -252,10 +255,11 @@ namespace GUI
 
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddContactDialog addContactDialog = new AddContactDialog();
+            AddContactDialog addContactDialog = new AddContactDialog(ctvContacts.GetGroups());
             DialogResult result = addContactDialog.ShowDialog();
             if(result == DialogResult.OK)
             {
+                ctvContacts.AddContact(addContactDialog.Username, addContactDialog.Group);
                 OnAddContactEvent(addContactDialog.Username, addContactDialog.Group);
             }
         }
