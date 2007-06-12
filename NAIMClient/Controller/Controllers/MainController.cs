@@ -265,7 +265,6 @@ namespace Controllers
             AMessageData messageData = new StatusMessageData(this.currentUserName, status);
             Common.Protocol.Message changeStatusMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.STATUS), messageData);
             this.outputMessageQueue.Enqueue(changeStatusMessage);
-            mainView.ChangeStatus(status);
         }
 
         void mainView_ChangeContactGroupEvent(string contact, string newgroup)

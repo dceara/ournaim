@@ -303,6 +303,7 @@ namespace GUI
             this.cbStatuses.Name = "cbStatuses";
             this.cbStatuses.Size = new System.Drawing.Size(162, 21);
             this.cbStatuses.TabIndex = 15;
+            this.cbStatuses.SelectedIndexChanged += new System.EventHandler(this.cbStatuses_SelectedIndexChanged);
             // 
             // ctvContacts
             // 

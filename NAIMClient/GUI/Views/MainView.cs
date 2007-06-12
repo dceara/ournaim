@@ -176,11 +176,6 @@ namespace GUI
             this.Show();
         }
 
-        public void ChangeStatus(string status)
-        {
-            // TODO
-        }
-
         public void SetGroupSource(IList<string> groupNames, IDictionary<string,IList<UserListEntry>> contactsByGroups)
         {
             ctvContacts.LoadContacts(groupNames, contactsByGroups);
@@ -231,33 +226,29 @@ namespace GUI
             DialogResult result = statusDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                OnChangeStatusEvent(statusDialog.Status);
+                cbStatuses.Items.Add(statusDialog.Status);
+                cbStatuses.SelectedIndex = cbStatuses.Items.Count - 1;
             }
         }
 
-        // TODO
-/*        private void status_button_Click(object sender, EventArgs e)
+        private void cbStatuses_SelectedIndexChanged(object sender, EventArgs e)
         {
-            StatusesView statusesView = new StatusesView();
-            statusesView.StartLocation = status_button.PointToScreen(new Point(status_button.Left,status_button.Top));
-            if (statusesView.ShowDialog() == DialogResult.OK)
+#warning remove hadcoding
+            if (cbStatuses.SelectedIndex == 5) 
             {
-                OnChangeStatusEvent(statusesView.Status);
-            }
-            else
-            {
-                if (statusesView.DialogResult == DialogResult.Retry)
+                ChangeStatusDialog statusDialog = new ChangeStatusDialog();
+                DialogResult result = statusDialog.ShowDialog();
+                if (result == DialogResult.OK)
                 {
-                    ChangeStatusDialog dialog = new ChangeStatusDialog();
-                    
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        OnChangeStatusEvent(dialog.Status);
-                    }
+                    cbStatuses.Items.Add(statusDialog.Status);
+                    cbStatuses.SelectedIndex = cbStatuses.Items.Count - 1;
                 }
             }
-        }*/
-
+            else 
+            {
+                OnChangeStatusEvent(cbStatuses.SelectedText);
+            }
+        }
 
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -311,8 +302,5 @@ namespace GUI
             this.ctvContacts.Visible = !value;
         }
         #endregion
-
-        
-
     }
 }
