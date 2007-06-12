@@ -38,10 +38,10 @@
     <Compile Include="Controls\ContactsTree.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\Resource1.Designer.cs">
+    <Compile Include="Controls\Icons.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resource1.resx</DependentUpon>
+      <DependentUpon>Icons.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\AddContactDialog.cs">
@@ -106,10 +106,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controls\Resource1.resx">
+    <EmbeddedResource Include="Controls\Icons.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+      <LastGenOutput>Icons.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\AddContactDialog.resx">
       <SubType>Designer</SubType>
