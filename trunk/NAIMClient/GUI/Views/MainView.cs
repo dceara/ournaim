@@ -274,6 +274,13 @@ namespace GUI
                 OnAddGroupEvent(addGroupView.Groupname);
             }
         }
+
+        private void ctvContacts_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node.Level == 0)
+                return;
+            OnOpenConversationEvent(e.Node.Name);
+        }
         #endregion
 
         #region Utils
@@ -302,6 +309,8 @@ namespace GUI
             this.status_label.Visible = !value;
         }
         #endregion
+
+        
 
     }
 }
