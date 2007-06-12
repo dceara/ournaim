@@ -60,6 +60,13 @@ namespace GUI.Controls {
             }
         }
         
+        internal static System.Drawing.Bitmap IconNoImage {
+            get {
+                object obj = ResourceManager.GetObject("IconNoImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap IconOffline {
             get {
                 object obj = ResourceManager.GetObject("IconOffline", resourceCulture);

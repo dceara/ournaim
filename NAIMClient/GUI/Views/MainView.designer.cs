@@ -137,10 +137,6 @@ namespace GUI
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.actionsToolStripMenuItem,
-            this.contactsToolStripMenuItem,
-            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(229, 24);
@@ -295,6 +291,7 @@ namespace GUI
             // 
             this.ctvContacts.GroupsColor = System.Drawing.Color.RoyalBlue;
             this.ctvContacts.GroupsFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
+            this.ctvContacts.ImageIndex = 0;
             this.ctvContacts.InvisibleContactColor = System.Drawing.Color.Black;
             this.ctvContacts.InvisibleContactFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Italic);
             this.ctvContacts.Location = new System.Drawing.Point(12, 54);
@@ -303,6 +300,9 @@ namespace GUI
             this.ctvContacts.OfflineContactFont = new System.Drawing.Font("Arial", 9F);
             this.ctvContacts.OnlineContactColor = System.Drawing.Color.Black;
             this.ctvContacts.OnlineContactFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
+            this.ctvContacts.SelectedImageIndex = 0;
+            this.ctvContacts.ShowLines = false;
+            this.ctvContacts.ShowNodeToolTips = true;
             this.ctvContacts.Size = new System.Drawing.Size(205, 536);
             this.ctvContacts.TabIndex = 14;
             // 
