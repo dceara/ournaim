@@ -133,6 +133,7 @@ namespace Controller.StateObjects
             ClearCurrentEventHandlers();
             AState newState = new StateInitial();
             newState.MainView = _mainView;
+            newState.ConversationControllers = _conversationControllers;
             ToCloseConnection = true;
             AMessageData messageData = new LogoutMessageData(this._userName);
             Common.Protocol.Message signoutMessage = new Common.Protocol.Message(new MessageHeader(ServiceTypes.LOGOUT), messageData);
