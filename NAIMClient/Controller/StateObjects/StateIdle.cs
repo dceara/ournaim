@@ -142,7 +142,7 @@ namespace Controller.StateObjects
 
         private void HandlePingMessage()
         {
-            Common.Protocol.Message response = new Common.Protocol.Message(new MessageHeader(ServiceTypes.ACK), new AckMessageData());
+            Common.Protocol.Message response = new Common.Protocol.Message(new MessageHeader(ServiceTypes.PING), new PingMessageData());
             _outputMessagesList.Add(response);
         }
 

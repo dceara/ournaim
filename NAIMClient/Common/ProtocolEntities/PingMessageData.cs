@@ -10,8 +10,13 @@ namespace Common.ProtocolEntities
         #region Constructors
 
         public PingMessageData(byte[] data)
-            :base(data)
+            : base(data)
         {
+        }
+
+        public PingMessageData() 
+        {
+
         }
 
         #endregion
@@ -24,7 +29,7 @@ namespace Common.ProtocolEntities
 
         public override byte[] Serialize()
         {
-            throw new Exception("The method or operation is implemented by the server.");
+            return new byte[0];
         }
 
         #endregion
