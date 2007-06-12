@@ -4,8 +4,9 @@
 #include "utils.h"
 
 #ifdef WIN32
-#include <winsock.h>
 #include <io.h>
+#include <errno.h>
+#include <winsock.h>
 #else
 #include <errno.h>
 #include <netinet/ip.h>
@@ -24,8 +25,8 @@ using namespace std;
  *	ConnectionManager
  */
 
-const time_t ConnectionManager::TIME_TO_PING = 1000;
-const time_t ConnectionManager::TIMEOUT = 1000;
+const time_t ConnectionManager::TIME_TO_PING = 15;
+const time_t ConnectionManager::TIMEOUT = 30;
 const timeval ConnectionManager::DEFAULT_SELECT_TIMEOUT = {0, 10000};
 
 ConnectionManager::ConnectionManager() {
@@ -378,6 +379,7 @@ int ConnectionManager::run() {
     }
     else {
         FD_SET(console_sockfd, &read_fds);
+        FD_SET(console_sockfd, &write_fds);
         if (console_sockfd > fdmax)
             fdmax = console_sockfd;
 
@@ -390,13 +392,12 @@ int ConnectionManager::run() {
 
 
     int newsockfd;
-    timeval timeout = DEFAULT_SELECT_TIMEOUT;
+    timeval timeout;
     // main loop    
     for(;;) {
-        tmp_read_fds = read_fds; 
-        tmp_write_fds = write_fds;
-
-        if (select(fdmax + 1, &tmp_read_fds, &tmp_write_fds, NULL, &timeout) == -1) {
+        tmp_read_fds = read_fds;
+        timeout = DEFAULT_SELECT_TIMEOUT;
+        if (select(fdmax + 1, &tmp_read_fds, NULL, NULL, &timeout) == -1) {
             printf("ERROR in select: %d", errno);
             CLOSE(listen_sockfd);
             return -1;
@@ -461,6 +462,19 @@ int ConnectionManager::run() {
         }
 
         /*
+         *	If the sockets would be checked for write in the same select as for read, the select would
+         *  always return very fast because there would always be someone waiting for data and this would
+         *  overload the CPU.
+         */
+        tmp_write_fds = write_fds;
+        timeout = DEFAULT_SELECT_TIMEOUT;
+        if (select(fdmax + 1, NULL, &tmp_write_fds, NULL, &timeout) == -1) {
+            printf("ERROR in select: %d", errno);
+            CLOSE(listen_sockfd);
+            return -1;
+        }
+
+        /*
          *	Writes packets from the clients.
          */
         for(int i = 0; i <= fdmax; i++) {
@@ -474,8 +488,6 @@ int ConnectionManager::run() {
             return 0;
         }
     }
-
-    CLOSE(newsockfd);
 
     return 0;
 }
