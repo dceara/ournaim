@@ -466,6 +466,7 @@ int Peer::processSTATUS(NAIMpacket * packet) {
             char * status;
             Protocol::getSTATUSStatus(packet, status);
 
+            cMan->setStatus(username, status);
             cMan->notifyOfStatusChange(clientName, status);
 
             delete[] status;
