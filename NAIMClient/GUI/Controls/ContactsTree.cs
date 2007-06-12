@@ -102,6 +102,7 @@ namespace GUI.Controls
         }
 
         public void Initialize() {
+           
             icons.Images.Add(Icons.IconNoImage);
             icons.Images.Add(Icons.IconOnline);
             icons.Images.Add(Icons.IconOffline);
@@ -187,6 +188,7 @@ namespace GUI.Controls
                 contactNode.ImageIndex = 2;
                 contactNode.SelectedImageIndex = 2;
                 contactNode.Text = contact;
+                contactNode.ContextMenuStrip = cmsContacts;
 
                 groupNode.Nodes.Add(contactNode);
             }

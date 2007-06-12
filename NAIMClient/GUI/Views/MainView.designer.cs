@@ -78,7 +78,7 @@ namespace GUI
             this.txtUserName.Location = new System.Drawing.Point(45, 136);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(237, 20);
-            this.txtUserName.TabIndex = 3;
+            this.txtUserName.TabIndex = 0;
             this.txtUserName.Text = "ana";
             // 
             // txtPassword
@@ -89,7 +89,7 @@ namespace GUI
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(237, 20);
-            this.txtPassword.TabIndex = 4;
+            this.txtPassword.TabIndex = 1;
             this.txtPassword.Text = "pass";
             // 
             // lblUserName
@@ -116,7 +116,7 @@ namespace GUI
             this.btnSignUp.Location = new System.Drawing.Point(75, 228);
             this.btnSignUp.Name = "btnSignUp";
             this.btnSignUp.Size = new System.Drawing.Size(75, 21);
-            this.btnSignUp.TabIndex = 7;
+            this.btnSignUp.TabIndex = 3;
             this.btnSignUp.Text = "Sign Up";
             this.btnSignUp.UseVisualStyleBackColor = true;
             this.btnSignUp.Click += new System.EventHandler(this.btnSignUp_Click);
@@ -335,6 +335,7 @@ namespace GUI
             // 
             // MainView
             // 
+            this.AcceptButton = this.btnSignIn;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.ClientSize = new System.Drawing.Size(327, 706);
             this.Controls.Add(this.cbStatuses);
