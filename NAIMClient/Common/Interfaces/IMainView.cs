@@ -35,6 +35,8 @@ namespace Common.Interfaces
 
     public delegate void OpenArchiveViewHandler(string username);
 
+    public delegate void ChangeSettings(string adr, string port);
+
     #endregion
 
     /// <summary>
@@ -100,6 +102,8 @@ namespace Common.Interfaces
         event OpenSignUpViewHandler OpenSignUpViewEvent;
 
         event OpenArchiveViewHandler OpenArchiveViewEvent;
+
+        event ChangeSettings ChangeSettingsEvent;
 
         #endregion
 
@@ -222,6 +226,9 @@ namespace Common.Interfaces
         void RemoveContact(string contactName);
 
         void OnOpenArchiveView(string username);
+
+        void OnChangeSettings(string adr, string port);
+
 
         #endregion
     }
