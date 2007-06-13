@@ -64,7 +64,6 @@ namespace GUI
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(217, 20);
             this.txtUserName.TabIndex = 0;
-            this.txtUserName.Text = "Test User Name";
             // 
             // txtPassword
             // 
@@ -74,7 +73,6 @@ namespace GUI
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(217, 20);
             this.txtPassword.TabIndex = 1;
-            this.txtPassword.Text = "Test Password";
             // 
             // btnOk
             // 
@@ -89,6 +87,7 @@ namespace GUI
             // 
             // btnCancel
             // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnCancel.Location = new System.Drawing.Point(142, 194);
             this.btnCancel.Name = "btnCancel";
@@ -115,7 +114,6 @@ namespace GUI
             this.txtPasswordAgain.PasswordChar = '*';
             this.txtPasswordAgain.Size = new System.Drawing.Size(217, 20);
             this.txtPasswordAgain.TabIndex = 2;
-            this.txtPasswordAgain.Text = "Test Password";
             // 
             // CreateAccountView
             // 

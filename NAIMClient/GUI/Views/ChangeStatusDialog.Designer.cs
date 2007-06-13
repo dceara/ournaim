@@ -28,60 +28,65 @@ namespace GUI.Views
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtStatus = new System.Windows.Forms.RichTextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.bntOk = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.txtStatus = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
+            // 
+            // bntOk
+            // 
+            this.bntOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.bntOk.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.bntOk.Location = new System.Drawing.Point(116, 93);
+            this.bntOk.Name = "bntOk";
+            this.bntOk.Size = new System.Drawing.Size(75, 23);
+            this.bntOk.TabIndex = 1;
+            this.bntOk.Text = "Ok";
+            this.bntOk.UseVisualStyleBackColor = true;
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnCancel.Location = new System.Drawing.Point(197, 93);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 2;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // txtStatus
             // 
-            this.txtStatus.Location = new System.Drawing.Point(1, 0);
+            this.txtStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtStatus.Location = new System.Drawing.Point(12, 12);
+            this.txtStatus.Multiline = true;
             this.txtStatus.Name = "txtStatus";
-            this.txtStatus.Size = new System.Drawing.Size(282, 80);
-            this.txtStatus.TabIndex = 0;
-            this.txtStatus.Text = "";
-            // 
-            // button1
-            // 
-            this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button1.Location = new System.Drawing.Point(13, 93);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Ok";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button2.Location = new System.Drawing.Point(197, 93);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Cancel";
-            this.button2.UseVisualStyleBackColor = true;
+            this.txtStatus.Size = new System.Drawing.Size(260, 75);
+            this.txtStatus.TabIndex = 3;
             // 
             // ChangeStatusDialog
             // 
-            this.AcceptButton = this.button1;
+            this.AcceptButton = this.bntOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.button2;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(284, 128);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.txtStatus);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.bntOk);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "ChangeStatusDialog";
             this.Text = "ChangeStatusDialog";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox txtStatus;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button bntOk;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.TextBox txtStatus;
     }
 }

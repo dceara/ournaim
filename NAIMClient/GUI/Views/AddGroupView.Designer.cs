@@ -36,23 +36,25 @@ namespace GUI.Views
             // 
             // groupname_textBox
             // 
-            this.groupname_textBox.Location = new System.Drawing.Point(85, 11);
+            this.groupname_textBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.groupname_textBox.Location = new System.Drawing.Point(77, 7);
             this.groupname_textBox.Name = "groupname_textBox";
-            this.groupname_textBox.Size = new System.Drawing.Size(100, 20);
+            this.groupname_textBox.Size = new System.Drawing.Size(110, 20);
             this.groupname_textBox.TabIndex = 0;
             // 
             // gropuname_label
             // 
             this.gropuname_label.AutoSize = true;
-            this.gropuname_label.Location = new System.Drawing.Point(14, 14);
+            this.gropuname_label.Location = new System.Drawing.Point(3, 9);
             this.gropuname_label.Name = "gropuname_label";
-            this.gropuname_label.Size = new System.Drawing.Size(65, 13);
+            this.gropuname_label.Size = new System.Drawing.Size(68, 13);
             this.gropuname_label.TabIndex = 1;
-            this.gropuname_label.Text = "Group name";
+            this.gropuname_label.Text = "Group name:";
             // 
             // add_button
             // 
             this.add_button.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.add_button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.add_button.Location = new System.Drawing.Point(6, 48);
             this.add_button.Name = "add_button";
             this.add_button.Size = new System.Drawing.Size(75, 23);
@@ -63,6 +65,7 @@ namespace GUI.Views
             // cancel_button
             // 
             this.cancel_button.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancel_button.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cancel_button.Location = new System.Drawing.Point(112, 48);
             this.cancel_button.Name = "cancel_button";
             this.cancel_button.Size = new System.Drawing.Size(75, 23);
@@ -75,6 +78,7 @@ namespace GUI.Views
             this.AcceptButton = this.add_button;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.CancelButton = this.cancel_button;
             this.ClientSize = new System.Drawing.Size(199, 83);
             this.Controls.Add(this.cancel_button);

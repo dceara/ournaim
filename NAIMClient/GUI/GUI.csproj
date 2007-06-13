@@ -86,12 +86,6 @@
     <Compile Include="Views\MainView.designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\StatusesView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\StatusesView.Designer.cs">
-      <DependentUpon>StatusesView.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClientControllers.cd" />
@@ -142,10 +136,6 @@
     <EmbeddedResource Include="Views\MainView.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\StatusesView.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>StatusesView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
