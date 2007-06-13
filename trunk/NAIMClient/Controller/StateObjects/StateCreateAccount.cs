@@ -30,6 +30,7 @@ namespace Controller.StateObjects
         {
             if (message.Header.ServiceType == Common.ServiceTypes.NACK)
             {
+                System.Windows.Forms.MessageBox.Show("User Name already registered in the system!","Error",System.Windows.Forms.MessageBoxButtons.OK,System.Windows.Forms.MessageBoxIcon.Warning);
                 _signUpAlreadySent = false;
                 this.ToCloseConnection = true;
                 return this;
