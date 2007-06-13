@@ -7,6 +7,8 @@ using Common.Protocol;
 
 namespace GUI.Controls
 {
+    public delegate void ContactTreeAddContactToGroup(string group);
+
     public class ContactsTree : TreeView
     {
         Color   DEFAULT_GROUPS_COLOR            = Color.RoyalBlue;
@@ -20,6 +22,7 @@ namespace GUI.Controls
 
         string  DEFAULT_GROUP_IMAGE             = "group";
 
+        #region Properties
         private Color _groupsColor;
         public Color GroupsColor
         {
@@ -82,6 +85,8 @@ namespace GUI.Controls
             get { return _groupImage; }
             set { _groupImage = value; }
         }
+        #endregion
+
 
         private int _groupImageIndex;
 
@@ -90,10 +95,22 @@ namespace GUI.Controls
         private ToolStripMenuItem tsmiDeleteContact;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem tsmiSendMessage;
+        private ContextMenuStrip cmsGroups;
+        private ToolStripMenuItem tsmiAddContact;
+        private ToolStripMenuItem tsmiChangeIcon;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem tsmiDeleteGroup;
 
 
         ImageList icons = new ImageList();
 
+        #region Events
+
+        public event ContactTreeAddContactToGroup ContactTreeAddContactToGroup;
+
+        #endregion
+
+        #region Constructor
 
         public ContactsTree() {
             _groupsColor = DEFAULT_GROUPS_COLOR;
@@ -111,7 +128,10 @@ namespace GUI.Controls
             this.ImageList = icons;
 
         }
+        
+        #endregion
 
+        #region Members
         public void Initialize() {
            
             icons.Images.Add("noimage", Icons.IconNoImage);
@@ -150,6 +170,7 @@ namespace GUI.Controls
                 groupNode.Text = group;
                 groupNode.ImageIndex = _groupImageIndex;
                 groupNode.SelectedImageIndex = _groupImageIndex;
+                groupNode.ContextMenuStrip = cmsGroups;
                 int nodeIndex = Nodes.Add(groupNode);
 
 
@@ -275,14 +296,26 @@ namespace GUI.Controls
             SelectedNode = selectedNode;
         }
 
+        protected void OnAddContactToGroup(string group) {
+            if (ContactTreeAddContactToGroup != null) {
+                ContactTreeAddContactToGroup(group);
+            }
+        }
+
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             this.cmsContacts = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiDeleteContact = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiSendMessage = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiDeleteContact = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsGroups = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiChangeIcon = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDeleteGroup = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiAddContact = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsContacts.SuspendLayout();
+            this.cmsGroups.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmsContacts
@@ -298,20 +331,6 @@ namespace GUI.Controls
             this.cmsContacts.ShowImageMargin = false;
             this.cmsContacts.Size = new System.Drawing.Size(195, 54);
             // 
-            // tsmiDeleteContact
-            // 
-            this.tsmiDeleteContact.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.tsmiDeleteContact.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsmiDeleteContact.Name = "tsmiDeleteContact";
-            this.tsmiDeleteContact.Size = new System.Drawing.Size(194, 22);
-            this.tsmiDeleteContact.Text = "Delete contact";
-            this.tsmiDeleteContact.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(185, 6);
-            // 
             // tsmiSendMessage
             // 
             this.tsmiSendMessage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
@@ -322,12 +341,83 @@ namespace GUI.Controls
             this.tsmiSendMessage.Text = "Send instant message...";
             this.tsmiSendMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
+            // 
+            // tsmiDeleteContact
+            // 
+            this.tsmiDeleteContact.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tsmiDeleteContact.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsmiDeleteContact.Name = "tsmiDeleteContact";
+            this.tsmiDeleteContact.Size = new System.Drawing.Size(194, 22);
+            this.tsmiDeleteContact.Text = "Delete contact";
+            this.tsmiDeleteContact.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cmsGroups
+            // 
+            this.cmsGroups.BackColor = System.Drawing.Color.MintCream;
+            this.cmsGroups.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiAddContact,
+            this.tsmiChangeIcon,
+            this.toolStripSeparator2,
+            this.tsmiDeleteGroup});
+            this.cmsGroups.Name = "cmsGroups";
+            this.cmsGroups.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.cmsGroups.ShowImageMargin = false;
+            this.cmsGroups.Size = new System.Drawing.Size(154, 76);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(150, 6);
+            // 
+            // tsmiChangeIcon
+            // 
+            this.tsmiChangeIcon.BackColor = System.Drawing.Color.MintCream;
+            this.tsmiChangeIcon.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsmiChangeIcon.Name = "tsmiChangeIcon";
+            this.tsmiChangeIcon.Size = new System.Drawing.Size(153, 22);
+            this.tsmiChangeIcon.Text = "Change Group Icon";
+            this.tsmiChangeIcon.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tsmiDeleteGroup
+            // 
+            this.tsmiDeleteGroup.BackColor = System.Drawing.Color.MintCream;
+            this.tsmiDeleteGroup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsmiDeleteGroup.Name = "tsmiDeleteGroup";
+            this.tsmiDeleteGroup.Size = new System.Drawing.Size(153, 22);
+            this.tsmiDeleteGroup.Text = "Delete Group";
+            this.tsmiDeleteGroup.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tsmiAddContact
+            // 
+            this.tsmiAddContact.BackColor = System.Drawing.Color.MintCream;
+            this.tsmiAddContact.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsmiAddContact.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tsmiAddContact.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tsmiAddContact.Name = "tsmiAddContact";
+            this.tsmiAddContact.Size = new System.Drawing.Size(153, 22);
+            this.tsmiAddContact.Text = "Add Contact...";
+            this.tsmiAddContact.Click += new System.EventHandler(this.tsmiAddContact_Click);
+            // 
             // ContactsTree
             // 
             this.LineColor = System.Drawing.Color.Black;
             this.cmsContacts.ResumeLayout(false);
+            this.cmsGroups.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
+
+        private void tsmiAddContact_Click(object sender, EventArgs e)
+        {
+            if (SelectedNode != null) {
+                OnAddContactToGroup(SelectedNode.Name);
+            }
+        }
+
+        #endregion
     }
 }
