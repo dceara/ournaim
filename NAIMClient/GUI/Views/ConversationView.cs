@@ -43,6 +43,7 @@ namespace GUI
 
         public void AddMessage(string message)
         {
+            if (message == "") return;
             if (this.txtMessageList.Text != "")
             {
                 this.txtMessageList.Text += "\r\n";
@@ -109,12 +110,12 @@ namespace GUI
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            this.txtMessage.Text += "\n";
             SendMessage();
         }
         void SendMessage()
         {
-            string message = this.txtMessage.Text.Remove(txtMessage.Text.Length - 1);
+            string message = this.txtMessage.Text;
+            if (message == "") return;
             if (this.txtMessageList.Text != "")
             {
                 this.txtMessageList.Text += "\r\n";
