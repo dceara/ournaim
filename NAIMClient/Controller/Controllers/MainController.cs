@@ -309,6 +309,24 @@ namespace Controllers
 
         void mainView_RemoveContactEvent(string username)
         {
+            if (!(currentState is StateIdle))
+                return;
+            IDictionary<string,IList<UserListEntry>> contactsByGroups = ((StateIdle)currentState).ContactsByGroups;
+            foreach(KeyValuePair<string,IList<UserListEntry>> pair in contactsByGroups)
+            {
+                bool found = false;
+                foreach (UserListEntry entry in pair.Value)
+                {
+                    if (entry.UserName == username)
+                    {
+                        found = true;
+                        pair.Value.Remove(entry);
+                        break;
+                    }
+                }
+                if(found)
+                    break;
+            }
             AMessageData messageData = new RemoveContactMessageData(this.currentUserName, username);
             Common.Protocol.Message removeContactMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.REMOVE_CONTACT), messageData);
             this.outputMessageQueue.Enqueue(removeContactMessage);
