@@ -434,6 +434,7 @@ namespace Controllers
         {
             this.createAccountView.CloseView();
             this.mainView.ShowView();
+            currentState = currentState.MoveState(); 
         }
 
         #endregion

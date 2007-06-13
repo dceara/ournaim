@@ -74,7 +74,8 @@ namespace Controller.StateObjects
 
         public override AState MoveState()
         {
-            throw new Exception("The method or operation is not implemented.");
+            AState newState = GetNextState(Common.ServiceTypes.NACK);
+            return newState;
         }
 
         protected override void ClearCurrentEventHandlers()
