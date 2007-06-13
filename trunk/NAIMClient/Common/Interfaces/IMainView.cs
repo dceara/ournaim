@@ -77,6 +77,11 @@ namespace Common.Interfaces
         event RemoveContactEventHandler RemoveContactEvent;
 
         /// <summary>
+        /// Is fired when a group is being removed.
+        /// </summary>
+        event RemoveGroupEventHandler RemoveGroupEvent;
+
+        /// <summary>
         /// Is fired when a contact is moved into another group.
         /// </summary>
         event ChangeContactGroupEventHandler ChangeContactGroupEvent;
