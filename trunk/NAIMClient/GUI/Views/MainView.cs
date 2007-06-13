@@ -62,6 +62,8 @@ namespace GUI
 
         public event OpenArchiveViewHandler OpenArchiveViewEvent;
 
+        public event ChangeSettings ChangeSettingsEvent;
+
         public void OnOpenSignUpViewEvent()
         {
             if (OpenSignUpViewEvent != null)
@@ -221,7 +223,7 @@ namespace GUI
             ctvContacts.RemoveGroup(groupName);
         }
 
-        public void AddContact(string contactName, string groupName) 
+        public void AddContact(string contactName, string groupName)
         {
             ctvContacts.AddContact(contactName, groupName);
         }
@@ -231,6 +233,13 @@ namespace GUI
             ctvContacts.RemoveContact(contactName);
         }
 
+        public void OnChangeSettings(string adr, string port)
+        {
+            if (ChangeSettingsEvent != null)
+            {
+                ChangeSettingsEvent(adr, port);
+            }
+        }
         #endregion
 
         #region GUI Events
@@ -344,6 +353,20 @@ namespace GUI
             OnRemoveGroupEvent(group);
         }
 
+        private void showOfflineContactsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ctvContacts.ShowHideOfflineContacts();
+        }
+
+        private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PreferencesDialog prefDialg = new PreferencesDialog();
+            if (prefDialg.ShowDialog() == DialogResult.OK)
+            {
+                OnChangeSettings(prefDialg.ServerAdress, prefDialg.Port);
+            }
+        }
+
         void ctvContacts_ContactTreeRemoveContact(string contact)
         {
             OnRemoveContactEvent(contact);
@@ -365,6 +388,7 @@ namespace GUI
             this.shareFilesToolStripMenuItem.Visible = value;
             this.fileTransferManagerToolStripMenuItem.Visible = value;
             this.signOutToolStripMenuItem.Visible = value;
+            this.preferencesToolStripMenuItem.Visible = !value;
         }
 
         private void ChangeControlsVisibility(bool value)
@@ -381,10 +405,7 @@ namespace GUI
         }
         #endregion
 
-        private void showOfflineContactsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ctvContacts.ShowHideOfflineContacts();
-        }
+
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
