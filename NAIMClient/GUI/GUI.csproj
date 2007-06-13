@@ -92,6 +92,11 @@
     <Compile Include="Views\MainView.designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pozainceput.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Pozainceput.resx</DependentUpon>
+    </Compile>
     <Compile Include="Views\PreferencesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,6 +158,11 @@
       <SubType>Designer</SubType>
       <DependentUpon>MainView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Pozainceput.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Pozainceput.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\PreferencesDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>PreferencesDialog.cs</DependentUpon>
@@ -196,6 +206,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\rotten.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\locked in my head.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
