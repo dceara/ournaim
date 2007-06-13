@@ -56,8 +56,8 @@ namespace GUI
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.lblStatus = new System.Windows.Forms.Label();
             this.cbStatuses = new System.Windows.Forms.ComboBox();
-            this.ctvContacts = new GUI.Controls.ContactsTree();
             this.pictureBoxPoza = new System.Windows.Forms.PictureBox();
+            this.ctvContacts = new GUI.Controls.ContactsTree();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPoza)).BeginInit();
             this.SuspendLayout();
@@ -65,7 +65,7 @@ namespace GUI
             // btnSignIn
             // 
             this.btnSignIn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSignIn.Location = new System.Drawing.Point(174, 385);
+            this.btnSignIn.Location = new System.Drawing.Point(168, 385);
             this.btnSignIn.Name = "btnSignIn";
             this.btnSignIn.Size = new System.Drawing.Size(75, 21);
             this.btnSignIn.TabIndex = 2;
@@ -77,9 +77,9 @@ namespace GUI
             // 
             this.txtUserName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUserName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtUserName.Location = new System.Drawing.Point(46, 293);
+            this.txtUserName.Location = new System.Drawing.Point(84, 293);
             this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(237, 20);
+            this.txtUserName.Size = new System.Drawing.Size(159, 20);
             this.txtUserName.TabIndex = 0;
             this.txtUserName.Text = "ana";
             // 
@@ -87,16 +87,16 @@ namespace GUI
             // 
             this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPassword.Location = new System.Drawing.Point(46, 338);
+            this.txtPassword.Location = new System.Drawing.Point(84, 338);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(237, 20);
+            this.txtPassword.Size = new System.Drawing.Size(159, 20);
             this.txtPassword.TabIndex = 1;
             this.txtPassword.Text = "pass";
             // 
             // lblUserName
             // 
-            this.lblUserName.Location = new System.Drawing.Point(43, 271);
+            this.lblUserName.Location = new System.Drawing.Point(84, 271);
             this.lblUserName.Name = "lblUserName";
             this.lblUserName.Size = new System.Drawing.Size(67, 19);
             this.lblUserName.TabIndex = 5;
@@ -105,7 +105,7 @@ namespace GUI
             // 
             // lblPassword
             // 
-            this.lblPassword.Location = new System.Drawing.Point(43, 316);
+            this.lblPassword.Location = new System.Drawing.Point(84, 316);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(56, 19);
             this.lblPassword.TabIndex = 6;
@@ -115,7 +115,7 @@ namespace GUI
             // btnSignUp
             // 
             this.btnSignUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSignUp.Location = new System.Drawing.Point(76, 385);
+            this.btnSignUp.Location = new System.Drawing.Point(84, 385);
             this.btnSignUp.Name = "btnSignUp";
             this.btnSignUp.Size = new System.Drawing.Size(75, 21);
             this.btnSignUp.TabIndex = 3;
@@ -346,6 +346,16 @@ namespace GUI
             this.cbStatuses.TabIndex = 15;
             this.cbStatuses.SelectedIndexChanged += new System.EventHandler(this.cbStatuses_SelectedIndexChanged);
             // 
+            // pictureBoxPoza
+            // 
+            this.pictureBoxPoza.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxPoza.Location = new System.Drawing.Point(84, 89);
+            this.pictureBoxPoza.Name = "pictureBoxPoza";
+            this.pictureBoxPoza.Size = new System.Drawing.Size(159, 133);
+            this.pictureBoxPoza.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxPoza.TabIndex = 16;
+            this.pictureBoxPoza.TabStop = false;
+            // 
             // ctvContacts
             // 
             this.ctvContacts.AllowDrop = true;
@@ -375,19 +385,8 @@ namespace GUI
             this.ctvContacts.TabIndex = 14;
             this.ctvContacts.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.ctvContacts_NodeMouseDoubleClick);
             // 
-            // pictureBoxPoza
-            // 
-            this.pictureBoxPoza.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxPoza.Location = new System.Drawing.Point(84, 89);
-            this.pictureBoxPoza.Name = "pictureBoxPoza";
-            this.pictureBoxPoza.Size = new System.Drawing.Size(159, 133);
-            this.pictureBoxPoza.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxPoza.TabIndex = 16;
-            this.pictureBoxPoza.TabStop = false;
-            // 
             // MainView
             // 
-            this.AcceptButton = this.btnSignIn;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.ClientSize = new System.Drawing.Size(327, 706);
             this.Controls.Add(this.pictureBoxPoza);
