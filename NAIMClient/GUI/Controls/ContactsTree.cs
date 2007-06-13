@@ -323,7 +323,7 @@ namespace GUI.Controls
 
         public void RemoveGroup(string group)
         {
-            if (Nodes[group].Nodes.Count > 0) 
+            if (Nodes[group].Nodes.Count == 0) 
             {
                 Nodes.Remove(Nodes[group]);
             }

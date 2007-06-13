@@ -130,6 +130,8 @@ namespace Common.Protocol
                     return new StatusMessageData(mes._data);
                 case ServiceTypes.DISCONNECT:
                     return new DisconnectMessageData(mes._data);
+                case ServiceTypes.REMOVE_GROUP:
+                    return new RemoveGroupMessageData(mes._data);
             }
             throw new UnknownServiceException();
         }

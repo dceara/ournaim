@@ -56,6 +56,7 @@
     <Compile Include="ProtocolEntities\NackMessageData.cs" />
     <Compile Include="ProtocolEntities\PingMessageData.cs" />
     <Compile Include="ProtocolEntities\RemoveContactMessageData.cs" />
+    <Compile Include="ProtocolEntities\RemoveGroupMessageData.cs" />
     <Compile Include="ProtocolEntities\SignUpMessageData.cs" />
     <Compile Include="ProtocolEntities\StatusMessageData.cs" />
     <Compile Include="ProtocolEntities\TextMessageData.cs" />

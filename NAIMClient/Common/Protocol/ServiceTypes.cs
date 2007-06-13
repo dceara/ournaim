@@ -25,6 +25,7 @@ namespace Common
         REMOVE_CONTACT      = 17,
         STATUS              = 18,
         DISCONNECT          = 19,
+        REMOVE_GROUP        = 20,
     }
     public static class DefaultStatuses
     {
