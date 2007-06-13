@@ -228,12 +228,36 @@ char * QueryExecuter::getPassword(const char * clientName, char * & password) {
 	return password;
 }
 char * QueryExecuter::getContactGroup(const char * clientName, const char * contactName)
-{/*
-	select gr.Name from Grupuri gr inner join Contacte ct
-		on ct.IdGrup = gr.Id inner join Clienti c1 
-		on c1.Id = ct.IdClient inner join Clienti c2
-		on c2.Id = gr.IdClient
-		where c1.UserName = contactName and c2.UserName = clientName*/
+{
+	int rowsCnt;
+	int colsCnt;
+	char *errMessage;
+	const char first_part [] = "select gr.Name from Grupuri gr inner join Contacte ct\
+		on ct.IdGrup = gr.Id inner join Clienti c1 \
+		on c1.Id = ct.IdClient inner join Clienti c2 \
+		on c2.Id = gr.IdClient \
+		where c1.UserName = '";
+	const char second_part[] = "' and c2.UserName = '";
+	const char third_part[] = "'";
+	char *query = new char[strlen(first_part) + strlen(second_part) + strlen (third_part) + strlen(clientName) + strlen(contactName) + 1];
+	sprintf("%s%s%s%s%s",first_part,contactName,second_part,clientName,third_part);
+
+	delete []query;
+	char **resultTable = executeQuery(query,rowsCnt,colsCnt,errMessage);
+	if(rowsCnt < 2)
+	{
+		if(errMessage != NULL)
+			sqlite3_free(errMessage);
+		return NULL;
+	}
+	
+	int len = strlen(resultTable[1]);
+	char *toReturn = new char[len + 1];
+	memcpy(toReturn,resultTable[1],len);
+	toReturn[len] = 0;
+	sqlite3_free_table(resultTable);
+	return toReturn;
+
 }
 char ** QueryExecuter::getClientsList(char ** & clientsList, unsigned short & contactsNo) {
 	char **clientsTable;
