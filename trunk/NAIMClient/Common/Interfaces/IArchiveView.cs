@@ -6,6 +6,6 @@ namespace Common.Interfaces
 {
     public interface IArchiveView
     {
-        void ShowDialog(string username);
+        void ShowDialog(IList<KeyValuePair<string, IList<string>>> archive);
     }
 }

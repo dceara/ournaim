@@ -383,7 +383,7 @@ namespace Controllers
             IArchiveView archiveView = OnInstantiateArchiveView();
             if (archiveView == null)
                 return;
-            archiveView.ShowDialog(username);
+            archiveView.ShowDialog(archiveManager.GetMessageArchive());
         }
 
         void mainView_LogoutEvent()
