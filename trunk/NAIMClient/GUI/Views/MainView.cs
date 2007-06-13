@@ -203,6 +203,11 @@ namespace GUI
             //TODO add group to tree
         }
 
+        public void AddContact(string groupName, string groupName) 
+        {
+
+        }
+
         public void RemoveContact(string contactName)
         {
             //TODO remove contact from tree
