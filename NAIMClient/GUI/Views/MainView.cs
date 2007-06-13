@@ -203,9 +203,9 @@ namespace GUI
             //TODO add group to tree
         }
 
-        public void AddContact(string groupName, string groupName) 
+        public void AddContact(string contactName, string groupName) 
         {
-
+            ctvContacts.AddContact(contactName, groupName);
         }
 
         public void RemoveContact(string contactName)
@@ -280,7 +280,6 @@ namespace GUI
             DialogResult result = addContactDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                ctvContacts.AddContact(addContactDialog.Username, addContactDialog.Group);
                 OnAddContactEvent(addContactDialog.Username, addContactDialog.Group);
             }
         }
@@ -291,7 +290,6 @@ namespace GUI
             DialogResult result = addContactDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                ctvContacts.AddContact(addContactDialog.Username, addContactDialog.Group);
                 OnAddContactEvent(addContactDialog.Username, addContactDialog.Group);
             }
         }

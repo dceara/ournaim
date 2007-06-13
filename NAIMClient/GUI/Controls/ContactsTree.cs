@@ -270,6 +270,11 @@ namespace GUI.Controls
             }
         }
 
+        public void RemoveContact(string contact)
+        {
+
+        }
+
         public void ContactOnline(string contact, string status) {
             BeginUpdate();
             foreach (TreeNode group in Nodes)
@@ -390,6 +395,17 @@ namespace GUI.Controls
 
             TreeNode selectedNode = GetNodeAt(e.Location);
             SelectedNode = selectedNode;
+            if (selectedNode != null && selectedNode.Parent == null) 
+            {
+                if (selectedNode.Nodes.Count > 0) 
+                {
+                    tsmiDeleteGroup.Enabled = false;
+                }
+                else
+                {
+                    tsmiDeleteGroup.Enabled = true;
+                }
+            }
         }
 
         protected void OnAddContactToGroup(string group) {

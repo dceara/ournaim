@@ -207,7 +207,7 @@ namespace Common.Interfaces
 
         void AddGroup(string groupName);
 
-        void AddContact(string groupName, string groupName);
+        void AddContact(string contactName, string groupName);
 
         void RemoveContact(string contactName);
 
