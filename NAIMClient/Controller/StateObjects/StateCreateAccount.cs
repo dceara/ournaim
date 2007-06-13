@@ -20,7 +20,7 @@ namespace Controller.StateObjects
             : base()
         {
             _transitionsTable.Add(Common.ServiceTypes.ACK, typeof(StateInitial));
-            _transitionsTable.Add(Common.ServiceTypes.NACK, typeof(StateCreateAccount));
+            _transitionsTable.Add(Common.ServiceTypes.NACK, typeof(StateInitial));
         }
         #endregion
 
@@ -31,9 +31,10 @@ namespace Controller.StateObjects
             if (message.Header.ServiceType == Common.ServiceTypes.NACK)
             {
                 System.Windows.Forms.MessageBox.Show("User Name already registered in the system!","Error",System.Windows.Forms.MessageBoxButtons.OK,System.Windows.Forms.MessageBoxIcon.Warning);
+                AState nextState = GetNextState(message.Header.ServiceType);
                 _signUpAlreadySent = false;
                 this.ToCloseConnection = true;
-                return this;
+                return nextState;
             }
             if (_signUpAlreadySent && message.Header.ServiceType == Common.ServiceTypes.ACK)
             {
