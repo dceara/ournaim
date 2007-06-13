@@ -299,7 +299,7 @@ namespace Controllers
                 return;
             if (AState.CheckIfGroupExists(group, ((StateIdle)currentState).ContactsByGroups))
             {
-                MessageBox.Show("Grpup already in list!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Group already in list!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             ((StateIdle)currentState).ContactsByGroups.Add(group, new List<UserListEntry>());
