@@ -20,7 +20,7 @@ namespace GUI.Views
 
         #region IArchiveView Members
 
-        public void ShowDialog(string username)
+        public void ShowDialog(IList<KeyValuePair<string, IList<string>>> archive)
         {
             this.ShowDialog();
         }
