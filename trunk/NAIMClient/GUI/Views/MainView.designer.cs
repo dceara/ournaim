@@ -363,7 +363,7 @@ namespace GUI
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.ctvContacts.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ctvContacts.GroupImage = "group";
+            this.ctvContacts.GroupImage = "globe";
             this.ctvContacts.GroupsColor = System.Drawing.Color.RoyalBlue;
             this.ctvContacts.GroupsFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
             this.ctvContacts.HotTracking = true;
