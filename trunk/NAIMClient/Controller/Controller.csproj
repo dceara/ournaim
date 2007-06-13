@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Archive\ArchiveManager.cs" />
+    <Compile Include="Archive\FileListManager.cs" />
     <Compile Include="Controllers\ConversationController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

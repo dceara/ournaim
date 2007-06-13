@@ -108,6 +108,8 @@ namespace Controllers
 
         private ArchiveManager archiveManager = new ArchiveManager();
 
+        private FileListManager fileListManager = new FileListManager();
+
         #region Client Peer Connection data
         /// <summary>
         /// the address for accepting peer to peer connections
@@ -422,6 +424,7 @@ namespace Controllers
         void mainView_LoginEvent(string userName, string password)
         {
             this.archiveManager.UserName = userName;
+            this.fileListManager.UserName = userName;
             this.currentUserName = userName;
             this.currentPassword = password;
 
