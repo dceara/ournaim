@@ -227,44 +227,6 @@ int Peer::processLOGIN(NAIMpacket * packet) {
         delete[] dbPassword;
     }
 
-    char * status;
-    Protocol::getLOGINStatus(packet, status);
-
-    // Check if anybody is already using this connection
-    if (clientName != NULL) {
-        // If it's the same user, check if the status changed and notify all contacts
-        if (strcmp(clientName, username) == 0) {
-            if (strcmp(cMan->getStatus(username), status) != 0) {
-                cMan->setStatus(username, status);
-                cMan->notifyOfStatusChange(username, status);
-            }
-        }
-        // Else disconnect the old user.
-        else {
-            cMan->clientDisconnect(username);
-            delete[] clientName;
-            clientName = NULL;
-        }
-    }
-    // If the client hasn't been using this connection before, check if he is not logged in on other connection.
-    if (clientName == NULL) {
-        unsigned short uLen = strlen(username);
-        clientName = new char[uLen + 1];
-        memcpy(clientName, username, uLen);
-        clientName[uLen] = '\0';
-
-        // If the client is already logged in on another connection, log him out on that connection
-        if (cMan->isOnline(username)) {
-            cMan->userConnectedRemotely(this, username, status);
-        }
-        else {
-            cMan->clientConnect(this, clientName, status);
-        }
-        
-    }
-
-    delete[] status;
-
 
     // Send the contacts list
     // TODO: Do this in a better way. Maybe in the Protocol class
@@ -307,6 +269,46 @@ int Peer::processLOGIN(NAIMpacket * packet) {
     NAIMpacket * tempPacket = Protocol::createUSER_LIST(data, contactsBufferLen + availability.size() + statuses.size());
     addOutputPacket(tempPacket);
     delete[] data;
+
+
+
+    char * status;
+    Protocol::getLOGINStatus(packet, status);
+
+    // Check if anybody is already using this connection
+    if (clientName != NULL) {
+        // If it's the same user, check if the status changed and notify all contacts
+        if (strcmp(clientName, username) == 0) {
+            if (strcmp(cMan->getStatus(username), status) != 0) {
+                cMan->setStatus(username, status);
+                cMan->notifyOfStatusChange(username, status);
+            }
+        }
+        // Else disconnect the old user.
+        else {
+            cMan->clientDisconnect(username);
+            delete[] clientName;
+            clientName = NULL;
+        }
+    }
+    // If the client hasn't been using this connection before, check if he is not logged in on other connection.
+    if (clientName == NULL) {
+        unsigned short uLen = strlen(username);
+        clientName = new char[uLen + 1];
+        memcpy(clientName, username, uLen);
+        clientName[uLen] = '\0';
+
+        // If the client is already logged in on another connection, log him out on that connection
+        if (cMan->isOnline(username)) {
+            cMan->userConnectedRemotely(this, username, status);
+        }
+        else {
+            cMan->clientConnect(this, clientName, status);
+        }
+
+    }
+
+    delete[] status;
 
     delete[] username;
     delete[] packet->data;
