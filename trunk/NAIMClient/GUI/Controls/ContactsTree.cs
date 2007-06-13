@@ -138,6 +138,10 @@ namespace GUI.Controls
 
             _groupImage = DEFAULT_GROUP_IMAGE;
 
+            ItemDrag += new ItemDragEventHandler(ContactsTree_ItemDrag);
+            DragEnter += new DragEventHandler(ContactsTree_DragEnter);
+            DragDrop += new DragEventHandler(ContactsTree_DragDrop);
+
             this.ImageList = _icons;
 
         }
@@ -624,6 +628,56 @@ namespace GUI.Controls
         {
             if (SelectedNode != null) {
                 OnAddContactToGroup(SelectedNode.Name);
+            }
+        }
+
+
+        void ContactsTree_DragDrop(object sender, DragEventArgs e)
+        {            
+            if (e.Data.GetDataPresent("System.Windows.Forms.TreeNode", false))
+            {                
+                Point pt = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
+                TreeNode DestinationNode = ((TreeView)sender).GetNodeAt(pt);
+                TreeNode SourceNode = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
+                if (DestinationNode.TreeView == SourceNode.TreeView)
+                {
+                    if (DestinationNode.Parent == null && SourceNode.Parent != DestinationNode)
+                    {
+                        TreeNode sourceClone = (TreeNode)SourceNode.Clone();
+                        DestinationNode.Nodes.Add(sourceClone);
+                        // there's a bug in Nodes.Add i think, or Treenode.Clone.
+                        // Clone doesn't copy the width of the node and when the node is added the
+                        // width is not set appropriately.
+                        sourceClone.Text = sourceClone.Text;
+                        DestinationNode.Expand();
+                        SourceNode.Remove();
+
+                        OnMoveContact(sourceClone.Name, DestinationNode.Name);
+                    }
+                    else if (DestinationNode.Parent != SourceNode.Parent)
+                    {
+                        TreeNode sourceClone = (TreeNode)SourceNode.Clone();
+                        DestinationNode.Parent.Nodes.Add(sourceClone);
+                        sourceClone.Text = sourceClone.Text;
+                        DestinationNode.Parent.Expand();
+                        SourceNode.Remove();
+
+                        OnMoveContact(sourceClone.Name, DestinationNode.Parent.Name);
+                    }
+                }
+            }
+        }
+
+        void ContactsTree_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+
+        void ContactsTree_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            if (((TreeNode)e.Item).Parent != null)
+            {
+                DoDragDrop(e.Item, DragDropEffects.Move);
             }
         }
 
