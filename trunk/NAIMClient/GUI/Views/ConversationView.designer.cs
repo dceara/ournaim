@@ -29,28 +29,21 @@ namespace GUI
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtMessage = new System.Windows.Forms.RichTextBox();
             this.btnSend = new System.Windows.Forms.Button();
             this.txtMessageList = new System.Windows.Forms.TextBox();
+            this.txtMessage = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // txtMessage
-            // 
-            this.txtMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMessage.Location = new System.Drawing.Point(6, 127);
-            this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(330, 74);
-            this.txtMessage.TabIndex = 0;
-            this.txtMessage.Text = "";
-            this.txtMessage.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtMessage_KeyUp);
             // 
             // btnSend
             // 
             this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSend.Location = new System.Drawing.Point(342, 127);
+            this.btnSend.FlatAppearance.BorderColor = System.Drawing.SystemColors.WindowText;
+            this.btnSend.FlatAppearance.MouseDownBackColor = System.Drawing.Color.SteelBlue;
+            this.btnSend.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
+            this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSend.Location = new System.Drawing.Point(443, 332);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(70, 74);
+            this.btnSend.Size = new System.Drawing.Size(76, 53);
             this.btnSend.TabIndex = 1;
             this.btnSend.Text = "Send";
             this.btnSend.UseVisualStyleBackColor = true;
@@ -62,21 +55,39 @@ namespace GUI
             this.txtMessageList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMessageList.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtMessageList.BackColor = System.Drawing.Color.White;
+            this.txtMessageList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtMessageList.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMessageList.Location = new System.Drawing.Point(6, 12);
             this.txtMessageList.Multiline = true;
             this.txtMessageList.Name = "txtMessageList";
             this.txtMessageList.ReadOnly = true;
             this.txtMessageList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtMessageList.Size = new System.Drawing.Size(406, 107);
+            this.txtMessageList.Size = new System.Drawing.Size(513, 314);
             this.txtMessageList.TabIndex = 2;
+            // 
+            // txtMessage
+            // 
+            this.txtMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtMessage.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMessage.Location = new System.Drawing.Point(6, 332);
+            this.txtMessage.Multiline = true;
+            this.txtMessage.Name = "txtMessage";
+            this.txtMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtMessage.Size = new System.Drawing.Size(427, 53);
+            this.txtMessage.TabIndex = 3;
             // 
             // ConversationView
             // 
-            this.ClientSize = new System.Drawing.Size(419, 209);
+            this.AcceptButton = this.btnSend;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
+            this.ClientSize = new System.Drawing.Size(525, 396);
+            this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.txtMessageList);
             this.Controls.Add(this.btnSend);
-            this.Controls.Add(this.txtMessage);
+            this.MinimumSize = new System.Drawing.Size(300, 300);
             this.Name = "ConversationView";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConversationView_FormClosing);
             this.ResumeLayout(false);
@@ -85,9 +96,9 @@ namespace GUI
         }
         #endregion
 
-        private RichTextBox txtMessage;
         private Button btnSend;
         private TextBox txtMessageList;
+        private TextBox txtMessage;
 
     }
 }

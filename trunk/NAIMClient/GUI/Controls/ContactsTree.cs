@@ -18,6 +18,8 @@ namespace GUI.Controls
         Font    DEFAULT_OFFLINE_CONTACT_FONT    = new Font("Arial", 9, FontStyle.Regular);
         Font    DEFAULT_INVISIBLE_CONTACT_FONT  = new Font("Arial", 9, FontStyle.Italic);
 
+        string  DEFAULT_GROUP_IMAGE             = "group";
+
         private Color _groupsColor;
         public Color GroupsColor
         {
@@ -74,7 +76,14 @@ namespace GUI.Controls
             set { _invisibleContactFont = value; }
         }
 
+        private string _groupImage;
+        public string GroupImage
+        {
+            get { return _groupImage; }
+            set { _groupImage = value; }
+        }
 
+        private int _groupImageIndex;
 
         private System.ComponentModel.IContainer components;
         private ContextMenuStrip cmsContacts;
@@ -97,6 +106,8 @@ namespace GUI.Controls
             _offlineContactFont = DEFAULT_OFFLINE_CONTACT_FONT;
             _invisibleContactFont = DEFAULT_INVISIBLE_CONTACT_FONT;
 
+            _groupImage = DEFAULT_GROUP_IMAGE;
+
             this.ImageList = icons;
 
         }
@@ -106,7 +117,21 @@ namespace GUI.Controls
             icons.Images.Add("noimage", Icons.IconNoImage);
             icons.Images.Add("online", Icons.IconOnline);
             icons.Images.Add("offline", Icons.IconOffline);
-            
+            icons.Images.Add("bunny", Icons.bunny);
+            icons.Images.Add("face", Icons.face);
+            icons.Images.Add("flower", Icons.flower);
+            icons.Images.Add("globe", Icons.globe);
+            icons.Images.Add("group", Icons.group);
+            icons.Images.Add("hypo", Icons.hypo);
+            icons.Images.Add("nova", Icons.nova);
+            icons.Images.Add("polka", Icons.polka);
+            icons.Images.Add("rotten", Icons.rotten);
+            icons.Images.Add("trek", Icons.trek);
+
+            _groupImageIndex = icons.Images.IndexOfKey(_groupImage);
+            if (_groupImageIndex == -1)
+                _groupImageIndex = 0;
+
 
             InitializeComponent();
         }
@@ -123,8 +148,8 @@ namespace GUI.Controls
                 groupNode.Name = group;
                 groupNode.NodeFont = _groupsFont;
                 groupNode.Text = group;
-                groupNode.ImageIndex = -1;
-                groupNode.SelectedImageIndex = -1;
+                groupNode.ImageIndex = _groupImageIndex;
+                groupNode.SelectedImageIndex = _groupImageIndex;
                 int nodeIndex = Nodes.Add(groupNode);
 
 

@@ -60,6 +60,48 @@ namespace GUI.Controls {
             }
         }
         
+        internal static System.Drawing.Icon bunny {
+            get {
+                object obj = ResourceManager.GetObject("bunny", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon face {
+            get {
+                object obj = ResourceManager.GetObject("face", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon flower {
+            get {
+                object obj = ResourceManager.GetObject("flower", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon globe {
+            get {
+                object obj = ResourceManager.GetObject("globe", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon group {
+            get {
+                object obj = ResourceManager.GetObject("group", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon hypo {
+            get {
+                object obj = ResourceManager.GetObject("hypo", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap IconNoImage {
             get {
                 object obj = ResourceManager.GetObject("IconNoImage", resourceCulture);
@@ -78,6 +120,34 @@ namespace GUI.Controls {
             get {
                 object obj = ResourceManager.GetObject("IconOnline", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon nova {
+            get {
+                object obj = ResourceManager.GetObject("nova", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon polka {
+            get {
+                object obj = ResourceManager.GetObject("polka", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon rotten {
+            get {
+                object obj = ResourceManager.GetObject("rotten", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon trek {
+            get {
+                object obj = ResourceManager.GetObject("trek", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }
