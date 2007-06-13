@@ -191,6 +191,11 @@ namespace GUI
             //TODO add group to tree
         }
 
+        public void RemoveContact(string contactName)
+        {
+            //TODO remove contact from tree
+        }
+
         #endregion
 
         #region GUI Events
