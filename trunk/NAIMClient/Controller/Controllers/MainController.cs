@@ -10,6 +10,7 @@ using Common;
 using Common.ProtocolEntities;
 using System.Net;
 using Controller.StateObjects;
+using Controller.Archive;
 
 namespace Controllers
 {
@@ -104,6 +105,8 @@ namespace Controllers
         private string currentUserName;
 
         private string currentPassword;
+
+        private ArchiveManager archiveManager = new ArchiveManager();
 
         #region Client Peer Connection data
         /// <summary>
@@ -412,9 +415,9 @@ namespace Controllers
         }
 
 
-
         void mainView_LoginEvent(string userName, string password)
         {
+            this.archiveManager.UserName = userName;
             this.currentUserName = userName;
             this.currentPassword = password;
 
@@ -463,7 +466,17 @@ namespace Controllers
 
         void newConversationController_SendServerMessageEvent(Common.Protocol.Message message)
         {
+            if (message.Header.ServiceType == ServiceTypes.TEXT)
+            {
+                ArchiveMessage(message);
+            }
             this.outputMessageQueue.Enqueue(message);
+        }
+
+        private void ArchiveMessage(Common.Protocol.Message message)
+        {
+            TextMessageData messageData = new TextMessageData(message.Data);
+            archiveManager.SaveMessage(messageData.Receiver, messageData.Text);
         }
 
         void newConversationController_DisposeConversationControllerEvent(string name)
