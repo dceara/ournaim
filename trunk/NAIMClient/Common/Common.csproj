@@ -39,6 +39,7 @@
     <Compile Include="Interfaces\IConversationController.cs" />
     <Compile Include="Interfaces\IConversationView.cs" />
     <Compile Include="Interfaces\ICreateAccountView.cs" />
+    <Compile Include="Interfaces\IFileListView.cs" />
     <Compile Include="Interfaces\IFileTransferView.cs" />
     <Compile Include="Interfaces\IMainView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

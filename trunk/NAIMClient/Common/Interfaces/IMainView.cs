@@ -37,6 +37,8 @@ namespace Common.Interfaces
 
     public delegate void ChangeSettings(string adr, string port);
 
+    public delegate void OpenFileListViewHandler();
+
     #endregion
 
     /// <summary>
@@ -110,6 +112,8 @@ namespace Common.Interfaces
 
         event ChangeSettings ChangeSettingsEvent;
 
+        event OpenFileListViewHandler OpenFileListViewEvent;
+
         #endregion
 
         #region Methods
@@ -179,6 +183,8 @@ namespace Common.Interfaces
         /// Fires the OpenSignUpViewEvent.
         /// </summary>
         void OnOpenSignUpViewEvent();
+
+        void OnOpenFileListView();
 
         /// <summary>
         /// This is called by the controller when a contact changes his status.
