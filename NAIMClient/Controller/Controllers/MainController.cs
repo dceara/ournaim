@@ -218,6 +218,7 @@ namespace Controllers
 
             while (true)
             {
+                Application.DoEvents();
                 if (toBreak)
                 {
                     toBreak = false;
