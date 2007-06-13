@@ -227,7 +227,14 @@ char * QueryExecuter::getPassword(const char * clientName, char * & password) {
     
 	return password;
 }
-
+char * QueryExecuter::getContactGroup(const char * clientName, const char * contactName)
+{/*
+	select gr.Name from Grupuri gr inner join Contacte ct
+		on ct.IdGrup = gr.Id inner join Clienti c1 
+		on c1.Id = ct.IdClient inner join Clienti c2
+		on c2.Id = gr.IdClient
+		where c1.UserName = contactName and c2.UserName = clientName*/
+}
 char ** QueryExecuter::getClientsList(char ** & clientsList, unsigned short & contactsNo) {
 	char **clientsTable;
 	int rowCnt;
