@@ -24,7 +24,6 @@ namespace Common
         ADD_CONTACT         = 16,
         REMOVE_CONTACT      = 17,
         STATUS              = 18,
-#warning To be implemented
         DISCONNECT          = 19,
     }
     public static class DefaultStatuses
