@@ -395,6 +395,20 @@ namespace GUI
             OnChangeContactGroupEvent(contact, destinationGroup);
         }
 
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ctvContacts.SelectedNode.Parent != null)
+            {
+                OnRemoveContactEvent(ctvContacts.SelectedNode.Name);
+            }
+        }
+
+        private void shareFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OnOpenFileListView();
+        }
+
+
         #endregion
 
         #region Utils
@@ -424,21 +438,5 @@ namespace GUI
         }
         #endregion
 
-
-
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (ctvContacts.SelectedNode.Parent != null)
-            {
-                OnRemoveContactEvent(ctvContacts.SelectedNode.Name);
-            }
-        }
-
-        #region IMainView Members
-
-
-       
-
-        #endregion
     }
 }
