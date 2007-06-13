@@ -9,7 +9,7 @@ using Common.Protocol;
 
 namespace GUI
 {
-    public partial class MainView : Form,IMainView
+    public partial class MainView : Form, IMainView
     {
         #region Members
 
@@ -23,7 +23,7 @@ namespace GUI
         public MainView()
         {
             InitializeComponent();
-            
+
             ctvContacts.Initialize();
             ctvContacts.ContactTreeAddContactToGroup += new GUI.Controls.ContactTreeAddContactToGroup(ctvContacts_ContactTreeAddContactToGroup);
 
@@ -113,7 +113,7 @@ namespace GUI
 
         public void OnChangeContactGroupEvent(string userName, string newGroup)
         {
-            if (ChangeContactGroupEvent!=null)
+            if (ChangeContactGroupEvent != null)
             {
                 ChangeContactGroupEvent(userName, newGroup);
             }
@@ -160,7 +160,7 @@ namespace GUI
         public void AfterSignIn(string userName)
         {
             ChangeControlsVisibility(false);
-            
+
             ChangeMenuVisibility(true);
 
             lblStatus.Text = userName + " - ";
@@ -181,7 +181,7 @@ namespace GUI
             this.Show();
         }
 
-        public void SetGroupSource(IList<string> groupNames, IDictionary<string,IList<UserListEntry>> contactsByGroups)
+        public void SetGroupSource(IList<string> groupNames, IDictionary<string, IList<UserListEntry>> contactsByGroups)
         {
             ctvContacts.LoadContacts(groupNames, contactsByGroups);
         }
@@ -190,7 +190,7 @@ namespace GUI
         {
             //TODO add group to tree
         }
-        
+
         #endregion
 
         #region GUI Events
@@ -236,7 +236,7 @@ namespace GUI
         private void cbStatuses_SelectedIndexChanged(object sender, EventArgs e)
         {
 #warning remove hadcoding
-            if (cbStatuses.SelectedIndex == 5) 
+            if (cbStatuses.SelectedIndex == 5)
             {
                 ChangeStatusDialog statusDialog = new ChangeStatusDialog();
                 DialogResult result = statusDialog.ShowDialog();
@@ -246,7 +246,7 @@ namespace GUI
                     cbStatuses.SelectedIndex = cbStatuses.Items.Count - 1;
                 }
             }
-            else 
+            else
             {
                 OnChangeStatusEvent(cbStatuses.SelectedItem.ToString());
             }
@@ -267,7 +267,7 @@ namespace GUI
         {
             AddContactDialog addContactDialog = new AddContactDialog(ctvContacts.GetGroups());
             DialogResult result = addContactDialog.ShowDialog();
-            if(result == DialogResult.OK)
+            if (result == DialogResult.OK)
             {
                 ctvContacts.AddContact(addContactDialog.Username, addContactDialog.Group);
                 OnAddContactEvent(addContactDialog.Username, addContactDialog.Group);
