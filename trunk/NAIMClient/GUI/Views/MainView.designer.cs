@@ -237,6 +237,7 @@ namespace GUI
             this.showOfflineContactsToolStripMenuItem.Name = "showOfflineContactsToolStripMenuItem";
             this.showOfflineContactsToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.showOfflineContactsToolStripMenuItem.Text = "Show O&ffline Contacts";
+            this.showOfflineContactsToolStripMenuItem.Click += new System.EventHandler(this.showOfflineContactsToolStripMenuItem_Click);
             // 
             // viewArchiveToolStripMenuItem
             // 
@@ -312,6 +313,7 @@ namespace GUI
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.ctvContacts.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ctvContacts.GroupImage = "group";
             this.ctvContacts.GroupsColor = System.Drawing.Color.RoyalBlue;
             this.ctvContacts.GroupsFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
             this.ctvContacts.HotTracking = true;

@@ -321,5 +321,10 @@ namespace GUI
             this.ctvContacts.Visible = !value;
         }
         #endregion
+
+        private void showOfflineContactsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
