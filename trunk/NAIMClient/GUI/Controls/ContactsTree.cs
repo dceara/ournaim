@@ -280,7 +280,6 @@ namespace GUI.Controls
 
         public void RemoveContact(string contact)
         {
-            BeginUpdate();
             foreach (TreeNode group in Nodes)
             {
                 if (group.Nodes[contact] != null)
@@ -297,7 +296,6 @@ namespace GUI.Controls
                     return;
                 }
             }
-            EndUpdate();
         }
 
         public void AddGroup(string group)
