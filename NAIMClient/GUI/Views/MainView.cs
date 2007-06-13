@@ -25,10 +25,11 @@ namespace GUI
             InitializeComponent();
             
             ctvContacts.Initialize();
+            ctvContacts.ContactTreeAddContactToGroup += new GUI.Controls.ContactTreeAddContactToGroup(ctvContacts_ContactTreeAddContactToGroup);
 
             cbStatuses.SelectedIndex = 0;
         }
-        
+
         #endregion
 
         #region IMainView Members
@@ -248,6 +249,17 @@ namespace GUI
             else 
             {
                 OnChangeStatusEvent(cbStatuses.SelectedItem.ToString());
+            }
+        }
+
+        void ctvContacts_ContactTreeAddContactToGroup(string group)
+        {
+            AddContactDialog addContactDialog = new AddContactDialog(ctvContacts.GetGroups(), group);
+            DialogResult result = addContactDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                ctvContacts.AddContact(addContactDialog.Username, addContactDialog.Group);
+                OnAddContactEvent(addContactDialog.Username, addContactDialog.Group);
             }
         }
 
