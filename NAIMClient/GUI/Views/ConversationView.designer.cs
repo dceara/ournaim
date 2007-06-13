@@ -65,6 +65,7 @@ namespace GUI
             this.txtMessageList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtMessageList.Size = new System.Drawing.Size(513, 314);
             this.txtMessageList.TabIndex = 2;
+            this.txtMessageList.TabStop = false;
             // 
             // txtMessage
             // 
@@ -77,7 +78,7 @@ namespace GUI
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtMessage.Size = new System.Drawing.Size(427, 53);
-            this.txtMessage.TabIndex = 3;
+            this.txtMessage.TabIndex = 0;
             // 
             // ConversationView
             // 

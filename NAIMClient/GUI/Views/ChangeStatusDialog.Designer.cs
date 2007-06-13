@@ -62,7 +62,7 @@ namespace GUI.Views
             this.txtStatus.Multiline = true;
             this.txtStatus.Name = "txtStatus";
             this.txtStatus.Size = new System.Drawing.Size(260, 75);
-            this.txtStatus.TabIndex = 3;
+            this.txtStatus.TabIndex = 0;
             // 
             // ChangeStatusDialog
             // 

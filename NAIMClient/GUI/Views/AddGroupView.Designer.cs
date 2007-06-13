@@ -58,7 +58,7 @@ namespace GUI.Views
             this.add_button.Location = new System.Drawing.Point(6, 48);
             this.add_button.Name = "add_button";
             this.add_button.Size = new System.Drawing.Size(75, 23);
-            this.add_button.TabIndex = 2;
+            this.add_button.TabIndex = 1;
             this.add_button.Text = "Ok";
             this.add_button.UseVisualStyleBackColor = true;
             // 
@@ -69,7 +69,7 @@ namespace GUI.Views
             this.cancel_button.Location = new System.Drawing.Point(112, 48);
             this.cancel_button.Name = "cancel_button";
             this.cancel_button.Size = new System.Drawing.Size(75, 23);
-            this.cancel_button.TabIndex = 3;
+            this.cancel_button.TabIndex = 2;
             this.cancel_button.Text = "Cancel";
             this.cancel_button.UseVisualStyleBackColor = true;
             // 
