@@ -207,6 +207,8 @@ namespace Common.Interfaces
 
         void AddGroup(string groupName);
 
+        void AddContact(string groupName, string groupName);
+
         void RemoveContact(string contactName);
 
         void OnOpenArchiveView(string username);
