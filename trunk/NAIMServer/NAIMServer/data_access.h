@@ -51,8 +51,11 @@ public:
 
     /* Returns a list with all the clients that have clientName on their contacts list.
      * It is used to notify all those clients of a change in clientName's state.*/
-    // TODO
     virtual char ** getClientsToUpdateList(const char * clientName, char **& clientsList, unsigned short & length) = 0;
+
+    /* Returns the group in clientName's list that contains contactName or NULL if contact is not
+     * in clients list */
+    virtual char * getContactGroup(const char * clientName, const char * contactName) = 0;
 
     /* Returns true if the client clientName is in the database */
     virtual bool isClient(const char * clientName) = 0;
@@ -88,6 +91,7 @@ public:
     char * getContactsBuffer(const char * clientName, char *& buffer, unsigned short & length);
     char ** getContactsList(const char * clientName, char **& buffer, unsigned short & length);
     char ** getClientsToUpdateList(const char * clientName, char **& clientsList, unsigned short & length);
+    char * getContactGroup(const char * clientName, const char * contactName);
     bool isClient(const char * clientName);
     int openDB(const char * path);
 	char** executeQuery(const char *query, int & nrows, int &ncols, char * & errMsg);
