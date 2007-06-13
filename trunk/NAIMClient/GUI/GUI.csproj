@@ -123,6 +123,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>AddGroupView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\ArchiveView.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ArchiveView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\ChangeStatusDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ChangeStatusDialog.cs</DependentUpon>
