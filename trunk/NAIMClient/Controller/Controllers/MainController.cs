@@ -711,7 +711,8 @@ namespace Controllers
 
         void fileListView_AddFileEvent(string name, string alias)
         {
-            this.fileListManager.FileList.Add(new KeyValuePair<int, KeyValuePair<string, string>>(fileListManager.FileList.Count + 1, new KeyValuePair<string, string>(name, alias)));
+            int newIndex = fileListManager.FileList[fileListManager.FileList.Count - 1].Key + 1;
+            this.fileListManager.FileList.Add(new KeyValuePair<int, KeyValuePair<string, string>>(newIndex, new KeyValuePair<string, string>(name, alias)));
         }
 
 
