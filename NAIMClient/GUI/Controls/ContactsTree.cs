@@ -248,6 +248,7 @@ namespace GUI.Controls
         }
 
         public void AddContact(string contact, string group) {
+            BeginUpdate();
             TreeNode contactNode = new TreeNode();
             contactNode.Name = contact;
             contactNode.NodeFont = _offlineContactFont;
@@ -274,10 +275,12 @@ namespace GUI.Controls
                     }
                 }
             }
+            EndUpdate();
         }
 
         public void RemoveContact(string contact)
         {
+            BeginUpdate();
             foreach (TreeNode group in Nodes)
             {
                 if (group.Nodes[contact] != null)
@@ -294,11 +297,23 @@ namespace GUI.Controls
                     return;
                 }
             }
+            EndUpdate();
         }
 
         public void AddGroup(string group)
         {
-            
+            BeginUpdate();
+            TreeNode groupNode = new TreeNode();
+            groupNode.ForeColor = _groupsColor;
+            groupNode.Name = group;
+            groupNode.NodeFont = _groupsFont;
+            groupNode.Text = group;
+            groupNode.ImageIndex = _groupImageIndex;
+            groupNode.SelectedImageIndex = _groupImageIndex;
+            groupNode.ContextMenuStrip = cmsGroups;
+            int nodeIndex = Nodes.Add(groupNode);
+            int offlineNodeIndex = _offlineContactsRoot.Nodes.Add((TreeNode)groupNode.Clone());
+            EndUpdate();
         }
 
         public void ContactOnline(string contact, string status) {
@@ -342,7 +357,8 @@ namespace GUI.Controls
             EndUpdate();
         }
 
-        public void ContactOffline(string contact) {
+        public void ContactOffline(string contact)
+        {
             BeginUpdate();
             foreach (TreeNode group in Nodes)
             {
