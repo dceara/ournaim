@@ -200,6 +200,8 @@ namespace Common.Interfaces
         /// </summary>
         void ShowView();
 
+        void AddGroup(string groupName);
+
         #endregion
     }
 
