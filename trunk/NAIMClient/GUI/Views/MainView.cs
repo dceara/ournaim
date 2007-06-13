@@ -32,6 +32,9 @@ namespace GUI
             ctvContacts.ContactTreeAddGroup += new GUI.Controls.ContactTreeAddGroup(ctvContacts_ContactTreeAddGroup);
 
             cbStatuses.SelectedIndex = 0;
+
+            pictureBoxPoza.Image = Pozainceput.locked_in_my_head;
+
         }
 
         #endregion
@@ -395,6 +398,7 @@ namespace GUI
 
         private void ChangeControlsVisibility(bool value)
         {
+            this.pictureBoxPoza.Visible = value;
             this.lblPassword.Visible = value;
             this.lblUserName.Visible = value;
             this.txtPassword.Visible = value;

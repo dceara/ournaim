@@ -49,6 +49,7 @@ namespace GUI
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showOfflineContactsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,14 +57,15 @@ namespace GUI
             this.lblStatus = new System.Windows.Forms.Label();
             this.cbStatuses = new System.Windows.Forms.ComboBox();
             this.ctvContacts = new GUI.Controls.ContactsTree();
-            this.viewArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBoxPoza = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPoza)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSignIn
             // 
             this.btnSignIn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSignIn.Location = new System.Drawing.Point(173, 228);
+            this.btnSignIn.Location = new System.Drawing.Point(174, 385);
             this.btnSignIn.Name = "btnSignIn";
             this.btnSignIn.Size = new System.Drawing.Size(75, 21);
             this.btnSignIn.TabIndex = 2;
@@ -75,7 +77,7 @@ namespace GUI
             // 
             this.txtUserName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUserName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtUserName.Location = new System.Drawing.Point(45, 136);
+            this.txtUserName.Location = new System.Drawing.Point(46, 293);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(237, 20);
             this.txtUserName.TabIndex = 0;
@@ -85,7 +87,7 @@ namespace GUI
             // 
             this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPassword.Location = new System.Drawing.Point(45, 181);
+            this.txtPassword.Location = new System.Drawing.Point(46, 338);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(237, 20);
@@ -94,7 +96,7 @@ namespace GUI
             // 
             // lblUserName
             // 
-            this.lblUserName.Location = new System.Drawing.Point(42, 114);
+            this.lblUserName.Location = new System.Drawing.Point(43, 271);
             this.lblUserName.Name = "lblUserName";
             this.lblUserName.Size = new System.Drawing.Size(67, 19);
             this.lblUserName.TabIndex = 5;
@@ -103,7 +105,7 @@ namespace GUI
             // 
             // lblPassword
             // 
-            this.lblPassword.Location = new System.Drawing.Point(42, 159);
+            this.lblPassword.Location = new System.Drawing.Point(43, 316);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(56, 19);
             this.lblPassword.TabIndex = 6;
@@ -113,7 +115,7 @@ namespace GUI
             // btnSignUp
             // 
             this.btnSignUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSignUp.Location = new System.Drawing.Point(75, 228);
+            this.btnSignUp.Location = new System.Drawing.Point(76, 385);
             this.btnSignUp.Name = "btnSignUp";
             this.btnSignUp.Size = new System.Drawing.Size(75, 21);
             this.btnSignUp.TabIndex = 3;
@@ -264,6 +266,19 @@ namespace GUI
             this.showOfflineContactsToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.showOfflineContactsToolStripMenuItem.Click += new System.EventHandler(this.showOfflineContactsToolStripMenuItem_Click);
             // 
+            // viewArchiveToolStripMenuItem
+            // 
+            this.viewArchiveToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
+            this.viewArchiveToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.viewArchiveToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.viewArchiveToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.viewArchiveToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.viewArchiveToolStripMenuItem.Name = "viewArchiveToolStripMenuItem";
+            this.viewArchiveToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.viewArchiveToolStripMenuItem.Text = "&View Archive";
+            this.viewArchiveToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.viewArchiveToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
@@ -291,14 +306,14 @@ namespace GUI
             // 
             this.aboutToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             // 
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(114, 22);
             this.helpToolStripMenuItem1.Text = "&Help";
             // 
             // lblStatus
@@ -360,25 +375,22 @@ namespace GUI
             this.ctvContacts.TabIndex = 14;
             this.ctvContacts.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.ctvContacts_NodeMouseDoubleClick);
             // 
-            // viewArchiveToolStripMenuItem
+            // pictureBoxPoza
             // 
-            this.viewArchiveToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
-            this.viewArchiveToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.viewArchiveToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.viewArchiveToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.viewArchiveToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.viewArchiveToolStripMenuItem.Name = "viewArchiveToolStripMenuItem";
-            this.viewArchiveToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
-            this.viewArchiveToolStripMenuItem.Text = "&View Archive";
-            this.viewArchiveToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.viewArchiveToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.pictureBoxPoza.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxPoza.Location = new System.Drawing.Point(84, 89);
+            this.pictureBoxPoza.Name = "pictureBoxPoza";
+            this.pictureBoxPoza.Size = new System.Drawing.Size(159, 133);
+            this.pictureBoxPoza.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxPoza.TabIndex = 16;
+            this.pictureBoxPoza.TabStop = false;
             // 
             // MainView
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.ClientSize = new System.Drawing.Size(327, 706);
+            this.Controls.Add(this.pictureBoxPoza);
             this.Controls.Add(this.cbStatuses);
-            this.Controls.Add(this.ctvContacts);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnSignUp);
             this.Controls.Add(this.lblPassword);
@@ -387,6 +399,7 @@ namespace GUI
             this.Controls.Add(this.txtUserName);
             this.Controls.Add(this.btnSignIn);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.ctvContacts);
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(335, 733);
             this.Name = "MainView";
@@ -394,6 +407,7 @@ namespace GUI
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainView_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPoza)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -427,5 +441,6 @@ namespace GUI
         private GUI.Controls.ContactsTree ctvContacts;
         private ComboBox cbStatuses;
         private ToolStripMenuItem viewArchiveToolStripMenuItem;
+        private PictureBox pictureBoxPoza;
     }
 }
