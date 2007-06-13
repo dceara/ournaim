@@ -109,7 +109,7 @@ namespace GUI.Views
             this.textBoxPort.Location = new System.Drawing.Point(52, 35);
             this.textBoxPort.Name = "textBoxPort";
             this.textBoxPort.Size = new System.Drawing.Size(70, 20);
-            this.textBoxPort.TabIndex = 7;
+            this.textBoxPort.TabIndex = 0;
             // 
             // panel1
             // 
@@ -149,7 +149,7 @@ namespace GUI.Views
             this.textBoxServAdr.Location = new System.Drawing.Point(228, 35);
             this.textBoxServAdr.Name = "textBoxServAdr";
             this.textBoxServAdr.Size = new System.Drawing.Size(78, 20);
-            this.textBoxServAdr.TabIndex = 8;
+            this.textBoxServAdr.TabIndex = 1;
             // 
             // PreferencesDialog
             // 
