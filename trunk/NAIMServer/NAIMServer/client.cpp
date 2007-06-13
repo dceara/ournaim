@@ -474,6 +474,30 @@ int Peer::processREMOVE_CONTACT(NAIMpacket * packet) {
 }
 
 /*
+ *	REMOVE_GROUP
+ */
+int Peer::processREMOVE_GROUP(NAIMpacket * packet) {
+    if (clientName != NULL) {
+        char * client;
+        Protocol::getREMOVE_GROUPClient(packet, client);
+
+        if (strcmp(clientName, client) == 0) {
+            char * group;
+            Protocol::getREMOVE_GROUPGroup(packet, group);
+
+            cMan->queryExecuter.deleteGroup(group, client);
+
+            delete[] group;
+        }
+
+        delete[] client;
+    }
+    delete[] packet->data;
+    delete[] packet;
+    return 0;
+}
+
+/*
  *	STATUS
  */
 int Peer::processSTATUS(NAIMpacket * packet) {
