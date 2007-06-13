@@ -8,6 +8,9 @@ using Common.Protocol;
 namespace GUI.Controls
 {
     public delegate void ContactTreeAddContactToGroup(string group);
+    public delegate void ContactTreeRemoveContact(string contact);
+    public delegate void ContactTreeRemoveGroup(string contact);
+    public delegate void ContactTreeMoveContact(string contact, string destinationGroup);
 
     public class ContactsTree : TreeView
     {
@@ -111,6 +114,9 @@ namespace GUI.Controls
         #region Events
 
         public event ContactTreeAddContactToGroup ContactTreeAddContactToGroup;
+        public event ContactTreeRemoveContact ContactTreeRemoveContact;
+        public event ContactTreeRemoveGroup ContactTreeRemoveGroup;
+        public event ContactTreeMoveContact ContactTreeMoveContact;
 
         #endregion
 
@@ -272,7 +278,22 @@ namespace GUI.Controls
 
         public void RemoveContact(string contact)
         {
-
+            foreach (TreeNode group in Nodes)
+            {
+                if (group.Nodes[contact] != null)
+                {
+                    group.Nodes.Remove(group.Nodes[contact]);
+                    return;
+                }
+            }
+            foreach (TreeNode group in _offlineContactsRoot.Nodes)
+            {
+                if (group.Nodes[contact] != null)
+                {
+                    group.Nodes.Remove(group.Nodes[contact]);
+                    return;
+                }
+            }
         }
 
         public void ContactOnline(string contact, string status) {
@@ -408,9 +429,35 @@ namespace GUI.Controls
             }
         }
 
-        protected void OnAddContactToGroup(string group) {
-            if (ContactTreeAddContactToGroup != null) {
+        protected void OnAddContactToGroup(string group) 
+        {
+            if (ContactTreeAddContactToGroup != null) 
+            {
                 ContactTreeAddContactToGroup(group);
+            }
+        }
+
+        protected void OnRemoveContact(string contact)
+        {
+            if (ContactTreeRemoveContact != null)
+            {
+                ContactTreeRemoveContact(contact);
+            }
+        }
+
+        protected void OnRemoveGroup (string group)
+        {
+            if (ContactTreeRemoveGroup != null)
+            {
+                ContactTreeRemoveGroup(group);
+            }
+        }
+
+        protected void OnMoveContact(string contact, string destinationGroup)
+        {
+            if (ContactTreeMoveContact != null)
+            {
+                ContactTreeMoveContact(contact, destinationGroup);
             }
         }
 
