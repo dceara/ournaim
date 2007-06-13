@@ -175,6 +175,11 @@ namespace Controller.StateObjects
             return false;
         }
 
+        public static bool CheckIfGroupExists(string groupName, IDictionary<string, IList<UserListEntry>> contactsByGroups)
+        {
+            return contactsByGroups.ContainsKey(groupName);
+        }
+
         #endregion
     }
 }
