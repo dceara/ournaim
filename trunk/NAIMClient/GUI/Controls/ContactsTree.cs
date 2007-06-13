@@ -314,6 +314,14 @@ namespace GUI.Controls
             EndUpdate();
         }
 
+        public void RemoveGroup(string group)
+        {
+            if (Nodes[group].Nodes.Count > 0) 
+            {
+                Nodes.Remove(Nodes[group]);
+            }
+        }
+
         public void ContactOnline(string contact, string status) {
             BeginUpdate();
             foreach (TreeNode group in Nodes)

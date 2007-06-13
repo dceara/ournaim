@@ -101,6 +101,14 @@ namespace GUI
             }
         }
 
+        public void OnRemoveContactEvent(string username)
+        {
+            if (RemoveContactEvent != null)
+            {
+                RemoveContactEvent(username);
+            }
+        }
+
         public void OnAddGroupEvent(string group)
         {
             if (AddGroupEvent != null)
@@ -108,11 +116,12 @@ namespace GUI
                 AddGroupEvent(group);
             }
         }
-        public void OnRemoveContactEvent(string username)
+
+        public void OnRemoveGroupEvent(string group)
         {
-            if (RemoveContactEvent != null)
+            if (AddGroupEvent != null)
             {
-                RemoveContactEvent(username);
+                AddGroupEvent(group);
             }
         }
 
@@ -204,6 +213,11 @@ namespace GUI
         public void AddGroup(string groupName)
         {
             ctvContacts.AddGroup(groupName);
+        }
+
+        public void RemoveGroup(string groupName)
+        {
+            ctvContacts.RemoveGroup(groupName);
         }
 
         public void AddContact(string contactName, string groupName) 
@@ -314,9 +328,9 @@ namespace GUI
             }
         }
 
-        void ctvContacts_ContactTreeRemoveGroup(string contact)
+        void ctvContacts_ContactTreeRemoveGroup(string group)
         {
-            throw new Exception("The method or operation is not implemented.");
+            OnRemoveGroupEvent(group);
         }
 
         void ctvContacts_ContactTreeRemoveContact(string contact)
