@@ -87,8 +87,10 @@ namespace GUI.Controls
         }
         #endregion
 
-
+        private int _onlineContactImageIndex = 1;
+        private int _offlineContactImageIndex = 2;
         private int _groupImageIndex;
+        private bool _showingOfflineContacts = true;
 
         private System.ComponentModel.IContainer components;
         private ContextMenuStrip cmsContacts;
@@ -102,7 +104,9 @@ namespace GUI.Controls
         private ToolStripMenuItem tsmiDeleteGroup;
 
 
-        ImageList icons = new ImageList();
+        ImageList _icons = new ImageList();
+        TreeNode _offlineContactsRoot = new TreeNode();
+
 
         #region Events
 
@@ -125,30 +129,31 @@ namespace GUI.Controls
 
             _groupImage = DEFAULT_GROUP_IMAGE;
 
-            this.ImageList = icons;
+            this.ImageList = _icons;
 
         }
         
         #endregion
 
+
         #region Members
         public void Initialize() {
            
-            icons.Images.Add("noimage", Icons.IconNoImage);
-            icons.Images.Add("online", Icons.IconOnline);
-            icons.Images.Add("offline", Icons.IconOffline);
-            icons.Images.Add("bunny", Icons.bunny);
-            icons.Images.Add("face", Icons.face);
-            icons.Images.Add("flower", Icons.flower);
-            icons.Images.Add("globe", Icons.globe);
-            icons.Images.Add("group", Icons.group);
-            icons.Images.Add("hypo", Icons.hypo);
-            icons.Images.Add("nova", Icons.nova);
-            icons.Images.Add("polka", Icons.polka);
-            icons.Images.Add("rotten", Icons.rotten);
-            icons.Images.Add("trek", Icons.trek);
+            _icons.Images.Add("noimage", Icons.IconNoImage);
+            _icons.Images.Add("online", Icons.IconOnline);
+            _icons.Images.Add("offline", Icons.IconOffline);
+            _icons.Images.Add("bunny", Icons.bunny);
+            _icons.Images.Add("face", Icons.face);
+            _icons.Images.Add("flower", Icons.flower);
+            _icons.Images.Add("globe", Icons.globe);
+            _icons.Images.Add("group", Icons.group);
+            _icons.Images.Add("hypo", Icons.hypo);
+            _icons.Images.Add("nova", Icons.nova);
+            _icons.Images.Add("polka", Icons.polka);
+            _icons.Images.Add("rotten", Icons.rotten);
+            _icons.Images.Add("trek", Icons.trek);
 
-            _groupImageIndex = icons.Images.IndexOfKey(_groupImage);
+            _groupImageIndex = _icons.Images.IndexOfKey(_groupImage);
             if (_groupImageIndex == -1)
                 _groupImageIndex = 0;
 
@@ -172,7 +177,7 @@ namespace GUI.Controls
                 groupNode.SelectedImageIndex = _groupImageIndex;
                 groupNode.ContextMenuStrip = cmsGroups;
                 int nodeIndex = Nodes.Add(groupNode);
-
+                int offlineNodeIndex = _offlineContactsRoot.Nodes.Add((TreeNode)groupNode.Clone());
 
                 IList<UserListEntry> contacts = contactsByGroups[group];
 
@@ -186,20 +191,31 @@ namespace GUI.Controls
                     {
                         contactNode.NodeFont = _onlineContactFont;
                         contactNode.ForeColor = _onlineContactColor;
-                        contactNode.ImageIndex = 1;
-                        contactNode.SelectedImageIndex = 1;
+                        contactNode.ImageIndex = _onlineContactImageIndex;
+                        contactNode.SelectedImageIndex = _onlineContactImageIndex;
                         contactNode.Text = contact.UserName + " - " + contact.Status;
                         contactNode.ToolTipText = contact.Status;
+                        
+                        Nodes[nodeIndex].Nodes.Add(contactNode);
                     }
                     else
                     {
                         contactNode.NodeFont = _offlineContactFont;
                         contactNode.ForeColor = _offlineContactColor;
-                        contactNode.ImageIndex = 2;
-                        contactNode.SelectedImageIndex = 2;
+                        contactNode.ImageIndex = _offlineContactImageIndex;
+                        contactNode.SelectedImageIndex = _offlineContactImageIndex;
                         contactNode.Text = contact.UserName;
+
+                        if (_showingOfflineContacts)
+                        {
+                            Nodes[nodeIndex].Nodes.Add(contactNode);
+                        }
+                        else
+                        {
+                            _offlineContactsRoot.Nodes[offlineNodeIndex].Nodes.Add(contactNode);
+                        }
                     }
-                    Nodes[nodeIndex].Nodes.Add(contactNode);
+
                 }
 
                 Nodes[nodeIndex].Expand();
@@ -216,7 +232,7 @@ namespace GUI.Controls
             BeginUpdate();
             foreach (TreeNode group in Nodes) {
                 TreeNode contactNode = group.Nodes[contact];
-                if (contactNode != null) {
+                if (contactNode != null && contactNode.ImageIndex == _onlineContactImageIndex) {
                     contactNode.Text = contact + " - " + status;
                     contactNode.ToolTipText = status;
                     break;
@@ -226,18 +242,31 @@ namespace GUI.Controls
         }
 
         public void AddContact(string contact, string group) {
-            TreeNode groupNode = Nodes[group];
-            if (groupNode != null && Nodes[group].Nodes[contact] == null) {
-                TreeNode contactNode = new TreeNode();
-                contactNode.Name = contact;
-                contactNode.NodeFont = _offlineContactFont;
-                contactNode.ForeColor = _offlineContactColor;
-                contactNode.ImageIndex = 2;
-                contactNode.SelectedImageIndex = 2;
-                contactNode.Text = contact;
-                contactNode.ContextMenuStrip = cmsContacts;
+            TreeNode contactNode = new TreeNode();
+            contactNode.Name = contact;
+            contactNode.NodeFont = _offlineContactFont;
+            contactNode.ForeColor = _offlineContactColor;
+            contactNode.ImageIndex = _offlineContactImageIndex;
+            contactNode.SelectedImageIndex = _offlineContactImageIndex;
+            contactNode.Text = contact;
+            contactNode.ContextMenuStrip = cmsContacts;
 
-                groupNode.Nodes.Add(contactNode);
+            TreeNode groupNode = Nodes[group];
+            if (groupNode != null && Nodes[group].Nodes[contact] == null)
+            {
+                if (_showingOfflineContacts)
+                {
+                    groupNode.Nodes.Add(contactNode);
+                    groupNode.Expand();
+                }
+                else
+                {
+                    TreeNode offlineGroupNode = _offlineContactsRoot.Nodes[group];
+                    if (offlineGroupNode != null && _offlineContactsRoot.Nodes[group].Nodes[contact] == null)
+                    {
+                        offlineGroupNode.Nodes.Add(contactNode);
+                    }
+                }
             }
         }
 
@@ -250,10 +279,33 @@ namespace GUI.Controls
                 {
                     contactNode.NodeFont = _onlineContactFont;
                     contactNode.ForeColor = _onlineContactColor;
-                    contactNode.ImageIndex = 1;
-                    contactNode.SelectedImageIndex = 1;
+                    contactNode.ImageIndex = _onlineContactImageIndex;
+                    contactNode.SelectedImageIndex = _onlineContactImageIndex;
                     contactNode.Text = contact + " - " + status;
                     contactNode.ToolTipText = status;
+
+                    break;
+                }
+            }
+            
+            // if the node is in the offline tree than _showOfflineContacts is true
+            foreach (TreeNode group in _offlineContactsRoot.Nodes)
+            {
+                TreeNode contactNode = group.Nodes[contact];
+                if (contactNode != null)
+                {
+                    contactNode.NodeFont = _onlineContactFont;
+                    contactNode.ForeColor = _onlineContactColor;
+                    contactNode.ImageIndex = _onlineContactImageIndex;
+                    contactNode.SelectedImageIndex = _onlineContactImageIndex;
+                    contactNode.Text = contact + " - " + status;
+                    contactNode.ToolTipText = status;
+
+                    group.Nodes.Remove(contactNode);
+                    Nodes[group.Name].Nodes.Add(contactNode);
+                    Nodes[group.Name].Expand();
+
+                    break;
                 }
             }
             EndUpdate();
@@ -268,10 +320,17 @@ namespace GUI.Controls
                 {
                     contactNode.NodeFont = _offlineContactFont;
                     contactNode.ForeColor = _offlineContactColor;
-                    contactNode.ImageIndex = 2;
-                    contactNode.SelectedImageIndex = 2;
+                    contactNode.ImageIndex = _offlineContactImageIndex;
+                    contactNode.SelectedImageIndex = _offlineContactImageIndex;
                     contactNode.Text = contact;
                     contactNode.ToolTipText = string.Empty;
+                }
+
+                if (!_showingOfflineContacts)
+                {
+                    group.Nodes.Remove(contactNode);
+                    _offlineContactsRoot.Nodes[group.Name].Nodes.Add(contactNode);
+                    group.Expand();
                 }
             }
             EndUpdate();
@@ -286,6 +345,43 @@ namespace GUI.Controls
             }
 
             return groups;
+        }
+
+        public void ShowHideOfflineContacts() 
+        {            
+            BeginUpdate();
+         
+            if (_showingOfflineContacts)
+            {
+                foreach (TreeNode group in Nodes) 
+                {
+                    foreach(TreeNode contact in group.Nodes)
+                    {
+                        if (contact.ImageIndex == _offlineContactImageIndex)
+                        {
+                            group.Nodes.Remove(contact);
+                            _offlineContactsRoot.Nodes[group.Name].Nodes.Add(contact);
+                        }
+                    }
+                }
+
+                _showingOfflineContacts = false;
+            }
+            else
+            {
+                foreach (TreeNode group in _offlineContactsRoot.Nodes)
+                {
+                    foreach (TreeNode contact in group.Nodes)
+                    {
+                        group.Nodes.Remove(contact);
+                        Nodes[group.Name].Nodes.Add(contact);
+                    }
+                }
+
+                _showingOfflineContacts = true;
+            }
+
+            EndUpdate();
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
