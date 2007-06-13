@@ -431,9 +431,9 @@ int Peer::processADD_CONTACT(NAIMpacket * packet) {
                 else
                 {
                     cMan->queryExecuter.moveContact(contact, username, group);
+                    delete[] curentGroup;
                 }
-
-                delete[] curentGroup;
+                
                 delete[] group;
             }
             
