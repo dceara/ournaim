@@ -26,6 +26,9 @@ namespace GUI
 
             ctvContacts.Initialize();
             ctvContacts.ContactTreeAddContactToGroup += new GUI.Controls.ContactTreeAddContactToGroup(ctvContacts_ContactTreeAddContactToGroup);
+            ctvContacts.ContactTreeMoveContact += new GUI.Controls.ContactTreeMoveContact(ctvContacts_ContactTreeMoveContact);
+            ctvContacts.ContactTreeRemoveContact += new GUI.Controls.ContactTreeRemoveContact(ctvContacts_ContactTreeRemoveContact);
+            ctvContacts.ContactTreeRemoveGroup += new GUI.Controls.ContactTreeRemoveGroup(ctvContacts_ContactTreeRemoveGroup);
 
             cbStatuses.SelectedIndex = 0;
         }
@@ -274,16 +277,6 @@ namespace GUI
             }
         }
 
-        void ctvContacts_ContactTreeAddContactToGroup(string group)
-        {
-            AddContactDialog addContactDialog = new AddContactDialog(ctvContacts.GetGroups(), group);
-            DialogResult result = addContactDialog.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                OnAddContactEvent(addContactDialog.Username, addContactDialog.Group);
-            }
-        }
-
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddContactDialog addContactDialog = new AddContactDialog(ctvContacts.GetGroups());
@@ -310,6 +303,32 @@ namespace GUI
                 return;
             OnOpenConversationEvent(e.Node.Name);
         }
+
+        void ctvContacts_ContactTreeAddContactToGroup(string group)
+        {
+            AddContactDialog addContactDialog = new AddContactDialog(ctvContacts.GetGroups(), group);
+            DialogResult result = addContactDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                OnAddContactEvent(addContactDialog.Username, addContactDialog.Group);
+            }
+        }
+
+        void ctvContacts_ContactTreeRemoveGroup(string contact)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        void ctvContacts_ContactTreeRemoveContact(string contact)
+        {
+            OnRemoveContactEvent(contact);
+        }
+
+        void ctvContacts_ContactTreeMoveContact(string contact, string destinationGroup)
+        {
+            OnChangeContactGroupEvent(contact, destinationGroup);
+        }
+
         #endregion
 
         #region Utils
