@@ -25,8 +25,8 @@ using namespace std;
  *	ConnectionManager
  */
 
-const time_t ConnectionManager::TIME_TO_PING = 15;
-const time_t ConnectionManager::TIMEOUT = 30;
+const time_t ConnectionManager::TIME_TO_PING = 1500;
+const time_t ConnectionManager::TIMEOUT = 3000;
 const timeval ConnectionManager::DEFAULT_SELECT_TIMEOUT = {0, 10000};
 
 ConnectionManager::ConnectionManager() {
@@ -206,6 +206,10 @@ int ConnectionManager::readClientInput(int sock_fd) {
 #ifdef WIN32
         int err = WSAGetLastError();
 #endif
+        closeConnection(sock_fd);
+        return -1;
+    }
+    else if (n < 0) {
         closeConnection(sock_fd);
         return -1;
     }
