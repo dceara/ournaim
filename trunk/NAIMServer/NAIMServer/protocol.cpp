@@ -325,7 +325,7 @@ char * Protocol::getCONNECTION_REQSender(NAIMpacket * packetCONNECTION_REQ, char
 char * Protocol::getCONNECTION_REQReceiver(NAIMpacket * packetCONNECTION_REQ, char * & receiver) {
     unsigned char senderLen = (unsigned char)*packetCONNECTION_REQ->data;
     unsigned char length = (unsigned char)*(packetCONNECTION_REQ->data + sizeof(char) + senderLen);
-    receiver = new char[length];
+    receiver = new char[length + 1];
     memcpy(receiver, packetCONNECTION_REQ->data + 2 * sizeof(char) + senderLen, length);
     receiver[length] = '\0';
     return receiver;
@@ -346,7 +346,7 @@ char * Protocol::getCONNECTION_DATASender(NAIMpacket * packetCONNECTION_DATA, ch
 char * Protocol::getCONNECTION_DATAReceiver(NAIMpacket * packetCONNECTION_DATA, char * & receiver) {
     unsigned char senderLen = (unsigned char)*packetCONNECTION_DATA->data;
     unsigned char length = (unsigned char)*(packetCONNECTION_DATA->data + sizeof(char) + senderLen);
-    receiver = new char[length];
+    receiver = new char[length + 1];
     memcpy(receiver, packetCONNECTION_DATA->data + 2 * sizeof(char) + senderLen, length);
     receiver[length] = '\0'; 
     return receiver;

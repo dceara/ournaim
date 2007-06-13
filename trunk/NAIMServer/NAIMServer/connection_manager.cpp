@@ -76,6 +76,7 @@ int ConnectionManager::notifyOfStatusChange(const char * username, const char * 
     unsigned short contactsLen;
     char ** contactsList;
 
+    // TODO: delete the list
     queryExecuter.getClientsToUpdateList(username, contactsList, contactsLen);
     for (int i = 0; i < contactsLen; ++i) {
         if (!isOnline(contactsList[i])) {
@@ -94,6 +95,7 @@ int ConnectionManager::notifyOfUserConnect(const char * username, const char * s
     unsigned short contactsLen;
     char ** contactsList;
 
+    // TODO: delete the list
     queryExecuter.getClientsToUpdateList(username, contactsList, contactsLen);
     for (int i = 0; i < contactsLen; ++i) {
         if (!isOnline(contactsList[i])) {
@@ -113,6 +115,7 @@ int ConnectionManager::notifyOfUserDisconnect(const char * username) {
     unsigned short contactsLen;
     char ** contactsList;
 
+    // TODO: delete the list
     queryExecuter.getClientsToUpdateList(username, contactsList, contactsLen);
     for (int i = 0; i < contactsLen; ++i) {
         if (!isOnline(contactsList[i])) {

@@ -448,7 +448,7 @@ char ** QueryExecuter::getClientsToUpdateList(const char * clientName, char **& 
 	for(int i = 1; i<rowCnt;i++)
 	{
 		int userLen = strlen(usersTable[i]);
-		clientsList[i - 1] = new char[userLen];
+		clientsList[i - 1] = new char[userLen + 1];
 		memcpy(clientsList[i - 1],usersTable[i],userLen);
 		clientsList[i - 1][userLen] = '\0';
 	}
