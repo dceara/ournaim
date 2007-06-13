@@ -60,8 +60,6 @@ namespace Controller.StateObjects
 
         void _createAccountView_CreateAccountEvent(string userName, string password)
         {
-            System.Windows.Forms.MessageBox.Show("Creare cont in state object: Username = " + userName + " ,Password = " + password);
-
             AMessageData signupMessageData = new SignUpMessageData(userName, password);
 
             Common.Protocol.Message signupMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.SIGNUP), signupMessageData);
