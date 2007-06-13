@@ -37,7 +37,27 @@ namespace GUI.Views
 
             group_comboBox.SelectedIndex = 0;
         }
-        
+
+        public AddContactDialog(string[] groups, string selectedGroup)
+        {
+            InitializeComponent();
+
+            foreach (string group in groups)
+            {
+                group_comboBox.Items.Add(group);
+            }
+
+            int index = group_comboBox.Items.IndexOf(selectedGroup);
+            if (index != -1) 
+            {
+                group_comboBox.SelectedIndex = index;
+            }
+            else
+            {
+                group_comboBox.SelectedIndex = 0;
+            }
+        }
+
         #endregion
 
     }
