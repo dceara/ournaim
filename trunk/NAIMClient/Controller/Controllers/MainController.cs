@@ -23,6 +23,8 @@ namespace Controllers
 
     public delegate void InstantiateFileTransferView();
 
+    public delegate IArchiveView InstantiateArchiveView();
+
     #endregion
 
     public class MainController
@@ -155,6 +157,7 @@ namespace Controllers
             this.mainView.OpenFileTransferViewEvent += new OpenFileTransferViewEventHandler(mainView_OpenFileTransferViewEvent);
             this.mainView.RemoveContactEvent += new RemoveContactEventHandler(mainView_RemoveContactEvent);
             this.mainView.OpenSignUpViewEvent += new OpenSignUpViewHandler(mainView_OpenSignUpViewEvent);
+            this.mainView.OpenArchiveViewEvent += new OpenArchiveViewHandler(mainView_OpenArchiveViewEvent);
             this.mainView.Initialise();
 
             this.conversationControllers = new Dictionary<string,IConversationController>();
@@ -163,9 +166,6 @@ namespace Controllers
             
             currentState.ConversationControllers = conversationControllers;
         }
-
-        
-
         
         public void InitialiseConversation(string userName,IConversationView conversationView)
         {
@@ -355,6 +355,14 @@ namespace Controllers
             mainLoopStarted = false;
         }
 
+        void mainView_OpenArchiveViewEvent(string username)
+        {
+            IArchiveView archiveView = OnInstantiateArchiveView();
+            if (archiveView == null)
+                return;
+            archiveView.ShowDialog(username);
+        }
+
         void mainView_LogoutEvent()
         {
             foreach (KeyValuePair<string,IConversationController> pair in conversationControllers)
@@ -473,6 +481,17 @@ namespace Controllers
             {
                 InstantiateFileTransferViewEvent();
             }
+        }
+
+        public event InstantiateArchiveView InstantiateArchiveViewEvent;
+
+        protected virtual IArchiveView OnInstantiateArchiveView()
+        {
+            if (InstantiateArchiveViewEvent != null)
+            {
+                return InstantiateArchiveViewEvent();
+            }
+            return null;
         }
         #endregion
 

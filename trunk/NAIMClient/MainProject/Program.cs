@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using GUI;
 using Controllers;
+using GUI.Views;
 
 namespace MainProject
 {
@@ -41,6 +42,8 @@ namespace MainProject
 
             mainController.InstantiateFileTransferViewEvent += new InstantiateFileTransferView(mainController_InstantiateFileTransferViewEvent);
 
+            mainController.InstantiateArchiveViewEvent += new InstantiateArchiveView(mainController_InstantiateArchiveViewEvent);
+
             mainController.Initialise(mainView);
 
             Application.Run(mainView);
@@ -64,6 +67,12 @@ namespace MainProject
         {
             mainController.InitialiseFileTransferManager(new FileTransferView());
         }
+
+        static Common.Interfaces.IArchiveView mainController_InstantiateArchiveViewEvent()
+        {
+            return new ArchiveView();
+        }
+
         #endregion
     }
 }
