@@ -291,6 +291,7 @@ namespace Controllers
             Common.Protocol.Message addContactMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.ADD_CONTACT), messageData);
             this.outputMessageQueue.Enqueue(addContactMessage);
             ((StateIdle)currentState).ContactsByGroups[group].Add(new UserListEntry(uname));
+            mainView.AddContact(uname, group);
         }
 
         void mainView_AddGroupEvent(string group)
