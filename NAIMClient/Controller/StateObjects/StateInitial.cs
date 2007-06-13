@@ -34,6 +34,7 @@ namespace Controller.StateObjects
         {
             if (message.Header.ServiceType == Common.ServiceTypes.NACK)
             {
+                System.Windows.Forms.MessageBox.Show("Incorect Username or Password!", "Authentication Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Warning);
                 _signInAlreadySent = false;
                 ClearCurrentEventHandlers();
                 return GetNextState(message.Header.ServiceType);
