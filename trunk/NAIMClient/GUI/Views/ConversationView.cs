@@ -43,7 +43,11 @@ namespace GUI
 
         public void AddMessage(string message)
         {
-            this.txtMessageList.Text = txtMessageList.Text + "\n" + this.Text + ": " + message;
+            if (this.txtMessageList.Text != "")
+            {
+                this.txtMessageList.Text += "\r\n";
+            }
+            this.txtMessageList.Text += this.Text + ": " + message;
         }
 
         public void Initialise(string caption)
@@ -110,8 +114,12 @@ namespace GUI
         }
         void SendMessage()
         {
-            string message = this.txtMessage.Text.Remove(txtMessage.Text.Length-1);
-            this.txtMessageList.Text = txtMessageList.Text + this.currentUserName + ": " + message + "\r\n";
+            string message = this.txtMessage.Text.Remove(txtMessage.Text.Length - 1);
+            if (this.txtMessageList.Text != "")
+            {
+                this.txtMessageList.Text += "\r\n";
+            }
+            this.txtMessageList.Text += this.currentUserName + ": " + message;
             this.txtMessage.ResetText();
             this.txtMessageList.ReadOnly = false;
             this.txtMessageList.Focus();
