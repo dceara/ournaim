@@ -311,7 +311,7 @@ namespace Controllers
             AMessageData messageData = new RemoveContactMessageData(this.currentUserName, username);
             Common.Protocol.Message removeContactMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.REMOVE_CONTACT), messageData);
             this.outputMessageQueue.Enqueue(removeContactMessage);
-#warning to remove user from GUI too
+            mainView.RemoveContact(username);
         }
 
         void mainView_OpenFileTransferViewEvent()
