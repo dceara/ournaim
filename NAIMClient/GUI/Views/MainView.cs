@@ -203,7 +203,7 @@ namespace GUI
 
         public void AddGroup(string groupName)
         {
-            //TODO add group to tree
+            ctvContacts.AddGroup(groupName);
         }
 
         public void AddContact(string contactName, string groupName) 
@@ -359,6 +359,14 @@ namespace GUI
         private void showOfflineContactsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ctvContacts.ShowHideOfflineContacts();
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ctvContacts.SelectedNode.Parent != null)
+            {
+                OnRemoveContactEvent(ctvContacts.SelectedNode.Name);
+            }
         }
     }
 }
