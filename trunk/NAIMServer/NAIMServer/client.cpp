@@ -611,6 +611,11 @@ int Peer::processPacket() {
                 processREMOVE_CONTACT(packet);
                 break;                      
                     }
+			case REMOVE_GROUP:{
+				time(&lastActiveTime);
+				processREMOVE_GROUP(packet)'
+				break;
+				}
             case STATUS: {
                 time(&lastActiveTime);
                 processSTATUS(packet);

@@ -185,7 +185,7 @@ void QueryExecuter::deleteClient(const char * clientName) {
 
 void QueryExecuter::deleteContact(const char * contactName, const char * clientName) {
 	const char first_part[] = "delete from Contacte where IdClient = (select Id from Clienti where UserName = '";
-	const char second_part[] = "') and IdGrup = (select Id from Grupuri where IdClient = (select Id from Clienti where UserName = '";
+	const char second_part[] = "') and IdGrup in (select Id from Grupuri where IdClient = (select Id from Clienti where UserName = '";
 	const char third_part[] = "'))";
 	char *errMessage;
 	char * query = new char[strlen(first_part) + strlen(second_part) + strlen(third_part) + strlen(contactName) + strlen(clientName) + 1];
