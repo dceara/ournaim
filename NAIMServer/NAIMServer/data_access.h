@@ -21,6 +21,9 @@ public:
     
     /* Adds the group groupName in the list of the client clientName*/
     virtual void addGroup(const char * groupName, const char * clientName) = 0;
+
+	/* Deletes the specified group */
+	virtual void deleteGroup(const char* groupName, const char *clientName) = 0;
     
     /* Adds the contact contactName in the group groupName in the list of the client clientName*/
     virtual void addContact(const char * contactName, const char * groupName, const char * clientName) = 0;
@@ -76,6 +79,7 @@ public:
     void addClient(const char * username, const char * password);
     void addGroup(const char * groupName, const char * clientName);
     void addContact(const char * contactName, const char * groupName, const char * clientName);
+	void deleteGroup(const char* groupName, const char *clientName);
     void deleteClient(const char * clientName);
     void deleteContact(const char * contactName, const char * clientName);
     void moveContact(const char *contactName, const char * clientName, const char * groupName);
