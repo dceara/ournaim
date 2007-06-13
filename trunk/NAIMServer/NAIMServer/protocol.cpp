@@ -429,7 +429,7 @@ char * Protocol::getSTATUSStatus(NAIMpacket * packetSTATUS, char * & status) {
 /*
  *	Returns the client from a REMOVE_GROUP packet;
  */
-static char * getREMOVE_GROUPClient(NAIMpacket * packetREMOVE_GROUP, char * & client) {
+char * Protocol::getREMOVE_GROUPClient(NAIMpacket * packetREMOVE_GROUP, char * & client) {
     unsigned char length = (unsigned char)*packetREMOVE_GROUP->data;
     client = new char[length + 1];
     memcpy(client, packetREMOVE_GROUP->data + sizeof(char), length);
@@ -439,7 +439,7 @@ static char * getREMOVE_GROUPClient(NAIMpacket * packetREMOVE_GROUP, char * & cl
 /*
  *	Returns the group from a REMOVE_GROUP packet;
  */
-static char * getREMOVE_GROUPGroup(NAIMpacket * packetREMOVE_GROUP, char * & group) {
+char * Protocol::getREMOVE_GROUPGroup(NAIMpacket * packetREMOVE_GROUP, char * & group) {
     unsigned char clientLen = (unsigned char)*packetREMOVE_GROUP->data;
     unsigned char length = (unsigned char)*(packetREMOVE_GROUP->data + sizeof(char) + clientLen);
     group = new char[length + 1];
