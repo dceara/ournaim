@@ -336,7 +336,7 @@ namespace GUI
 
         private void showOfflineContactsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            ctvContacts.ShowHideOfflineContacts();
         }
     }
 }
