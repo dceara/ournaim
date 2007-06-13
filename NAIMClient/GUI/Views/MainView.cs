@@ -69,6 +69,8 @@ namespace GUI
 
         public event ChangeSettings ChangeSettingsEvent;
 
+        public event OpenFileListViewHandler OpenFileListViewEvent;
+
         public void OnOpenSignUpViewEvent()
         {
             if (OpenSignUpViewEvent != null)
@@ -245,6 +247,15 @@ namespace GUI
                 ChangeSettingsEvent(adr, port);
             }
         }
+
+        public void OnOpenFileListView()
+        {
+            if (OpenFileListViewEvent != null)
+            {
+                OpenFileListViewEvent();
+            }
+        }
+
         #endregion
 
         #region GUI Events
@@ -422,5 +433,12 @@ namespace GUI
                 OnRemoveContactEvent(ctvContacts.SelectedNode.Name);
             }
         }
+
+        #region IMainView Members
+
+
+       
+
+        #endregion
     }
 }

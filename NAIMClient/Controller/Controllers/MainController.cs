@@ -26,6 +26,8 @@ namespace Controllers
 
     public delegate IArchiveView InstantiateArchiveView();
 
+    public delegate IFileListView InstantiateFileListView();
+
     #endregion
 
     public class MainController
@@ -79,6 +81,8 @@ namespace Controllers
                 return createAccountView;
             }
         }
+
+        private IFileListView fileListView;
 
         private Socket serverSocket = null;
 
@@ -165,16 +169,15 @@ namespace Controllers
             this.mainView.OpenArchiveViewEvent += new OpenArchiveViewHandler(mainView_OpenArchiveViewEvent);
             this.mainView.ChangeSettingsEvent += new ChangeSettings(mainView_ChangeSettingsEvent);
             this.mainView.RemoveGroupEvent += new RemoveGroupEventHandler(mainView_RemoveGroupEvent);
+            this.mainView.OpenFileListViewEvent += new OpenFileListViewHandler(mainView_OpenFileListViewEvent);
             this.mainView.Initialise();
 
-            this.conversationControllers = new Dictionary<string,IConversationController>();
+            this.conversationControllers = new Dictionary<string, IConversationController>();
             this.inputMessageQueue = new Queue<Common.Protocol.Message>();
             this.outputMessageQueue = new Queue<Common.Protocol.Message>();
-            
-            currentState.ConversationControllers = conversationControllers;
-        }
 
-        
+            currentState.ConversationControllers = conversationControllers;
+        }        
         
         public void InitialiseConversation(string userName,IConversationView conversationView)
         {
@@ -392,6 +395,15 @@ namespace Controllers
             archiveView.ShowDialog(archiveManager.GetMessageArchive());
         }
 
+        void mainView_OpenFileListViewEvent()
+        {
+            fileListView = OnInstantiateFileListView();
+            fileListView.AddFileEvent += new AddFileDelegate(fileListView_AddFileEvent);
+            fileListView.RemoveFileEvent += new RemoveFileDelegate(fileListView_RemoveFileEvent);
+            fileListView.Initialise(fileListManager.FileList);
+            fileListView.ShowView();
+        }
+
         void mainView_LogoutEvent()
         {
             foreach (KeyValuePair<string,IConversationController> pair in conversationControllers)
@@ -558,6 +570,17 @@ namespace Controllers
             }
             return null;
         }
+
+        public event InstantiateFileListView InstantiateFileListViewEvent;
+
+        protected virtual IFileListView OnInstantiateFileListView()
+        {
+            if (InstantiateFileListViewEvent != null)
+            {
+                return InstantiateFileListViewEvent();
+            }
+            return null;
+        }
         #endregion
 
         #region MainController Methods
@@ -669,6 +692,30 @@ namespace Controllers
             }
             currentState.OutputMessagesList.Clear();
         }
+        #endregion
+
+        #region FileListView Event handlers
+
+
+        void fileListView_RemoveFileEvent(string name)
+        {
+            foreach (KeyValuePair<int, KeyValuePair<string, string>> pair in this.fileListManager.FileList)
+            {
+                if (pair.Value.Key == name)
+                {
+                    this.fileListManager.FileList.Remove(pair);
+                    break;
+                }
+            }
+        }
+
+        void fileListView_AddFileEvent(string name, string alias)
+        {
+            this.fileListManager.FileList.Add(new KeyValuePair<int, KeyValuePair<string, string>>(fileListManager.FileList.Count + 1, new KeyValuePair<string, string>(name, alias)));
+        }
+
+
+
         #endregion
     }
 

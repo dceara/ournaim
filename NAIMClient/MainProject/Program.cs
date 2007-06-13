@@ -44,11 +44,14 @@ namespace MainProject
 
             mainController.InstantiateArchiveViewEvent += new InstantiateArchiveView(mainController_InstantiateArchiveViewEvent);
 
+            mainController.InstantiateFileListViewEvent += new InstantiateFileListView(mainController_InstantiateFileListViewEvent);
+
             mainController.Initialise(mainView);
 
             Application.Run(mainView);
         }
 
+        
         #endregion
 
         #region Main Controller Event Handlers
@@ -73,6 +76,10 @@ namespace MainProject
             return new ArchiveView();
         }
 
+        static Common.Interfaces.IFileListView mainController_InstantiateFileListViewEvent()
+        {
+            return new FileListView();
+        }
         #endregion
     }
 }
