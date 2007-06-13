@@ -210,7 +210,7 @@ namespace GUI
 
         public void RemoveContact(string contactName)
         {
-            //TODO remove contact from tree
+            ctvContacts.RemoveContact(contactName);
         }
 
         #endregion
