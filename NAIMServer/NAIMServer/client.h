@@ -144,6 +144,10 @@ class Peer : public Client {
      */
     int processREMOVE_CONTACT(NAIMpacket * packet);
     /*
+     *	REMOVE_GROUP
+     */
+    int processREMOVE_GROUP(NAIMpacket * packet);
+    /*
      *	STATUS
      */
     int processSTATUS(NAIMpacket * packet);

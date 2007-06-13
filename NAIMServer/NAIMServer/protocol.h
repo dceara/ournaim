@@ -34,6 +34,7 @@ enum Services {
     REMOVE_CONTACT      = 17,
     STATUS              = 18,
     DISCONNECT          = 19,
+    REMOVE_GROUP        = 20,
 
     // internal
     
@@ -176,6 +177,14 @@ public:
      *	Returns the status from a STATUS package;
      */
     static char * getSTATUSStatus(NAIMpacket * packetSTATUS, char * & status);
+    /*
+     *	Returns the client from a REMOVE_GROUP packet;
+     */
+    static char * getREMOVE_GROUPClient(NAIMpacket * packetREMOVE_GROUP, char * & client);
+    /*
+    *	Returns the group from a REMOVE_GROUP packet;
+    */
+    static char * getREMOVE_GROUPGroup(NAIMpacket * packetREMOVE_GROUP, char * & group);
 };
 
 #endif  /* PROTOCOL_H */
