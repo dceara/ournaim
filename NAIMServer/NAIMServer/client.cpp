@@ -415,15 +415,25 @@ int Peer::processADD_CONTACT(NAIMpacket * packet) {
         if (strcmp(clientName, username) == 0) {
             char * contact, * group;
             Protocol::getADD_CONTACTContact(packet, contact);
+            
             if (cMan->queryExecuter.isClient(contact)) {
                 Protocol::getADD_CONTACTGroup(packet, group);
 
-                cMan->queryExecuter.addContact(contact, group, username);
+                char * curentGroup = cMan->queryExecuter.getContactGroup(username, contact);
 
-                if (cMan->isOnline(contact)) {
-                    outputQueue.push(Protocol::createUSER_CONNECTED(contact, cMan->onlineClients[contact].c_str()));
+                if (curentGroup == NULL) {
+                    cMan->queryExecuter.addContact(contact, group, username);
+
+                    if (cMan->isOnline(contact)) {
+                        outputQueue.push(Protocol::createUSER_CONNECTED(contact, cMan->onlineClients[contact].c_str()));
+                    }
+                }
+                else
+                {
+                    cMan->queryExecuter.moveContact(contact, username, group);
                 }
 
+                delete[] curentGroup;
                 delete[] group;
             }
             
