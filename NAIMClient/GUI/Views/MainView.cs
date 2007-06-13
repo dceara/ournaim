@@ -30,6 +30,7 @@ namespace GUI
         }
         
         #endregion
+
         #region IMainView Members
 
         public event LoginEventHandler LoginEvent;
@@ -184,6 +185,10 @@ namespace GUI
             ctvContacts.LoadContacts(groupNames, contactsByGroups);
         }
 
+        public void AddGroup(string groupName)
+        {
+            //TODO add group to tree
+        }
         
         #endregion
 
@@ -195,13 +200,6 @@ namespace GUI
         private void MainView_FormClosing(object sender, FormClosingEventArgs e)
         {
             OnMainClose();
-        }
-
-#warning HARDCODED FOR NOW
-        int i = 0;
-        private void btnAddConversation_Click(object sender, EventArgs e)
-        {
-            OnOpenConversationEvent("USER NOU" + i++);
         }
 
         private void btnSignIn_Click(object sender, EventArgs e)
