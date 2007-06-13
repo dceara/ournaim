@@ -29,6 +29,7 @@ namespace GUI
             ctvContacts.ContactTreeMoveContact += new GUI.Controls.ContactTreeMoveContact(ctvContacts_ContactTreeMoveContact);
             ctvContacts.ContactTreeRemoveContact += new GUI.Controls.ContactTreeRemoveContact(ctvContacts_ContactTreeRemoveContact);
             ctvContacts.ContactTreeRemoveGroup += new GUI.Controls.ContactTreeRemoveGroup(ctvContacts_ContactTreeRemoveGroup);
+            ctvContacts.ContactTreeAddGroup += new GUI.Controls.ContactTreeAddGroup(ctvContacts_ContactTreeAddGroup);
 
             cbStatuses.SelectedIndex = 0;
         }
@@ -325,6 +326,16 @@ namespace GUI
             if (result == DialogResult.OK)
             {
                 OnAddContactEvent(addContactDialog.Username, addContactDialog.Group);
+            }
+        }
+
+        void ctvContacts_ContactTreeAddGroup()
+        {
+            AddGroupView addGroupView = new AddGroupView();
+            DialogResult result = addGroupView.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                OnAddGroupEvent(addGroupView.Groupname);
             }
         }
 
