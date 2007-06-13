@@ -30,10 +30,34 @@ void QueryExecuter::addClient(const char * username, const char * password) {
 } 
 
 void QueryExecuter::addGroup(const char * groupName, const char * clientName) {
+
+	char *errMessage;
+	int rowsCnt;
+	int colsCnt;
+	const char first_part_group[] = "select count(*) from Grupuri gr where gr.Nume = '";
+	const char second_part_group[] = "' and gr.IdClient = (select Id from Clienti where UserName ='";
+	const char third_part_group[] = "')";
+	char *query = new char[strlen(first_part_group) + strlen(second_part_group) + strlen(third_part_group) + strlen(groupName) + strlen(clientName)  + 1 ];
+	sprintf(query,"%s%s%s%s%s",first_part_group,groupName,second_part_group,clientName,third_part_group);
+	char **resultTable = executeQuery(query,rowsCnt,colsCnt,errMessage);
+	if(rowsCnt < 2)
+	{
+		if(errMessage != NULL)
+			sqlite3_free(errMessage);
+	}
+
+	if(strcmp(resultTable[1],"0") != 0)
+	{
+		return;
+	}
+	/*cleanup the query results*/
+	sqlite3_free_table(resultTable);
+	delete []query;
+
 	const char first_part[] = "insert into Grupuri(Nume,IdClient) select '";
 	const char second_part[] = "',Id from Clienti where UserName = '";
-	char *errMessage;
-	char *query = new char[strlen(first_part) + strlen(second_part) + strlen(groupName) + strlen(clientName) + strlen(" '")];
+	
+	query = new char[strlen(first_part) + strlen(second_part) + strlen(groupName) + strlen(clientName) + strlen(" '")];
 	sprintf(query,"%s%s%s%s'",first_part,groupName,second_part,clientName);
 	bool result = executeNonQuery(query,errMessage);
 	if(!result)
@@ -81,7 +105,7 @@ void QueryExecuter::addContact(const char * contactName, const char * groupName,
 }
 
 
-void QueryExecuter :: deleteGroup(const char* groupName, const char *clientName)
+void QueryExecuter::deleteGroup(const char* groupName, const char *clientName)
 {
 	char *errMessage;
 	int rowsCnt;
