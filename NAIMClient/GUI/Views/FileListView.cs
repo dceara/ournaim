@@ -40,12 +40,56 @@ namespace GUI.Views
 
         public void Initialise(IList<KeyValuePair<int, KeyValuePair<string, string>>> fileList)
         {
-            throw new Exception("The method or operation is not implemented.");
+            foreach (KeyValuePair<int, KeyValuePair<string, string>> pair in fileList)
+            {
+                this.listViewFileList.Items.Add(new ListViewItem(new string[] { pair.Value.Key, pair.Value.Value }));
+                this.listViewFileList.Update();
+            }
         }
 
         public void ShowView()
         {
-            this.Show();
+            this.ShowDialog();
+        }
+
+        #endregion
+
+        #region GUI
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = false;
+            if (openFileDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+            string filename = openFileDialog.FileName;
+            foreach (ListViewItem item in listViewFileList.Items)
+            {
+                if (item.SubItems[0].Text == filename)
+                {
+                    MessageBox.Show("The file is already in the list!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            FileListAliasChooser aliasChooser = new FileListAliasChooser();
+            aliasChooser.ShowDialog();
+            string alias = aliasChooser.Alias;
+            OnAddFile(filename, alias);
+            this.listViewFileList.Items.Add(new ListViewItem(new string[] { filename, alias }));
+            this.listViewFileList.Update();
+        }
+
+        private void btnRemoveFile_Click(object sender, EventArgs e)
+        {
+            if (listViewFileList.SelectedItems.Count == 0)
+                return;
+            foreach (ListViewItem item in listViewFileList.SelectedItems)
+            {
+                listViewFileList.Items.Remove(item);
+                OnRemoveFile(item.SubItems[0].Text);
+            }
         }
 
         #endregion

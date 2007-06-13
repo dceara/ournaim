@@ -406,6 +406,8 @@ namespace Controllers
 
         void mainView_LogoutEvent()
         {
+            fileListManager.SaveFileList();
+
             foreach (KeyValuePair<string,IConversationController> pair in conversationControllers)
             {
                 pair.Value.CloseView();
@@ -711,7 +713,9 @@ namespace Controllers
 
         void fileListView_AddFileEvent(string name, string alias)
         {
-            int newIndex = fileListManager.FileList[fileListManager.FileList.Count - 1].Key + 1;
+            int newIndex = 1;
+            if(fileListManager.FileList.Count > 0)
+                newIndex = fileListManager.FileList[fileListManager.FileList.Count - 1].Key + 1;
             this.fileListManager.FileList.Add(new KeyValuePair<int, KeyValuePair<string, string>>(newIndex, new KeyValuePair<string, string>(name, alias)));
         }
 

@@ -182,6 +182,7 @@ namespace GUI
             this.shareFilesToolStripMenuItem.Name = "shareFilesToolStripMenuItem";
             this.shareFilesToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.shareFilesToolStripMenuItem.Text = "Share &Files";
+            this.shareFilesToolStripMenuItem.Click += new System.EventHandler(this.shareFilesToolStripMenuItem_Click);
             // 
             // fileTransferManagerToolStripMenuItem
             // 

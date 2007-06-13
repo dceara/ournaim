@@ -80,6 +80,12 @@
     <Compile Include="Views\CreateAccountView.designer.cs">
       <DependentUpon>CreateAccountView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\FileListAliasChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FileListAliasChooser.Designer.cs">
+      <DependentUpon>FileListAliasChooser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\FileListView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +161,14 @@
     <EmbeddedResource Include="Views\CreateAccountView.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CreateAccountView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FileListAliasChooser.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FileListAliasChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FileListView.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FileListView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\FileTransferView.resx">
       <SubType>Designer</SubType>

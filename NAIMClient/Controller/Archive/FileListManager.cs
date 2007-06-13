@@ -9,6 +9,8 @@ namespace Controller.Archive
     {
         const string _fileListLocation = "FileLists";
 
+        private string _currentDir;
+
         private string _userName;
 
         public string UserName
@@ -22,6 +24,11 @@ namespace Controller.Archive
 
         public FileListManager()
         {
+            _currentDir = Directory.GetCurrentDirectory();
+            if (!Directory.Exists(_fileListLocation))
+            {
+                Directory.CreateDirectory(_fileListLocation);
+            }
         }
 
         private IList<KeyValuePair<int,KeyValuePair<string,string>>> _fileList;
@@ -36,13 +43,14 @@ namespace Controller.Archive
 
         private void LoadFileList(string uname)
         {
-            string fileListFilename = _fileListLocation + "\\" + uname;
-            if(!File.Exists(fileListFilename))
+            _fileList = new List<KeyValuePair<int, KeyValuePair<string, string>>>();
+            string fileListFilename = _currentDir + "\\" + _fileListLocation + "\\" + uname;
+            if (!File.Exists(fileListFilename))
             {
                 File.Create(fileListFilename);
+                return;
             }
             StreamReader reader = new StreamReader(fileListFilename);
-            _fileList = new List<KeyValuePair<int, KeyValuePair<string, string>>>();
             while (!reader.EndOfStream)
             {
                 string id = reader.ReadLine();
@@ -57,11 +65,7 @@ namespace Controller.Archive
         {
             if (_fileList == null)
                 return;
-            string fileListFilename = _fileListLocation + "\\" + _userName;
-            if (!File.Exists(fileListFilename))
-            {
-                File.Create(fileListFilename);
-            }
+            string fileListFilename = _currentDir + "\\" + _fileListLocation + "\\" + _userName;
             StreamWriter writer = new StreamWriter(fileListFilename);
             foreach (KeyValuePair<int, KeyValuePair<string, string>> pair in _fileList)
             {
