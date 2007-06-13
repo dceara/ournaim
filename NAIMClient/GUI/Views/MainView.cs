@@ -251,6 +251,8 @@ namespace GUI
         private void btnSignOut_Click(object sender, EventArgs e)
         {
             OnLogoutEvent();
+            
+            ctvContacts.Clear();
         }
         private void MainView_FormClosing(object sender, FormClosingEventArgs e)
         {

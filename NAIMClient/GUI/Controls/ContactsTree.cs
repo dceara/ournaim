@@ -24,7 +24,7 @@ namespace GUI.Controls
         Font    DEFAULT_OFFLINE_CONTACT_FONT    = new Font("Arial", 9, FontStyle.Regular);
         Font    DEFAULT_INVISIBLE_CONTACT_FONT  = new Font("Arial", 9, FontStyle.Italic);
 
-        string  DEFAULT_GROUP_IMAGE             = "group";
+        string  DEFAULT_GROUP_IMAGE             = "face";
 
         #region Properties
         private Color _groupsColor;
@@ -142,6 +142,8 @@ namespace GUI.Controls
             DragEnter += new DragEventHandler(ContactsTree_DragEnter);
             DragDrop += new DragEventHandler(ContactsTree_DragDrop);
 
+            _icons.ImageSize = new Size(16, 16);
+
             this.ImageList = _icons;
 
         }
@@ -172,6 +174,13 @@ namespace GUI.Controls
 
 
             InitializeComponent();
+        }
+
+        public void Clear() 
+        {
+            Nodes.Clear();
+            _offlineContactsRoot.Nodes.Clear();
+            _showingOfflineContacts = true;
         }
 
         public void LoadContacts(IList<string> groupNames, IDictionary<string,IList<UserListEntry>> contactsByGroups) {
