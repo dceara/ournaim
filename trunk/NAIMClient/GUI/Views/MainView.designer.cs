@@ -49,7 +49,6 @@ namespace GUI
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showOfflineContactsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,8 +56,7 @@ namespace GUI
             this.lblStatus = new System.Windows.Forms.Label();
             this.cbStatuses = new System.Windows.Forms.ComboBox();
             this.ctvContacts = new GUI.Controls.ContactsTree();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.viewArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -140,6 +138,7 @@ namespace GUI
             // 
             // actionsToolStripMenuItem
             // 
+            this.actionsToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.actionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusToolStripMenuItem,
             this.accountInformationToolStripMenuItem,
@@ -207,14 +206,15 @@ namespace GUI
             // 
             // contactsToolStripMenuItem
             // 
+            this.contactsToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.contactsToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.contactsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addToolStripMenuItem,
             this.addGroupToolStripMenuItem,
-            this.toolStripSeparator2,
             this.showOfflineContactsToolStripMenuItem,
             this.viewArchiveToolStripMenuItem,
-            this.toolStripSeparator1,
             this.deleteToolStripMenuItem});
+            this.contactsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.contactsToolStripMenuItem.Name = "contactsToolStripMenuItem";
             this.contactsToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
             this.contactsToolStripMenuItem.Text = "Contacts";
@@ -222,40 +222,59 @@ namespace GUI
             // addToolStripMenuItem
             // 
             this.addToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
+            this.addToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.addToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.addToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.addToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            this.addToolStripMenuItem.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.addToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.addToolStripMenuItem.Text = "&Add Contact";
+            this.addToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.addToolStripMenuItem.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
+            this.addToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
             // 
             // addGroupToolStripMenuItem
             // 
             this.addGroupToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
+            this.addGroupToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.addGroupToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.addGroupToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.addGroupToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.addGroupToolStripMenuItem.Name = "addGroupToolStripMenuItem";
             this.addGroupToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.addGroupToolStripMenuItem.Text = "Add &Group";
+            this.addGroupToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.addGroupToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.addGroupToolStripMenuItem.Click += new System.EventHandler(this.addGroupToolStripMenuItem_Click);
             // 
             // showOfflineContactsToolStripMenuItem
             // 
             this.showOfflineContactsToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
+            this.showOfflineContactsToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.showOfflineContactsToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.showOfflineContactsToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.showOfflineContactsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.showOfflineContactsToolStripMenuItem.Name = "showOfflineContactsToolStripMenuItem";
             this.showOfflineContactsToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.showOfflineContactsToolStripMenuItem.Text = "Show O&ffline Contacts";
+            this.showOfflineContactsToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.showOfflineContactsToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.showOfflineContactsToolStripMenuItem.Click += new System.EventHandler(this.showOfflineContactsToolStripMenuItem_Click);
-            // 
-            // viewArchiveToolStripMenuItem
-            // 
-            this.viewArchiveToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
-            this.viewArchiveToolStripMenuItem.Name = "viewArchiveToolStripMenuItem";
-            this.viewArchiveToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
-            this.viewArchiveToolStripMenuItem.Text = "&View Archive";
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
+            this.deleteToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.deleteToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.deleteToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.deleteToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.deleteToolStripMenuItem.Text = "&Delete Contact";
+            this.deleteToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.deleteToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
@@ -271,14 +290,14 @@ namespace GUI
             // 
             this.aboutToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             // 
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(114, 22);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.helpToolStripMenuItem1.Text = "&Help";
             // 
             // lblStatus
@@ -340,22 +359,21 @@ namespace GUI
             this.ctvContacts.TabIndex = 14;
             this.ctvContacts.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.ctvContacts_NodeMouseDoubleClick);
             // 
-            // toolStripSeparator1
+            // viewArchiveToolStripMenuItem
             // 
-            this.toolStripSeparator1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
-            this.toolStripSeparator1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(189, 6);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(189, 6);
+            this.viewArchiveToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
+            this.viewArchiveToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.viewArchiveToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.viewArchiveToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.viewArchiveToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.viewArchiveToolStripMenuItem.Name = "viewArchiveToolStripMenuItem";
+            this.viewArchiveToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.viewArchiveToolStripMenuItem.Text = "&View Archive";
+            this.viewArchiveToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.viewArchiveToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             // 
             // MainView
             // 
-            this.AcceptButton = this.btnSignIn;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.ClientSize = new System.Drawing.Size(327, 706);
             this.Controls.Add(this.cbStatuses);
@@ -401,14 +419,12 @@ namespace GUI
         private ToolStripMenuItem addToolStripMenuItem;
         private ToolStripMenuItem addGroupToolStripMenuItem;
         private ToolStripMenuItem showOfflineContactsToolStripMenuItem;
-        private ToolStripMenuItem viewArchiveToolStripMenuItem;
         private ToolStripMenuItem deleteToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem1;
         private Label lblStatus;
         private GUI.Controls.ContactsTree ctvContacts;
         private ComboBox cbStatuses;
-        private ToolStripSeparator toolStripSeparator2;
-        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem viewArchiveToolStripMenuItem;
     }
 }
