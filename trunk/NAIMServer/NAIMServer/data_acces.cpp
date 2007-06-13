@@ -47,7 +47,7 @@ void QueryExecuter::addContact(const char * contactName, const char * groupName,
 	int rowsCnt;
 	int colsCnt;
 	const char first_part_group[] = "select count(*) from Grupuri gr where gr.Nume = '";
-	const char second_part_group[] = "' and gr.Id = (select Id from Clienti where UserName ='";
+	const char second_part_group[] = "' and gr.IdClient = (select Id from Clienti where UserName ='";
 	const char third_part_group[] = "')";
 	char *query = new char[strlen(first_part_group) + strlen(second_part_group) + strlen(third_part_group) + strlen(groupName) + strlen(clientName)  + 1 ];
 	sprintf(query,"%s%s%s%s%s",first_part_group,groupName,second_part_group,clientName,third_part_group);
@@ -74,6 +74,41 @@ void QueryExecuter::addContact(const char * contactName, const char * groupName,
 	query = new char[strlen(first_part) + strlen(second_part) + strlen(third_part) + strlen (fourth_part) + strlen(groupName) + 
 		strlen(clientName) + strlen(contactName) + 1];
 	sprintf(query,"%s%s%s%s%s%s%s",first_part,groupName, second_part,clientName,third_part,contactName,fourth_part);
+	bool result = executeNonQuery(query,errMessage);
+	if(!result)
+		sqlite3_free(errMessage);
+	delete []query;
+}
+
+
+void QueryExecuter :: deleteGroup(const char* groupName, const char *clientName)
+{
+	char *errMessage;
+	int rowsCnt;
+	int colsCnt;
+	const char first_part_group[] = "select count(*) from Grupuri gr where gr.Nume = '";
+	const char second_part_group[] = "' and gr.IdClient = (select Id from Clienti where UserName ='";
+	const char third_part_group[] = "')";
+	char *query = new char[strlen(first_part_group) + strlen(second_part_group) + strlen(third_part_group) + strlen(groupName) + strlen(clientName)  + 1 ];
+	sprintf(query,"%s%s%s%s%s",first_part_group,groupName,second_part_group,clientName,third_part_group);
+	char **resultTable = executeQuery(query,rowsCnt,colsCnt,errMessage);
+	if(rowsCnt < 2)
+	{
+		if(errMessage != NULL)
+			sqlite3_free(errMessage);
+	}
+	
+	delete []query;
+	if(strcmp(resultTable[1],"0") == 0)
+	{
+		sqlite3_free_table(resultTable);
+		return;
+	}
+	sqlite3_free_table(resultTable);
+	const char first_part_delete[] = "delete from Grupuri where gr.Nume = '";
+	const char second_part_delete[] = "' and gr.IdClient = (select Id from Clienti where UserName ='";
+	const char third_part_delete[] = "')";
+	query = new char[strlen(first_part_delete) + strlen(second_part_delete) + strlen(third_part_delete) + strlen(groupName) + strlen(clientName)  + 1 ];
 	bool result = executeNonQuery(query,errMessage);
 	if(!result)
 		sqlite3_free(errMessage);
