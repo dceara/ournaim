@@ -129,10 +129,11 @@ void QueryExecuter::deleteGroup(const char* groupName, const char *clientName)
 		return;
 	}
 	sqlite3_free_table(resultTable);
-	const char first_part_delete[] = "delete from Grupuri where gr.Nume = '";
-	const char second_part_delete[] = "' and gr.IdClient = (select Id from Clienti where UserName ='";
+	const char first_part_delete[] = "delete from Grupuri where Nume = '";
+	const char second_part_delete[] = "' and IdClient = (select Id from Clienti where UserName ='";
 	const char third_part_delete[] = "')";
 	query = new char[strlen(first_part_delete) + strlen(second_part_delete) + strlen(third_part_delete) + strlen(groupName) + strlen(clientName)  + 1 ];
+	sprintf(query,"%s%s%s%s%s",first_part_delete,groupName,second_part_delete,clientName,third_part_delete);
 	bool result = executeNonQuery(query,errMessage);
 	if(!result)
 		sqlite3_free(errMessage);

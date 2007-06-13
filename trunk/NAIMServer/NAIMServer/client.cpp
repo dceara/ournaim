@@ -613,7 +613,7 @@ int Peer::processPacket() {
                     }
 			case REMOVE_GROUP:{
 				time(&lastActiveTime);
-				processREMOVE_GROUP(packet)'
+				processREMOVE_GROUP(packet);
 				break;
 				}
             case STATUS: {
@@ -625,7 +625,7 @@ int Peer::processPacket() {
                 processCONNECTION_CLOSED(packet);
                 break;
                     }
-            case DISCONNECT: {
+            case DISCONNECT: { 
                 processDISCONNECT(packet);
                 break;
                     }
