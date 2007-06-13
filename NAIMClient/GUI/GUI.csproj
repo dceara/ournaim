@@ -157,6 +157,36 @@
   <ItemGroup>
     <None Include="Resources\IconNoImage.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trek.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bunny.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\face.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flower.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\globe.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\group.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hypo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nova.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\polka.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rotten.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

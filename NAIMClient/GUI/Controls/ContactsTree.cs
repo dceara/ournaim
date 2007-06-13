@@ -103,9 +103,10 @@ namespace GUI.Controls
 
         public void Initialize() {
            
-            icons.Images.Add(Icons.IconNoImage);
-            icons.Images.Add(Icons.IconOnline);
-            icons.Images.Add(Icons.IconOffline);
+            icons.Images.Add("noimage", Icons.IconNoImage);
+            icons.Images.Add("online", Icons.IconOnline);
+            icons.Images.Add("offline", Icons.IconOffline);
+            
 
             InitializeComponent();
         }
