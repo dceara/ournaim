@@ -232,7 +232,7 @@ char * QueryExecuter::getContactGroup(const char * clientName, const char * cont
 	int rowsCnt;
 	int colsCnt;
 	char *errMessage;
-	const char first_part [] = "select gr.Name from Grupuri gr inner join Contacte ct\
+	const char first_part [] = "select gr.Nume from Grupuri gr inner join Contacte ct\
 		on ct.IdGrup = gr.Id inner join Clienti c1 \
 		on c1.Id = ct.IdClient inner join Clienti c2 \
 		on c2.Id = gr.IdClient \
@@ -240,10 +240,10 @@ char * QueryExecuter::getContactGroup(const char * clientName, const char * cont
 	const char second_part[] = "' and c2.UserName = '";
 	const char third_part[] = "'";
 	char *query = new char[strlen(first_part) + strlen(second_part) + strlen (third_part) + strlen(clientName) + strlen(contactName) + 1];
-	sprintf("%s%s%s%s%s",first_part,contactName,second_part,clientName,third_part);
+	sprintf(query, "%s%s%s%s%s",first_part,contactName,second_part,clientName,third_part);
 
-	delete []query;
 	char **resultTable = executeQuery(query,rowsCnt,colsCnt,errMessage);
+    delete []query;
 	if(rowsCnt < 2)
 	{
 		if(errMessage != NULL)
