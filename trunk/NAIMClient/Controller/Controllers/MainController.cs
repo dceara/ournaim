@@ -86,7 +86,7 @@ namespace Controllers
 
         private bool mainLoopStarted = false;
 
-        private string server;
+        private string server = "localhost";
 
         public string Server
         {
@@ -94,7 +94,7 @@ namespace Controllers
             set { server = value; }
         }
 
-        private int port;
+        private int port = 18005;
 
         public int Port
         {
@@ -161,6 +161,7 @@ namespace Controllers
             this.mainView.RemoveContactEvent += new RemoveContactEventHandler(mainView_RemoveContactEvent);
             this.mainView.OpenSignUpViewEvent += new OpenSignUpViewHandler(mainView_OpenSignUpViewEvent);
             this.mainView.OpenArchiveViewEvent += new OpenArchiveViewHandler(mainView_OpenArchiveViewEvent);
+            this.mainView.ChangeSettingsEvent += new ChangeSettings(mainView_ChangeSettingsEvent);
             this.mainView.Initialise();
 
             this.conversationControllers = new Dictionary<string,IConversationController>();
@@ -169,6 +170,7 @@ namespace Controllers
             
             currentState.ConversationControllers = conversationControllers;
         }
+
         
         public void InitialiseConversation(string userName,IConversationView conversationView)
         {
@@ -439,6 +441,13 @@ namespace Controllers
                 MainLoop();
             }
         }
+
+        void mainView_ChangeSettingsEvent(string adr, string port)
+        {
+            this.server = adr;
+            this.port = Int32.Parse(port);
+        }
+        
        
         #endregion
 
@@ -588,16 +597,15 @@ namespace Controllers
         private bool CreateServerConnection()
         {
             IPHostEntry hostEntry = null;
-
-            hostEntry = Dns.GetHostEntry("localhost");
-            port = 18005;
-
-            if (hostEntry.AddressList.Length <= 0)
-            {
-                return false;
-            }
+            
             try
             {
+                hostEntry = Dns.GetHostEntry(server);
+                if (hostEntry.AddressList.Length <= 0)
+                {
+                    return false;
+                }
+           
                 foreach (IPAddress address in hostEntry.AddressList)
                 {
                     IPEndPoint ipe = new IPEndPoint(address, port);
