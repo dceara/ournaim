@@ -202,6 +202,8 @@ namespace Common.Interfaces
 
         void AddGroup(string groupName);
 
+        void RemoveContact(string contactName);
+
         #endregion
     }
 
