@@ -161,11 +161,11 @@ namespace GUI
         }
 
 
-        public void OnOpenArchiveView()
+        public void OnOpenArchiveView(string contactName)
         {
             if (OpenArchiveViewEvent != null)
             {
-                OpenArchiveViewEvent();
+                OpenArchiveViewEvent(contactName);
             }
         }
 
