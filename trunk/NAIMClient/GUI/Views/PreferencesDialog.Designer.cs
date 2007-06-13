@@ -110,6 +110,7 @@ namespace GUI.Views
             this.textBoxPort.Name = "textBoxPort";
             this.textBoxPort.Size = new System.Drawing.Size(70, 20);
             this.textBoxPort.TabIndex = 0;
+            this.textBoxPort.Text = "18005";
             // 
             // panel1
             // 
@@ -150,6 +151,7 @@ namespace GUI.Views
             this.textBoxServAdr.Name = "textBoxServAdr";
             this.textBoxServAdr.Size = new System.Drawing.Size(78, 20);
             this.textBoxServAdr.TabIndex = 1;
+            this.textBoxServAdr.Text = "10.6.3.114";
             // 
             // PreferencesDialog
             // 

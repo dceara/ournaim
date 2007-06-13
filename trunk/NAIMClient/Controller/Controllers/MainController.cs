@@ -86,7 +86,7 @@ namespace Controllers
 
         private bool mainLoopStarted = false;
 
-        private string server = "localhost";
+        private string server = "localhost";//"10.6.3.114";
 
         public string Server
         {
@@ -162,6 +162,7 @@ namespace Controllers
             this.mainView.OpenSignUpViewEvent += new OpenSignUpViewHandler(mainView_OpenSignUpViewEvent);
             this.mainView.OpenArchiveViewEvent += new OpenArchiveViewHandler(mainView_OpenArchiveViewEvent);
             this.mainView.ChangeSettingsEvent += new ChangeSettings(mainView_ChangeSettingsEvent);
+            this.mainView.RemoveGroupEvent += new RemoveGroupEventHandler(mainView_RemoveGroupEvent);
             this.mainView.Initialise();
 
             this.conversationControllers = new Dictionary<string,IConversationController>();
@@ -171,6 +172,7 @@ namespace Controllers
             currentState.ConversationControllers = conversationControllers;
         }
 
+        
         
         public void InitialiseConversation(string userName,IConversationView conversationView)
         {
@@ -447,7 +449,24 @@ namespace Controllers
             this.server = adr;
             this.port = Int32.Parse(port);
         }
-        
+
+        void mainView_RemoveGroupEvent(string group)
+        {
+            if (!(currentState is StateIdle))
+                return;
+            IList<UserListEntry> groupList = ((StateIdle)currentState).ContactsByGroups[group];
+            if (groupList.Count > 0)
+            {
+                MessageBox.Show("Cannot delete group! The group is not empty!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                return;
+            }
+            ((StateIdle)currentState).ContactsByGroups.Remove(group);
+            AMessageData messageData = new RemoveGroupMessageData(this.currentUserName, group);
+            Common.Protocol.Message message = new Common.Protocol.Message(new MessageHeader(ServiceTypes.REMOVE_GROUP), messageData);
+            this.outputMessageQueue.Enqueue(message);
+            mainView.RemoveGroup(group);
+        }
+
        
         #endregion
 
