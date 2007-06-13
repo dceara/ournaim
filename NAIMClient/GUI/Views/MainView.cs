@@ -56,6 +56,8 @@ namespace GUI
 
         public event OpenSignUpViewHandler OpenSignUpViewEvent;
 
+        public event OpenArchiveViewHandler OpenArchiveViewEvent;
+
         public void OnOpenSignUpViewEvent()
         {
             if (OpenSignUpViewEvent != null)
@@ -157,6 +159,16 @@ namespace GUI
                 MainCloseEvent();
             }
         }
+
+
+        public void OnOpenArchiveView()
+        {
+            if (OpenArchiveViewEvent != null)
+            {
+                OpenArchiveViewEvent();
+            }
+        }
+
         public void AfterSignIn(string userName)
         {
             ChangeControlsVisibility(false);

@@ -31,6 +31,8 @@ namespace Common.Interfaces
 
     public delegate void OpenSignUpViewHandler();
 
+    public delegate void OpenArchiveViewHandler();
+
     #endregion
 
     /// <summary>
@@ -94,6 +96,9 @@ namespace Common.Interfaces
         /// Is fired when the sign up view is being opened.
         /// </summary>
         event OpenSignUpViewHandler OpenSignUpViewEvent;
+
+        event OpenArchiveViewHandler OpenArchiveViewEvent;
+
         #endregion
 
         #region Methods
@@ -203,6 +208,8 @@ namespace Common.Interfaces
         void AddGroup(string groupName);
 
         void RemoveContact(string contactName);
+
+        void OnOpenArchiveView();
 
         #endregion
     }
