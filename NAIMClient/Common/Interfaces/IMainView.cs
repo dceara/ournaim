@@ -17,9 +17,11 @@ namespace Common.Interfaces
 
     public delegate void AddContactEventHandler(string uname, string group);
 
+    public delegate void RemoveContactEventHandler(string userName);
+
     public delegate void AddGroupEventHandler(string group);
 
-    public delegate void RemoveContactEventHandler(string userName);
+    public delegate void RemoveGroupEventHandler(string group);
 
     public delegate void ChangeContactGroupEventHandler(string username, string newGroup);
 
@@ -129,16 +131,22 @@ namespace Common.Interfaces
         void OnAddContactEvent(string uname, string group);
 
         /// <summary>
+        /// Fires the remove contact event.
+        /// </summary>
+        /// <param name="username"></param>
+        void OnRemoveContactEvent(string username);
+
+        /// <summary>
         /// Fires the AddGroupEvent.
         /// </summary>
         /// <param name="group"></param>
         void OnAddGroupEvent(string group);
 
         /// <summary>
-        /// Fires the remove contact event.
+        /// Fires the RemoveGroupEvent.
         /// </summary>
-        /// <param name="username"></param>
-        void OnRemoveContactEvent(string username);
+        /// <param name="group"></param>
+        void OnRemoveGroupEvent(string group);
 
         /// <summary>
         /// Fires the ChangeContactGroupEvent.
