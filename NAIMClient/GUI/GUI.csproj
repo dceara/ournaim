@@ -56,6 +56,12 @@
     <Compile Include="Views\AddGroupView.Designer.cs">
       <DependentUpon>AddGroupView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ArchiveView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ArchiveView.Designer.cs">
+      <DependentUpon>ArchiveView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\ChangeStatusDialog.cs">
       <SubType>Form</SubType>
     </Compile>
