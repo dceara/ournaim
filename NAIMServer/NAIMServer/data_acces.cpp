@@ -42,12 +42,36 @@ void QueryExecuter::addGroup(const char * groupName, const char * clientName) {
 }
 
 void QueryExecuter::addContact(const char * contactName, const char * groupName, const char * clientName) {
+
+	char *errMessage;
+	int rowsCnt;
+	int colsCnt;
+	const char first_part_group[] = "select count(*) from Grupuri gr where gr.Nume = '";
+	const char second_part_group[] = "' and gr.Id = (select Id from Clienti where UserName ='";
+	const char third_part_group[] = "')";
+	char *query = new char[strlen(first_part_group) + strlen(second_part_group) + strlen(third_part_group) + strlen(groupName) + strlen(clientName)  + 1 ];
+	sprintf(query,"%s%s%s%s%s",first_part_group,groupName,second_part_group,clientName,third_part_group);
+	char **resultTable = executeQuery(query,rowsCnt,colsCnt,errMessage);
+	if(rowsCnt < 2)
+	{
+		if(errMessage != NULL)
+			sqlite3_free(errMessage);
+	}
+
+	if(strcmp(resultTable[1],"0") == 0)
+	{
+		addGroup(groupName,clientName);
+	}
+	/*cleanup the query results*/
+	sqlite3_free_table(resultTable);
+	delete []query;
+
 	const char first_part[] = "insert into Contacte(IdGrup,IdClient) select (select Id from Grupuri where Nume = '";
 	const char second_part[] = "' and IdClient = (select Id from Clienti where UserName = '";
 	const char third_part[] = "')), (select Id from Clienti where UserName = '";
 	const char fourth_part[] = "')";
-	char *errMessage;
-	char *query = new char[strlen(first_part) + strlen(second_part) + strlen(third_part) + strlen (fourth_part) + strlen(groupName) + 
+	
+	query = new char[strlen(first_part) + strlen(second_part) + strlen(third_part) + strlen (fourth_part) + strlen(groupName) + 
 		strlen(clientName) + strlen(contactName) + 1];
 	sprintf(query,"%s%s%s%s%s%s%s",first_part,groupName, second_part,clientName,third_part,contactName,fourth_part);
 	bool result = executeNonQuery(query,errMessage);
@@ -228,7 +252,8 @@ char * QueryExecuter::getContactsBuffer(const char * clientName, char *& buffer,
     }
     length = sbuffer.size();
     buffer = new char[length+1];
-    strcpy(buffer,sbuffer.c_str());
+	memcpy(buffer,sbuffer.c_str(),length);
+    //strcpy(buffer,sbuffer.c_str());
     return buffer;
 }
 
