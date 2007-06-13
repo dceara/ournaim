@@ -50,6 +50,8 @@ namespace GUI
 
         public event RemoveContactEventHandler RemoveContactEvent;
 
+        public event RemoveGroupEventHandler RemoveGroupEvent;
+
         public event ChangeContactGroupEventHandler ChangeContactGroupEvent;
 
         public event OpenConversationEventHandler OpenConversationEvent;
@@ -122,9 +124,9 @@ namespace GUI
 
         public void OnRemoveGroupEvent(string group)
         {
-            if (AddGroupEvent != null)
+            if (RemoveGroupEvent != null)
             {
-                AddGroupEvent(group);
+                RemoveGroupEvent(group);
             }
         }
 

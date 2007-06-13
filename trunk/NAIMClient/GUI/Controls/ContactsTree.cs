@@ -512,10 +512,10 @@ namespace GUI.Controls
             this.tsmiDeleteContact = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsGroups = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiAddContact = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiAddGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiChangeIcon = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiDeleteGroup = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiAddGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsContacts.SuspendLayout();
             this.cmsGroups.SuspendLayout();
             this.SuspendLayout();
@@ -583,6 +583,15 @@ namespace GUI.Controls
             this.tsmiAddContact.Text = "Add Contact...";
             this.tsmiAddContact.Click += new System.EventHandler(this.tsmiAddContact_Click);
             // 
+            // tsmiAddGroup
+            // 
+            this.tsmiAddGroup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsmiAddGroup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tsmiAddGroup.Name = "tsmiAddGroup";
+            this.tsmiAddGroup.Size = new System.Drawing.Size(153, 22);
+            this.tsmiAddGroup.Text = "Add Group...";
+            this.tsmiAddGroup.Click += new System.EventHandler(this.tsmiAddGroup_Click);
+            // 
             // tsmiChangeIcon
             // 
             this.tsmiChangeIcon.BackColor = System.Drawing.Color.MintCream;
@@ -605,15 +614,7 @@ namespace GUI.Controls
             this.tsmiDeleteGroup.Size = new System.Drawing.Size(153, 22);
             this.tsmiDeleteGroup.Text = "Delete Group";
             this.tsmiDeleteGroup.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tsmiAddGroup
-            // 
-            this.tsmiAddGroup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsmiAddGroup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tsmiAddGroup.Name = "tsmiAddGroup";
-            this.tsmiAddGroup.Size = new System.Drawing.Size(153, 22);
-            this.tsmiAddGroup.Text = "Add Group...";
-            this.tsmiAddGroup.Click += new System.EventHandler(this.tsmiAddGroup_Click);
+            this.tsmiDeleteGroup.Click += new System.EventHandler(this.tsmiDeleteGroup_Click);
             // 
             // ContactsTree
             // 
@@ -694,6 +695,14 @@ namespace GUI.Controls
         private void tsmiAddGroup_Click(object sender, EventArgs e)
         {
             OnAddGroup();
+        }
+
+        private void tsmiDeleteGroup_Click(object sender, EventArgs e)
+        {
+            if (SelectedNode != null)
+            {
+                OnRemoveGroup(SelectedNode.Name);
+            }            
         }
     }
 }
