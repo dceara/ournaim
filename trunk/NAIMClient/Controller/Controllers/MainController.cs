@@ -145,6 +145,7 @@ namespace Controllers
 
             this.mainView = mainView;
             this.mainView.AddContactEvent += new AddContactEventHandler(mainView_AddContactEvent);
+            this.mainView.AddGroupEvent += new AddGroupEventHandler(mainView_AddGroupEvent);
             this.mainView.ChangeContactGroupEvent += new ChangeContactGroupEventHandler(mainView_ChangeContactGroupEvent);
             this.mainView.ChangeStatusEvent += new ChangeStatusEventHandler(mainView_ChangeStatusEvent);
             this.mainView.LoginEvent += new LoginEventHandler(mainView_LoginEvent);
@@ -162,6 +163,8 @@ namespace Controllers
             
             currentState.ConversationControllers = conversationControllers;
         }
+
+        
 
         
         public void InitialiseConversation(string userName,IConversationView conversationView)
@@ -287,9 +290,22 @@ namespace Controllers
             AMessageData messageData = new AddContactMessageData(this.currentUserName, group, uname);
             Common.Protocol.Message addContactMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.ADD_CONTACT), messageData);
             this.outputMessageQueue.Enqueue(addContactMessage);
-#warning check if the current state is StateIdle
             ((StateIdle)currentState).ContactsByGroups[group].Add(new UserListEntry(uname));
         }
+
+        void mainView_AddGroupEvent(string group)
+        {
+            if (!(currentState is StateIdle))
+                return;
+            if (AState.CheckIfGroupExists(group, ((StateIdle)currentState).ContactsByGroups))
+            {
+                MessageBox.Show("Grpup already in list!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            ((StateIdle)currentState).ContactsByGroups.Add(group, new List<UserListEntry>());
+            mainView.AddGroup(group);
+        }
+
         void mainView_RemoveContactEvent(string username)
         {
             AMessageData messageData = new RemoveContactMessageData(this.currentUserName, username);
