@@ -37,7 +37,6 @@ namespace Controller.StateObjects
             if (_signUpAlreadySent && message.Header.ServiceType == Common.ServiceTypes.ACK)
             {
                 AState nextState = GetNextState(message.Header.ServiceType);
-                nextState.ToCloseConnection = true;
                 ClearCurrentEventHandlers();
                 return nextState;
             }
