@@ -232,7 +232,7 @@ namespace GUI
             this.addToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
             this.addToolStripMenuItem.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.addToolStripMenuItem.Text = "&Add Contact";
             this.addToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.addToolStripMenuItem.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
@@ -247,7 +247,7 @@ namespace GUI
             this.addGroupToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.addGroupToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.addGroupToolStripMenuItem.Name = "addGroupToolStripMenuItem";
-            this.addGroupToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.addGroupToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.addGroupToolStripMenuItem.Text = "Add &Group";
             this.addGroupToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.addGroupToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
@@ -261,8 +261,8 @@ namespace GUI
             this.showOfflineContactsToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.showOfflineContactsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.showOfflineContactsToolStripMenuItem.Name = "showOfflineContactsToolStripMenuItem";
-            this.showOfflineContactsToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
-            this.showOfflineContactsToolStripMenuItem.Text = "Show O&ffline Contacts";
+            this.showOfflineContactsToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.showOfflineContactsToolStripMenuItem.Text = "Show/Hide O&ffline Contacts";
             this.showOfflineContactsToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.showOfflineContactsToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.showOfflineContactsToolStripMenuItem.Click += new System.EventHandler(this.showOfflineContactsToolStripMenuItem_Click);
@@ -275,7 +275,7 @@ namespace GUI
             this.viewArchiveToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.viewArchiveToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.viewArchiveToolStripMenuItem.Name = "viewArchiveToolStripMenuItem";
-            this.viewArchiveToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.viewArchiveToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.viewArchiveToolStripMenuItem.Text = "&View Archive";
             this.viewArchiveToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.viewArchiveToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
@@ -289,7 +289,7 @@ namespace GUI
             this.deleteToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.deleteToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.deleteToolStripMenuItem.Text = "&Delete Contact";
             this.deleteToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.deleteToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
