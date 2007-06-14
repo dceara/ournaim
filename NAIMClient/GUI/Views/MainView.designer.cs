@@ -279,6 +279,7 @@ namespace GUI
             this.viewArchiveToolStripMenuItem.Text = "&View Archive";
             this.viewArchiveToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.viewArchiveToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.viewArchiveToolStripMenuItem.Click += new System.EventHandler(this.viewArchiveToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 

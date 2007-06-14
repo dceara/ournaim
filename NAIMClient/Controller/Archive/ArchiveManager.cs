@@ -14,18 +14,21 @@ namespace Controller.Archive
 
         private string _currentUserFolder;
 
+        private string _currentDirectory;
+
         public string UserName
         {
             set 
             {
                 _userName = value;
-                _currentUserFolder = _archiveLocation + "\\" + _userName;
+                _currentUserFolder = _currentDirectory + "\\" + _archiveLocation + "\\" + _userName;
                 CreateUserFolder(value);
             }
         }
 
         public ArchiveManager()
         {
+            _currentDirectory = Directory.GetCurrentDirectory();
         }
 
         public void SaveMessage(string contact, string message)
