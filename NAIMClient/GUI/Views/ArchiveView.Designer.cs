@@ -41,15 +41,13 @@ namespace GUI.Views
             // 
             // listViewContacts
             // 
-            this.listViewContacts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewContacts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listViewContacts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colLstContactsName});
+            this.listViewContacts.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewContacts.Location = new System.Drawing.Point(0, 0);
             this.listViewContacts.Name = "listViewContacts";
-            this.listViewContacts.Size = new System.Drawing.Size(289, 650);
+            this.listViewContacts.Size = new System.Drawing.Size(292, 650);
             this.listViewContacts.TabIndex = 0;
             this.listViewContacts.UseCompatibleStateImageBehavior = false;
             this.listViewContacts.View = System.Windows.Forms.View.Details;
@@ -62,16 +60,14 @@ namespace GUI.Views
             // 
             // listViewMessages
             // 
-            this.listViewMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewMessages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listViewMessages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colLstViewMsgsDate,
             this.colLstViewMsgs});
-            this.listViewMessages.Location = new System.Drawing.Point(3, 0);
+            this.listViewMessages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewMessages.Location = new System.Drawing.Point(0, 0);
             this.listViewMessages.Name = "listViewMessages";
-            this.listViewMessages.Size = new System.Drawing.Size(578, 650);
+            this.listViewMessages.Size = new System.Drawing.Size(581, 650);
             this.listViewMessages.TabIndex = 1;
             this.listViewMessages.UseCompatibleStateImageBehavior = false;
             this.listViewMessages.View = System.Windows.Forms.View.Details;
