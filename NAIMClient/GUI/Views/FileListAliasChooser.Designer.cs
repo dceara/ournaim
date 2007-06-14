@@ -35,9 +35,9 @@ namespace GUI.Views
             // 
             // lblAlias
             // 
-            this.lblAlias.Location = new System.Drawing.Point(42, 19);
+            this.lblAlias.Location = new System.Drawing.Point(12, 9);
             this.lblAlias.Name = "lblAlias";
-            this.lblAlias.Size = new System.Drawing.Size(67, 19);
+            this.lblAlias.Size = new System.Drawing.Size(34, 19);
             this.lblAlias.TabIndex = 6;
             this.lblAlias.Text = "Alias:";
             this.lblAlias.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -46,17 +46,18 @@ namespace GUI.Views
             // 
             this.txtAlias.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtAlias.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtAlias.Location = new System.Drawing.Point(124, 20);
+            this.txtAlias.Location = new System.Drawing.Point(15, 31);
             this.txtAlias.Name = "txtAlias";
-            this.txtAlias.Size = new System.Drawing.Size(160, 20);
+            this.txtAlias.Size = new System.Drawing.Size(164, 20);
             this.txtAlias.TabIndex = 7;
             // 
             // btnOk
             // 
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(107, 46);
+            this.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnOk.Location = new System.Drawing.Point(99, 70);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(112, 25);
+            this.btnOk.Size = new System.Drawing.Size(80, 25);
             this.btnOk.TabIndex = 8;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
@@ -67,11 +68,13 @@ namespace GUI.Views
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
-            this.ClientSize = new System.Drawing.Size(327, 95);
+            this.ClientSize = new System.Drawing.Size(197, 112);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.txtAlias);
             this.Controls.Add(this.lblAlias);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximumSize = new System.Drawing.Size(203, 137);
+            this.MinimumSize = new System.Drawing.Size(203, 137);
             this.Name = "FileListAliasChooser";
             this.Text = "Alias Chooser";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FileListAliasChooser_FormClosing);
