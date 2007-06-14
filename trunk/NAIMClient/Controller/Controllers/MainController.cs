@@ -285,10 +285,26 @@ namespace Controllers
 
         void mainView_ChangeContactGroupEvent(string contact, string newgroup)
         {
+            if (!(currentState is StateIdle))
+                return;
             AMessageData messageData = new AddContactMessageData(this.currentUserName, newgroup, contact);
             Common.Protocol.Message changeContactGroupMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.ADD_CONTACT), messageData);
             outputMessageQueue.Enqueue(changeContactGroupMessage);
-#warning to change user group in GUI too
+            
+            foreach(KeyValuePair<string,IList<UserListEntry>> pair in ((StateIdle)currentState).ContactsByGroups)
+            {
+                if (pair.Key == newgroup)
+                    continue;
+                foreach (UserListEntry entry in pair.Value)
+                {
+                    if (entry.UserName == contact)
+                    {
+                        pair.Value.Remove(entry);
+                        ((StateIdle)currentState).ContactsByGroups[newgroup].Add(entry);
+                        return;
+                    }
+                }
+            }
         }
 
         void mainView_AddContactEvent(string uname, string group)
