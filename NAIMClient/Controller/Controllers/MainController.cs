@@ -224,7 +224,8 @@ namespace Controllers
                 ((StateIdle)currentState).InitialiseFileTransferManager(fileTransferView,this.peerConnectionManager,this._downloadedFileLists);
 
 
-                //this.fileTransferView.ViewClosedEvent += new ViewClosedEventHandler(fileTransferView_ViewClosedEvent);
+                this.fileTransferView.ViewClosedEvent += new ViewClosedEventHandler(fileTransferView_ViewClosedEvent);
+#warning TODO
                 //this.fileTransferView.ContactSelectedEvent += new ContactSelectedEventHandler(fileTransferView_ContactSelectedEvent);
                 //this.fileTransferView.GetContactListEvent += new GetContactListEventHandler(fileTransferView_GetContactListEvent);
 
@@ -510,14 +511,15 @@ namespace Controllers
         private void StartPeerConnectionManager()
         {
             peerConnectionManager = new PeerConnectionManager(localPort);
-            peerConnectionManager.CancelTransferEvent += new CancelTransfer(peerConnectionManager_CancelTransferEvent);
-            peerConnectionManager.ProgressChangedEvent += new ProgressChanged(peerConnectionManager_ProgressChangedEvent);
-            peerConnectionManager.RequestFileEvent += new RequestFile(peerConnectionManager_RequestFileEvent);
-            peerConnectionManager.RequestFileListEvent += new RequestFileList(peerConnectionManager_RequestFileListEvent);
-            peerConnectionManager.TransferEndedEvent += new TransferEnded(peerConnectionManager_TransferEndedEvent);
+#warning TODO
+            //peerConnectionManager.CancelTransferEvent += new CancelTransfer(peerConnectionManager_CancelTransferEvent);
+            //peerConnectionManager.ProgressChangedEvent += new ProgressChanged(peerConnectionManager_ProgressChangedEvent);
+            //peerConnectionManager.RequestFileEvent += new RequestFile(peerConnectionManager_RequestFileEvent);
+            //peerConnectionManager.RequestFileListEvent += new RequestFileList(peerConnectionManager_RequestFileListEvent);
+            //peerConnectionManager.TransferEndedEvent += new TransferEnded(peerConnectionManager_TransferEndedEvent);
 
-            Thread listenThread = new Thread(new ParameterizedThreadStart(StartPeer));
-            listenThread.Start();
+            //Thread listenThread = new Thread(new ParameterizedThreadStart(StartPeer));
+            //listenThread.Start();
         }
 
         void StartPeer(object param)

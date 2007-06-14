@@ -272,17 +272,18 @@ namespace Controller.StateObjects
 
         private void RedirectMessageToConversationController(Common.Protocol.Message message, string sender)
         {
-            ConnectionDataMessageData messageData = (ConnectionDataMessageData)Common.Protocol.Message.GetMessageData(message);
-            if (_pendingConnectionRequests.ContainsKey(messageData.Sender))
-            {
-                _pendingConnectionRequests.Remove(messageData.Sender);
-            }
-            if (_madeConnectionRequests.ContainsKey(messageData.Sender))
-            {
-                _madeConnectionRequests.Remove(messageData.Sender);
-            }
-            _madeConnectionRequests.Add(messageData.Sender, messageData);
-            IDictionary<int,string> fileList = _peerConnectionManager.getFileListFromPeerDelegate(messageData.Sender, messageData.IpAddress, messageData.Port);
+            //TODO:
+            //ConnectionDataMessageData messageData = (ConnectionDataMessageData)Common.Protocol.Message.GetMessageData(message);
+            //if (_pendingConnectionRequests.ContainsKey(messageData.Sender))
+            //{
+            //    _pendingConnectionRequests.Remove(messageData.Sender);
+            //}
+            //if (_madeConnectionRequests.ContainsKey(messageData.Sender))
+            //{
+            //    _madeConnectionRequests.Remove(messageData.Sender);
+            //}
+            //_madeConnectionRequests.Add(messageData.Sender, messageData);
+            //IDictionary<int,string> fileList = _peerConnectionManager.getFileListFromPeerDelegate(messageData.Sender, messageData.IpAddress, messageData.Port);
 
 
         }

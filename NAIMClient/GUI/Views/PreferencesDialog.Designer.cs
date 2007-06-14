@@ -151,7 +151,7 @@ namespace GUI.Views
             this.textBoxServAdr.Name = "textBoxServAdr";
             this.textBoxServAdr.Size = new System.Drawing.Size(78, 20);
             this.textBoxServAdr.TabIndex = 1;
-            this.textBoxServAdr.Text = "10.6.3.114";
+            this.textBoxServAdr.Text = "localhost";
             // 
             // PreferencesDialog
             // 
