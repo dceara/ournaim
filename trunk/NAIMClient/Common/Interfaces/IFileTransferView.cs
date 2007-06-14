@@ -23,6 +23,8 @@ namespace Common.Interfaces
         #region Events
 
         event ViewClosedEventHandler ViewClosedEvent;
+        event ContactSelectedEventHandler ContactSelectedEvent;
+        event GetContactListEventHandler GetContactListEvent;
 
         #endregion
 
