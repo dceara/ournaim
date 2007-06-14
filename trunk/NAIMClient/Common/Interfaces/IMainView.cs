@@ -33,7 +33,7 @@ namespace Common.Interfaces
 
     public delegate void OpenSignUpViewHandler();
 
-    public delegate void OpenArchiveViewHandler(string username);
+    public delegate void OpenArchiveViewHandler();
 
     public delegate void ChangeSettings(string adr, string port);
 
@@ -236,7 +236,7 @@ namespace Common.Interfaces
 
         void RemoveContact(string contactName);
 
-        void OnOpenArchiveView(string username);
+        void OnOpenArchiveView();
 
         void OnChangeSettings(string adr, string port);
 

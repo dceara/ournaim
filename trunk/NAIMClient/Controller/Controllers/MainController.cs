@@ -365,6 +365,8 @@ namespace Controllers
 
         void mainView_MainCloseEvent()
         {
+            fileListManager.SaveFileList();
+
             if (currentState is StateIdle)
             {
                 AState lastState = currentState;
@@ -387,7 +389,7 @@ namespace Controllers
             mainLoopStarted = false;
         }
 
-        void mainView_OpenArchiveViewEvent(string username)
+        void mainView_OpenArchiveViewEvent()
         {
             IArchiveView archiveView = OnInstantiateArchiveView();
             if (archiveView == null)

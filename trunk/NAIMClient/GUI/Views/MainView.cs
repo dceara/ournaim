@@ -183,11 +183,11 @@ namespace GUI
         }
 
 
-        public void OnOpenArchiveView(string contactName)
+        public void OnOpenArchiveView()
         {
             if (OpenArchiveViewEvent != null)
             {
-                OpenArchiveViewEvent(contactName);
+                OpenArchiveViewEvent();
             }
         }
 
@@ -408,6 +408,10 @@ namespace GUI
             OnOpenFileListView();
         }
 
+        private void viewArchiveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OnOpenArchiveView();
+        }
 
         #endregion
 
@@ -437,6 +441,8 @@ namespace GUI
             this.ctvContacts.Visible = !value;
         }
         #endregion
+
+        
 
     }
 }
