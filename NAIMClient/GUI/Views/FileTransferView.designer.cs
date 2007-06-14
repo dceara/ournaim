@@ -30,19 +30,124 @@ namespace GUI
         private void InitializeComponent()
         {
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.lwContacts = new System.Windows.Forms.ListView();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.lwFileList = new System.Windows.Forms.ListView();
+            this.File = new System.Windows.Forms.ColumnHeader();
+            this.lwStatus = new System.Windows.Forms.ListView();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.lwContacts);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Size = new System.Drawing.Size(818, 580);
+            this.splitContainer1.SplitterDistance = 272;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // lwContacts
+            // 
+            this.lwContacts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lwContacts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lwContacts.FullRowSelect = true;
+            this.lwContacts.Location = new System.Drawing.Point(0, 0);
+            this.lwContacts.MultiSelect = false;
+            this.lwContacts.Name = "lwContacts";
+            this.lwContacts.Size = new System.Drawing.Size(272, 580);
+            this.lwContacts.TabIndex = 0;
+            this.lwContacts.UseCompatibleStateImageBehavior = false;
+            this.lwContacts.View = System.Windows.Forms.View.List;
+            this.lwContacts.ItemActivate += new System.EventHandler(this.lwContacts_ItemActivate);
+            this.lwContacts.SelectedIndexChanged += new System.EventHandler(this.lwContacts_SelectedIndexChanged);
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.lwFileList);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.lwStatus);
+            this.splitContainer2.Size = new System.Drawing.Size(542, 580);
+            this.splitContainer2.SplitterDistance = 421;
+            this.splitContainer2.TabIndex = 0;
+            // 
+            // lwFileList
+            // 
+            this.lwFileList.AllowColumnReorder = true;
+            this.lwFileList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lwFileList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.File});
+            this.lwFileList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lwFileList.Location = new System.Drawing.Point(0, 0);
+            this.lwFileList.Name = "lwFileList";
+            this.lwFileList.Size = new System.Drawing.Size(542, 421);
+            this.lwFileList.TabIndex = 0;
+            this.lwFileList.UseCompatibleStateImageBehavior = false;
+            this.lwFileList.View = System.Windows.Forms.View.Details;
+            // 
+            // File
+            // 
+            this.File.Width = 540;
+            // 
+            // lwStatus
+            // 
+            this.lwStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lwStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lwStatus.Location = new System.Drawing.Point(0, 0);
+            this.lwStatus.Name = "lwStatus";
+            this.lwStatus.Size = new System.Drawing.Size(542, 155);
+            this.lwStatus.TabIndex = 0;
+            this.lwStatus.UseCompatibleStateImageBehavior = false;
             // 
             // FileTransferView
             // 
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.ClientSize = new System.Drawing.Size(818, 580);
+            this.Controls.Add(this.splitContainer1);
             this.Name = "FileTransferView";
             this.Text = "File Transfer Manager";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FileTransferView_FormClosing);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
         #endregion
 
         private SaveFileDialog saveFileDialog;
+        private SplitContainer splitContainer1;
+        private SplitContainer splitContainer2;
+        private ListView lwFileList;
+        private ListView lwStatus;
+        private ListView lwContacts;
+        private ColumnHeader File;
 
     }
 }

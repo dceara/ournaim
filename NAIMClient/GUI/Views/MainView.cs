@@ -411,7 +411,7 @@ namespace GUI
         private void viewArchiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string contactName = "";
-            if (this.ctvContacts.SelectedNode.Level > 0)
+            if (this.ctvContacts.SelectedNode != null && this.ctvContacts.SelectedNode.Level > 0)
             {
                 contactName = this.ctvContacts.SelectedNode.Name;
             }

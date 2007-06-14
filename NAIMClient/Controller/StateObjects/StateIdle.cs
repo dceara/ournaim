@@ -152,6 +152,10 @@ namespace Controller.StateObjects
         private void HandleUserDisconnectedMessage(UserDisconnectedMessageData userDisconnectedData)
         {
             _mainView.ClientOffline(userDisconnectedData.UserName);
+            if (_fileTransferView != null)
+            {
+                _fileTransferView.ContactOffline(userDisconnectedData.UserName);
+            }
             _onlineContacts.Remove(userDisconnectedData.UserName);
         }
 
@@ -168,6 +172,10 @@ namespace Controller.StateObjects
             {
                 string groupName = GetGroupName(userConnectedData.UserName);
                 _mainView.ClientOnline(userConnectedData.UserName, userConnectedData.Status);
+                if (_fileTransferView != null)
+                {
+                    _fileTransferView.ContactOnline(userConnectedData.UserName);
+                }
                 _onlineContacts.Add(userConnectedData.UserName, new UserListEntry(userConnectedData.UserName, userConnectedData.Status));
             }
             else

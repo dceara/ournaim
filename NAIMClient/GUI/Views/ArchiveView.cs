@@ -40,7 +40,7 @@ namespace GUI.Views
                 listViewContacts.SelectedIndices.Add(index);
             }
             this.listViewContacts.Update();
-            this.ShowDialog();
+            this.Show();
         }
 
         #endregion

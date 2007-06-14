@@ -50,7 +50,7 @@ namespace GUI.Views
             this.listViewContacts.Size = new System.Drawing.Size(292, 650);
             this.listViewContacts.TabIndex = 0;
             this.listViewContacts.UseCompatibleStateImageBehavior = false;
-            this.listViewContacts.View = System.Windows.Forms.View.Details;
+            this.listViewContacts.View = System.Windows.Forms.View.List;
             this.listViewContacts.SelectedIndexChanged += new System.EventHandler(this.listViewContacts_SelectedIndexChanged);
             // 
             // colLstContactsName
