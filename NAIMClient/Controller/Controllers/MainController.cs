@@ -370,7 +370,7 @@ namespace Controllers
             }
             else
             {
-                this.fileTransferView.ShowView();
+                // TODO: FILETRANSFER
             }
         }
 
