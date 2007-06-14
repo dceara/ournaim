@@ -12,6 +12,7 @@ namespace GUI.Controls
     public delegate void ContactTreeAddGroup();
     public delegate void ContactTreeRemoveGroup(string contact);
     public delegate void ContactTreeMoveContact(string contact, string destinationGroup);
+    public delegate void ContactTreeSendInstantMessage(string contact);
 
     public class ContactsTree : TreeView
     {
@@ -120,6 +121,7 @@ namespace GUI.Controls
         public event ContactTreeRemoveGroup ContactTreeRemoveGroup;
         public event ContactTreeMoveContact ContactTreeMoveContact;
         public event ContactTreeAddGroup ContactTreeAddGroup;
+        public event ContactTreeSendInstantMessage ContactTreeSendInstantMessage;
 
         #endregion
 
@@ -512,6 +514,14 @@ namespace GUI.Controls
             }
         }
 
+        protected void OnSendInstantMessage(string contact)
+        {
+            if (ContactTreeSendInstantMessage != null)
+            {
+                ContactTreeSendInstantMessage(contact);
+            }
+        }
+
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
@@ -551,6 +561,7 @@ namespace GUI.Controls
             this.tsmiSendMessage.Size = new System.Drawing.Size(194, 22);
             this.tsmiSendMessage.Text = "Send instant message...";
             this.tsmiSendMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tsmiSendMessage.Click += new System.EventHandler(this.tsmiSendMessage_Click);
             // 
             // toolStripSeparator1
             // 
@@ -712,6 +723,14 @@ namespace GUI.Controls
             {
                 OnRemoveGroup(SelectedNode.Name);
             }            
+        }
+
+        private void tsmiSendMessage_Click(object sender, EventArgs e)
+        {
+            if (SelectedNode != null)
+            {
+                OnSendInstantMessage(SelectedNode.Name);
+            }
         }
     }
 }
