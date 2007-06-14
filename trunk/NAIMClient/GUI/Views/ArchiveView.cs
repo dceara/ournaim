@@ -50,9 +50,12 @@ namespace GUI.Views
                         foreach(string message in entry.Value)
                         {
                             string[] values = message.Split(new char[]{' '});
-                            if (values.Length < 4)
-                                continue;
-                            this.listViewMessages.Items.Add(new ListViewItem(new string[] { values[0] + " " + values[1] + values[2],values[3] }));
+                            string date = "";
+                            for (int i = 0; i < values.Length - 1; ++i)
+                            {
+                                date += values[i] + " ";
+                            }
+                            this.listViewMessages.Items.Add(new ListViewItem(new string[] { date, values[values.Length - 1] }));
                             
                         }
                         found = true;
