@@ -386,10 +386,10 @@ namespace GUI
             this.ctvContacts.Size = new System.Drawing.Size(316, 648);
             this.ctvContacts.TabIndex = 14;
             this.ctvContacts.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.ctvContacts_NodeMouseDoubleClick);
+            this.ctvContacts.ContactTreeSendInstantMessage += new GUI.Controls.ContactTreeSendInstantMessage(this.ctvContacts_ContactTreeSendInstantMessage);
             // 
             // MainView
             // 
-            this.AcceptButton = this.btnSignIn;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.ClientSize = new System.Drawing.Size(327, 706);
             this.Controls.Add(this.pictureBoxPoza);

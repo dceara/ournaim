@@ -22,13 +22,22 @@ namespace GUI.Views
 
         private IList<KeyValuePair<string, IList<string>>> _archive = null;
 
-        public void ShowDialog(IList<KeyValuePair<string, IList<string>>> archive)
+        public void ShowDialog(IList<KeyValuePair<string, IList<string>>> archive, string contactName)
         {
             _archive = archive;
+            int index = -1;
+            int i = 0;
             foreach(KeyValuePair<string,IList<string> > entry in archive)
             {
                 this.listViewContacts.Items.Add(new ListViewItem(entry.Key));
-                
+                if(entry.Key == contactName)
+                    index = i;
+                i++;
+            }
+            if (index != -1)
+            {
+
+                listViewContacts.SelectedIndices.Add(index);
             }
             this.listViewContacts.Update();
             this.ShowDialog();

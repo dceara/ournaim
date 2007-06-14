@@ -389,12 +389,12 @@ namespace Controllers
             mainLoopStarted = false;
         }
 
-        void mainView_OpenArchiveViewEvent()
+        void mainView_OpenArchiveViewEvent(string contactName)
         {
             IArchiveView archiveView = OnInstantiateArchiveView();
             if (archiveView == null)
                 return;
-            archiveView.ShowDialog(archiveManager.GetMessageArchive());
+            archiveView.ShowDialog(archiveManager.GetMessageArchive(), contactName);
         }
 
         void mainView_OpenFileListViewEvent()
