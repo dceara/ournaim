@@ -246,54 +246,13 @@ namespace Controller.StateObjects
         public void InitialiseFileTransferManager(IFileTransferView newFileTransferView)
         {
             this._fileTransferView = newFileTransferView;
-            this._fileTransferView.Initialise();
-            this._fileTransferView.SetClientsListSource(_contactsByGroups);
-            this._fileTransferView.CancelFileTransferEvent += new CancelFileTransferGenericEventHandler(fileTransferView_CancelFileTransferEvent);
-            this._fileTransferView.FileTransferCloseViewEvent += new FileTransferCloseViewEventHandler(fileTransferView_FileTransferCloseViewEvent);
-            this._fileTransferView.GetFileListEvent += new GetFileListEventHandler(fileTransferView_GetFileListEvent);
-            this._fileTransferView.StartFileTransferEvent += new StartFileTransferGenericEventHandler(fileTransferView_StartFileTransferEvent);
-            this._fileTransferView.CloseFileTransferViewEvent += new CloseFileTransferViewEventHandler(fileTransferView_CloseFileTransferViewEvent);
-            this._fileTransferView.ShowView();
+            // TODO FILETRANSFER
         }
 
         #endregion
 
         #region FileTransferView Event Handlers
 
-        void fileTransferView_CancelFileTransferEvent(string username,string fileName)
-        {
-            IConversationController conversationController = _conversationControllers[username];
-            conversationController.CancelFileTransfer();
-        }
-
-        void fileTransferView_FileTransferCloseViewEvent(object eventArgs)
-        {
-            this._fileTransferView = null;
-        }
-
-        void fileTransferView_GetFileListEvent(string username)
-        {
-            IConversationController conversationController = _conversationControllers[username];
-            IList<string> fileList = conversationController.GetPeerFileList();
-            while (fileList == null)
-            {
-                Application.DoEvents();
-                fileList = conversationController.GetPeerFileList();
-            }
-            _fileTransferView.ShowFileList(fileList);
-        }
-
-        void fileTransferView_StartFileTransferEvent(string username, string fileName, string writeLocation)
-        {
-            IConversationController conversationController = _conversationControllers[username];
-            conversationController.ReceiveFile(fileName, writeLocation);
-        }
-
-        void fileTransferView_CloseFileTransferViewEvent()
-        {
-            this._fileTransferView = null;
-            this._mainView.ShowView();
-        }
         #endregion
 
     }
