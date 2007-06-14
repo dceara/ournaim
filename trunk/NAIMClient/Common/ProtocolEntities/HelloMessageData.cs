@@ -5,10 +5,7 @@ using Common.Protocol;
 
 namespace Common.ProtocolEntities
 {
-    /// <summary>
-    /// [Deprecated]
-    /// </summary>
-    [Obsolete]
+
     class HelloMessageData : AMessageData
     {
         private string _userName;

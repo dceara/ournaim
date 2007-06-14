@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="FileTransfer\LockableObject.cs" />
     <Compile Include="FileTransfer\PeerConnectionHandler.cs" />
+    <Compile Include="FileTransfer\PeerListener.cs" />
     <Compile Include="Interfaces\IArchiveView.cs" />
     <Compile Include="Interfaces\IConversationController.cs" />
     <Compile Include="Interfaces\IConversationView.cs" />
