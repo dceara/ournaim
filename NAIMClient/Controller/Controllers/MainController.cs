@@ -448,7 +448,8 @@ namespace Controllers
         {
             fileListManager.SaveFileList();
 
-            peerConnectionManager.stopDelegate();
+#warning TODO
+            //peerConnectionManager.stopDelegate();
 
             StopPeerConnectionManager();
 
@@ -475,18 +476,22 @@ namespace Controllers
             mainLoopStarted = false;
 
             mainView.Initialise();
-            fileTransferView.CloseView();
+
+            if(fileTransferView!=null)
+                fileTransferView.CloseView();
+            
             fileTransferView = null;
         }
 
         private void StopPeerConnectionManager()
         {
-            this.peerConnectionManager.CancelTransferEvent -= peerConnectionManager_CancelTransferEvent;
-            this.peerConnectionManager.ProgressChangedEvent -= peerConnectionManager_ProgressChangedEvent;
-            this.peerConnectionManager.RequestFileEvent -= peerConnectionManager_RequestFileEvent;
-            this.peerConnectionManager.RequestFileListEvent -= peerConnectionManager_RequestFileListEvent;
-            this.peerConnectionManager.TransferEndedEvent -= peerConnectionManager_TransferEndedEvent;
-            this.peerConnectionManager = null;
+#warning TODO
+            //this.peerConnectionManager.CancelTransferEvent -= peerConnectionManager_CancelTransferEvent;
+            //this.peerConnectionManager.ProgressChangedEvent -= peerConnectionManager_ProgressChangedEvent;
+            //this.peerConnectionManager.RequestFileEvent -= peerConnectionManager_RequestFileEvent;
+            //this.peerConnectionManager.RequestFileListEvent -= peerConnectionManager_RequestFileListEvent;
+            //this.peerConnectionManager.TransferEndedEvent -= peerConnectionManager_TransferEndedEvent;
+            //this.peerConnectionManager = null;
         }
 
 
