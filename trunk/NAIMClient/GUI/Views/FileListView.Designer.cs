@@ -37,11 +37,12 @@ namespace GUI.Views
             // 
             // listViewFileList
             // 
+            this.listViewFileList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listViewFileList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colLstViewName,
             this.colLstViewAlias});
             this.listViewFileList.GridLines = true;
-            this.listViewFileList.Location = new System.Drawing.Point(138, 26);
+            this.listViewFileList.Location = new System.Drawing.Point(131, 12);
             this.listViewFileList.Name = "listViewFileList";
             this.listViewFileList.Size = new System.Drawing.Size(509, 315);
             this.listViewFileList.TabIndex = 0;
@@ -60,7 +61,8 @@ namespace GUI.Views
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(13, 54);
+            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAdd.Location = new System.Drawing.Point(13, 12);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(91, 28);
             this.btnAdd.TabIndex = 1;
@@ -70,7 +72,8 @@ namespace GUI.Views
             // 
             // btnRemoveFile
             // 
-            this.btnRemoveFile.Location = new System.Drawing.Point(13, 99);
+            this.btnRemoveFile.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnRemoveFile.Location = new System.Drawing.Point(12, 46);
             this.btnRemoveFile.Name = "btnRemoveFile";
             this.btnRemoveFile.Size = new System.Drawing.Size(91, 28);
             this.btnRemoveFile.TabIndex = 2;
@@ -83,7 +86,7 @@ namespace GUI.Views
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
-            this.ClientSize = new System.Drawing.Size(674, 359);
+            this.ClientSize = new System.Drawing.Size(661, 340);
             this.Controls.Add(this.btnRemoveFile);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.listViewFileList);
