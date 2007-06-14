@@ -19,18 +19,6 @@ namespace Common.Interfaces
     /// </summary>
     public delegate void CloseEventDelegate();
 
-    /// <summary>
-    /// Starts a file transfer.
-    /// </summary>
-    /// <param name="fileName"></param>
-    /// <param name="writeLocation"></param>
-    public delegate void StartFileTransferEventHandler(string fileName, string writeLocation);
-
-    /// <summary>
-    /// Cancels a file transfer.
-    /// </summary>
-    /// <param name="filename"></param>
-    public delegate void CancelFileTransferEventHandler(string filename);
     #endregion
 
     /// <summary>
@@ -98,19 +86,6 @@ namespace Common.Interfaces
         /// This fires the CloseEvent.
         /// </summary>
         void OnCloseEvent();
-
-        /// <summary>
-        /// This fires the StartFileTransferEvent.
-        /// </summary>
-        /// <param name="fileName">The requested file.</param>
-        /// <param name="writeLocation">The location where the file is saved.</param>
-        void OnStartFileTransferEvent(string fileName, string writeLocation);
-
-        /// <summary>
-        /// This fires the CancelFileTransferEvent
-        /// </summary>
-        /// <param name="filename">The name of the canceled file.</param>
-        void OnCancelFileTransferEvent(string filename);
 
         /// <summary>
         /// This is called by the conversation controller to show the conversation view.

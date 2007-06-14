@@ -34,8 +34,11 @@ namespace GUI
             this.lwContacts = new System.Windows.Forms.ListView();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.lwFileList = new System.Windows.Forms.ListView();
-            this.File = new System.Windows.Forms.ColumnHeader();
+            this.chFLFile = new System.Windows.Forms.ColumnHeader();
             this.lwStatus = new System.Windows.Forms.ListView();
+            this.chFTClient = new System.Windows.Forms.ColumnHeader();
+            this.chFTFile = new System.Windows.Forms.ColumnHeader();
+            this.chFTProgress = new System.Windows.Forms.ColumnHeader();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -99,7 +102,7 @@ namespace GUI
             this.lwFileList.AllowColumnReorder = true;
             this.lwFileList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lwFileList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.File});
+            this.chFLFile});
             this.lwFileList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lwFileList.Location = new System.Drawing.Point(0, 0);
             this.lwFileList.Name = "lwFileList";
@@ -107,20 +110,42 @@ namespace GUI
             this.lwFileList.TabIndex = 0;
             this.lwFileList.UseCompatibleStateImageBehavior = false;
             this.lwFileList.View = System.Windows.Forms.View.Details;
+            this.lwFileList.ItemActivate += new System.EventHandler(this.lwFileList_ItemActivate);
             // 
-            // File
+            // chFLFile
             // 
-            this.File.Width = 540;
+            this.chFLFile.Text = "File";
+            this.chFLFile.Width = 540;
             // 
             // lwStatus
             // 
             this.lwStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lwStatus.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chFTClient,
+            this.chFTFile,
+            this.chFTProgress});
             this.lwStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lwStatus.Location = new System.Drawing.Point(0, 0);
             this.lwStatus.Name = "lwStatus";
             this.lwStatus.Size = new System.Drawing.Size(542, 155);
             this.lwStatus.TabIndex = 0;
             this.lwStatus.UseCompatibleStateImageBehavior = false;
+            this.lwStatus.View = System.Windows.Forms.View.Details;
+            // 
+            // chFTClient
+            // 
+            this.chFTClient.Text = "Client";
+            this.chFTClient.Width = 92;
+            // 
+            // chFTFile
+            // 
+            this.chFTFile.Text = "File";
+            this.chFTFile.Width = 299;
+            // 
+            // chFTProgress
+            // 
+            this.chFTProgress.Text = "Progress";
+            this.chFTProgress.Width = 150;
             // 
             // FileTransferView
             // 
@@ -147,7 +172,10 @@ namespace GUI
         private ListView lwFileList;
         private ListView lwStatus;
         private ListView lwContacts;
-        private ColumnHeader File;
+        private ColumnHeader chFLFile;
+        private ColumnHeader chFTClient;
+        private ColumnHeader chFTFile;
+        private ColumnHeader chFTProgress;
 
     }
 }

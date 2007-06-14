@@ -64,22 +64,6 @@ namespace GUI
             }
         }
 
-        public void OnStartFileTransferEvent(string fileName, string writeLocation)
-        {
-            if (StartFileTransferEvent != null)
-            {
-                StartFileTransferEvent(fileName,writeLocation);
-            }
-        }
-
-        public void OnCancelFileTransferEvent(string fileName)
-        {
-            if (CancelFileTransferEvent != null)
-            {
-                CancelFileTransferEvent(fileName);
-            }
-        }
-
         public void ShowView()
         {
             this.Show();

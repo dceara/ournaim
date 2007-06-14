@@ -47,6 +47,22 @@ namespace GUI
             }
         }
 
+        protected void OnStartFileTransfer(string contact, string file)
+        {
+            if (StartFileTransferEvent != null)
+            {
+                StartFileTransferEvent(contact, file);
+            }
+        }
+
+        protected void OnCancelFileTransfer(string contact, string file)
+        {   
+            if (CancelFileTransferEvent != null)
+            {
+                CancelFileTransferEvent(contact, file);
+            }
+        }
+
         public void Initialise(ICollection<string> contacts)
         {
             foreach (string contact in contacts)
@@ -84,6 +100,31 @@ namespace GUI
             lwContacts.Items.Remove(lvi);
         }
 
+        public void StartFileTransfer(string contact, string file)
+        {
+            ListViewItem lvi = new ListViewItem(new string[] { contact, file, "0" });
+            lvi.Name = contact + file;
+            lwFileList.Items.Add(lvi);            
+        }
+
+        public void CancelFileTransfer(string contact, string file)
+        {
+            if (lwFileList.Items.ContainsKey(contact + file))
+            {
+
+            }
+        }
+
+        public void UpdateTransferProgress(string contact, string file, int progress)
+        {
+
+        }
+
+        public void FileTransferFinished(string contact, string file)
+        {
+
+        }
+
         public void LoadList(string contact, IList<string> list) 
         {
             if (lwContacts.Items.ContainsKey(contact))
@@ -105,7 +146,7 @@ namespace GUI
             }
         }
 
-        public void ClearFileList() 
+        private void ClearFileList() 
         {
             lwFileList.Items.Clear();
         }
@@ -132,6 +173,8 @@ namespace GUI
         public event ViewClosedEventHandler ViewClosedEvent;
         public event ContactSelectedEventHandler ContactSelectedEvent;
         public event GetContactListEventHandler GetContactListEvent;
+        public event StartFileTransferEventHandler StartFileTransferEvent;
+        public event CancelFileTransferEventHandler CancelFileTransferEvent;
 
         #endregion
 
@@ -157,6 +200,11 @@ namespace GUI
                 ClearFileList();
                 OnGetContactList(lwContacts.SelectedItems[0].Name);
             }
+        }
+
+        private void lwFileList_ItemActivate(object sender, EventArgs e)
+        {
+
         }
 
 
