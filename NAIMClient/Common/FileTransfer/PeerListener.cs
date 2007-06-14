@@ -207,19 +207,22 @@ namespace Common.FileTransfer
             cancelFileTransferDelegate = new CancelFileTransferDelegate(CancelFileTransfer);
             stopDelegate = new StopDelegate(this.StopThread);
             this._localPort = localPort;
+
         }
 
         #region private Methods
 
-        void CreateListenerConnection()
+        public ushort CreateListenerConnection()
         {
             _listenSocket = new Socket(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.Tcp);
             _listenSocket.Bind(new IPEndPoint(Dns.Resolve( "localhost").AddressList[0], _localPort));
             _listenSocket.Listen(_maxConn);
+            return 1;
         }
 
-        void MainLoop()
+        public void MainLoop()
         {
+
             while (!_toBreak)
             {
                 //accept new connections

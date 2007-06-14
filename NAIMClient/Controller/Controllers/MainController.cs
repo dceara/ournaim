@@ -12,6 +12,7 @@ using System.Net;
 using Controller.StateObjects;
 using Controller.Archive;
 using Common.FileTransfer;
+using System.Threading;
 
 namespace Controllers
 {
@@ -223,9 +224,9 @@ namespace Controllers
                 ((StateIdle)currentState).InitialiseFileTransferManager(fileTransferView,this.peerConnectionManager,this._downloadedFileLists);
 
 
-                this.fileTransferView.ViewClosedEvent += new ViewClosedEventHandler(fileTransferView_ViewClosedEvent);
-                this.fileTransferView.ContactSelectedEvent += new ContactSelectedEventHandler(fileTransferView_ContactSelectedEvent);
-                this.fileTransferView.GetContactListEvent += new GetContactListEventHandler(fileTransferView_GetContactListEvent);
+                //this.fileTransferView.ViewClosedEvent += new ViewClosedEventHandler(fileTransferView_ViewClosedEvent);
+                //this.fileTransferView.ContactSelectedEvent += new ContactSelectedEventHandler(fileTransferView_ContactSelectedEvent);
+                //this.fileTransferView.GetContactListEvent += new GetContactListEventHandler(fileTransferView_GetContactListEvent);
 
 
                 this.fileTransferView.Initialise(((StateIdle)currentState).OnlineContacts.Keys);
@@ -514,8 +515,15 @@ namespace Controllers
             peerConnectionManager.RequestFileEvent += new RequestFile(peerConnectionManager_RequestFileEvent);
             peerConnectionManager.RequestFileListEvent += new RequestFileList(peerConnectionManager_RequestFileListEvent);
             peerConnectionManager.TransferEndedEvent += new TransferEnded(peerConnectionManager_TransferEndedEvent);
+
+            Thread listenThread = new Thread(new ParameterizedThreadStart(StartPeer));
+            listenThread.Start();
         }
 
+        void StartPeer(object param)
+        {
+            //TODO
+        }
         
         void mainView_OpenSignUpViewEvent()
         {
@@ -798,43 +806,43 @@ namespace Controllers
             fileTransferView.HideView();
         }
 
-        void fileTransferView_GetContactListEvent(string contact)
-        {
-            if (((StateIdle)currentState).MadeConnectionRequests.ContainsKey(contact))
-            {
-                ConnectionDataMessageData data = ((StateIdle)currentState).MadeConnectionRequests[contact];
-                IDictionary<int, string> receivedFileList = peerConnectionManager.getFileListFromPeerDelegate(contact, data.IpAddress, data.Port);
-                _downloadedFileLists[contact] = receivedFileList;
-            }
-            else
-            {
-                AMessageData messageData = new ConnectionDataRequestedMessageData(this.currentUserName, contact);
-                Common.Protocol.Message connDataMessage = new Common.Protocol.Message(new MessageHeader(ServiceTypes.CONNECTION_REQ), messageData);
-                this.outputMessageQueue.Enqueue(connDataMessage);
-                ((StateIdle)currentState).PendingConnectionRequests.Add(new KeyValuePair<string, ConnectionDataMessageData>(contact, null));
-                return;
-            }
-            IDictionary<int, string> fileList = _downloadedFileLists[contact];
-            IList<string> toReturn = new List<string>();
-            foreach (KeyValuePair<int, string> pair in fileList)
-            {
-                toReturn.Add(pair.Value);
-            }
-            fileTransferView.LoadList(contact, toReturn);   
-        }
+        //void fileTransferView_GetContactListEvent(string contact)
+        //{
+        //    if (((StateIdle)currentState).MadeConnectionRequests.ContainsKey(contact))
+        //    {
+        //        ConnectionDataMessageData data = ((StateIdle)currentState).MadeConnectionRequests[contact];
+        //        IDictionary<int, string> receivedFileList = peerConnectionManager.getFileListFromPeerDelegate(contact, data.IpAddress, data.Port);
+        //        _downloadedFileLists[contact] = receivedFileList;
+        //    }
+        //    else
+        //    {
+        //        AMessageData messageData = new ConnectionDataRequestedMessageData(this.currentUserName, contact);
+        //        Common.Protocol.Message connDataMessage = new Common.Protocol.Message(new MessageHeader(ServiceTypes.CONNECTION_REQ), messageData);
+        //        this.outputMessageQueue.Enqueue(connDataMessage);
+        //        ((StateIdle)currentState).PendingConnectionRequests.Add(new KeyValuePair<string, ConnectionDataMessageData>(contact, null));
+        //        return;
+        //    }
+        //    IDictionary<int, string> fileList = _downloadedFileLists[contact];
+        //    IList<string> toReturn = new List<string>();
+        //    foreach (KeyValuePair<int, string> pair in fileList)
+        //    {
+        //        toReturn.Add(pair.Value);
+        //    }
+        //    fileTransferView.LoadList(contact, toReturn);   
+        //}
 
-        void fileTransferView_ContactSelectedEvent(string contact)
-        {
-            if (!_downloadedFileLists.ContainsKey(contact))
-                return;
-            IDictionary<int, string> fileList = _downloadedFileLists[contact];
-            IList<string> toReturn = new List<string>();
-            foreach (KeyValuePair<int, string> pair in fileList)
-            {
-                toReturn.Add(pair.Value);
-            }
-            fileTransferView.LoadList(contact, toReturn);
-        }
+        //void fileTransferView_ContactSelectedEvent(string contact)
+        //{
+        //    if (!_downloadedFileLists.ContainsKey(contact))
+        //        return;
+        //    IDictionary<int, string> fileList = _downloadedFileLists[contact];
+        //    IList<string> toReturn = new List<string>();
+        //    foreach (KeyValuePair<int, string> pair in fileList)
+        //    {
+        //        toReturn.Add(pair.Value);
+        //    }
+        //    fileTransferView.LoadList(contact, toReturn);
+        //}
 
         #endregion
 
