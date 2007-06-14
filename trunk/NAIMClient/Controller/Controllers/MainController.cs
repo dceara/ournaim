@@ -169,14 +169,21 @@ namespace Controllers
             this.mainView.OpenArchiveViewEvent += new OpenArchiveViewHandler(mainView_OpenArchiveViewEvent);
             this.mainView.ChangeSettingsEvent += new ChangeSettings(mainView_ChangeSettingsEvent);
             this.mainView.RemoveGroupEvent += new RemoveGroupEventHandler(mainView_RemoveGroupEvent);
-            this.mainView.OpenFileListViewEvent += new OpenFileListViewHandler(mainView_OpenFileListViewEvent);
+            this.mainView.OpenFileListViewEvent += new OpenFileListViewHandler(mainView_OpenFileListViewEvent);            
             this.mainView.Initialise();
+
+            
 
             this.conversationControllers = new Dictionary<string, IConversationController>();
             this.inputMessageQueue = new Queue<Common.Protocol.Message>();
             this.outputMessageQueue = new Queue<Common.Protocol.Message>();
 
             currentState.ConversationControllers = conversationControllers;
+        }
+
+        void fileTransferView_ViewClosedEvent()
+        {
+            fileTransferView.HideView();
         }        
         
         public void InitialiseConversation(string userName,IConversationView conversationView)
@@ -210,11 +217,16 @@ namespace Controllers
         }
 
         public void InitialiseFileTransferManager(IFileTransferView newFileTransferView)
-        {
+        {            
             if (this.currentState is StateIdle)
             {
                 this.fileTransferView = newFileTransferView;
-                ((StateIdle)currentState).InitialiseFileTransferManager(newFileTransferView);
+                ((StateIdle)currentState).InitialiseFileTransferManager(fileTransferView);
+
+
+                this.fileTransferView.ViewClosedEvent += new ViewClosedEventHandler(fileTransferView_ViewClosedEvent);
+
+                this.fileTransferView.Initialise(((StateIdle)currentState).OnlineContacts.Keys);
             }
         }
 
@@ -321,6 +333,10 @@ namespace Controllers
             this.outputMessageQueue.Enqueue(addContactMessage);
             ((StateIdle)currentState).ContactsByGroups[group].Add(new UserListEntry(uname));
             mainView.AddContact(uname, group);
+            if (fileTransferView != null && ((StateIdle)currentState).OnlineContacts.ContainsKey(uname))
+            {
+                fileTransferView.AddContact(uname);
+            }
         }
 
         void mainView_AddGroupEvent(string group)
@@ -360,6 +376,10 @@ namespace Controllers
             Common.Protocol.Message removeContactMessage = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.REMOVE_CONTACT), messageData);
             this.outputMessageQueue.Enqueue(removeContactMessage);
             mainView.RemoveContact(username);
+            if (fileTransferView != null && ((StateIdle)currentState).OnlineContacts.ContainsKey(username))
+            {
+                fileTransferView.RemoveContact(username); 
+            }
         }
 
         void mainView_OpenFileTransferViewEvent()
@@ -368,10 +388,7 @@ namespace Controllers
             {
                 OnInstantiateFileTransferView();
             }
-            else
-            {
-                // TODO: FILETRANSFER
-            }
+            this.fileTransferView.ShowView();
         }
 
         void mainView_OpenConversationEvent(string userName)
@@ -449,7 +466,8 @@ namespace Controllers
             mainLoopStarted = false;
 
             mainView.Initialise();
-
+            fileTransferView.CloseView();
+            fileTransferView = null;
         }
 
 
