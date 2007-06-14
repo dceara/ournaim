@@ -461,9 +461,9 @@ namespace GUI.Controls
 
             TreeNode selectedNode = GetNodeAt(e.Location);
             SelectedNode = selectedNode;
-            if (selectedNode != null && selectedNode.Parent == null) 
+            if (selectedNode != null && selectedNode.Level == 0) 
             {
-                if (selectedNode.Nodes.Count > 0) 
+                if (selectedNode.Nodes.Count > 0 || _offlineContactsRoot.Nodes[selectedNode.Name].Nodes.Count > 0) 
                 {
                     tsmiDeleteGroup.Enabled = false;
                 }
