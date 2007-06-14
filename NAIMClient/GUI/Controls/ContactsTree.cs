@@ -111,6 +111,16 @@ namespace GUI.Controls
 
         ImageList _icons = new ImageList();
         private ToolStripMenuItem tsmiAddGroup;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem toolStripMenuItem2;
+        private ToolStripMenuItem toolStripMenuItem3;
+        private ToolStripMenuItem toolStripMenuItem4;
+        private ToolStripMenuItem toolStripMenuItem5;
+        private ToolStripMenuItem toolStripMenuItem6;
+        private ToolStripMenuItem toolStripMenuItem7;
+        private ToolStripMenuItem toolStripMenuItem8;
+        private ToolStripMenuItem toolStripMenuItem9;
+        private ToolStripMenuItem toolStripMenuItem10;
         TreeNode _offlineContactsRoot = new TreeNode();
 
 
@@ -175,7 +185,29 @@ namespace GUI.Controls
                 _groupImageIndex = 0;
 
 
+
             InitializeComponent();
+
+            toolStripMenuItem1.Image = Icons.bunny.ToBitmap();
+            toolStripMenuItem1.Text = "bunny";
+            toolStripMenuItem2.Image = Icons.face.ToBitmap();
+            toolStripMenuItem2.Text = "face";
+            toolStripMenuItem3.Image = Icons.flower.ToBitmap();
+            toolStripMenuItem3.Text = "flower";
+            toolStripMenuItem4.Image = Icons.globe.ToBitmap();
+            toolStripMenuItem4.Text = "globe";
+            toolStripMenuItem5.Image = Icons.group.ToBitmap();
+            toolStripMenuItem5.Text = "group";
+            toolStripMenuItem6.Image = Icons.hypo.ToBitmap();
+            toolStripMenuItem6.Text = "hypo";
+            toolStripMenuItem7.Image = Icons.nova.ToBitmap();
+            toolStripMenuItem7.Text = "nova";
+            toolStripMenuItem8.Image = Icons.polka.ToBitmap();
+            toolStripMenuItem8.Text = "polka";
+            toolStripMenuItem9.Image = Icons.rotten.ToBitmap();
+            toolStripMenuItem9.Text = "rotten";
+            toolStripMenuItem10.Image = Icons.trek.ToBitmap();
+            toolStripMenuItem10.Text = "trek";
         }
 
         public void Clear() 
@@ -535,6 +567,16 @@ namespace GUI.Controls
             this.tsmiChangeIcon = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiDeleteGroup = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsContacts.SuspendLayout();
             this.cmsGroups.SuspendLayout();
             this.SuspendLayout();
@@ -616,6 +658,17 @@ namespace GUI.Controls
             // 
             this.tsmiChangeIcon.BackColor = System.Drawing.Color.MintCream;
             this.tsmiChangeIcon.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsmiChangeIcon.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3,
+            this.toolStripMenuItem4,
+            this.toolStripMenuItem5,
+            this.toolStripMenuItem6,
+            this.toolStripMenuItem7,
+            this.toolStripMenuItem8,
+            this.toolStripMenuItem9,
+            this.toolStripMenuItem10});
             this.tsmiChangeIcon.Name = "tsmiChangeIcon";
             this.tsmiChangeIcon.Size = new System.Drawing.Size(153, 22);
             this.tsmiChangeIcon.Text = "Change Group Icon";
@@ -635,6 +688,76 @@ namespace GUI.Controls
             this.tsmiDeleteGroup.Text = "Delete Group";
             this.tsmiDeleteGroup.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tsmiDeleteGroup.Click += new System.EventHandler(this.tsmiDeleteGroup_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItem1.Text = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItem2.Text = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItem3.Text = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItem4.Text = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItem5.Text = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItem6.Text = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Click += new System.EventHandler(this.toolStripMenuItem6_Click);
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItem7.Text = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItem8.Text = "toolStripMenuItem8";
+            this.toolStripMenuItem8.Click += new System.EventHandler(this.toolStripMenuItem8_Click);
+            // 
+            // toolStripMenuItem9
+            // 
+            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItem9.Text = "toolStripMenuItem9";
+            this.toolStripMenuItem9.Click += new System.EventHandler(this.toolStripMenuItem9_Click);
+            // 
+            // toolStripMenuItem10
+            // 
+            this.toolStripMenuItem10.Name = "toolStripMenuItem10";
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItem10.Text = "toolStripMenuItem10";
+            this.toolStripMenuItem10.Click += new System.EventHandler(this.toolStripMenuItem10_Click);
             // 
             // ContactsTree
             // 
@@ -731,6 +854,105 @@ namespace GUI.Controls
             {
                 OnSendInstantMessage(SelectedNode.Name);
             }
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (SelectedNode != null)
+            {
+                SelectedNode.ImageIndex = _icons.Images.IndexOfKey("bunny");
+                SelectedNode.SelectedImageIndex = _icons.Images.IndexOfKey("bunny");
+            }
+        }
+
+        private void toolStripMenuItem10_Click(object sender, EventArgs e)
+        {
+            if (SelectedNode != null)
+            {
+                SelectedNode.ImageIndex = _icons.Images.IndexOfKey("trek");
+                SelectedNode.SelectedImageIndex = _icons.Images.IndexOfKey("trek");
+            }
+
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (SelectedNode != null)
+            {
+                SelectedNode.ImageIndex = _icons.Images.IndexOfKey("face");
+                SelectedNode.SelectedImageIndex = _icons.Images.IndexOfKey("face");
+            }
+
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            if (SelectedNode != null)
+            {
+                SelectedNode.ImageIndex = _icons.Images.IndexOfKey("flower");
+                SelectedNode.SelectedImageIndex = _icons.Images.IndexOfKey("flower");
+            }
+
+        }
+
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            if (SelectedNode != null)
+            {
+                SelectedNode.ImageIndex = _icons.Images.IndexOfKey("globe");
+                SelectedNode.SelectedImageIndex = _icons.Images.IndexOfKey("globe");
+            }
+
+        }
+
+        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            if (SelectedNode != null)
+            {
+                SelectedNode.ImageIndex = _icons.Images.IndexOfKey("group");
+                SelectedNode.SelectedImageIndex = _icons.Images.IndexOfKey("group");
+            }
+
+        }
+
+        private void toolStripMenuItem6_Click(object sender, EventArgs e)
+        {
+            if (SelectedNode != null)
+            {
+                SelectedNode.ImageIndex = _icons.Images.IndexOfKey("hypo");
+                SelectedNode.SelectedImageIndex = _icons.Images.IndexOfKey("hypo");
+            }
+
+        }
+
+        private void toolStripMenuItem7_Click(object sender, EventArgs e)
+        {
+            if (SelectedNode != null)
+            {
+                SelectedNode.ImageIndex = _icons.Images.IndexOfKey("nova");
+                SelectedNode.SelectedImageIndex = _icons.Images.IndexOfKey("nova");
+            }
+
+        }
+
+        private void toolStripMenuItem8_Click(object sender, EventArgs e)
+        {
+            if (SelectedNode != null)
+            {
+                SelectedNode.ImageIndex = _icons.Images.IndexOfKey("polka");
+                SelectedNode.SelectedImageIndex = _icons.Images.IndexOfKey("polka");
+            }
+
+        }
+
+        private void toolStripMenuItem9_Click(object sender, EventArgs e)
+        {
+            if (SelectedNode != null)
+            {
+                SelectedNode.ImageIndex = _icons.Images.IndexOfKey("rotten");
+                SelectedNode.SelectedImageIndex = _icons.Images.IndexOfKey("rotten");
+            }
+
         }
     }
 }
