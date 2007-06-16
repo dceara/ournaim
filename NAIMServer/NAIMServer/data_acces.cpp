@@ -311,7 +311,6 @@ char * QueryExecuter::getContactsBuffer(const char * clientName, char *& buffer,
     {
         //append group_name_len_i
 
-        // bai eu zic ca-ti aloca el automat spatiu cand faci un append :)
         sbuffer+=(char)(strlen(groupsTable[i]));
         sbuffer+=groupsTable[i];
         int usersColCnt;
@@ -344,7 +343,6 @@ char * QueryExecuter::getContactsBuffer(const char * clientName, char *& buffer,
     length = sbuffer.size();
     buffer = new char[length+1];
 	memcpy(buffer,sbuffer.c_str(),length);
-    //strcpy(buffer,sbuffer.c_str());
     return buffer;
 }
 
