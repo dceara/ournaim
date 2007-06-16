@@ -17,7 +17,6 @@ class Client {
 protected:
     ConnectionManager * cMan;                   // reference to it's parent. this is needed to access information about
                                                 // all the other clients
-    Protocol protocol;                          // for protocol usage    
 
     std::queue< NAIMpacket * > inputQueue;      // input packet queue
     std::queue< NAIMpacket * > outputQueue;     // output packet queue

@@ -16,8 +16,6 @@ Client::Client(ConnectionManager * parent) {
     inputQueue = queue< NAIMpacket * >();
     outputQueue = queue< NAIMpacket * >();
     
-    protocol = Protocol();
-
     time(&lastActiveTime);
     time(&lastPingTime);
     disposable = false;
