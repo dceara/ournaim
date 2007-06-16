@@ -269,7 +269,7 @@ int ConnectionManager::transferPacket(const char * receiver, NAIMpacket * packet
 }
 
 /*
- *	Runs a tread for listening on the console. It uses a socket to communicate.
+ *	Runs a thread for listening on the console. It uses a socket to communicate with the main thread.
  */
 void * commandThread(void *) {
 
@@ -471,7 +471,8 @@ int ConnectionManager::run() {
                         closeConnection(i);
                     }
                     else if (currentTime - *client->getLastActiveTime() > TIME_TO_PING &&
-                             currentTime - *client->getLastPingTime() > TIME_TO_PING) {                        client->ping();
+                             currentTime - *client->getLastPingTime() > TIME_TO_PING) {
+                         client->ping();
                     }
                 }
             }
