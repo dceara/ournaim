@@ -460,6 +460,7 @@ int ConnectionManager::run() {
         /*
          *	Check timeouts.
          */
+        // PROST - ar trebui sa iterez prin clienti in loc de socketi
         time_t currentTime;
         time(&currentTime);
         for(int i = 0; i < fdmax; ++i) {
