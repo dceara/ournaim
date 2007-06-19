@@ -129,6 +129,10 @@ namespace GUI
             
         }
 
+        /// <summary>
+        /// Bullshit
+        /// </summary>
+        /// <param name="parameters"></param>
         private void InternalUpdateTransferProgress(object parameters)
         {
             string contact = (string)((object[])parameters)[0];
