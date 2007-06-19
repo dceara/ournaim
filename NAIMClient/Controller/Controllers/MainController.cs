@@ -92,7 +92,7 @@ namespace Controllers
 
         private bool mainLoopStarted = false;
 
-        private string server = "localhost";//"10.6.3.114";
+        private string server = "127.0.0.1";//"10.6.3.114";
 
         public string Server
         {
@@ -118,11 +118,13 @@ namespace Controllers
 
         private PeerConnectionManager peerConnectionManager = null;
 
+        private Thread listenThread = null;
+
         #region Client Peer Connection data
         /// <summary>
         /// the address for accepting peer to peer connections
         /// </summary>
-        private string localIpAddress = "localhost";
+        private string localIpAddress = "127.0.0.1";
 
         public string LocalIpAddress
         {
@@ -225,16 +227,14 @@ namespace Controllers
 
 
                 this.fileTransferView.ViewClosedEvent += new ViewClosedEventHandler(fileTransferView_ViewClosedEvent);
-#warning TODO
-                //this.fileTransferView.ContactSelectedEvent += new ContactSelectedEventHandler(fileTransferView_ContactSelectedEvent);
-                //this.fileTransferView.GetContactListEvent += new GetContactListEventHandler(fileTransferView_GetContactListEvent);
-
-
+                this.fileTransferView.ContactSelectedEvent += new ContactSelectedEventHandler(fileTransferView_ContactSelectedEvent);
+                this.fileTransferView.GetContactListEvent += new GetContactListEventHandler(fileTransferView_GetContactListEvent);
+                this.fileTransferView.StartFileTransferEvent += new StartFileTransferEventHandler(fileTransferView_StartFileTransferEvent);
+                this.fileTransferView.CancelFileTransferEvent += new CancelFileTransferEventHandler(fileTransferView_CancelFileTransferEvent);
                 this.fileTransferView.Initialise(((StateIdle)currentState).OnlineContacts.Keys);
             }
         }
 
-        
         private void MainLoop()
         {
             if (!CreateServerConnection())
@@ -405,6 +405,8 @@ namespace Controllers
         {
             fileListManager.SaveFileList();
 
+            StopPeerConnectionManager();
+
             if (currentState is StateIdle)
             {
                 AState lastState = currentState;
@@ -448,9 +450,6 @@ namespace Controllers
         {
             fileListManager.SaveFileList();
 
-#warning TODO
-            //peerConnectionManager.stopDelegate();
-
             StopPeerConnectionManager();
 
             foreach (KeyValuePair<string,IConversationController> pair in conversationControllers)
@@ -485,13 +484,23 @@ namespace Controllers
 
         private void StopPeerConnectionManager()
         {
-#warning TODO
-            //this.peerConnectionManager.CancelTransferEvent -= peerConnectionManager_CancelTransferEvent;
-            //this.peerConnectionManager.ProgressChangedEvent -= peerConnectionManager_ProgressChangedEvent;
-            //this.peerConnectionManager.RequestFileEvent -= peerConnectionManager_RequestFileEvent;
-            //this.peerConnectionManager.RequestFileListEvent -= peerConnectionManager_RequestFileListEvent;
-            //this.peerConnectionManager.TransferEndedEvent -= peerConnectionManager_TransferEndedEvent;
-            //this.peerConnectionManager = null;
+            if (peerConnectionManager == null)
+                return;
+            startedDownloads.Clear();
+            peerConnectionManager.stopDelegate.Invoke();
+            this.peerConnectionManager.CancelTransferEvent -= peerConnectionManager_CancelTransferEvent;
+            this.peerConnectionManager.ProgressChangedEvent -= peerConnectionManager_ProgressChangedEvent;
+            this.peerConnectionManager.RequestFileEvent -= peerConnectionManager_RequestFileEvent;
+            this.peerConnectionManager.RequestFileListEvent -= peerConnectionManager_RequestFileListEvent;
+            this.peerConnectionManager.TransferEndedEvent -= peerConnectionManager_TransferEndedEvent;
+            this.peerConnectionManager = null;
+            try
+            {
+                listenThread.Abort();
+            }
+            catch (ThreadAbortException ex)
+            {
+            }
         }
 
 
@@ -504,6 +513,8 @@ namespace Controllers
             this.currentPassword = password;
             StartPeerConnectionManager();
 
+            this.currentState.PeerConnectionManagerThread = this.listenThread;
+
             EmptyCurrentStateOutputBuffer();
 
             if (mainLoopStarted == false)
@@ -515,21 +526,21 @@ namespace Controllers
 
         private void StartPeerConnectionManager()
         {
-            peerConnectionManager = new PeerConnectionManager(localPort);
-#warning TODO
-            //peerConnectionManager.CancelTransferEvent += new CancelTransfer(peerConnectionManager_CancelTransferEvent);
-            //peerConnectionManager.ProgressChangedEvent += new ProgressChanged(peerConnectionManager_ProgressChangedEvent);
-            //peerConnectionManager.RequestFileEvent += new RequestFile(peerConnectionManager_RequestFileEvent);
-            //peerConnectionManager.RequestFileListEvent += new RequestFileList(peerConnectionManager_RequestFileListEvent);
-            //peerConnectionManager.TransferEndedEvent += new TransferEnded(peerConnectionManager_TransferEndedEvent);
+            peerConnectionManager = new PeerConnectionManager(0,localIpAddress,new ProgressChangedDelegate(this.peerConnectionManager_ProgressChangedEvent));
+            peerConnectionManager.CancelTransferEvent += new CancelTransfer(peerConnectionManager_CancelTransferEvent);
+            peerConnectionManager.ProgressChangedEvent += new ProgressChanged(peerConnectionManager_ProgressChangedEvent);
+            peerConnectionManager.RequestFileEvent += new RequestFile(peerConnectionManager_RequestFileEvent);
+            peerConnectionManager.RequestFileListEvent += new RequestFileList(peerConnectionManager_RequestFileListEvent);
+            peerConnectionManager.TransferEndedEvent += new TransferEnded(peerConnectionManager_TransferEndedEvent);
 
-            //Thread listenThread = new Thread(new ParameterizedThreadStart(StartPeer));
-            //listenThread.Start();
+            listenThread = new Thread(new ParameterizedThreadStart(StartPeer));
+            listenThread.Start();
         }
 
         void StartPeer(object param)
         {
-            //TODO
+            localPort = peerConnectionManager.CreateListenerConnection();
+            peerConnectionManager.MainLoop();
         }
         
         void mainView_OpenSignUpViewEvent()
@@ -583,7 +594,11 @@ namespace Controllers
         {
             this.createAccountView.CloseView();
             this.mainView.ShowView();
-            currentState = currentState.MoveState(); 
+            currentState = currentState.MoveState();
+            if (currentState is StateIdle)
+            {
+                ((StateIdle)currentState).PeerConnectionManager = peerConnectionManager;
+            }
         }
 
         #endregion
@@ -794,7 +809,7 @@ namespace Controllers
 
         void fileListView_AddFileEvent(string name, string alias)
         {
-            int newIndex = 1;
+            int newIndex = 0;
             if(fileListManager.FileList.Count > 0)
                 newIndex = fileListManager.FileList[fileListManager.FileList.Count - 1].Key + 1;
             this.fileListManager.FileList.Add(new KeyValuePair<int, KeyValuePair<string, string>>(newIndex, new KeyValuePair<string, string>(name, alias)));
@@ -813,43 +828,72 @@ namespace Controllers
             fileTransferView.HideView();
         }
 
-        //void fileTransferView_GetContactListEvent(string contact)
-        //{
-        //    if (((StateIdle)currentState).MadeConnectionRequests.ContainsKey(contact))
-        //    {
-        //        ConnectionDataMessageData data = ((StateIdle)currentState).MadeConnectionRequests[contact];
-        //        IDictionary<int, string> receivedFileList = peerConnectionManager.getFileListFromPeerDelegate(contact, data.IpAddress, data.Port);
-        //        _downloadedFileLists[contact] = receivedFileList;
-        //    }
-        //    else
-        //    {
-        //        AMessageData messageData = new ConnectionDataRequestedMessageData(this.currentUserName, contact);
-        //        Common.Protocol.Message connDataMessage = new Common.Protocol.Message(new MessageHeader(ServiceTypes.CONNECTION_REQ), messageData);
-        //        this.outputMessageQueue.Enqueue(connDataMessage);
-        //        ((StateIdle)currentState).PendingConnectionRequests.Add(new KeyValuePair<string, ConnectionDataMessageData>(contact, null));
-        //        return;
-        //    }
-        //    IDictionary<int, string> fileList = _downloadedFileLists[contact];
-        //    IList<string> toReturn = new List<string>();
-        //    foreach (KeyValuePair<int, string> pair in fileList)
-        //    {
-        //        toReturn.Add(pair.Value);
-        //    }
-        //    fileTransferView.LoadList(contact, toReturn);   
-        //}
+        void fileTransferView_GetContactListEvent(string contact)
+        {
+            if (((StateIdle)currentState).MadeConnectionRequests.ContainsKey(contact))
+            {
+                ConnectionDataMessageData data = ((StateIdle)currentState).MadeConnectionRequests[contact];
+                IDictionary<int, string> receivedFileList = peerConnectionManager.getFileListFromPeerDelegate.Invoke(contact, data.IpAddress, data.Port);
+                _downloadedFileLists[contact] = receivedFileList;
+            }
+            else
+            {
+                AMessageData messageData = new ConnectionDataRequestedMessageData(this.currentUserName, contact);
+                Common.Protocol.Message connDataMessage = new Common.Protocol.Message(new MessageHeader(ServiceTypes.CONNECTION_REQ), messageData);
+                this.outputMessageQueue.Enqueue(connDataMessage);
+                ((StateIdle)currentState).PendingConnectionRequests.Add(new KeyValuePair<string, ConnectionDataMessageData>(contact, null));
+                return;
+            }
+            IDictionary<int, string> fileList = _downloadedFileLists[contact];
+            IList<string> toReturn = new List<string>();
+            foreach (KeyValuePair<int, string> pair in fileList)
+            {
+                toReturn.Add(pair.Value);
+            }
+            fileTransferView.LoadList(contact, toReturn);
+        }
 
-        //void fileTransferView_ContactSelectedEvent(string contact)
-        //{
-        //    if (!_downloadedFileLists.ContainsKey(contact))
-        //        return;
-        //    IDictionary<int, string> fileList = _downloadedFileLists[contact];
-        //    IList<string> toReturn = new List<string>();
-        //    foreach (KeyValuePair<int, string> pair in fileList)
-        //    {
-        //        toReturn.Add(pair.Value);
-        //    }
-        //    fileTransferView.LoadList(contact, toReturn);
-        //}
+        void fileTransferView_ContactSelectedEvent(string contact)
+        {
+            if (!_downloadedFileLists.ContainsKey(contact))
+                return;
+            IDictionary<int, string> fileList = _downloadedFileLists[contact];
+            IList<string> toReturn = new List<string>();
+            foreach (KeyValuePair<int, string> pair in fileList)
+            {
+                toReturn.Add(pair.Value);
+            }
+            fileTransferView.LoadList(contact, toReturn);
+        }
+
+
+        void fileTransferView_CancelFileTransferEvent(string contact, string file)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        IList<KeyValuePair<string, KeyValuePair<int, string>>> startedDownloads = new List<KeyValuePair<string, KeyValuePair<int, string>>>();
+
+        void fileTransferView_StartFileTransferEvent(string contact, string file, string writeLocation)
+        {
+            IDictionary<int,string> fileList = _downloadedFileLists[contact];
+            int fileId = -1;
+            foreach(KeyValuePair<int,string> pair in fileList)
+            {
+                if(file == pair.Value)
+                {
+                    fileId = pair.Key;
+                    break;
+                }
+            }
+            if(fileId == -1)
+                return;
+            startedDownloads.Add(new KeyValuePair<string, KeyValuePair<int, string>>(contact, new KeyValuePair<int, string>(fileId, file)));
+            ConnectionDataMessageData connectionData = ((StateIdle)currentState).MadeConnectionRequests[contact];
+            peerConnectionManager.getFileFromPeerDelegate(contact, fileId, writeLocation + "\\" + file, connectionData.IpAddress, connectionData.Port, currentUserName);
+        }
+
+        
 
         #endregion
 
@@ -857,7 +901,14 @@ namespace Controllers
 
         void peerConnectionManager_ProgressChangedEvent(string contact, int fileId, int percentage)
         {
-            throw new Exception("The method or operation is not implemented.");
+            foreach (KeyValuePair<string, KeyValuePair<int, string>> download in startedDownloads)
+            {
+                if (download.Key == contact)
+                {
+                    //fileTransferView.UpdateTransferProgress(contact, download.Value.Value, percentage);
+                    break;
+                }
+            }
         }
 
         void peerConnectionManager_CancelTransferEvent(string contact, int fileId)
@@ -867,17 +918,33 @@ namespace Controllers
 
         void peerConnectionManager_TransferEndedEvent(string contact, int fileId)
         {
-            throw new Exception("The method or operation is not implemented.");
+            foreach (KeyValuePair<string, KeyValuePair<int, string>> download in startedDownloads)
+            {
+                if (download.Key == contact)
+                {
+                    MessageBox.Show("Transfer "+download.Value.Value+" ended!");
+                    fileTransferView.FileTransferFinished(contact, download.Value.Value);
+                    startedDownloads.Remove(download);
+                    break;
+                }
+            }
         }
 
         void peerConnectionManager_RequestFileListEvent(string contact, Socket contactSocket)
         {
-            throw new Exception("The method or operation is not implemented.");
+            IList<KeyValuePair<int,KeyValuePair<string,string>>> fileList = fileListManager.FileList;
+            IDictionary<int,string> toReturn = new Dictionary<int,string>();
+            foreach(KeyValuePair<int,KeyValuePair<string,string>> pair in fileList)
+            {
+                toReturn.Add(pair.Key,pair.Value.Value);
+            }
+            peerConnectionManager.requestedFileListDelegate.Invoke(toReturn, contactSocket);
         }
 
         void peerConnectionManager_RequestFileEvent(string contact, int fileId, Socket contactSocket)
         {
-            throw new Exception("The method or operation is not implemented.");
+            peerConnectionManager.requestedFileDelegate.Invoke(fileId, fileListManager.FileList[fileId].Value.Value, fileListManager.FileList[fileId].Value.Key, contactSocket);
+            //throw new Exception("The method or operation is not implemented.");
         }
 
 

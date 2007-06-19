@@ -48,6 +48,7 @@ namespace Common.ProtocolEntities
         #region Constructors
         
         public ConnectionDataMessageData(byte[] data)
+            :base(data)
         {
             _data = new byte[data.Length];
             Array.Copy(data, _data, data.Length);
@@ -77,7 +78,7 @@ namespace Common.ProtocolEntities
             }
             sb.Append(_data[senderLen + receiverLen + 6]);
             _ipAddress = sb.ToString();
-            _port = (ushort)IPAddress.NetworkToHostOrder(AMessageData.ToShort(_data[senderLen + receiverLen + 7], _data[senderLen + receiverLen + 8]));
+            _port = AMessageData.ToShort(_data[senderLen+receiverLen+MessageHeader.HEADER_SIZE-1], _data[senderLen + receiverLen  + MessageHeader.HEADER_SIZE]);
         }
 
         public override byte[] Serialize()
@@ -87,8 +88,7 @@ namespace Common.ProtocolEntities
             byte[] toReturn = new byte[sender.Length + receiver.Length + 9];
             IPAddress ip = IPAddress.Parse(_ipAddress);
             byte[] addr = ip.GetAddressBytes(); 
-            ushort netPort = (ushort)IPAddress.HostToNetworkOrder((short)_port);
-            byte[] port = AMessageData.ToByteArray(netPort);
+            byte[] port = AMessageData.ToByteArray(_port);
             toReturn[0] = (byte)sender.Length;
             Array.Copy(sender, 0, toReturn, 1, sender.Length);
             toReturn[sender.Length + 1] = (byte)receiver.Length;

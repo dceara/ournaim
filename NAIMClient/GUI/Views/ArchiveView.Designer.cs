@@ -75,12 +75,12 @@ namespace GUI.Views
             // colLstViewMsgsDate
             // 
             this.colLstViewMsgsDate.Text = "Date";
-            this.colLstViewMsgsDate.Width = 98;
+            this.colLstViewMsgsDate.Width = 150;
             // 
             // colLstViewMsgs
             // 
             this.colLstViewMsgs.Text = "Message";
-            this.colLstViewMsgs.Width = 198;
+            this.colLstViewMsgs.Width = 431;
             // 
             // splitContainer1
             // 

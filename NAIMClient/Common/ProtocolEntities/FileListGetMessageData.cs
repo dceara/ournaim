@@ -52,7 +52,7 @@ namespace Common.ProtocolEntities
         {
             _idsCount = AMessageData.ToInt(_data);
             _filelist = new Dictionary<int, string>();
-            int index = 1;
+            int index = 4;
             for (int i = 0; i < _idsCount; i++)
             {
                 int key = AMessageData.ToInt(_data, index);
@@ -69,18 +69,19 @@ namespace Common.ProtocolEntities
         {
             byte[] idCnt = AMessageData.ToByteArray(_idsCount);
             byte[] toReturn = new byte[idCnt.Length];
+            int oldLen = toReturn.Length;
             Array.Copy(idCnt, toReturn, idCnt.Length);
             foreach (KeyValuePair<int, string> pair in _filelist)
             {
                 byte[] itemId = AMessageData.ToByteArray(pair.Key);
                 byte[] itemName = AMessageData.ToByteArray(pair.Value);
-                int oldLen = toReturn.Length;
                 Array.Resize<byte>(ref toReturn, toReturn.Length + itemId.Length + itemName.Length + 1);
                 Array.Copy(itemId, 0, toReturn, oldLen, itemId.Length);
                 toReturn[oldLen + itemId.Length] = (byte)itemName.Length;
                 Array.Copy(itemName, 0, toReturn, oldLen + itemId.Length + 1, itemName.Length);
+                oldLen = toReturn.Length;
             }
-            return new byte[0];
+            return toReturn;
         }
         #endregion
     }

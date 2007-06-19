@@ -12,9 +12,8 @@ namespace Common.Interfaces
     public delegate void ViewClosedEventHandler();
     public delegate void ContactSelectedEventHandler(string contact);
     public delegate void GetContactListEventHandler(string contact);
-    public delegate void StartFileTransferEventHandler(string contact, string file);
+    public delegate void StartFileTransferEventHandler(string contact, string file, string writeLocation);
     public delegate void CancelFileTransferEventHandler(string contact, string file);
-
 
     #endregion
 
@@ -62,6 +61,7 @@ namespace Common.Interfaces
         void CloseView();
 
         #endregion
+
     }
     #endregion
 }

@@ -49,7 +49,7 @@ namespace GUI.Views
 
         public void ShowView()
         {
-            this.ShowDialog();
+            this.Show();
         }
 
         #endregion
