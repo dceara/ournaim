@@ -4,6 +4,7 @@ using System.Text;
 using Common.Protocol;
 using Common;
 using Common.Interfaces;
+using System.Threading;
 
 namespace Controller.StateObjects
 {
@@ -89,6 +90,16 @@ namespace Controller.StateObjects
             {
                 this._createAccountView = value;
                 InitializeAccountViewHandlers();
+            }
+        }
+
+        protected Thread _peerConnectionManagerThread;
+
+        public Thread PeerConnectionManagerThread
+        {
+            set
+            {
+                this._peerConnectionManagerThread = value;
             }
         }
 

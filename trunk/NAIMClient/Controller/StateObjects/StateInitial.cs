@@ -5,6 +5,7 @@ using Common.Interfaces;
 using Common.Protocol;
 using Common.ProtocolEntities;
 using Common;
+using System.Threading;
 
 namespace Controller.StateObjects
 {
@@ -37,6 +38,13 @@ namespace Controller.StateObjects
                 System.Windows.Forms.MessageBox.Show("Incorect Username or Password!", "Authentication Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Warning);
                 _signInAlreadySent = false;
                 ClearCurrentEventHandlers();
+                try
+                {
+                    this._peerConnectionManagerThread.Abort();
+                }
+                catch (ThreadAbortException ex)
+                {
+                }
                 return GetNextState(message.Header.ServiceType);
             }
             if (_signInAlreadySent && message.Header.ServiceType == Common.ServiceTypes.ACK)

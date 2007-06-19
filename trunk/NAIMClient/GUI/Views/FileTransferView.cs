@@ -4,15 +4,21 @@ using System.Text;
 using System.Windows.Forms;
 using Common.Interfaces;
 using Common.Protocol;
+using System.IO;
 namespace GUI
 {
+    internal delegate void GUIUpdateProgressDelegate (object parameters);
     public partial class FileTransferView : Form,IFileTransferView
     {
+
+        GUIUpdateProgressDelegate updateTransferDelegate;
+
         #region Constructors
-        
+
         public FileTransferView()
         {
             InitializeComponent();
+            updateTransferDelegate = new GUIUpdateProgressDelegate(this.InternalUpdateTransferProgress);
         }
 
         #endregion
@@ -22,6 +28,7 @@ namespace GUI
 
         }
         #region IFileTransferView Members
+
 
         protected void OnViewClosed()
         {
@@ -47,11 +54,11 @@ namespace GUI
             }
         }
 
-        protected void OnStartFileTransfer(string contact, string file)
+        protected void OnStartFileTransfer(string contact, string file, string writeLocation)
         {
             if (StartFileTransferEvent != null)
             {
-                StartFileTransferEvent(contact, file);
+                StartFileTransferEvent(contact, file,writeLocation);
             }
         }
 
@@ -117,7 +124,18 @@ namespace GUI
 
         public void UpdateTransferProgress(string contact, string file, int progress)
         {
+            this.lwStatus.BeginInvoke(updateTransferDelegate, new object[] { contact, file, progress });
+            //this.lwStatus.Invoke(InternalUpdateTransferProgress(new object[]{contact,file,progress}));
+            
+        }
 
+        private void InternalUpdateTransferProgress(object parameters)
+        {
+            string contact = (string)((object[])parameters)[0];
+            string file = (string)((object[])parameters)[1];
+            int progress = (int)((object[])parameters)[2];
+            ListViewItem item = this.lwStatus.Items[contact + "_" + file];
+            item.SubItems[2].Text = progress.ToString();
         }
 
         public void FileTransferFinished(string contact, string file)
@@ -204,7 +222,25 @@ namespace GUI
 
         private void lwFileList_ItemActivate(object sender, EventArgs e)
         {
+            if (lwFileList.SelectedIndices.Count > 0 && lwContacts.SelectedIndices.Count > 0)
+            {
+                string writeLocation = GetWriteLocation();
+                OnStartFileTransfer(lwContacts.SelectedItems[0].Name, lwFileList.SelectedItems[0].Name,writeLocation);
+                ListViewItem newDownload = new ListViewItem(new string[]{lwContacts.SelectedItems[0].Name,lwFileList.SelectedItems[0].Name,"0"});
+                newDownload.Name = lwContacts.SelectedItems[0].Name+"_"+lwFileList.SelectedItems[0].Name;
+                lwStatus.Items.Add(newDownload);
+            }
+        }
 
+        private string GetWriteLocation()
+        {
+            string currentDirectory = Directory.GetCurrentDirectory();
+            FolderBrowserDialog browserDialog = new FolderBrowserDialog();
+            if (browserDialog.ShowDialog() != DialogResult.OK)
+            {
+                return "Downloads/";
+            }
+            return browserDialog.SelectedPath;            
         }
 
 

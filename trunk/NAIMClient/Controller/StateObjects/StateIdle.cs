@@ -79,6 +79,14 @@ namespace Controller.StateObjects
 
         private PeerConnectionManager _peerConnectionManager;
 
+        public PeerConnectionManager PeerConnectionManager
+        {
+            set
+            {
+                _peerConnectionManager = value;
+            }
+        }
+
         private IDictionary<string, IDictionary<int, string>> _doawnloadedFileLists;
 
         #endregion
@@ -128,7 +136,7 @@ namespace Controller.StateObjects
                     break;
                 case Common.ServiceTypes.CONNECTION_REQ:
                     SendConnectionDataResponse((ConnectionDataRequestedMessageData)messageData);
-                    RedirectMessageToConversationController(message, ((ConnectionDataRequestedMessageData)messageData).SenderUserName);
+                    //RedirectMessageToConversationController(message, ((ConnectionDataRequestedMessageData)messageData).SenderUserName);
                     break;
                 case Common.ServiceTypes.DISCONNECT:
                     AState newState = new StateInitial();
@@ -231,6 +239,7 @@ namespace Controller.StateObjects
 
         private void SendConnectionDataResponse(ConnectionDataRequestedMessageData receivedMessageData)
         {
+            MessageBox.Show("Sent Port " + this._port);
             AMessageData messageData = new ConnectionDataMessageData(this._userName, receivedMessageData.SenderUserName, this._ip, this._port);
             Common.Protocol.Message response = new Common.Protocol.Message(new MessageHeader(ServiceTypes.CONNECTION_DATA), messageData);
             _outputMessagesList.Add(response);
@@ -272,20 +281,25 @@ namespace Controller.StateObjects
 
         private void RedirectMessageToConversationController(Common.Protocol.Message message, string sender)
         {
-            //TODO:
-            //ConnectionDataMessageData messageData = (ConnectionDataMessageData)Common.Protocol.Message.GetMessageData(message);
-            //if (_pendingConnectionRequests.ContainsKey(messageData.Sender))
-            //{
-            //    _pendingConnectionRequests.Remove(messageData.Sender);
-            //}
-            //if (_madeConnectionRequests.ContainsKey(messageData.Sender))
-            //{
-            //    _madeConnectionRequests.Remove(messageData.Sender);
-            //}
-            //_madeConnectionRequests.Add(messageData.Sender, messageData);
-            //IDictionary<int,string> fileList = _peerConnectionManager.getFileListFromPeerDelegate(messageData.Sender, messageData.IpAddress, messageData.Port);
-
-
+            ConnectionDataMessageData messageData = (ConnectionDataMessageData)Common.Protocol.Message.GetMessageData(message);
+            MessageBox.Show("Received Port "+messageData.Port);
+            if (_pendingConnectionRequests.ContainsKey(messageData.Sender))
+            {
+                _pendingConnectionRequests.Remove(messageData.Sender);
+            }
+            if (_madeConnectionRequests.ContainsKey(messageData.Sender))
+            {
+                _madeConnectionRequests.Remove(messageData.Sender);
+            }
+            _madeConnectionRequests.Add(messageData.Sender, messageData);
+            IDictionary<int, string> fileList = _peerConnectionManager.getFileListFromPeerDelegate.Invoke(messageData.Sender, messageData.IpAddress, messageData.Port);
+            _doawnloadedFileLists.Add(messageData.Sender, fileList);
+            IList<string> fileListStrings = new List<string>();
+            foreach(KeyValuePair<int,string> pair in fileList)
+            {
+                fileListStrings.Add(pair.Value);
+            }
+            _fileTransferView.LoadList(messageData.Sender, fileListStrings);
         }
 
 

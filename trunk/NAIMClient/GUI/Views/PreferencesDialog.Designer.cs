@@ -39,6 +39,8 @@ namespace GUI.Views
             this.connectionlabel = new System.Windows.Forms.Label();
             this.serversettingsgb = new System.Windows.Forms.GroupBox();
             this.textBoxServAdr = new System.Windows.Forms.TextBox();
+            this.lblLocalPort = new System.Windows.Forms.Label();
+            this.txtLocalPort = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.serversettingsgb.SuspendLayout();
             this.SuspendLayout();
@@ -98,7 +100,7 @@ namespace GUI.Views
             // ServAdrlabel
             // 
             this.ServAdrlabel.AutoSize = true;
-            this.ServAdrlabel.Location = new System.Drawing.Point(136, 39);
+            this.ServAdrlabel.Location = new System.Drawing.Point(144, 39);
             this.ServAdrlabel.Name = "ServAdrlabel";
             this.ServAdrlabel.Size = new System.Drawing.Size(78, 13);
             this.ServAdrlabel.TabIndex = 6;
@@ -106,7 +108,7 @@ namespace GUI.Views
             // 
             // textBoxPort
             // 
-            this.textBoxPort.Location = new System.Drawing.Point(52, 35);
+            this.textBoxPort.Location = new System.Drawing.Point(68, 36);
             this.textBoxPort.Name = "textBoxPort";
             this.textBoxPort.Size = new System.Drawing.Size(70, 20);
             this.textBoxPort.TabIndex = 0;
@@ -133,6 +135,8 @@ namespace GUI.Views
             // 
             // serversettingsgb
             // 
+            this.serversettingsgb.Controls.Add(this.lblLocalPort);
+            this.serversettingsgb.Controls.Add(this.txtLocalPort);
             this.serversettingsgb.Controls.Add(this.textBoxServAdr);
             this.serversettingsgb.Controls.Add(this.portlabel);
             this.serversettingsgb.Controls.Add(this.textBoxPort);
@@ -140,7 +144,7 @@ namespace GUI.Views
             this.serversettingsgb.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.serversettingsgb.Location = new System.Drawing.Point(149, 75);
             this.serversettingsgb.Name = "serversettingsgb";
-            this.serversettingsgb.Size = new System.Drawing.Size(310, 87);
+            this.serversettingsgb.Size = new System.Drawing.Size(310, 121);
             this.serversettingsgb.TabIndex = 10;
             this.serversettingsgb.TabStop = false;
             this.serversettingsgb.Text = "Server Settings";
@@ -152,6 +156,23 @@ namespace GUI.Views
             this.textBoxServAdr.Size = new System.Drawing.Size(78, 20);
             this.textBoxServAdr.TabIndex = 1;
             this.textBoxServAdr.Text = "localhost";
+            // 
+            // lblLocalPort
+            // 
+            this.lblLocalPort.AutoSize = true;
+            this.lblLocalPort.Location = new System.Drawing.Point(6, 65);
+            this.lblLocalPort.Name = "lblLocalPort";
+            this.lblLocalPort.Size = new System.Drawing.Size(58, 13);
+            this.lblLocalPort.TabIndex = 8;
+            this.lblLocalPort.Text = "Local Port:";
+            // 
+            // txtLocalPort
+            // 
+            this.txtLocalPort.Location = new System.Drawing.Point(68, 62);
+            this.txtLocalPort.Name = "txtLocalPort";
+            this.txtLocalPort.Size = new System.Drawing.Size(70, 20);
+            this.txtLocalPort.TabIndex = 7;
+            this.txtLocalPort.Text = "18005";
             // 
             // PreferencesDialog
             // 
@@ -194,5 +215,7 @@ namespace GUI.Views
         private System.Windows.Forms.Label connectionlabel;
         private System.Windows.Forms.GroupBox serversettingsgb;
         private System.Windows.Forms.TextBox textBoxServAdr;
+        private System.Windows.Forms.Label lblLocalPort;
+        private System.Windows.Forms.TextBox txtLocalPort;
     }
 }
