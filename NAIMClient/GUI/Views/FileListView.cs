@@ -6,10 +6,12 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Common.Interfaces;
+using GUI.Controls;
+using System.Threading;
 
 namespace GUI.Views
 {
-    public partial class FileListView : Form,IFileListView
+    public partial class FileListView : Form, IFileListView, IOpenFileOnOtherThread
     {
         public FileListView()
         {
@@ -17,6 +19,10 @@ namespace GUI.Views
         }
 
         #region IFileListView Members
+
+
+        private delegate void DialogClosedDelegate(string filePath, string alias);
+
 
         public event AddFileDelegate AddFileEvent;
 
@@ -47,6 +53,29 @@ namespace GUI.Views
             }
         }
 
+        public void dialogClosed(string filePath, string alias) 
+        {
+            if (this.InvokeRequired)
+            {
+                DialogClosedDelegate dcd = dialogClosed;
+                this.Invoke(dcd, new object[] { filePath, alias });
+            }
+            else
+            {
+                foreach (ListViewItem item in listViewFileList.Items)
+                {
+                    if (item.SubItems[0].Text == filePath)
+                    {
+                        MessageBox.Show("The file is already in the list!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+                OnAddFile(filePath, alias);
+                this.listViewFileList.Items.Add(new ListViewItem(new string[] { filePath, alias }));
+                this.listViewFileList.Update();
+            }
+        }
+
         public void ShowView()
         {
             this.Show();
@@ -56,29 +85,15 @@ namespace GUI.Views
 
         #region GUI
 
+        public void transferString(string filePath)
+        {
+ 
+        }
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Multiselect = false;
-            if (openFileDialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-            string filename = openFileDialog.FileName;
-            foreach (ListViewItem item in listViewFileList.Items)
-            {
-                if (item.SubItems[0].Text == filename)
-                {
-                    MessageBox.Show("The file is already in the list!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-            FileListAliasChooser aliasChooser = new FileListAliasChooser();
-            aliasChooser.ShowDialog();
-            string alias = aliasChooser.Alias;
-            OnAddFile(filename, alias);
-            this.listViewFileList.Items.Add(new ListViewItem(new string[] { filename, alias }));
-            this.listViewFileList.Update();
+            OpenFileOnOtherThread ofoot = new OpenFileOnOtherThread(this);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(ofoot.Show));
         }
 
         private void btnRemoveFile_Click(object sender, EventArgs e)
