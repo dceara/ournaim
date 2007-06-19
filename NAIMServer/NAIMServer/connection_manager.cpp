@@ -25,8 +25,8 @@ using namespace std;
  *	ConnectionManager
  */
 
-const time_t ConnectionManager::TIME_TO_PING = 15;
-const time_t ConnectionManager::TIMEOUT = 30;
+const time_t ConnectionManager::TIME_TO_PING = 10;
+const time_t ConnectionManager::TIMEOUT = 31;
 const timeval ConnectionManager::DEFAULT_SELECT_TIMEOUT = {0, 10000};
 
 ConnectionManager::ConnectionManager() {
