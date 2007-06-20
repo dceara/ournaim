@@ -811,6 +811,7 @@ namespace Controllers
                 }
                 i++;
             }
+            this.fileListManager.SaveFileList();
         }
 
         void fileListView_AddFileEvent(string name, string alias)
@@ -819,6 +820,7 @@ namespace Controllers
             if(fileListManager.FileList.Count > 0)
                 newIndex = fileListManager.FileList[fileListManager.FileList.Count - 1].Key + 1;
             this.fileListManager.FileList.Add(new KeyValuePair<int, KeyValuePair<string, string>>(newIndex, new KeyValuePair<string, string>(name, alias)));
+            this.fileListManager.SaveFileList();
         }
 
 
