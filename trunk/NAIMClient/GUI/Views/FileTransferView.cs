@@ -7,28 +7,28 @@ using Common.Protocol;
 using System.IO;
 namespace GUI
 {
-    internal delegate void GUIUpdateProgressDelegate (object parameters);
     public partial class FileTransferView : Form,IFileTransferView
     {
-
-        GUIUpdateProgressDelegate updateTransferDelegate;
 
         #region Constructors
 
         public FileTransferView()
         {
-            InitializeComponent();
-            updateTransferDelegate = new GUIUpdateProgressDelegate(this.InternalUpdateTransferProgress);
+            InitializeComponent();            
         }
 
         #endregion
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        #region Delegates
 
-        }
+        private delegate void StartFileTransferDelegate(string contact, string file);
+        private delegate void CancelFileTrasnferDelegate(string contact, string file);
+        private delegate void UpdateTransferProgressDelegate(string contact, string file, int progress);
+        private delegate void FileTransferFinishedDelegate(string contact, string file);
+
+        #endregion
+
         #region IFileTransferView Members
-
 
         protected void OnViewClosed()
         {
@@ -109,42 +109,90 @@ namespace GUI
 
         public void StartFileTransfer(string contact, string file)
         {
-            ListViewItem lvi = new ListViewItem(new string[] { contact, file, "0" });
-            lvi.Name = contact + file;
-            lwFileList.Items.Add(lvi);            
+            if (this.InvokeRequired)
+            {
+                StartFileTransferDelegate sftd = StartFileTransfer;
+                this.Invoke(sftd, new object[] { contact, file });
+            }
+            else
+            {
+                ListViewItem.ListViewSubItem[] subItems = new ListViewItem.ListViewSubItem[3];
+
+                subItems[0] = new ListViewItem.ListViewSubItem();
+                subItems[0].Name = "contact";
+                subItems[0].Text = contact;
+
+                subItems[1] = new ListViewItem.ListViewSubItem();
+                subItems[1].Name = "file";
+                subItems[1].Text = file;
+
+                subItems[2] = new ListViewItem.ListViewSubItem();
+                subItems[2].Name = "progress";
+                subItems[2].Text = "0";
+
+                ListViewItem lvi = new ListViewItem(subItems, 0);
+
+                //ListViewItem.ListViewSubItem csi = new ListViewItem.ListViewSubItem(lvi, contact);
+                //csi.Name = "contact";
+                //lvi.SubItems.Add(csi);
+                //ListViewItem.ListViewSubItem fsi = new ListViewItem.ListViewSubItem(lvi, file);
+                //fsi.Name = "file";
+                //lvi.SubItems.Add(fsi);
+                //ListViewItem.ListViewSubItem psi = new ListViewItem.ListViewSubItem(lvi, "0");
+                //psi.Name = "progress";
+                //lvi.SubItems.Add(psi);
+
+                //ListViewItem lvi = new ListViewItem(new string[] { contact, file, "0" });
+                lvi.Name = contact + file;
+                lwStatus.Items.Add(lvi);
+            }
         }
 
         public void CancelFileTransfer(string contact, string file)
         {
-            if (lwFileList.Items.ContainsKey(contact + file))
+            if (this.InvokeRequired)
             {
-
+                CancelFileTrasnferDelegate cftd = CancelFileTransfer;
+                this.Invoke(cftd, new object[] { contact, file });
+            }
+            else
+            {
+                ListViewItem lvi = lwFileList.Items[contact + file];
+                if (lvi != null)
+                {
+                    
+                }
             }
         }
 
         public void UpdateTransferProgress(string contact, string file, int progress)
         {
-            this.lwStatus.BeginInvoke(updateTransferDelegate, new object[] { contact, file, progress });
-            //this.lwStatus.Invoke(InternalUpdateTransferProgress(new object[]{contact,file,progress}));
-            
-        }
+            if (this.InvokeRequired)
+            {
+                UpdateTransferProgressDelegate utpd = UpdateTransferProgress;
+                this.Invoke(utpd, new object[] { contact, file, progress });
+            }
+            else
+            {
+                ListViewItem lvi = lwFileList.Items[contact + file];
+                if (lvi != null)
+                {
 
-        /// <summary>
-        /// Bullshit
-        /// </summary>
-        /// <param name="parameters"></param>
-        private void InternalUpdateTransferProgress(object parameters)
-        {
-            string contact = (string)((object[])parameters)[0];
-            string file = (string)((object[])parameters)[1];
-            int progress = (int)((object[])parameters)[2];
-            ListViewItem item = this.lwStatus.Items[contact + "_" + file];
-            item.SubItems[2].Text = progress.ToString();
+                }
+            }            
         }
 
         public void FileTransferFinished(string contact, string file)
         {
+            if (this.InvokeRequired)
+            {
+                FileTransferFinishedDelegate ftfd = FileTransferFinished;
+                this.Invoke(ftfd, new object[] { contact, file });
+            }
+            else
+            {
 
+            }
         }
 
         public void LoadList(string contact, IList<string> list) 
@@ -229,10 +277,7 @@ namespace GUI
             if (lwFileList.SelectedIndices.Count > 0 && lwContacts.SelectedIndices.Count > 0)
             {
                 string writeLocation = GetWriteLocation();
-                OnStartFileTransfer(lwContacts.SelectedItems[0].Name, lwFileList.SelectedItems[0].Name,writeLocation);
-                ListViewItem newDownload = new ListViewItem(new string[]{lwContacts.SelectedItems[0].Name,lwFileList.SelectedItems[0].Name,"0"});
-                newDownload.Name = lwContacts.SelectedItems[0].Name+"_"+lwFileList.SelectedItems[0].Name;
-                lwStatus.Items.Add(newDownload);
+                OnStartFileTransfer(lwContacts.SelectedItems[0].Name, lwFileList.SelectedItems[0].Name, writeLocation);
             }
         }
 
