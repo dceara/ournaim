@@ -112,6 +112,7 @@ namespace GUI.Views
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "AddContactDialog";
             this.Text = "AddContactDialog";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddContactDialog_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
