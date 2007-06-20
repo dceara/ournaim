@@ -69,6 +69,7 @@
     <Compile Include="Views\ChangeStatusDialog.Designer.cs">
       <DependentUpon>ChangeStatusDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\ChooseListItemDialog.cs" />
     <Compile Include="Views\ConversationView.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -10,6 +10,8 @@ namespace GUI.Views
 {
     public partial class AddContactDialog : Form
     {
+        public delegate void DialogClosedDelegate(string contact, string group);
+
         #region Properties
 
         public string Username
@@ -69,6 +71,44 @@ namespace GUI.Views
                 MessageBox.Show("The Contact Name cannot be empty!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                 e.Cancel = true;
             }
+        }
+
+        #endregion
+
+        #region Threading
+
+        public static void Show(object stateInfo)
+        {
+            object[] args = stateInfo as object[];
+            if (args == null)
+                return;
+            if (args.Length < 4)
+                return;
+            IWin32Window parent = args[0] as IWin32Window;
+            if (parent == null)
+                return;
+            DialogClosedDelegate callback = args[1] as DialogClosedDelegate;
+            if (callback == null)
+                return;
+            string[] groups = args[2] as string[];
+            if (groups == null)
+                return;
+            string group = args[3] as string;
+            AddContactDialog addContactDialog;
+            if (group == null)
+            {
+                addContactDialog = new AddContactDialog(groups);
+            }
+            else
+            {
+                addContactDialog = new AddContactDialog(groups, group);
+            }
+            DialogResult result = addContactDialog.ShowDialog((IWin32Window)parent);
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+            callback(addContactDialog.Username, addContactDialog.Group);
         }
 
         #endregion
