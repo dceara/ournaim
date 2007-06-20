@@ -239,7 +239,6 @@ namespace Controller.StateObjects
 
         private void SendConnectionDataResponse(ConnectionDataRequestedMessageData receivedMessageData)
         {
-            MessageBox.Show("Sent Port " + this._port);
             AMessageData messageData = new ConnectionDataMessageData(this._userName, receivedMessageData.SenderUserName, this._ip, this._port);
             Common.Protocol.Message response = new Common.Protocol.Message(new MessageHeader(ServiceTypes.CONNECTION_DATA), messageData);
             _outputMessagesList.Add(response);
@@ -282,7 +281,6 @@ namespace Controller.StateObjects
         private void RedirectMessageToConversationController(Common.Protocol.Message message, string sender)
         {
             ConnectionDataMessageData messageData = (ConnectionDataMessageData)Common.Protocol.Message.GetMessageData(message);
-            MessageBox.Show("Received Port "+messageData.Port);
             if (_pendingConnectionRequests.ContainsKey(messageData.Sender))
             {
                 _pendingConnectionRequests.Remove(messageData.Sender);
