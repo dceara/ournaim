@@ -897,12 +897,29 @@ namespace Controllers
 
             fileTransferView.StartFileTransfer(contact, file);
 
+            if (TransferAlreadyExists(contact, fileId))
+            {
+                MessageBox.Show("Transfer Already in Progress","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                return;
+            }
+
             startedDownloads.Add(new KeyValuePair<string, KeyValuePair<int, string>>(contact, new KeyValuePair<int, string>(fileId, file)));
             ConnectionDataMessageData connectionData = ((StateIdle)currentState).MadeConnectionRequests[contact];
             peerConnectionManager.getFileFromPeerDelegate(contact, fileId, writeLocation + "\\" + file, connectionData.IpAddress, connectionData.Port, currentUserName);
         }
 
-        
+        private bool TransferAlreadyExists(string contact, int fileid)
+        {
+            foreach (KeyValuePair<string, KeyValuePair<int, string>> pair in startedDownloads)
+            {
+                if (pair.Key == contact && pair.Value.Key == fileid)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+               
 
         #endregion
 
@@ -923,7 +940,16 @@ namespace Controllers
         void peerConnectionManager_CancelTransferEvent(string contact, int fileId)
         {
             peerConnectionManager.cancelFileTransferDelegate(contact, fileId);
-            //throw new Exception("The method or operation is not implemented.");
+            foreach (KeyValuePair<string, KeyValuePair<int, string>> download in startedDownloads)
+            {
+                if (download.Key == contact)
+                {
+                    MessageBox.Show("Transfer " + download.Value.Value + " ended!");
+                    fileTransferView.FileTransferFinished(contact, download.Value.Value);
+                    startedDownloads.Remove(download);
+                    break;
+                }
+            }
         }
 
         void peerConnectionManager_TransferEndedEvent(string contact, int fileId)
