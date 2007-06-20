@@ -30,6 +30,7 @@ namespace GUI.Views
                 MessageBox.Show("Please write an alias for the selected file!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                 e.Cancel = true;
             }
+
         }
     }
 }

@@ -26,13 +26,25 @@ namespace GUI.Views
                 return;
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.AddExtension = true;
             if (openFileDialog.ShowDialog((IWin32Window)parent) != DialogResult.OK)
             {
                 return;
             }
+            string fileName = openFileDialog.FileName;
+            int index = fileName.LastIndexOf('.');
+            string extension = "";
+            if (index != -1)
+            {
+                extension = fileName.Substring(index);
+            }
             FileListAliasChooser aliasChooser = new FileListAliasChooser();
             aliasChooser.ShowDialog((IWin32Window)parent);
             string alias = aliasChooser.Alias;
+            if (alias.LastIndexOf('.') == -1)
+            {
+                alias += extension;
+            }
             callback(openFileDialog.FileName, alias);
         }
 
