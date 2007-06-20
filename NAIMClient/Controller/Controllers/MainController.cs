@@ -944,7 +944,7 @@ namespace Controllers
             {
                 if (download.Key == contact)
                 {
-                    MessageBox.Show("Transfer " + download.Value.Value + " ended!");
+                    //MessageBox.Show("Transfer " + download.Value.Value + " ended!");
                     fileTransferView.FileTransferFinished(contact, download.Value.Value);
                     startedDownloads.Remove(download);
                     break;
@@ -958,7 +958,7 @@ namespace Controllers
             {
                 if (download.Key == contact)
                 {
-                    MessageBox.Show("Transfer "+download.Value.Value+" ended!");
+                    //MessageBox.Show("Transfer "+download.Value.Value+" ended!");
                     fileTransferView.FileTransferFinished(contact, download.Value.Value);
                     startedDownloads.Remove(download);
                     break;
