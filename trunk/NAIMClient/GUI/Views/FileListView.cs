@@ -11,10 +11,11 @@ using System.Threading;
 
 namespace GUI.Views
 {
-    public delegate void DialogClosedDelegate(IOpenDialogEventArgs args);
 
-    public partial class FileListView : Form, IFileListView, IOpenFileOnOtherThread
+    public partial class FileListView : Form, IFileListView
     {
+        public delegate void DialogClosedDelegate(string filePath, string alias);
+
         public FileListView()
         {
             InitializeComponent();
@@ -52,14 +53,12 @@ namespace GUI.Views
             }
         }
 
-        public void dialogClosed(IOpenDialogEventArgs args) 
+        public void dialogClosed(string filePath,string alias) 
         {
-            string filePath = ((OpenFileEventArgs)args).FilePath;
-            string alias = ((OpenFileEventArgs)args).Alias;
             if (this.InvokeRequired)
             {
                 DialogClosedDelegate dcd = dialogClosed;
-                this.Invoke(dcd, new object[] {args});
+                this.Invoke(dcd, new object[] {filePath,alias});
             }
             else
             {
@@ -93,8 +92,7 @@ namespace GUI.Views
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            OpenFileOnOtherThread ofoot = new OpenFileOnOtherThread(this);
-            ThreadPool.QueueUserWorkItem(new WaitCallback(ofoot.Show));
+            ThreadPool.QueueUserWorkItem(new WaitCallback(ChooseListItemDialog.Show), new object[] { this, new ChooseListItemDialog.DialogClosedDelegate(this.dialogClosed) });
         }
 
         private void btnRemoveFile_Click(object sender, EventArgs e)

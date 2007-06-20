@@ -10,6 +10,7 @@ namespace GUI.Views
 {
     public partial class AddGroupView : Form
     {
+        public delegate void DialogClosedDelegate(string group);        
 
         #region Properties
 		
@@ -38,6 +39,33 @@ namespace GUI.Views
             }
         }
         #endregion
+
+        #region Threading
+
+        public static void Show(object stateInfo)
+        {
+            object[] args = stateInfo as object[];
+            if (args == null)
+                return;
+            if (args.Length < 2)
+                return;
+            IWin32Window parent = args[0] as IWin32Window;
+            if (parent == null)
+                return;
+            DialogClosedDelegate callback = args[1] as DialogClosedDelegate;
+            if (callback == null)
+                return;
+            AddGroupView addGroupDialog = new AddGroupView();
+            DialogResult result = addGroupDialog.ShowDialog((IWin32Window)parent);
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+            callback(addGroupDialog.Group);
+        }
+
+        #endregion
+
 
     }
 }
