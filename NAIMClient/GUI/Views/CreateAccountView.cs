@@ -65,6 +65,21 @@ namespace GUI
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            if (this.txtUserName.Text == string.Empty)
+            {
+                MessageBox.Show("The User Name cannot be empty!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                return;
+            }
+            if(this.txtUserName.Text.Contains(" "))
+            {
+                MessageBox.Show("The User Name cannot contain spaces!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                return;
+            }
+            if (this.txtPassword.Text != this.txtPasswordAgain.Text)
+            {
+                MessageBox.Show("The passwords don't match!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             OnCreateAccountEvent(txtUserName.Text, txtPassword.Text);
         }
         private void btnCancel_Click(object sender, EventArgs e)
