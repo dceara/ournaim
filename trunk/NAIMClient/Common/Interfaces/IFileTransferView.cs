@@ -48,10 +48,13 @@ namespace Common.Interfaces
 
         void StartFileTransfer(string contact, string file);
 
+#warning TODO
         void CancelFileTransfer(string contact, string file);
 
+#warning TODO
         void UpdateTransferProgress(string contact, string file, int progress);
 
+#warning TODO
         void FileTransferFinished(string contact, string file);
 
         void ShowView();
