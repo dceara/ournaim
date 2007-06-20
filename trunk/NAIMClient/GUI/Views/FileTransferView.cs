@@ -132,17 +132,6 @@ namespace GUI
 
                 ListViewItem lvi = new ListViewItem(subItems, 0);
 
-                //ListViewItem.ListViewSubItem csi = new ListViewItem.ListViewSubItem(lvi, contact);
-                //csi.Name = "contact";
-                //lvi.SubItems.Add(csi);
-                //ListViewItem.ListViewSubItem fsi = new ListViewItem.ListViewSubItem(lvi, file);
-                //fsi.Name = "file";
-                //lvi.SubItems.Add(fsi);
-                //ListViewItem.ListViewSubItem psi = new ListViewItem.ListViewSubItem(lvi, "0");
-                //psi.Name = "progress";
-                //lvi.SubItems.Add(psi);
-
-                //ListViewItem lvi = new ListViewItem(new string[] { contact, file, "0" });
                 lvi.Name = contact + file;
                 lwStatus.Items.Add(lvi);
             }
@@ -160,7 +149,7 @@ namespace GUI
                 ListViewItem lvi = lwFileList.Items[contact + file];
                 if (lvi != null)
                 {
-                    
+                    lvi.SubItems["progress"].Text = "Canceled";
                 }
             }
         }
@@ -177,7 +166,7 @@ namespace GUI
                 ListViewItem lvi = lwFileList.Items[contact + file];
                 if (lvi != null)
                 {
-
+                    lvi.SubItems["progress"].Text = "" + progress;
                 }
             }            
         }
@@ -191,7 +180,11 @@ namespace GUI
             }
             else
             {
-
+                ListViewItem lvi = lwFileList.Items[contact + file];
+                if (lvi != null)
+                {
+                    lvi.SubItems["progress"].Text = "Finished";
+                }
             }
         }
 
