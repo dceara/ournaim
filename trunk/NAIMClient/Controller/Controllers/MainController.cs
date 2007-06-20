@@ -914,7 +914,7 @@ namespace Controllers
             {
                 if (download.Key == contact)
                 {
-                    //fileTransferView.UpdateTransferProgress(contact, download.Value.Value, percentage);
+                    fileTransferView.UpdateTransferProgress(contact, download.Value.Value, percentage);
                     break;
                 }
             }
@@ -922,7 +922,8 @@ namespace Controllers
 
         void peerConnectionManager_CancelTransferEvent(string contact, int fileId)
         {
-            throw new Exception("The method or operation is not implemented.");
+            peerConnectionManager.cancelFileTransferDelegate(contact, fileId);
+            //throw new Exception("The method or operation is not implemented.");
         }
 
         void peerConnectionManager_TransferEndedEvent(string contact, int fileId)
