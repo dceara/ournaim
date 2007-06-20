@@ -67,9 +67,10 @@ namespace Controller.Archive
                 return;
             string fileListFilename = _currentDir + "\\" + _fileListLocation + "\\" + _userName;
             StreamWriter writer = new StreamWriter(fileListFilename);
+            int i = 0;
             foreach (KeyValuePair<int, KeyValuePair<string, string>> pair in _fileList)
             {
-                writer.WriteLine(pair.Key.ToString());
+                writer.WriteLine(i++);
                 writer.WriteLine(pair.Value.Key.ToString());
                 writer.WriteLine(pair.Value.Value.ToString());
             }
