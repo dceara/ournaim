@@ -28,19 +28,19 @@ namespace GUI.Views
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupname_textBox = new System.Windows.Forms.TextBox();
+            this.txtGroupName = new System.Windows.Forms.TextBox();
             this.gropuname_label = new System.Windows.Forms.Label();
             this.add_button = new System.Windows.Forms.Button();
             this.cancel_button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // groupname_textBox
+            // txtGroupName
             // 
-            this.groupname_textBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.groupname_textBox.Location = new System.Drawing.Point(77, 7);
-            this.groupname_textBox.Name = "groupname_textBox";
-            this.groupname_textBox.Size = new System.Drawing.Size(110, 20);
-            this.groupname_textBox.TabIndex = 0;
+            this.txtGroupName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtGroupName.Location = new System.Drawing.Point(77, 7);
+            this.txtGroupName.Name = "txtGroupName";
+            this.txtGroupName.Size = new System.Drawing.Size(110, 20);
+            this.txtGroupName.TabIndex = 0;
             // 
             // gropuname_label
             // 
@@ -84,10 +84,11 @@ namespace GUI.Views
             this.Controls.Add(this.cancel_button);
             this.Controls.Add(this.add_button);
             this.Controls.Add(this.gropuname_label);
-            this.Controls.Add(this.groupname_textBox);
+            this.Controls.Add(this.txtGroupName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "AddGroupView";
             this.Text = "AddGroupView";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddGroupView_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -95,7 +96,7 @@ namespace GUI.Views
 
         #endregion
 
-        private System.Windows.Forms.TextBox groupname_textBox;
+        private System.Windows.Forms.TextBox txtGroupName;
         private System.Windows.Forms.Label gropuname_label;
         private System.Windows.Forms.Button add_button;
         private System.Windows.Forms.Button cancel_button;
