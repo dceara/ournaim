@@ -116,24 +116,36 @@ namespace GUI
             }
             else
             {
-                ListViewItem.ListViewSubItem[] subItems = new ListViewItem.ListViewSubItem[3];
+                ListViewItem temp = lwStatus.Items[contact + " " + file];
+                if (temp != null)
+                {
+                    if (temp.SubItems["progress"].Text.CompareTo("Finished") == 0 ||
+                        temp.SubItems["progress"].Text.CompareTo("Canceled") == 0)
+                    {
+                        temp.SubItems["progress"].Text = "0";
+                    }
+                }
+                else
+                {
+                    ListViewItem.ListViewSubItem[] subItems = new ListViewItem.ListViewSubItem[3];
 
-                subItems[0] = new ListViewItem.ListViewSubItem();
-                subItems[0].Name = "contact";
-                subItems[0].Text = contact;
+                    subItems[0] = new ListViewItem.ListViewSubItem();
+                    subItems[0].Name = "contact";
+                    subItems[0].Text = contact;
 
-                subItems[1] = new ListViewItem.ListViewSubItem();
-                subItems[1].Name = "file";
-                subItems[1].Text = file;
+                    subItems[1] = new ListViewItem.ListViewSubItem();
+                    subItems[1].Name = "file";
+                    subItems[1].Text = file;
 
-                subItems[2] = new ListViewItem.ListViewSubItem();
-                subItems[2].Name = "progress";
-                subItems[2].Text = "0";
+                    subItems[2] = new ListViewItem.ListViewSubItem();
+                    subItems[2].Name = "progress";
+                    subItems[2].Text = "0";
 
-                ListViewItem lvi = new ListViewItem(subItems, 0);
+                    ListViewItem lvi = new ListViewItem(subItems, 0);
 
-                lvi.Name = contact + file;
-                lwStatus.Items.Add(lvi);
+                    lvi.Name = contact + " " + file;
+                    lwStatus.Items.Add(lvi);
+                }
             }
         }
 
@@ -146,7 +158,7 @@ namespace GUI
             }
             else
             {
-                ListViewItem lvi = lwFileList.Items[contact + file];
+                ListViewItem lvi = lwStatus.Items[contact + " " + file];
                 if (lvi != null)
                 {
                     lvi.SubItems["progress"].Text = "Canceled";
@@ -163,10 +175,14 @@ namespace GUI
             }
             else
             {
-                ListViewItem lvi = lwFileList.Items[contact + file];
+                ListViewItem lvi = lwStatus.Items[contact + " " + file];
                 if (lvi != null)
                 {
-                    lvi.SubItems["progress"].Text = "" + progress;
+                    ListViewItem.ListViewSubItem progressItem = lvi.SubItems["progress"];
+                    if (progressItem.Text.CompareTo("" + progress) != 0)
+                    {
+                        progressItem.Text = "" + progress;
+                    }
                 }
             }            
         }
@@ -180,7 +196,7 @@ namespace GUI
             }
             else
             {
-                ListViewItem lvi = lwFileList.Items[contact + file];
+                ListViewItem lvi = lwStatus.Items[contact + " " + file];
                 if (lvi != null)
                 {
                     lvi.SubItems["progress"].Text = "Finished";
@@ -270,7 +286,10 @@ namespace GUI
             if (lwFileList.SelectedIndices.Count > 0 && lwContacts.SelectedIndices.Count > 0)
             {
                 string writeLocation = GetWriteLocation();
-                OnStartFileTransfer(lwContacts.SelectedItems[0].Name, lwFileList.SelectedItems[0].Name, writeLocation);
+                if (writeLocation != null)
+                {
+                    OnStartFileTransfer(lwContacts.SelectedItems[0].Name, lwFileList.SelectedItems[0].Name, writeLocation);
+                }
             }
         }
 
@@ -280,7 +299,7 @@ namespace GUI
             FolderBrowserDialog browserDialog = new FolderBrowserDialog();
             if (browserDialog.ShowDialog() != DialogResult.OK)
             {
-                return "Downloads/";
+                return null;
             }
             return browserDialog.SelectedPath;            
         }
