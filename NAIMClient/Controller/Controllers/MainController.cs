@@ -888,6 +888,9 @@ namespace Controllers
             }
             if(fileId == -1)
                 return;
+
+            fileTransferView.StartFileTransfer(contact, file);
+
             startedDownloads.Add(new KeyValuePair<string, KeyValuePair<int, string>>(contact, new KeyValuePair<int, string>(fileId, file)));
             ConnectionDataMessageData connectionData = ((StateIdle)currentState).MadeConnectionRequests[contact];
             peerConnectionManager.getFileFromPeerDelegate(contact, fileId, writeLocation + "\\" + file, connectionData.IpAddress, connectionData.Port, currentUserName);
