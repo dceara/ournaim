@@ -21,7 +21,7 @@ namespace GUI.Views
         #region IFileListView Members
 
 
-        private delegate void DialogClosedDelegate(string filePath, string alias);
+        private delegate void DialogClosedDelegate(IOpenDialogEventArgs args);
 
 
         public event AddFileDelegate AddFileEvent;
@@ -53,12 +53,14 @@ namespace GUI.Views
             }
         }
 
-        public void dialogClosed(string filePath, string alias) 
+        public void dialogClosed(IOpenDialogEventArgs args) 
         {
+            string filePath = ((OpenFileEventArgs)args).FilePath;
+            string alias = ((OpenFileEventArgs)args).Alias;
             if (this.InvokeRequired)
             {
                 DialogClosedDelegate dcd = dialogClosed;
-                this.Invoke(dcd, new object[] { filePath, alias });
+                this.Invoke(dcd, new object[] { new OpenFileEventArgs(filePath, alias) });
             }
             else
             {

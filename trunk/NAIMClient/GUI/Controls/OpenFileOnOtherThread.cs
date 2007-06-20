@@ -9,34 +9,79 @@ namespace GUI.Controls
 
     public interface IOpenFileOnOtherThread
     {        
-        void dialogClosed(string filePath, string alias);
+        void dialogClosed(IOpenDialogEventArgs args);
     }
 
-    class OpenFileOnOtherThread
+    
+    abstract class AOpenDialogOnOtherThread
     {
-        private IOpenFileOnOtherThread _parent;
+        protected IOpenFileOnOtherThread _parent;
 
-        public OpenFileOnOtherThread(IOpenFileOnOtherThread parent) 
+        public AOpenDialogOnOtherThread(IOpenFileOnOtherThread parent) 
         {
             this._parent = parent;
         }
 
-        public void Show(Object stateInfo) 
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog((IWin32Window)_parent) != DialogResult.OK) 
-            {
-                return;
-            }
-            FileListAliasChooser aliasChooser = new FileListAliasChooser();
-            aliasChooser.ShowDialog((IWin32Window)_parent);
-            string alias = aliasChooser.Alias;
-            _parent.dialogClosed(openFileDialog.FileName,alias);
-        }
+        abstract public void Show(Object stateInfo);
+
         public IOpenFileOnOtherThread Parent
         {
             get { return _parent; }
             set { _parent = value; }
         }
     }
+
+    class OpenFileOnOtherThread:AOpenDialogOnOtherThread
+    {
+        public OpenFileOnOtherThread(IOpenFileOnOtherThread parent)
+            : base(parent)
+        {
+        }
+
+        public override void  Show(object stateInfo)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog((IWin32Window)_parent) != DialogResult.OK)
+            {
+                return;
+            }
+            FileListAliasChooser aliasChooser = new FileListAliasChooser();
+            aliasChooser.ShowDialog((IWin32Window)_parent);
+            string alias = aliasChooser.Alias;
+            _parent.dialogClosed(new OpenFileEventArgs(openFileDialog.FileName, alias));
+        }
+    }
+
+    public interface IOpenDialogEventArgs
+    {
+
+    }
+
+    public class OpenFileEventArgs:IOpenDialogEventArgs
+    {
+        private string _filePath;
+
+        public string FilePath
+        {
+            get { return _filePath; }
+            set { _filePath = value; }
+        }
+
+        private string _alias;
+
+        public string Alias
+        {
+            get { return _alias; }
+            set { _alias = value; }
+        }
+	
+
+        public OpenFileEventArgs(string filePath, string alias)
+        {
+            this._filePath = filePath;
+            this._alias = alias;
+        }
+
+    }
+
 }
