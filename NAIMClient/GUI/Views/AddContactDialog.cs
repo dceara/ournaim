@@ -60,5 +60,18 @@ namespace GUI.Views
 
         #endregion
 
+        #region GUI
+
+        private void AddContactDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.OK && this.usernickname.Text == String.Empty)
+            {
+                MessageBox.Show("The Contact Name cannot be empty!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                e.Cancel = true;
+            }
+        }
+
+        #endregion
+
     }
 }
