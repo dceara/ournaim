@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using Common.Protocol;
+using System.Collections;
 
 namespace GUI.Controls
 {
@@ -161,7 +162,6 @@ namespace GUI.Controls
         }
         
         #endregion
-
 
         #region Members
         public void Initialize() {
@@ -458,11 +458,12 @@ namespace GUI.Controls
             {
                 foreach (TreeNode group in Nodes) 
                 {
-                    foreach(TreeNode contact in group.Nodes)
+                    for (int i = group.Nodes.Count - 1; i >= 0; --i)
                     {
+                        TreeNode contact = group.Nodes[i];
                         if (contact.ImageIndex == _offlineContactImageIndex)
                         {
-                            group.Nodes.Remove(contact);
+                            contact.Remove();
                             _offlineContactsRoot.Nodes[group.Name].Nodes.Add(contact);
                         }
                     }
@@ -474,11 +475,12 @@ namespace GUI.Controls
             {
                 foreach (TreeNode group in _offlineContactsRoot.Nodes)
                 {
-                    foreach (TreeNode contact in group.Nodes)
+                    for (int i = group.Nodes.Count - 1; i >= 0; --i)
                     {
-                        group.Nodes.Remove(contact);
+                        TreeNode contact = group.Nodes[i];
+                        contact.Remove();
                         Nodes[group.Name].Nodes.Add(contact);
-                    }
+                    }                 
                 }
 
                 _showingOfflineContacts = true;
@@ -768,45 +770,41 @@ namespace GUI.Controls
 
         }
 
-        private void tsmiAddContact_Click(object sender, EventArgs e)
-        {
-            if (SelectedNode != null) {
-                OnAddContactToGroup(SelectedNode.Name);
-            }
-        }
 
+
+        #endregion
+
+        #region Event Handlers
 
         void ContactsTree_DragDrop(object sender, DragEventArgs e)
-        {            
+        {
             if (e.Data.GetDataPresent("System.Windows.Forms.TreeNode", false))
-            {                
+            {
                 Point pt = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
-                TreeNode DestinationNode = ((TreeView)sender).GetNodeAt(pt);
-                TreeNode SourceNode = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
-                if (DestinationNode.TreeView == SourceNode.TreeView)
+                TreeNode destinationNode = ((TreeView)sender).GetNodeAt(pt);
+                TreeNode sourceNode = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
+                if (destinationNode.TreeView == sourceNode.TreeView)
                 {
-                    if (DestinationNode.Parent == null && SourceNode.Parent != DestinationNode)
+                    if (destinationNode.Level == 0 && sourceNode.Parent != destinationNode)
                     {
-                        TreeNode sourceClone = (TreeNode)SourceNode.Clone();
-                        DestinationNode.Nodes.Add(sourceClone);
+                        sourceNode.Remove();
+
+                        destinationNode.Nodes.Add(sourceNode);
                         // there's a bug in Nodes.Add i think, or Treenode.Clone.
                         // Clone doesn't copy the width of the node and when the node is added the
                         // width is not set appropriately.
-                        sourceClone.Text = sourceClone.Text;
-                        DestinationNode.Expand();
-                        SourceNode.Remove();
-
-                        OnMoveContact(sourceClone.Name, DestinationNode.Name);
+                        sourceNode.Text = sourceNode.Text;
+                        destinationNode.Expand();
+                        OnMoveContact(sourceNode.Name, destinationNode.Name);
                     }
-                    else if (DestinationNode.Parent != SourceNode.Parent)
+                    else if (destinationNode.Level == 1 && destinationNode.Parent != sourceNode.Parent)
                     {
-                        TreeNode sourceClone = (TreeNode)SourceNode.Clone();
-                        DestinationNode.Parent.Nodes.Add(sourceClone);
-                        sourceClone.Text = sourceClone.Text;
-                        DestinationNode.Parent.Expand();
-                        SourceNode.Remove();
+                        sourceNode.Remove();
 
-                        OnMoveContact(sourceClone.Name, DestinationNode.Parent.Name);
+                        destinationNode.Parent.Nodes.Add(sourceNode);
+                        sourceNode.Text = sourceNode.Text;
+                        destinationNode.Parent.Expand();
+                        OnMoveContact(sourceNode.Name, destinationNode.Parent.Name);
                     }
                 }
             }
@@ -825,7 +823,13 @@ namespace GUI.Controls
             }
         }
 
-        #endregion
+        private void tsmiAddContact_Click(object sender, EventArgs e)
+        {
+            if (SelectedNode != null)
+            {
+                OnAddContactToGroup(SelectedNode.Name);
+            }
+        }
 
         private void tsmiDeleteContact_Click(object sender, EventArgs e)
         {
@@ -954,5 +958,7 @@ namespace GUI.Controls
             }
 
         }
+
+        #endregion
     }
 }
