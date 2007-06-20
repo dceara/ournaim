@@ -797,13 +797,19 @@ namespace Controllers
 
         void fileListView_RemoveFileEvent(string name)
         {
+            int i = 0;
             foreach (KeyValuePair<int, KeyValuePair<string, string>> pair in this.fileListManager.FileList)
             {
                 if (pair.Value.Key == name)
                 {
-                    this.fileListManager.FileList.Remove(pair);
+                    for (int j = i + 1; j < fileListManager.FileList.Count; j++)
+                    {
+                        fileListManager.FileList[j] = new KeyValuePair<int, KeyValuePair<string, string>>(fileListManager.FileList[j].Key - 1, fileListManager.FileList[j].Value);
+                    }
+                    this.fileListManager.FileList.Remove(pair); 
                     break;
                 }
+                i++;
             }
         }
 
@@ -946,7 +952,17 @@ namespace Controllers
 
         void peerConnectionManager_RequestFileEvent(string contact, int fileId, Socket contactSocket)
         {
-            peerConnectionManager.requestedFileDelegate.Invoke(fileId, fileListManager.FileList[fileId].Value.Value, fileListManager.FileList[fileId].Value.Key, contactSocket);
+            string fileName = "";
+            foreach (KeyValuePair<int, KeyValuePair<string, string>> pair in fileListManager.FileList)
+            {
+                if (pair.Key == fileId)
+                {
+                    fileName = pair.Value.Value;
+                    break;
+                }
+            }
+
+            peerConnectionManager.requestedFileDelegate.Invoke(fileId, fileName, fileListManager.FileList[fileId].Value.Key, contactSocket);
             //throw new Exception("The method or operation is not implemented.");
         }
 
