@@ -96,11 +96,11 @@ namespace Common.FileTransfer
 
         protected virtual void OnProgressChanged(string contact, int fileId, int percentage)
         {
-            progressChangedDelegate.BeginInvoke(contact, fileId, percentage, null, null);
-            //if (ProgressChangedEvent != null)
-            //{
-            //    ProgressChangedEvent(contact, fileId, percentage);
-            //}
+            //progressChangedDelegate.BeginInvoke(contact, fileId, percentage, null, null);
+            if (ProgressChangedEvent != null)
+            {
+                ProgressChangedEvent(contact, fileId, percentage);
+            }
         }
 
         public event TransferEnded TransferEndedEvent;
