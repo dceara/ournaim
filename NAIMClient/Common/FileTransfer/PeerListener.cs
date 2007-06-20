@@ -318,7 +318,14 @@ namespace Common.FileTransfer
                     data.Socket.Receive(headerBuffer);
                     ushort contentLen = AMessageData.ToShort(headerBuffer[MessageHeader.HEADER_SIZE - 2], headerBuffer[MessageHeader.HEADER_SIZE - 1]);
                     byte[] rawData = new byte[contentLen];
-                    data.Socket.Receive(rawData);
+                    int currentReceived = 0;
+                    while (currentReceived != contentLen)
+                    {
+                        byte[] temp = new byte[contentLen - currentReceived];
+                        int lastReceived = data.Socket.Receive(temp);
+                        Array.Copy(temp, 0, rawData, currentReceived, lastReceived);
+                        currentReceived += lastReceived;
+                    }
                     byte[] buffer= new byte[headerBuffer.Length+contentLen];
                     Array.Copy(headerBuffer,buffer,headerBuffer.Length);
                     Array.Copy(rawData,0,buffer,headerBuffer.Length,rawData.Length);
