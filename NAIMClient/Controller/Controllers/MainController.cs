@@ -931,7 +931,7 @@ namespace Controllers
         {
             foreach (KeyValuePair<string, KeyValuePair<int, string>> download in startedDownloads)
             {
-                if (download.Key == contact)
+                if (download.Key == contact && download.Value.Key == fileId)
                 {
                     fileTransferView.UpdateTransferProgress(contact, download.Value.Value, percentage);
                     break;
@@ -944,7 +944,7 @@ namespace Controllers
             peerConnectionManager.cancelFileTransferDelegate(contact, fileId);
             foreach (KeyValuePair<string, KeyValuePair<int, string>> download in startedDownloads)
             {
-                if (download.Key == contact)
+                if (download.Key == contact && download.Value.Key == fileId)
                 {
                     //MessageBox.Show("Transfer " + download.Value.Value + " ended!");
                     fileTransferView.FileTransferFinished(contact, download.Value.Value);
@@ -958,7 +958,7 @@ namespace Controllers
         {
             foreach (KeyValuePair<string, KeyValuePair<int, string>> download in startedDownloads)
             {
-                if (download.Key == contact)
+                if (download.Key == contact && download.Value.Key == fileId)
                 {
                     //MessageBox.Show("Transfer "+download.Value.Value+" ended!");
                     fileTransferView.FileTransferFinished(contact, download.Value.Value);
