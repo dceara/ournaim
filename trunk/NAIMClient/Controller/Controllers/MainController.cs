@@ -875,7 +875,7 @@ namespace Controllers
 
         void fileTransferView_CancelFileTransferEvent(string contact, string file)
         {
-            throw new Exception("The method or operation is not implemented.");
+            fileTransferView.CancelFileTransfer(contact, file);
         }
 
         IList<KeyValuePair<string, KeyValuePair<int, string>>> startedDownloads = new List<KeyValuePair<string, KeyValuePair<int, string>>>();
