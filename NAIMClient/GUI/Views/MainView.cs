@@ -6,10 +6,12 @@ using Common.Interfaces;
 using GUI.Views;
 using System.Drawing;
 using Common.Protocol;
+using GUI.Controls;
+using System.Threading;
 
 namespace GUI
 {
-    public partial class MainView : Form, IMainView
+    public partial class MainView : Form, IMainView, IOpenFileOnOtherThread
     {
         #region Members
 
@@ -321,22 +323,28 @@ namespace GUI
 
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddContactDialog addContactDialog = new AddContactDialog(ctvContacts.GetGroups());
-            DialogResult result = addContactDialog.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                OnAddContactEvent(addContactDialog.Username, addContactDialog.Group);
-            }
+            AOpenDialogOnOtherThread ofoot = new OpenAddContactDialogOnOtherThread(this);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(ofoot.Show), new object[] { ctvContacts.GetGroups() });
+
+            //AddContactDialog addContactDialog = new AddContactDialog(ctvContacts.GetGroups());
+            //DialogResult result = addContactDialog.ShowDialog();
+            //if (result == DialogResult.OK)
+            //{
+            //    OnAddContactEvent(addContactDialog.Username, addContactDialog.Group);
+            //}
         }
 
         private void addGroupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddGroupView addGroupView = new AddGroupView();
-            DialogResult result = addGroupView.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                OnAddGroupEvent(addGroupView.Groupname);
-            }
+            AOpenDialogOnOtherThread ofoot = new OpenAddGroupOnOtherThread(this);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(ofoot.Show));
+
+            //AddGroupView addGroupView = new AddGroupView();
+            //DialogResult result = addGroupView.ShowDialog();
+            //if (result == DialogResult.OK)
+            //{
+            //    OnAddGroupEvent(addGroupView.Group);
+            //}
         }
 
         private void ctvContacts_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -348,22 +356,14 @@ namespace GUI
 
         void ctvContacts_ContactTreeAddContactToGroup(string group)
         {
-            AddContactDialog addContactDialog = new AddContactDialog(ctvContacts.GetGroups(), group);
-            DialogResult result = addContactDialog.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                OnAddContactEvent(addContactDialog.Username, addContactDialog.Group);
-            }
+            AOpenDialogOnOtherThread ofoot = new OpenAddContactDialogOnOtherThread(this);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(ofoot.Show), new object[] { ctvContacts.GetGroups(), group });
         }
 
         void ctvContacts_ContactTreeAddGroup()
         {
-            AddGroupView addGroupView = new AddGroupView();
-            DialogResult result = addGroupView.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                OnAddGroupEvent(addGroupView.Groupname);
-            }
+            AOpenDialogOnOtherThread ofoot = new OpenAddGroupOnOtherThread(this);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(ofoot.Show));           
         }
 
         void ctvContacts_ContactTreeRemoveGroup(string group)
@@ -452,9 +452,33 @@ namespace GUI
         }
         #endregion
 
-        
 
-        
+        #region IOpenFileOnOtherThread Members
 
+        public void dialogClosed(IOpenDialogEventArgs args)
+        {
+            if (this.InvokeRequired)
+            {
+                DialogClosedDelegate dcd = dialogClosed;
+                this.Invoke(dcd, new object[] { args });
+            }
+            else
+            {
+                if (args is AddContactDialogEventArgs)
+                {
+                    AddContactDialogEventArgs eventArgs = ((AddContactDialogEventArgs)args);
+                    string contact = eventArgs.Contact;
+                    string group = eventArgs.Group;
+                    OnAddContactEvent(contact, group);
+                }
+                else if(args is AddGroupDialogEventArgs)
+                {
+                    AddGroupDialogEventArgs eventArgs = ((AddGroupDialogEventArgs)args);
+                    OnAddGroupEvent(eventArgs.Group);
+                }
+            }
+        }
+
+        #endregion
     }
 }

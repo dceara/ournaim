@@ -11,6 +11,8 @@ using System.Threading;
 
 namespace GUI.Views
 {
+    public delegate void DialogClosedDelegate(IOpenDialogEventArgs args);
+
     public partial class FileListView : Form, IFileListView, IOpenFileOnOtherThread
     {
         public FileListView()
@@ -19,9 +21,6 @@ namespace GUI.Views
         }
 
         #region IFileListView Members
-
-
-        private delegate void DialogClosedDelegate(IOpenDialogEventArgs args);
 
 
         public event AddFileDelegate AddFileEvent;
@@ -60,7 +59,7 @@ namespace GUI.Views
             if (this.InvokeRequired)
             {
                 DialogClosedDelegate dcd = dialogClosed;
-                this.Invoke(dcd, new object[] { new OpenFileEventArgs(filePath, alias) });
+                this.Invoke(dcd, new object[] {args});
             }
             else
             {

@@ -13,9 +13,9 @@ namespace GUI.Views
 
         #region Properties
 		
-        public String Groupname
+        public String Group
         {
-            get { return this.groupname_textBox.Text; }
+            get { return this.txtGroupName.Text; }
         }
 	    #endregion
 
@@ -26,5 +26,18 @@ namespace GUI.Views
             InitializeComponent();
         }
         #endregion
+
+        #region GUI Events
+
+        private void AddGroupView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.OK && this.txtGroupName.Text == String.Empty)
+            {
+                e.Cancel = true;
+                MessageBox.Show("The Group Name cannot be empty!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+            }
+        }
+        #endregion
+
     }
 }
