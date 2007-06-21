@@ -257,19 +257,26 @@ namespace Controllers
                 }
                 if (serverSocket.Poll(1, SelectMode.SelectRead))
                 {
-                    byte[] headerBuffer = new byte[MessageHeader.HEADER_SIZE];
-                    int n = serverSocket.Receive(headerBuffer);
-                    ushort contentLength = AMessageData.ToShort(headerBuffer[MessageHeader.HEADER_SIZE - 2], headerBuffer[MessageHeader.HEADER_SIZE - 1]);
-                    byte[] rawData = new byte[contentLength];
-                    if (contentLength > 0)
+                    try
                     {
-                        n = serverSocket.Receive(rawData);
+                        byte[] headerBuffer = new byte[MessageHeader.HEADER_SIZE];
+                        int n = serverSocket.Receive(headerBuffer);
+                        ushort contentLength = AMessageData.ToShort(headerBuffer[MessageHeader.HEADER_SIZE - 2], headerBuffer[MessageHeader.HEADER_SIZE - 1]);
+                        byte[] rawData = new byte[contentLength];
+                        if (contentLength > 0)
+                        {
+                            n = serverSocket.Receive(rawData);
+                        }
+                        byte[] messageBuffer = new byte[headerBuffer.Length + contentLength];
+                        Array.Copy(headerBuffer, messageBuffer, headerBuffer.Length);
+                        Array.Copy(rawData, 0, messageBuffer, headerBuffer.Length, contentLength);
+                        Common.Protocol.Message newMessage = new Common.Protocol.Message(messageBuffer);
+                        inputMessageQueue.Enqueue(newMessage);
                     }
-                    byte[] messageBuffer = new byte[headerBuffer.Length+contentLength];
-                    Array.Copy(headerBuffer, messageBuffer, headerBuffer.Length);
-                    Array.Copy(rawData, 0, messageBuffer,headerBuffer.Length, contentLength);
-                    Common.Protocol.Message newMessage = new Common.Protocol.Message(messageBuffer);
-                    inputMessageQueue.Enqueue(newMessage);
+                    catch (SocketException ex)
+                    {
+                        HandleSocketException();
+                    }
                 }
                 ProcessInputQueue();
                 Application.DoEvents();
@@ -784,7 +791,51 @@ namespace Controllers
 
         private void SendServerMessage(Common.Protocol.Message message)
         {
-            serverSocket.Send(message.Serialize());
+            try
+            {
+                serverSocket.Send(message.Serialize());
+            }
+            catch(SocketException ex)
+            {
+                HandleSocketException();
+            }
+        }
+
+        private void HandleSocketException()
+        {
+            ErrorHandler.HandleError("The connection with the server has been lost!", "Connection Error", (IWin32Window)mainView);
+
+            toBreak = true;
+            mainLoopStarted = false;
+
+            StopPeerConnectionManager();
+
+            mainView.LoginEvent -= this.mainView_LoginEvent;
+            this.currentState = new StateInitial();
+
+            currentState.MainView = mainView;
+            currentState.OpenConversationEvent += new OpenConversationDelegate(currentState_OpenConversationEvent);
+
+            foreach (KeyValuePair<string,IConversationController> controller in conversationControllers)
+            {
+                controller.Value.CloseView();
+            }
+            conversationControllers.Clear();
+            if (fileListView != null)
+            {
+                fileListView.CloseView();
+            }
+
+            if (fileTransferView != null)
+            {
+                fileTransferView.CloseView();
+            }
+
+            currentState.ConversationControllers = conversationControllers;
+
+            mainView.LoginEvent += new LoginEventHandler(this.mainView_LoginEvent);
+
+            mainView.Initialise();
         }
 
         private void EmptyCurrentStateOutputBuffer()

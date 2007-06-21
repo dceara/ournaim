@@ -26,10 +26,6 @@ namespace Common.ErrorHandling
             IWin32Window parent = args[2] as IWin32Window;
             if (parent == null)
                 return;
-            ShowErrorForm(errorMessage, caption, parent);
-        }
-        private static void ShowErrorForm(string errorMessage, string caption, IWin32Window parent)
-        {
             ErrorForm errorForm = new ErrorForm();
             errorForm.ShowDialog(parent, errorMessage, caption);
         }
