@@ -44,6 +44,11 @@
       <DependentUpon>Icons.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddContactDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +144,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Icons.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\AddContactDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AddContactDialog.cs</DependentUpon>
@@ -230,6 +240,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\locked in my head.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\progress_bar_texture.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\progress_bar_back_texture.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
