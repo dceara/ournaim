@@ -704,6 +704,9 @@ namespace Controllers
             {
                 Common.Protocol.Message firstMessage = inputMessageQueue.Dequeue();
                 AState lastState = currentState;
+
+                mainView.LoginEvent -= this.mainView_LoginEvent;
+
                 currentState = currentState.AnalyzeMessage(firstMessage);
                 if (currentState != lastState)
                 {
@@ -722,8 +725,10 @@ namespace Controllers
                 }
                 if (currentState.Disconected)
                 {
+                    StopPeerConnectionManager();
                     mainView.Initialise();
                 }
+                mainView.LoginEvent += this.mainView_LoginEvent;
             }
             EmptyCurrentStateOutputBuffer();
         }
