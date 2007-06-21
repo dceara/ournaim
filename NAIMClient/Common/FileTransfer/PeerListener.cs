@@ -314,28 +314,27 @@ namespace Common.FileTransfer
             {
                 if (data.Socket == receiverSocket)
                 {
-                    byte[] headerBuffer = new byte[MessageHeader.HEADER_SIZE];
-                    data.Socket.Receive(headerBuffer);
-                    ushort contentLen = AMessageData.ToShort(headerBuffer[MessageHeader.HEADER_SIZE - 2], headerBuffer[MessageHeader.HEADER_SIZE - 1]);
-                    byte[] rawData = new byte[contentLen];
+                    byte[] messageBuffer = new byte[MessageHeader.HEADER_SIZE];
                     int currentReceived = 0;
-                    while (currentReceived != contentLen)
+                    while (currentReceived != MessageHeader.HEADER_SIZE)
                     {
-                        byte[] temp = new byte[contentLen - currentReceived];
-                        int lastReceived = data.Socket.Receive(temp);
-                        Array.Copy(temp, 0, rawData, currentReceived, lastReceived);
+                        int lastReceived = data.Socket.Receive(messageBuffer, currentReceived, MessageHeader.HEADER_SIZE - currentReceived,SocketFlags.None);
                         currentReceived += lastReceived;
                     }
-                    byte[] buffer= new byte[headerBuffer.Length+contentLen];
-                    Array.Copy(headerBuffer,buffer,headerBuffer.Length);
-                    Array.Copy(rawData,0,buffer,headerBuffer.Length,rawData.Length);
-                    Message recMessage = new Message(buffer);
+                    Message recMessage = new Message(messageBuffer);
                     switch (recMessage.Header.ServiceType)
                     {
                         case ServiceTypes.FILE_TRANSFER_SEND:
-                            FileTransferSendMessageData messageData = (FileTransferSendMessageData)Message.GetMessageData(recMessage);
-                            data.FileStream.Write(messageData.Content, 0, messageData.Content.Length);
-                            if (messageData.Content.Length < FileTransferSendMessageData.MAX_MESSAGE_SIZE)
+                            ushort contentLen = AMessageData.ToShort(messageBuffer[MessageHeader.HEADER_SIZE - 2], messageBuffer[MessageHeader.HEADER_SIZE - 1]);
+                            byte[] rawData = new byte[contentLen];
+                            currentReceived = 0;
+                            while (currentReceived != contentLen)
+                            {
+                                int lastReceived = data.Socket.Receive(rawData, currentReceived, contentLen - currentReceived, SocketFlags.None);
+                                currentReceived += lastReceived;
+                            }
+                            data.FileStream.Write(rawData, 2 * sizeof(Int32), rawData.Length - 2 * sizeof(Int32));
+                            if (rawData.Length < FileTransferSendMessageData.MAX_MESSAGE_SIZE)
                             {
                                 data.FileStream.Close();
                                 data.Socket.Close();
@@ -344,7 +343,7 @@ namespace Common.FileTransfer
                             }
                             else
                             {
-                                data.ReadBytes += messageData.Content.Length;
+                                data.ReadBytes += rawData.Length;
                                 double speed = (double)data.ReadBytes / (double)(DateTime.Now.Ticks - data.LastTimeStamp.Ticks);
                                 //transform in Bytes/s
                                 speed *= Math.Pow((double)10, (double)7);
@@ -352,7 +351,8 @@ namespace Common.FileTransfer
                                 speed /= 1024;
                                 if (double.IsInfinity(speed))
                                     speed = double.MaxValue;
-                                OnProgressChanged(data.UserName, data.FileId, (int)((float)data.ReadBytes / (float)messageData.FileLength * 100),(float)speed);
+                                int fileLength = AMessageData.ToInt(rawData,sizeof(Int32));
+                                OnProgressChanged(data.UserName, data.FileId, (int)((float)data.ReadBytes / (float)fileLength * 100), (float)speed);
                             }
                             break;
                         case ServiceTypes.NACK:
@@ -371,20 +371,6 @@ namespace Common.FileTransfer
         {
             data.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             data.Socket.Connect(data.PeerAddress, data.PeerPort);
-            //ArrayList peerReceiverSocks = new ArrayList();
-            //bool notSent = true;
-            //while (notSent)
-            //{
-            //    peerReceiverSocks.Clear();
-            //    peerReceiverSocks.Add(data.Socket);
-            //    Socket.Select(null, peerReceiverSocks, null, 1);
-            //    if (peerReceiverSocks.Count > 0)
-            //    {
-            //        notSent = true;
-            //        Message hello = new Message(new MessageHeader(ServiceTypes.HELLO), new HelloMessageData(data.LocalUserName));
-            //        data.Socket.Send(hello.Serialize());
-            //    }
-            //}
         }
 
         private void SendData()
@@ -417,28 +403,23 @@ namespace Common.FileTransfer
                             continue;
                         data.FileStream = new FileStream(data.LocalPath, FileMode.Open);
                     }
-                    byte[] content = new byte[FileTransferSendMessageData.MAX_MESSAGE_SIZE];
-                    int cnt = data.FileStream.Read(content, 0, FileTransferSendMessageData.MAX_MESSAGE_SIZE);
-                    if (cnt < FileTransferSendMessageData.MAX_MESSAGE_SIZE)
+                    byte[] content = new byte[FileTransferSendMessageData.MAX_MESSAGE_SIZE + 2 * sizeof(Int32)];
+                    int cnt = data.FileStream.Read(content, 2*sizeof(Int32), FileTransferSendMessageData.MAX_MESSAGE_SIZE);
+                    if (cnt < FileTransferSendMessageData.MAX_MESSAGE_SIZE + 2 * sizeof(Int32))
                     {
-                        Array.Resize<byte>(ref content, cnt);
-                        OnTransferEnded(data.UserName, data.FileId);
+                        Array.Resize<byte>(ref content, cnt + 2 * sizeof(Int32));
                     }
-                    FileTransferSendMessageData messageData = new FileTransferSendMessageData(data.FileId,(int)data.FileStream.Length,content);
-                    Message message = new Message(new MessageHeader(ServiceTypes.FILE_TRANSFER_SEND), messageData);
-                    socket.Send(message.Serialize());
+                    byte[] fileIdBuffer = AMessageData.ToByteArray(data.FileId);
+                    byte[] fileLengthBuffer = AMessageData.ToByteArray((int)data.FileStream.Length);
+                    Array.Copy(fileIdBuffer, content, fileIdBuffer.Length);
+                    Array.Copy(fileLengthBuffer, 0, content, fileIdBuffer.Length, fileLengthBuffer.Length);
+                    socket.Send(new MessageHeader(ServiceTypes.FILE_TRANSFER_SEND).Serialize((ushort)content.Length));
+                    socket.Send(content);
                     if (cnt < FileTransferSendMessageData.MAX_MESSAGE_SIZE)
                     {
                         data.FileStream.Close();
                         socket.Close();
                         _connectedClients.Remove(data);
-                    }
-                    else
-                    {
-                        //double speed = (double)data.ReadBytes/ (double)(DateTime.Now.Ticks - data.LastTimeStamp.Ticks);
-                        //if (double.IsInfinity(speed))
-                        //    speed = double.MaxValue;
-                        //OnProgressChanged(data.UserName, data.FileId, (int)(data.FileStream.Position / data.FileStream.Length) * 100,(float)speed);
                     }
                     break;
                 }
