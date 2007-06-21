@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using Common.Interfaces;
+using System.Drawing;
 
 namespace GUI
 {
@@ -11,6 +12,13 @@ namespace GUI
         #region Members
 
         private bool cancelCloseEvent = false;
+
+        private Color _userColor = Color.Gray;
+        private Color _contactColor = Color.Navy;
+        private Color _textColor = Color.Black;
+
+        private Font _usersFont = new Font("Tahoma", 8, FontStyle.Bold);
+        private Font _textFont = new Font("Arial", 10, FontStyle.Regular);
 
         #endregion
 
@@ -44,11 +52,15 @@ namespace GUI
         public void AddMessage(string message)
         {
             if (message == "") return;
-            if (this.txtMessageList.Text != "")
-            {
-                this.txtMessageList.Text += "\r\n";
-            }
-            this.txtMessageList.Text += this.Text + ": " + message;
+
+            txtMessageList.SelectionStart = txtMessageList.TextLength;
+            
+            txtMessageList.SelectionColor = _contactColor;
+            txtMessageList.SelectionFont = _usersFont;
+            txtMessageList.AppendText(Text + ": ");
+            txtMessageList.SelectionColor = _textColor;
+            txtMessageList.SelectionFont = _textFont;
+            txtMessageList.AppendText(message + "\r\n");
         }
 
         public void Initialise(string caption)
@@ -96,23 +108,23 @@ namespace GUI
         {
             SendMessage();
         }
+
         void SendMessage()
         {
             string message = this.txtMessage.Text;
+
+
             if (message == "") return;
-            if (this.txtMessageList.Text != "")
-            {
-                this.txtMessageList.Text += "\r\n";
-            }
-            this.txtMessageList.Text += this.currentUserName + ": " + message;
-            this.txtMessage.ResetText();
-            this.txtMessageList.ReadOnly = false;
-            this.txtMessageList.Focus();
-            this.txtMessageList.ScrollToCaret();
-            this.txtMessageList.Refresh();
-            this.txtMessageList.ReadOnly = true;
-            this.txtMessageList.Select(0, 0);
-            this.txtMessage.Focus();
+
+            txtMessageList.SelectionStart = txtMessageList.TextLength;
+
+            txtMessageList.SelectionColor = _userColor;
+            txtMessageList.SelectionFont = _usersFont;
+            txtMessageList.AppendText(currentUserName + ": ");
+            txtMessageList.SelectionColor = _textColor;
+            txtMessageList.SelectionFont = _textFont;
+            txtMessageList.AppendText(message + "\r\n");
+
             OnSendMessageEvent(message);
         }
         private void txtMessage_KeyUp(object sender, KeyEventArgs e)
