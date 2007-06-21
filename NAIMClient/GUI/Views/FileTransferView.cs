@@ -13,7 +13,7 @@ namespace GUI
     {
         private TextureBrush progressBrush = new TextureBrush(Resources.progress_bar_texture);
         private TextureBrush progressBackBrush = new TextureBrush(Resources.progress_bar_back_texture);
-        private Font progressTextFont = new Font("Arial", 10, FontStyle.Bold);
+        private Font progressTextFont = new Font("Arial", 8, FontStyle.Bold);
         private SolidBrush progressTextBrush = new SolidBrush(Color.White);
 
         #region Constructors
@@ -22,8 +22,10 @@ namespace GUI
         {
             InitializeComponent();
 
-            progressBrush.WrapMode = WrapMode.Tile;
-            progressBackBrush.WrapMode = WrapMode.Tile;
+            progressBrush.TranslateTransform(0, 3);
+            progressBackBrush.TranslateTransform(0, 3);
+            //progressBrush.WrapMode = WrapMode.Tile;
+            //progressBackBrush.WrapMode = WrapMode.Tile;
         }
 
         #endregion
@@ -339,9 +341,21 @@ namespace GUI
         {
             if (e.SubItem.Name.CompareTo("progress") == 0)
             {
-                if (e.SubItem.Text.CompareTo("Finished") == 0 || e.SubItem.Text.CompareTo("Canceled") == 0)
+                if (e.SubItem.Text.CompareTo("Finished") == 0)
                 {
-                    e.DrawDefault = true;
+                    e.Graphics.FillRectangle(progressBrush, e.Bounds);
+                    string progressText = "Finished";
+                    SizeF textSize = e.Graphics.MeasureString(progressText, progressTextFont);
+                    PointF textLocation = new PointF(e.Bounds.Left + 5, (float)e.Bounds.Top + ((float)e.Bounds.Height - textSize.Height) / 2);
+                    e.Graphics.DrawString("Finished", progressTextFont, progressTextBrush, textLocation);
+                }
+                else if (e.SubItem.Text.CompareTo("Canceled") == 0)
+                {
+                    e.Graphics.FillRectangle(progressBackBrush, e.Bounds);
+                    string progressText = "Canceled";
+                    SizeF textSize = e.Graphics.MeasureString(progressText, progressTextFont);
+                    PointF textLocation = new PointF(e.Bounds.Left + 3, (float)e.Bounds.Top + ((float)e.Bounds.Height - textSize.Height) / 2);
+                    e.Graphics.DrawString("Finished", progressTextFont, progressTextBrush, textLocation);
                 }
                 else
                 {
