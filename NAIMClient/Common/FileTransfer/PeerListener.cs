@@ -223,12 +223,18 @@ namespace Common.FileTransfer
 
         #region private Methods
 
-        public ushort CreateListenerConnection()
+        public ushort CreateListenerConnection(ref string ipAddress)
         {
             _listenSocket = new Socket(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.Tcp);
-            _listenSocket.Bind(new IPEndPoint(Dns.Resolve(_localAddress).AddressList[0], _localPort));
-            _listenSocket.Listen(_maxConn);
-            return (ushort)((IPEndPoint)_listenSocket.LocalEndPoint).Port;
+            IPAddress[] addresses = Dns.Resolve(_localAddress).AddressList;
+            foreach(IPAddress addr in addresses)
+            {
+                _listenSocket.Bind(new IPEndPoint(addr, _localPort));
+                _listenSocket.Listen(_maxConn);
+                ipAddress = ((IPEndPoint)_listenSocket.LocalEndPoint).Address.ToString();
+                return (ushort)((IPEndPoint)_listenSocket.LocalEndPoint).Port;
+            }
+            throw new Exception("No connection available");
         }
 
         public void MainLoop()
