@@ -7,6 +7,7 @@ using Common.ProtocolEntities;
 using Common.Interfaces;
 using System.Windows.Forms;
 using Common.FileTransfer;
+using Common.ErrorHandling;
 
 namespace Controller.StateObjects
 {
@@ -143,8 +144,7 @@ namespace Controller.StateObjects
                     newState.MainView = _mainView;
                     newState.ToCloseConnection = true;
                     newState.Disconected = true;
-                    MessageBox.Show("You're not worthy! You have been signed out because you were logged in on another computer",
-                        "",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                    ErrorHandler.HandleError("You're not worthy! You have been signed out because you were logged in on another computer", "Warning", (IWin32Window)_mainView);
                     return newState;
             }
             return this;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using Common.Interfaces;
+using Common.ErrorHandling;
 
 namespace GUI
 {
@@ -67,17 +68,17 @@ namespace GUI
         {
             if (this.txtUserName.Text == string.Empty)
             {
-                MessageBox.Show("The User Name cannot be empty!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                ErrorHandler.HandleError("The User Name cannot be empty!", "Error", this);
                 return;
             }
             if(this.txtUserName.Text.Contains(" "))
             {
-                MessageBox.Show("The User Name cannot contain spaces!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                ErrorHandler.HandleError("The User Name cannot contain spaces!", "Error", this);
                 return;
             }
             if (this.txtPassword.Text != this.txtPasswordAgain.Text)
             {
-                MessageBox.Show("The passwords don't match!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ErrorHandler.HandleError("The passwords don't match!", "Error", this);
                 return;
             }
             OnCreateAccountEvent(txtUserName.Text, txtPassword.Text);

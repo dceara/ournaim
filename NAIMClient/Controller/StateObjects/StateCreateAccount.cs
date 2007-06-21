@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Common.Protocol;
 using Common.ProtocolEntities;
+using Common.ErrorHandling;
+using System.Windows.Forms;
 
 namespace Controller.StateObjects
 {
@@ -30,7 +32,7 @@ namespace Controller.StateObjects
         {
             if (message.Header.ServiceType == Common.ServiceTypes.NACK)
             {
-                System.Windows.Forms.MessageBox.Show("User Name already registered in the system!","Error",System.Windows.Forms.MessageBoxButtons.OK,System.Windows.Forms.MessageBoxIcon.Warning);
+                ErrorHandler.HandleError("User Name already registered in the system!", "Error", (IWin32Window)_createAccountView);
                 AState nextState = GetNextState(message.Header.ServiceType);
                 _signUpAlreadySent = false;
                 this.ToCloseConnection = true;
