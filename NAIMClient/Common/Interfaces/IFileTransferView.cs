@@ -52,7 +52,7 @@ namespace Common.Interfaces
         void CancelFileTransfer(string contact, string file);
 
 #warning TODO
-        void UpdateTransferProgress(string contact, string file, int progress);
+        void UpdateTransferProgress(string contact, string file, int progress, float speed);
 
 #warning TODO
         void FileTransferFinished(string contact, string file);

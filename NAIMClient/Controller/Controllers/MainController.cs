@@ -984,13 +984,13 @@ namespace Controllers
 
         #region PeerConnectionManager handlers
 
-        void peerConnectionManager_ProgressChangedEvent(string contact, int fileId, int percentage)
-        {
+        void peerConnectionManager_ProgressChangedEvent(string contact, int fileId, int percentage,float speed)
+        {            
             foreach (KeyValuePair<string, KeyValuePair<int, string>> download in startedDownloads)
             {
                 if (download.Key == contact && download.Value.Key == fileId)
                 {
-                    fileTransferView.UpdateTransferProgress(contact, download.Value.Value, percentage);
+                    fileTransferView.UpdateTransferProgress(contact, download.Value.Value, percentage, speed);
                     break;
                 }
             }
@@ -1047,7 +1047,6 @@ namespace Controllers
             }
 
             peerConnectionManager.requestedFileDelegate.Invoke(fileId, fileName, fileListManager.FileList[fileId].Value.Key, contactSocket);
-            //throw new Exception("The method or operation is not implemented.");
         }
 
 

@@ -14,7 +14,7 @@ namespace Common.FileTransfer
 
     public delegate void RequestFile(string contact, int fileId, Socket contactSocket);
 
-    public delegate void ProgressChanged(string contact,int fileId, int percentage);
+    public delegate void ProgressChanged(string contact,int fileId, int percentage,float speed);
 
     public delegate void TransferEnded(string contact, int fileId);
 
@@ -32,7 +32,7 @@ namespace Common.FileTransfer
 
     public delegate void StopDelegate();
 
-    public delegate void ProgressChangedDelegate(string contact, int fileId, int percentage);
+    public delegate void ProgressChangedDelegate(string contact, int fileId, int percentage,float speed);
 
     public class PeerConnectionManager
     {
@@ -94,12 +94,12 @@ namespace Common.FileTransfer
 
         public event ProgressChanged ProgressChangedEvent;
 
-        protected virtual void OnProgressChanged(string contact, int fileId, int percentage)
+        protected virtual void OnProgressChanged(string contact, int fileId, int percentage,float speed)
         {
             //progressChangedDelegate.BeginInvoke(contact, fileId, percentage, null, null);
             if (ProgressChangedEvent != null)
             {
-                ProgressChangedEvent(contact, fileId, percentage);
+                ProgressChangedEvent(contact, fileId, percentage,speed);
             }
         }
 
@@ -345,7 +345,14 @@ namespace Common.FileTransfer
                             else
                             {
                                 data.ReadBytes += messageData.Content.Length;
-                                OnProgressChanged(data.UserName, data.FileId, (int)((float)data.ReadBytes / (float)messageData.FileLength * 100));
+                                double speed = (double)data.ReadBytes / (double)(DateTime.Now.Ticks - data.LastTimeStamp.Ticks);
+                                //transform in Bytes/s
+                                speed *= Math.Pow((double)10, (double)7);
+                                //transform in KiloBytes/s
+                                speed /= 1024;
+                                if (double.IsInfinity(speed))
+                                    speed = double.MaxValue;
+                                OnProgressChanged(data.UserName, data.FileId, (int)((float)data.ReadBytes / (float)messageData.FileLength * 100),(float)speed);
                             }
                             break;
                         case ServiceTypes.NACK:
@@ -428,7 +435,10 @@ namespace Common.FileTransfer
                     }
                     else
                     {
-                        OnProgressChanged(data.UserName, data.FileId, (int)(data.FileStream.Position / data.FileStream.Length) * 100);
+                        //double speed = (double)data.ReadBytes/ (double)(DateTime.Now.Ticks - data.LastTimeStamp.Ticks);
+                        //if (double.IsInfinity(speed))
+                        //    speed = double.MaxValue;
+                        //OnProgressChanged(data.UserName, data.FileId, (int)(data.FileStream.Position / data.FileStream.Length) * 100,(float)speed);
                     }
                     break;
                 }
@@ -631,6 +641,15 @@ namespace Common.FileTransfer
             }
         }
 
+        private DateTime _lastTimeStamp;
+
+        public DateTime LastTimeStamp
+        {
+            get { return _lastTimeStamp; }
+            set { _lastTimeStamp = value; }
+        }
+	
+
         public PeerClientData(string username, int fileId, string localPath, string alias, Socket socket)
         {
             _userName = username;
@@ -638,6 +657,7 @@ namespace Common.FileTransfer
             _localPath = localPath;
             _alias = alias;
             _socket = socket;
+            _lastTimeStamp = DateTime.Now;
         }
 	
     }
