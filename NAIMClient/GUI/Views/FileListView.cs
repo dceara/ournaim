@@ -108,5 +108,15 @@ namespace GUI.Views
         }
 
         #endregion
+
+        #region IFileListView Members
+
+
+        public void CloseView()
+        {
+            this.Close();
+        }
+
+        #endregion
     }
 }

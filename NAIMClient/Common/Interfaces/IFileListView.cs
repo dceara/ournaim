@@ -21,5 +21,7 @@ namespace Common.Interfaces
         void ShowView();
 
         void Initialise(IList<KeyValuePair<int, KeyValuePair<string, string>>> fileList);
+
+        void CloseView();
     }
 }
