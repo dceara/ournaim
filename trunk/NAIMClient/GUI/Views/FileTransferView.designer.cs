@@ -39,6 +39,7 @@ namespace GUI
             this.chFTClient = new System.Windows.Forms.ColumnHeader();
             this.chFTFile = new System.Windows.Forms.ColumnHeader();
             this.chFTProgress = new System.Windows.Forms.ColumnHeader();
+            this.chFTSpeed = new System.Windows.Forms.ColumnHeader();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -66,6 +67,7 @@ namespace GUI
             // 
             // lwContacts
             // 
+            this.lwContacts.BackColor = System.Drawing.SystemColors.Window;
             this.lwContacts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lwContacts.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lwContacts.FullRowSelect = true;
@@ -100,6 +102,7 @@ namespace GUI
             // lwFileList
             // 
             this.lwFileList.AllowColumnReorder = true;
+            this.lwFileList.BackColor = System.Drawing.SystemColors.Window;
             this.lwFileList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lwFileList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chFLFile});
@@ -119,39 +122,52 @@ namespace GUI
             // 
             // lwStatus
             // 
+            this.lwStatus.AllowColumnReorder = true;
+            this.lwStatus.BackColor = System.Drawing.SystemColors.Window;
             this.lwStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lwStatus.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chFTClient,
             this.chFTFile,
+            this.chFTSpeed,
             this.chFTProgress});
             this.lwStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lwStatus.FullRowSelect = true;
             this.lwStatus.Location = new System.Drawing.Point(0, 0);
             this.lwStatus.Name = "lwStatus";
+            this.lwStatus.OwnerDraw = true;
             this.lwStatus.Size = new System.Drawing.Size(542, 155);
             this.lwStatus.TabIndex = 0;
             this.lwStatus.UseCompatibleStateImageBehavior = false;
             this.lwStatus.View = System.Windows.Forms.View.Details;
+            this.lwStatus.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lwStatus_DrawSubItem);
+            this.lwStatus.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lwStatus_DrawColumnHeader);
             // 
             // chFTClient
             // 
             this.chFTClient.Text = "Client";
-            this.chFTClient.Width = 92;
+            this.chFTClient.Width = 85;
             // 
             // chFTFile
             // 
             this.chFTFile.Text = "File";
-            this.chFTFile.Width = 299;
+            this.chFTFile.Width = 250;
             // 
             // chFTProgress
             // 
             this.chFTProgress.Text = "Progress";
-            this.chFTProgress.Width = 150;
+            this.chFTProgress.Width = 144;
+            // 
+            // chFTSpeed
+            // 
+            this.chFTSpeed.Text = "Speed";
+            this.chFTSpeed.Width = 61;
             // 
             // FileTransferView
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
             this.ClientSize = new System.Drawing.Size(818, 580);
             this.Controls.Add(this.splitContainer1);
+            this.DoubleBuffered = true;
             this.Name = "FileTransferView";
             this.Text = "File Transfer Manager";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FileTransferView_FormClosing);
@@ -176,6 +192,7 @@ namespace GUI
         private ColumnHeader chFTClient;
         private ColumnHeader chFTFile;
         private ColumnHeader chFTProgress;
+        private ColumnHeader chFTSpeed;
 
     }
 }

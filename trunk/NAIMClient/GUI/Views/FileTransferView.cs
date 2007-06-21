@@ -5,16 +5,25 @@ using System.Windows.Forms;
 using Common.Interfaces;
 using Common.Protocol;
 using System.IO;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 namespace GUI
 {
     public partial class FileTransferView : Form,IFileTransferView
     {
+        private TextureBrush progressBrush = new TextureBrush(Resources.progress_bar_texture);
+        private TextureBrush progressBackBrush = new TextureBrush(Resources.progress_bar_back_texture);
+        private Font progressTextFont = new Font("Arial", 10, FontStyle.Bold);
+        private SolidBrush progressTextBrush = new SolidBrush(Color.White);
 
         #region Constructors
 
         public FileTransferView()
         {
-            InitializeComponent();            
+            InitializeComponent();
+
+            progressBrush.WrapMode = WrapMode.Tile;
+            progressBackBrush.WrapMode = WrapMode.Tile;
         }
 
         #endregion
@@ -23,7 +32,7 @@ namespace GUI
 
         private delegate void StartFileTransferDelegate(string contact, string file);
         private delegate void CancelFileTrasnferDelegate(string contact, string file);
-        private delegate void UpdateTransferProgressDelegate(string contact, string file, int progress);
+        private delegate void UpdateTransferProgressDelegate(string contact, string file, int progress, float speed);
         private delegate void FileTransferFinishedDelegate(string contact, string file);
 
         #endregion
@@ -127,7 +136,7 @@ namespace GUI
                 }
                 else
                 {
-                    ListViewItem.ListViewSubItem[] subItems = new ListViewItem.ListViewSubItem[3];
+                    ListViewItem.ListViewSubItem[] subItems = new ListViewItem.ListViewSubItem[4];
 
                     subItems[0] = new ListViewItem.ListViewSubItem();
                     subItems[0].Name = "contact";
@@ -138,13 +147,19 @@ namespace GUI
                     subItems[1].Text = file;
 
                     subItems[2] = new ListViewItem.ListViewSubItem();
-                    subItems[2].Name = "progress";
-                    subItems[2].Text = "0";
+                    subItems[2].Name = "speed";
+                    subItems[2].Text = "0 kB/s";
+
+                    subItems[3] = new ListViewItem.ListViewSubItem();
+                    subItems[3].Name = "progress";
+                    subItems[3].Text = "0";
+                    subItems[3].Tag = (int)0;
+
 
                     ListViewItem lvi = new ListViewItem(subItems, 0);
 
                     lvi.Name = contact + " " + file;
-                    lwStatus.Items.Add(lvi);
+                    lwStatus.Items.Insert(0, lvi);
                 }
             }
         }
@@ -162,26 +177,36 @@ namespace GUI
                 if (lvi != null)
                 {
                     lvi.SubItems["progress"].Text = "Canceled";
+                    lvi.SubItems["progress"].Tag = (int)0;
                 }
             }
         }
 
-        public void UpdateTransferProgress(string contact, string file, int progress)
+        public void UpdateTransferProgress(string contact, string file, int progress, float speed)
         {
             if (this.InvokeRequired)
             {
                 UpdateTransferProgressDelegate utpd = UpdateTransferProgress;
-                this.Invoke(utpd, new object[] { contact, file, progress });
+                this.Invoke(utpd, new object[] { contact, file, progress, speed });
             }
             else
             {
                 ListViewItem lvi = lwStatus.Items[contact + " " + file];
+                
                 if (lvi != null)
                 {
                     ListViewItem.ListViewSubItem progressItem = lvi.SubItems["progress"];
                     if (progressItem.Text.CompareTo("" + progress) != 0)
                     {
                         progressItem.Text = "" + progress;
+                        progressItem.Tag = (int)progress;
+                    }
+
+
+                    ListViewItem.ListViewSubItem speedItem = lvi.SubItems["speed"];
+                    if (DateTime.Now.Millisecond > 980 && speedItem.Text.CompareTo("" + (int)speed + " kB/s") != 0)
+                    {
+                        speedItem.Text = "" + (int)speed + " kB/s";
                     }
                 }
             }            
@@ -200,6 +225,7 @@ namespace GUI
                 if (lvi != null)
                 {
                     lvi.SubItems["progress"].Text = "Finished";
+                    lvi.SubItems["progress"].Tag = (int)0;
                 }
             }
         }
@@ -302,6 +328,41 @@ namespace GUI
                 return null;
             }
             return browserDialog.SelectedPath;            
+        }
+
+        private void lwStatus_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        {
+            e.DrawDefault = true;
+        }
+
+        private void lwStatus_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+        {
+            if (e.SubItem.Name.CompareTo("progress") == 0)
+            {
+                if (e.SubItem.Text.CompareTo("Finished") == 0 || e.SubItem.Text.CompareTo("Canceled") == 0)
+                {
+                    e.DrawDefault = true;
+                }
+                else
+                {
+                    int progress = (int)e.SubItem.Tag;
+
+                    Rectangle progressBar = e.Bounds;
+                    progressBar.Width = e.Bounds.Width * progress / 100;
+
+                    e.Graphics.FillRectangle(progressBackBrush, e.Bounds);
+                    e.Graphics.FillRectangle(progressBrush, progressBar);
+
+                    string progressText = "" + progress + "%";
+                    SizeF textSize = e.Graphics.MeasureString(progressText, progressTextFont);
+                    PointF textLocation = new PointF((float)e.Bounds.Left + ((float)e.Bounds.Width - textSize.Width) / 2, (float)e.Bounds.Top + ((float)e.Bounds.Height - textSize.Height) / 2);
+                    e.Graphics.DrawString(progressText, progressTextFont, progressTextBrush, textLocation);
+                }
+            }
+            else
+            {
+                e.DrawDefault = true;
+            }
         }
 
 
