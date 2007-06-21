@@ -124,6 +124,10 @@ namespace GUI
             txtMessageList.SelectionColor = _textColor;
             txtMessageList.SelectionFont = _textFont;
             txtMessageList.AppendText(message + "\r\n");
+            txtMessageList.ScrollToCaret();
+
+            txtMessage.Clear();
+            txtMessage.Focus();
 
             OnSendMessageEvent(message);
         }
