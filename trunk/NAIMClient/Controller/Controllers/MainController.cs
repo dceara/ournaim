@@ -547,7 +547,8 @@ namespace Controllers
 
         void StartPeer(object param)
         {
-            localPort = peerConnectionManager.CreateListenerConnection();
+            this.localIpAddress = Dns.GetHostName();
+            localPort = peerConnectionManager.CreateListenerConnection(ref localIpAddress);
             peerConnectionManager.MainLoop();
         }
         
