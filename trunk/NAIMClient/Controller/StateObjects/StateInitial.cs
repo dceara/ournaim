@@ -6,6 +6,8 @@ using Common.Protocol;
 using Common.ProtocolEntities;
 using Common;
 using System.Threading;
+using Common.ErrorHandling;
+using System.Windows.Forms;
 
 namespace Controller.StateObjects
 {
@@ -35,7 +37,7 @@ namespace Controller.StateObjects
         {
             if (message.Header.ServiceType == Common.ServiceTypes.NACK)
             {
-                System.Windows.Forms.MessageBox.Show("Incorect Username or Password!", "Authentication Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Warning);
+                ErrorHandler.HandleError("Incorect Username or Password!", "Authentication Error", (IWin32Window)_mainView);
                 _signInAlreadySent = false;
                 ClearCurrentEventHandlers();
                 try
@@ -93,7 +95,7 @@ namespace Controller.StateObjects
         void mainView_LoginEvent(string userName, string password)
         {
             AMessageData loginMessageData = new LoginMessageData(userName, password, DefaultStatuses.AVAILABLE );
-            Message message = new Message(new MessageHeader(Common.ServiceTypes.LOGIN), loginMessageData);
+            Common.Protocol.Message message = new Common.Protocol.Message(new MessageHeader(Common.ServiceTypes.LOGIN), loginMessageData);
 
             _outputMessagesList.Add(message);
             _signInAlreadySent = true;

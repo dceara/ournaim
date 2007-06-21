@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Common.Interfaces;
 using GUI.Controls;
 using System.Threading;
+using Common.ErrorHandling;
 
 namespace GUI.Views
 {
@@ -66,7 +67,7 @@ namespace GUI.Views
                 {
                     if (item.SubItems[0].Text == filePath)
                     {
-                        MessageBox.Show("The file is already in the list!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        ErrorHandler.HandleError("The file is already in the list!", "Error", this);
                         return;
                     }
                 }

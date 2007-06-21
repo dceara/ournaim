@@ -13,6 +13,7 @@ using Controller.StateObjects;
 using Controller.Archive;
 using Common.FileTransfer;
 using System.Threading;
+using Common.ErrorHandling;
 
 namespace Controllers
 {
@@ -330,7 +331,7 @@ namespace Controllers
                 return;
             if (AState.CheckIfContactExists(uname,((StateIdle)currentState).ContactsByGroups))
             {
-                MessageBox.Show("Contact already in contacts list!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                ErrorHandler.HandleError("Contact already in contacts list!", "Error", (IWin32Window)mainView);
                 return;
             }
             AMessageData messageData = new AddContactMessageData(this.currentUserName, group, uname);
@@ -350,7 +351,7 @@ namespace Controllers
                 return;
             if (AState.CheckIfGroupExists(group, ((StateIdle)currentState).ContactsByGroups))
             {
-                MessageBox.Show("Group already in list!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ErrorHandler.HandleError("Group already in list!", "Error", (IWin32Window)mainView);
                 return;
             }
             ((StateIdle)currentState).ContactsByGroups.Add(group, new List<UserListEntry>());
@@ -566,7 +567,7 @@ namespace Controllers
             IList<UserListEntry> groupList = ((StateIdle)currentState).ContactsByGroups[group];
             if (groupList.Count > 0)
             {
-                MessageBox.Show("Cannot delete group! The group is not empty!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                ErrorHandler.HandleError("Cannot delete group! The group is not empty!", "Error", (IWin32Window)mainView);
                 return;
             }
             ((StateIdle)currentState).ContactsByGroups.Remove(group);
@@ -775,7 +776,7 @@ namespace Controllers
             }
             catch (SocketException ex)
             {
-                MessageBox.Show("The connection with the server could not be established !","Connection Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                ErrorHandler.HandleError("The connection with the server could not be established !", "Connection Error", (IWin32Window)mainView);
                 return false;
             }
             return true;
@@ -906,7 +907,7 @@ namespace Controllers
 
             if (TransferAlreadyExists(contact, fileId))
             {
-                MessageBox.Show("Transfer Already in Progress","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                ErrorHandler.HandleError("Transfer Already in Progress", "Error", (IWin32Window)mainView);
                 return;
             }
 
@@ -951,7 +952,6 @@ namespace Controllers
             {
                 if (download.Key == contact && download.Value.Key == fileId)
                 {
-                    //MessageBox.Show("Transfer " + download.Value.Value + " ended!");
                     fileTransferView.FileTransferFinished(contact, download.Value.Value);
                     startedDownloads.Remove(download);
                     break;
@@ -965,7 +965,6 @@ namespace Controllers
             {
                 if (download.Key == contact && download.Value.Key == fileId)
                 {
-                    //MessageBox.Show("Transfer "+download.Value.Value+" ended!");
                     fileTransferView.FileTransferFinished(contact, download.Value.Value);
                     startedDownloads.Remove(download);
                     break;

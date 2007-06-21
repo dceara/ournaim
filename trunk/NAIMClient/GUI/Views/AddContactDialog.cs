@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Common.ErrorHandling;
 
 namespace GUI.Views
 {
@@ -68,7 +69,7 @@ namespace GUI.Views
         {
             if (this.DialogResult == DialogResult.OK && this.usernickname.Text == String.Empty)
             {
-                MessageBox.Show("The Contact Name cannot be empty!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                ErrorHandler.HandleError("The Contact Name cannot be empty!", "Error", this);
                 e.Cancel = true;
             }
         }

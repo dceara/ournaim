@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Common.ErrorHandling;
 
 namespace GUI.Views
 {
@@ -41,7 +42,7 @@ namespace GUI.Views
                 int res;
                 if (this.textBoxServAdr.Text == "" || this.textBoxPort.Text == "" || Int32.TryParse(textBoxPort.Text, out res) == false)
                 {
-                    MessageBox.Show("Completati adresa server si port!");
+                    ErrorHandler.HandleError("Fill in the server address and the port!", "Error", this);
                     e.Cancel = true;
                 }
             }

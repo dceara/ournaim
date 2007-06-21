@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Common.ErrorHandling;
 
 namespace GUI.Views
 {
@@ -27,7 +28,7 @@ namespace GUI.Views
         {
             if (this.txtAlias.Text == "" || this.DialogResult != DialogResult.OK)
             {
-                MessageBox.Show("Please write an alias for the selected file!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                ErrorHandler.HandleError("Please write an alias for the selected file!", "Error", this);
                 e.Cancel = true;
             }
 

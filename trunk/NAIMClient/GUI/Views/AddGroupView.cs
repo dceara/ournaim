@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Common.ErrorHandling;
 
 namespace GUI.Views
 {
@@ -34,8 +35,8 @@ namespace GUI.Views
         {
             if (this.DialogResult == DialogResult.OK && this.txtGroupName.Text == String.Empty)
             {
+                ErrorHandler.HandleError("The Group Name cannot be empty!", "Error", this);
                 e.Cancel = true;
-                MessageBox.Show("The Group Name cannot be empty!","Error",MessageBoxButtons.OK,MessageBoxIcon.Warning);
             }
         }
         #endregion
