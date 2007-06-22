@@ -42,7 +42,8 @@ namespace Controller.StateObjects
                 ClearCurrentEventHandlers();
                 try
                 {
-                    this._peerConnectionManagerThread.Abort();
+                    if(_peerConnectionManagerThread != null)
+                        this._peerConnectionManagerThread.Abort();
                 }
                 catch (ThreadAbortException ex)
                 {
