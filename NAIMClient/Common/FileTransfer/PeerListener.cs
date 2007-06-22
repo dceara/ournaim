@@ -153,7 +153,7 @@ namespace Common.FileTransfer
                     data.FileId = fileId;
                     data.Alias = alias;
                     data.LocalPath = localPath;
-                    data.FileStream = new FileStream(localPath, FileMode.Open);
+                    data.FileStream = new FileStream(localPath, FileMode.Open,FileAccess.Read);
                     break;
                 }
             }
@@ -311,7 +311,8 @@ namespace Common.FileTransfer
                     Message toSend = new Message(new MessageHeader(ServiceTypes.FILE_TRANSFER_GET), requestMessageData);
                     data.Socket.Send(toSend.Serialize());
                 }
-                receiverSockets.Add(data.Socket);
+                if(data.Socket.Connected)
+                    receiverSockets.Add(data.Socket);
             }
 
             if (receiverSockets.Count == 0)
@@ -394,7 +395,8 @@ namespace Common.FileTransfer
             ArrayList writeSocks = new ArrayList();
             foreach (PeerClientData pair in _connectedClients)
             {
-                writeSocks.Add(pair.Socket);
+                if(pair.Socket.Connected)
+                    writeSocks.Add(pair.Socket);
             }
 
             if (writeSocks.Count == 0)
@@ -456,7 +458,8 @@ namespace Common.FileTransfer
             ArrayList readSocks = new ArrayList();
             foreach (PeerClientData data in _connectedClients)
             {
-                readSocks.Add(data.Socket);
+                if(data.Socket.Connected)
+                    readSocks.Add(data.Socket);
             }
 
             if (readSocks.Count == 0)
