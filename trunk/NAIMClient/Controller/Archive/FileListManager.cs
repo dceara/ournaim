@@ -51,12 +51,14 @@ namespace Controller.Archive
                 return;
             }
             StreamReader reader = new StreamReader(fileListFilename);
+            int cnt = 0;
             while (!reader.EndOfStream)
             {
                 string id = reader.ReadLine();
                 string realPath = reader.ReadLine() ;
                 string alias = reader.ReadLine() ;
-                _fileList.Add(new KeyValuePair<int, KeyValuePair<string, string>>(int.Parse(id), new KeyValuePair<string, string>(realPath, alias)));
+                if(File.Exists(realPath))
+                    _fileList.Add(new KeyValuePair<int, KeyValuePair<string, string>>(cnt++, new KeyValuePair<string, string>(realPath, alias)));
             }
             reader.Close();
         }
