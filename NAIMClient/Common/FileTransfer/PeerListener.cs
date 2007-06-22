@@ -335,7 +335,17 @@ namespace Common.FileTransfer
                     int currentReceived = 0;
                     while (currentReceived != MessageHeader.HEADER_SIZE)
                     {
-                        int lastReceived = data.Socket.Receive(messageBuffer, currentReceived, MessageHeader.HEADER_SIZE - currentReceived,SocketFlags.None);
+                        int lastReceived;
+                        try
+                        {
+                            lastReceived = data.Socket.Receive(messageBuffer, currentReceived, MessageHeader.HEADER_SIZE - currentReceived, SocketFlags.None);
+                        }
+                        catch(SocketException ex)
+                        {
+                            data.FileStream.Close();
+                            _receiverTransfers.Remove(data);
+                            return;
+                        }
                         currentReceived += lastReceived;
                     }
                     Message recMessage = new Message(messageBuffer);

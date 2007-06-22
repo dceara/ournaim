@@ -13,7 +13,7 @@ namespace Common.Protocol
         /// <summary>
         /// this is the maximum data size for file transfer packets
         /// </summary>
-        public const int MAX_MESSAGE_SIZE = 65527;
+        public const int MAX_MESSAGE_SIZE = 65000;
 
         #endregion
 
