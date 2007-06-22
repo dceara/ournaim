@@ -192,6 +192,10 @@ namespace Controller.StateObjects
                 _fileTransferView.ContactOffline(userDisconnectedData.UserName);
             }
             _onlineContacts.Remove(userDisconnectedData.UserName);
+            if (_madeConnectionRequests.ContainsKey(userDisconnectedData.UserName))
+                _madeConnectionRequests.Remove(userDisconnectedData.UserName);
+            if (_doawnloadedFileLists.ContainsKey(userDisconnectedData.UserName))
+                _doawnloadedFileLists.Remove(userDisconnectedData.UserName);
         }
 
         private void HandlePingMessage()
