@@ -10,6 +10,8 @@ using System.IO;
 
 namespace Common.FileTransfer
 {
+    #region Public Delegates
+
     public delegate void RequestFileList(string contact,Socket contactSocket);
 
     public delegate void RequestFile(string contact, int fileId, Socket contactSocket);
@@ -34,6 +36,10 @@ namespace Common.FileTransfer
 
     public delegate void ProgressChangedDelegate(string contact, int fileId, int percentage,float speed);
 
+    #endregion
+
+    #region PeerConnectionManager
+
     public class PeerConnectionManager
     {
         #region Constants
@@ -46,9 +52,9 @@ namespace Common.FileTransfer
 
         #region Fields
 
-        private List<PeerClientData> _connectedClients = new List<PeerClientData>();
+        private Dictionary<Socket,PeerClientData> _connectedClients = new Dictionary<Socket,PeerClientData>();
 
-        private List<PeerClientData> _receiverTransfers = new List<PeerClientData>();
+        private Dictionary<Socket,PeerClientData> _receiverTransfers = new Dictionary<Socket,PeerClientData>();
 
         private Socket _listenSocket;
 
@@ -140,43 +146,33 @@ namespace Common.FileTransfer
             FileListGetMessageData messageData = new FileListGetMessageData(fileList);
             Message newMessage = new Message(new MessageHeader(ServiceTypes.FILE_LIST_GET), messageData);
             contactSocket.Send(newMessage.Serialize());
-            foreach (PeerClientData data in _connectedClients)
-            {
-                if (data.Socket == contactSocket)
-                {
-                    data.FileId = -1;
-                    _connectedClients.Remove(data);
-                    data.Socket.Close();
-                    break;
-                }
-            }
+            PeerClientData data = _connectedClients[contactSocket];
+            data.FileId = -1;
+            _connectedClients.Remove(contactSocket);
+            data.Socket.Close();
         }
 
         private void RequestedFile(int fileId, string alias, string localPath, Socket contactSocket)
         {
-            foreach (PeerClientData data in _connectedClients)
-            {
-                if (data.Socket == contactSocket)
-                {
-                    data.FileId = fileId;
-                    data.Alias = alias;
-                    data.LocalPath = localPath;
-                    data.FileStream = new FileStream(localPath, FileMode.Open,FileAccess.Read);
-                    break;
-                }
-            }
+            PeerClientData data = _connectedClients[contactSocket];
+            data.FileId = fileId;
+            data.Alias = alias;
+            data.LocalPath = localPath;
+            data.FileStream = new FileStream(localPath, FileMode.Open, FileAccess.Read);
         }
 
         private void CancelFileTransfer(string contactName, int fileId)
         {
-            foreach (PeerClientData clientData in _connectedClients)
+            foreach (KeyValuePair<Socket, PeerClientData> clientDataPair in _connectedClients)
             {
-                if (clientData.UserName == contactName && clientData.FileId == fileId)
+                if (clientDataPair.Value.UserName == contactName && clientDataPair.Value.FileId == fileId)
                 {
                     NackMessageData messageData = new NackMessageData();
                     Message message = new Message(new MessageHeader(ServiceTypes.NACK),messageData);
-                    clientData.Socket.Send(message.Serialize());
-                    clientData.Socket.Close();
+                    clientDataPair.Value.Socket.Send(message.Serialize());
+                    clientDataPair.Value.Socket.Close();
+                    _connectedClients.Remove(clientDataPair.Value.Socket);
+                    break;
                 }
             }
         }
@@ -208,7 +204,7 @@ namespace Common.FileTransfer
             data.LocalUserName = localUserName;
             data.Alias = localPath;
             ConnectToPeerServer(data);
-            _receiverTransfers.Add(data);
+            _receiverTransfers.Add(data.Socket,data);
         }
 
         private void StopThread()
@@ -244,21 +240,6 @@ namespace Common.FileTransfer
             _listenSocket.Listen(_maxConn);
             _localAddress = address.ToString();
             return (ushort)((IPEndPoint)_listenSocket.LocalEndPoint).Port;
-            
-
-            //IPAddress[] addresses = Dns.GetHostByName(Dns.GetHostName()).AddressList;
-            //foreach (IPAddress addr in addresses)
-            //{
-            //    if (!addr.ToString().Equals("127.0.0.1"))
-            //    {
-            //        _listenSocket.Bind(new IPEndPoint(addr, _localPort));
-            //        _listenSocket.Listen(_maxConn);
-            //        ipAddress = ((IPEndPoint)_listenSocket.LocalEndPoint).Address.ToString();
-
-            //        return (ushort)((IPEndPoint)_listenSocket.LocalEndPoint).Port;
-            //    }
-            //}
-            //throw new Exception("No connection available");
         }
 
         public void MainLoop()
@@ -281,7 +262,7 @@ namespace Common.FileTransfer
                     {
                         continue;
                     }
-                    _connectedClients.Add(new PeerClientData("",-1,"","",connectedSocket));
+                    _connectedClients.Add(connectedSocket, new PeerClientData("",-1,"","",connectedSocket));
                 }
 
                 HandleRequests();
@@ -291,17 +272,17 @@ namespace Common.FileTransfer
                 ReceiveData();
             }
 
-            foreach (PeerClientData data in _receiverTransfers)
+            foreach (KeyValuePair<Socket, PeerClientData> dataPair in _receiverTransfers)
             {
-                if (data.Socket != null)
+                if (dataPair.Value.Socket != null)
                 {
                     NackMessageData messageData = new NackMessageData();
                     Message message = new Message(new MessageHeader(ServiceTypes.NACK), messageData);
-                    data.Socket.Send(message.Serialize());
+                    dataPair.Value.Socket.Send(message.Serialize());
                     //data.Socket.Close();
-                    if (data.FileStream != null)
+                    if (dataPair.Value.FileStream != null)
                     {
-                        data.FileStream.Close();
+                        dataPair.Value.FileStream.Close();
                     }
                 }
             }
@@ -311,22 +292,17 @@ namespace Common.FileTransfer
         private void ReceiveData()
         {
             ArrayList receiverSockets = new ArrayList();
-            foreach (PeerClientData data in _receiverTransfers)
+            foreach (KeyValuePair<Socket, PeerClientData> dataPair in _receiverTransfers)
             {
-                if (data.Socket == null)
+                if (dataPair.Value.FileStream == null)
                 {
-                    //ConnectToPeerServer(data);
-                    continue;
-                }
-                if (data.FileStream == null)
-                {
-                    data.FileStream = new FileStream(data.Alias, FileMode.OpenOrCreate);
-                    AMessageData requestMessageData = new FileTransferGetMessageData(data.FileId);
+                    dataPair.Value.FileStream = new FileStream(dataPair.Value.Alias, FileMode.OpenOrCreate);
+                    AMessageData requestMessageData = new FileTransferGetMessageData(dataPair.Value.FileId);
                     Message toSend = new Message(new MessageHeader(ServiceTypes.FILE_TRANSFER_GET), requestMessageData);
-                    data.Socket.Send(toSend.Serialize());
+                    dataPair.Value.Socket.Send(toSend.Serialize());
                 }
-                if(data.Socket.Connected)
-                    receiverSockets.Add(data.Socket);
+                if(dataPair.Value.Socket.Connected)
+                    receiverSockets.Add(dataPair.Value.Socket);
             }
 
             if (receiverSockets.Count == 0)
@@ -341,70 +317,64 @@ namespace Common.FileTransfer
 
         private void SaveFileBuffer(Socket receiverSocket)
         {
-            foreach (PeerClientData data in _receiverTransfers)
+            PeerClientData data = _receiverTransfers[receiverSocket];
+            byte[] messageBuffer = new byte[MessageHeader.HEADER_SIZE];
+            int currentReceived = 0;
+            while (currentReceived != MessageHeader.HEADER_SIZE)
             {
-                if (data.Socket == receiverSocket)
+                int lastReceived;
+                try
                 {
-                    byte[] messageBuffer = new byte[MessageHeader.HEADER_SIZE];
-                    int currentReceived = 0;
-                    while (currentReceived != MessageHeader.HEADER_SIZE)
+                    lastReceived = data.Socket.Receive(messageBuffer, currentReceived, MessageHeader.HEADER_SIZE - currentReceived, SocketFlags.None);
+                }
+                catch (SocketException ex)
+                {
+                    data.FileStream.Close();
+                    _receiverTransfers.Remove(data.Socket);
+                    return;
+                }
+                currentReceived += lastReceived;
+            }
+            Message recMessage = new Message(messageBuffer);
+            switch (recMessage.Header.ServiceType)
+            {
+                case ServiceTypes.FILE_TRANSFER_SEND:
+                    ushort contentLen = AMessageData.ToShort(messageBuffer[MessageHeader.HEADER_SIZE - 2], messageBuffer[MessageHeader.HEADER_SIZE - 1]);
+                    byte[] rawData = new byte[contentLen];
+                    currentReceived = 0;
+                    while (currentReceived != contentLen)
                     {
-                        int lastReceived;
-                        try
-                        {
-                            lastReceived = data.Socket.Receive(messageBuffer, currentReceived, MessageHeader.HEADER_SIZE - currentReceived, SocketFlags.None);
-                        }
-                        catch(SocketException ex)
-                        {
-                            data.FileStream.Close();
-                            _receiverTransfers.Remove(data);
-                            return;
-                        }
+                        int lastReceived = data.Socket.Receive(rawData, currentReceived, contentLen - currentReceived, SocketFlags.None);
                         currentReceived += lastReceived;
                     }
-                    Message recMessage = new Message(messageBuffer);
-                    switch (recMessage.Header.ServiceType)
+                    data.FileStream.Write(rawData, 2 * sizeof(Int32), rawData.Length - 2 * sizeof(Int32));
+                    if (rawData.Length < FileTransferSendMessageData.MAX_MESSAGE_SIZE)
                     {
-                        case ServiceTypes.FILE_TRANSFER_SEND:
-                            ushort contentLen = AMessageData.ToShort(messageBuffer[MessageHeader.HEADER_SIZE - 2], messageBuffer[MessageHeader.HEADER_SIZE - 1]);
-                            byte[] rawData = new byte[contentLen];
-                            currentReceived = 0;
-                            while (currentReceived != contentLen)
-                            {
-                                int lastReceived = data.Socket.Receive(rawData, currentReceived, contentLen - currentReceived, SocketFlags.None);
-                                currentReceived += lastReceived;
-                            }
-                            data.FileStream.Write(rawData, 2 * sizeof(Int32), rawData.Length - 2 * sizeof(Int32));
-                            if (rawData.Length < FileTransferSendMessageData.MAX_MESSAGE_SIZE)
-                            {
-                                data.FileStream.Close();
-                                data.Socket.Close();
-                                _receiverTransfers.Remove(data);
-                                OnTransferEnded(data.UserName, data.FileId);
-                            }
-                            else
-                            {
-                                data.ReadBytes += rawData.Length;
-                                double speed = (double)data.ReadBytes / (double)(DateTime.Now.Ticks - data.LastTimeStamp.Ticks);
-                                //transform in Bytes/s
-                                speed *= Math.Pow((double)10, (double)7);
-                                //transform in KiloBytes/s
-                                speed /= 1024;
-                                if (double.IsInfinity(speed))
-                                    speed = double.MaxValue;
-                                int fileLength = AMessageData.ToInt(rawData,sizeof(Int32));
-                                OnProgressChanged(data.UserName, data.FileId, (int)((float)data.ReadBytes / (float)fileLength * 100), (float)speed);
-                            }
-                            break;
-                        case ServiceTypes.NACK:
-                            data.FileStream.Close();
-                            data.Socket.Close();
-                            _receiverTransfers.Remove(data);
-                            OnCancelTransfer(data.UserName, data.FileId);
-                            break;
+                        data.FileStream.Close();
+                        data.Socket.Close();
+                        _receiverTransfers.Remove(data.Socket);
+                        OnTransferEnded(data.UserName, data.FileId);
+                    }
+                    else
+                    {
+                        data.ReadBytes += rawData.Length;
+                        double speed = (double)data.ReadBytes / (double)(DateTime.Now.Ticks - data.LastTimeStamp.Ticks);
+                        //transform in Bytes/s
+                        speed *= Math.Pow((double)10, (double)7);
+                        //transform in KiloBytes/s
+                        speed /= 1024;
+                        if (double.IsInfinity(speed))
+                            speed = double.MaxValue;
+                        int fileLength = AMessageData.ToInt(rawData, sizeof(Int32));
+                        OnProgressChanged(data.UserName, data.FileId, (int)((float)data.ReadBytes / (float)fileLength * 100), (float)speed);
                     }
                     break;
-                }
+                case ServiceTypes.NACK:
+                    data.FileStream.Close();
+                    data.Socket.Close();
+                    _receiverTransfers.Remove(data.Socket);
+                    OnCancelTransfer(data.UserName, data.FileId);
+                    break;
             }
         }
 
@@ -417,10 +387,10 @@ namespace Common.FileTransfer
         private void SendData()
         {
             ArrayList writeSocks = new ArrayList();
-            foreach (PeerClientData pair in _connectedClients)
+            foreach (KeyValuePair<Socket, PeerClientData> pair in _connectedClients)
             {
-                if(pair.Socket.Connected)
-                    writeSocks.Add(pair.Socket);
+                if(pair.Value.Socket.Connected)
+                    writeSocks.Add(pair.Value.Socket);
             }
 
             if (writeSocks.Count == 0)
@@ -435,55 +405,49 @@ namespace Common.FileTransfer
 
         private void SendFileBuffer(Socket socket)
         {
-            foreach (PeerClientData data in _connectedClients)
+            PeerClientData data = _connectedClients[socket];
+            if (data.FileStream == null)
             {
-                if (data.Socket == socket)
-                {
-                    if (data.FileStream == null)
-                    {
-                        if (data.LocalPath == "")
-                            continue;
-                        data.FileStream = new FileStream(data.LocalPath, FileMode.Open);
-                    }
-                    byte[] content = new byte[FileTransferSendMessageData.MAX_MESSAGE_SIZE + 2 * sizeof(Int32)];
-                    int cnt = data.FileStream.Read(content, 2*sizeof(Int32), FileTransferSendMessageData.MAX_MESSAGE_SIZE);
-                    if (cnt < FileTransferSendMessageData.MAX_MESSAGE_SIZE + 2 * sizeof(Int32))
-                    {
-                        Array.Resize<byte>(ref content, cnt + 2 * sizeof(Int32));
-                    }
-                    byte[] fileIdBuffer = AMessageData.ToByteArray(data.FileId);
-                    byte[] fileLengthBuffer = AMessageData.ToByteArray((int)data.FileStream.Length);
-                    Array.Copy(fileIdBuffer, content, fileIdBuffer.Length);
-                    Array.Copy(fileLengthBuffer, 0, content, fileIdBuffer.Length, fileLengthBuffer.Length);
-                    try
-                    {
-                        socket.Send(new MessageHeader(ServiceTypes.FILE_TRANSFER_SEND).Serialize((ushort)content.Length));
-                        socket.Send(content);
-                    }
-                    catch (SocketException ex)
-                    {
-                        data.FileStream.Close();
-                        _connectedClients.Remove(data);
-                        break;
-                    }
-                    if (cnt < FileTransferSendMessageData.MAX_MESSAGE_SIZE)
-                    {
-                        data.FileStream.Close();
-                        socket.Close();
-                        _connectedClients.Remove(data);
-                    }
-                    break;
-                }
+                if (data.LocalPath == "")
+                    return;
+                data.FileStream = new FileStream(data.LocalPath, FileMode.Open);
+            }
+            byte[] content = new byte[FileTransferSendMessageData.MAX_MESSAGE_SIZE + 2 * sizeof(Int32)];
+            int cnt = data.FileStream.Read(content, 2 * sizeof(Int32), FileTransferSendMessageData.MAX_MESSAGE_SIZE);
+            if (cnt < FileTransferSendMessageData.MAX_MESSAGE_SIZE + 2 * sizeof(Int32))
+            {
+                Array.Resize<byte>(ref content, cnt + 2 * sizeof(Int32));
+            }
+            byte[] fileIdBuffer = AMessageData.ToByteArray(data.FileId);
+            byte[] fileLengthBuffer = AMessageData.ToByteArray((int)data.FileStream.Length);
+            Array.Copy(fileIdBuffer, content, fileIdBuffer.Length);
+            Array.Copy(fileLengthBuffer, 0, content, fileIdBuffer.Length, fileLengthBuffer.Length);
+            try
+            {
+                socket.Send(new MessageHeader(ServiceTypes.FILE_TRANSFER_SEND).Serialize((ushort)content.Length));
+                socket.Send(content);
+            }
+            catch (SocketException ex)
+            {
+                data.FileStream.Close();
+                _connectedClients.Remove(data.Socket);
+                return;
+            }
+            if (cnt < FileTransferSendMessageData.MAX_MESSAGE_SIZE)
+            {
+                data.FileStream.Close();
+                socket.Close();
+                _connectedClients.Remove(data.Socket);
             }
         }
 
         private void HandleRequests()
         {
             ArrayList readSocks = new ArrayList();
-            foreach (PeerClientData data in _connectedClients)
+            foreach (KeyValuePair<Socket, PeerClientData> dataPair in _connectedClients)
             {
-                if(data.Socket.Connected)
-                    readSocks.Add(data.Socket);
+                if(dataPair.Value.Socket.Connected)
+                    readSocks.Add(dataPair.Value.Socket);
             }
 
             if (readSocks.Count == 0)
@@ -540,68 +504,60 @@ namespace Common.FileTransfer
         private void HandleHelloMessage(Socket connectedSocket, Message recMessage)
         {
             HelloMessageData messageData = (HelloMessageData)Message.GetMessageData(recMessage);
-            foreach (PeerClientData data in _connectedClients)
+
+            PeerClientData data = _connectedClients[connectedSocket];
+            if (data.Socket == connectedSocket)
             {
-                if (data.Socket == connectedSocket)
-                {
-                    data.UserName = messageData.UserName;
-                }
+                data.UserName = messageData.UserName;
             }
-            //_connectedClients.Add(new PeerClientData(messageData.UserName, -1, "", "", connectedSocket));
         }
 
         private void HandleCancelTransfer(Socket connectedSocket)
         {
-            foreach (PeerClientData data in _connectedClients)
+            PeerClientData data = _connectedClients[connectedSocket];
+        
+            if (data.Socket == connectedSocket)
             {
-                if (data.Socket == connectedSocket)
+                _connectedClients.Remove(data.Socket);
+                OnCancelTransfer(data.UserName, data.FileId);
+                try
                 {
-                    _connectedClients.Remove(data);
-                    OnCancelTransfer(data.UserName, data.FileId);
-                    try
-                    {
-                        data.Socket.Close();
-                    }
-                    catch (SocketException ex)
-                    {
-                    }
-                    break;
+                    data.Socket.Close();
+                }
+                catch (SocketException ex)
+                {
                 }
             }
         }
 
         private void HandleRequestFile(Socket connectedSocket, Message recMessage)
         {
-            foreach(PeerClientData clientData in _connectedClients)
+            PeerClientData clientData = _connectedClients[connectedSocket];
+            if (clientData.Socket == connectedSocket)
             {
-                if (clientData.Socket == connectedSocket)
-                {
-                    FileTransferGetMessageData messageData = (FileTransferGetMessageData)Message.GetMessageData(recMessage);
-                    clientData.FileId = messageData.Id;
-                    OnRequestFile(clientData.UserName, clientData.FileId, connectedSocket);
-                    break;
-                }
+                FileTransferGetMessageData messageData = (FileTransferGetMessageData)Message.GetMessageData(recMessage);
+                clientData.FileId = messageData.Id;
+                OnRequestFile(clientData.UserName, clientData.FileId, connectedSocket);
             }
         }
 
         private void HandleRequestFileList(Socket connectedSocket, Message recMessage)
         {
-            foreach (PeerClientData clietnData in _connectedClients)
+            PeerClientData clietnData = _connectedClients[connectedSocket];
+            if (clietnData.Socket == connectedSocket)
             {
-                if (clietnData.Socket == connectedSocket)
-                {
-                    clietnData.FileId = _fileListId;
-                    clietnData.LocalPath = "";
-                    clietnData.Alias = "";
-                    OnRequestFileList(clietnData.UserName, connectedSocket);
-                    break;
-                }
+                clietnData.FileId = _fileListId;
+                clietnData.LocalPath = "";
+                clietnData.Alias = "";
+                OnRequestFileList(clietnData.UserName, connectedSocket);
             }
         }
 
         #endregion
 
     }
+
+    #endregion
 
     #region PeerClientData
 
