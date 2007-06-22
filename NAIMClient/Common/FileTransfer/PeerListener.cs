@@ -284,7 +284,7 @@ namespace Common.FileTransfer
                     NackMessageData messageData = new NackMessageData();
                     Message message = new Message(new MessageHeader(ServiceTypes.NACK), messageData);
                     data.Socket.Send(message.Serialize());
-                    data.Socket.Close();
+                    //data.Socket.Close();
                     if (data.FileStream != null)
                     {
                         data.FileStream.Close();
@@ -429,8 +429,17 @@ namespace Common.FileTransfer
                     byte[] fileLengthBuffer = AMessageData.ToByteArray((int)data.FileStream.Length);
                     Array.Copy(fileIdBuffer, content, fileIdBuffer.Length);
                     Array.Copy(fileLengthBuffer, 0, content, fileIdBuffer.Length, fileLengthBuffer.Length);
-                    socket.Send(new MessageHeader(ServiceTypes.FILE_TRANSFER_SEND).Serialize((ushort)content.Length));
-                    socket.Send(content);
+                    try
+                    {
+                        socket.Send(new MessageHeader(ServiceTypes.FILE_TRANSFER_SEND).Serialize((ushort)content.Length));
+                        socket.Send(content);
+                    }
+                    catch (SocketException ex)
+                    {
+                        data.FileStream.Close();
+                        _connectedClients.Remove(data);
+                        break;
+                    }
                     if (cnt < FileTransferSendMessageData.MAX_MESSAGE_SIZE)
                     {
                         data.FileStream.Close();
@@ -458,7 +467,16 @@ namespace Common.FileTransfer
             {
                 Socket connectedSocket = (Socket)readSocks[i];
                 byte[] header = new byte[MessageHeader.HEADER_SIZE];
-                int cnt = connectedSocket.Receive(header);
+                int cnt;
+                try
+                {
+                    cnt = connectedSocket.Receive(header);
+                }
+                catch (SocketException ex)
+                {
+                    HandleCancelTransfer(connectedSocket);
+                    continue;
+                }
                 if (cnt != MessageHeader.HEADER_SIZE)
                     continue;
                 ushort contentLength = AMessageData.ToShort(header[MessageHeader.HEADER_SIZE - 2], header[MessageHeader.HEADER_SIZE - 1]);
@@ -512,8 +530,15 @@ namespace Common.FileTransfer
                 if (data.Socket == connectedSocket)
                 {
                     _connectedClients.Remove(data);
-                    data.Socket.Close();
                     OnCancelTransfer(data.UserName, data.FileId);
+                    try
+                    {
+                        data.Socket.Close();
+                    }
+                    catch (SocketException ex)
+                    {
+                    }
+                    break;
                 }
             }
         }
