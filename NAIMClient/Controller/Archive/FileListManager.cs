@@ -7,7 +7,13 @@ namespace Controller.Archive
 {
     public class FileListManager
     {
+        #region Constants
+
         const string _fileListLocation = "FileLists";
+
+        #endregion
+
+        #region Fields And Properties
 
         private string _currentDir;
 
@@ -22,6 +28,20 @@ namespace Controller.Archive
             }
         }
 
+        private IList<KeyValuePair<int, KeyValuePair<string, string>>> _fileList;
+
+        public IList<KeyValuePair<int, KeyValuePair<string, string>>> FileList
+        {
+            get
+            {
+                return _fileList;
+            }
+        }
+
+        #endregion
+
+        #region Constructors
+
         public FileListManager()
         {
             _currentDir = Directory.GetCurrentDirectory();
@@ -31,15 +51,9 @@ namespace Controller.Archive
             }
         }
 
-        private IList<KeyValuePair<int,KeyValuePair<string,string>>> _fileList;
+        #endregion
 
-        public IList<KeyValuePair<int,KeyValuePair<string,string>>> FileList
-        {
-            get
-            {
-                return _fileList;
-            }
-        }
+        #region Private Methods
 
         private void LoadFileList(string uname)
         {
@@ -63,6 +77,10 @@ namespace Controller.Archive
             reader.Close();
         }
 
+        #endregion
+
+        #region Public Methods
+
         public void SaveFileList()
         {
             if (_fileList == null)
@@ -78,5 +96,7 @@ namespace Controller.Archive
             }
             writer.Close();
         }
+
+        #endregion
     }
 }
