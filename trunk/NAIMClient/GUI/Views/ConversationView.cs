@@ -60,7 +60,7 @@ namespace GUI
             txtMessageList.AppendText(Text + ": ");
             txtMessageList.SelectionColor = _textColor;
             txtMessageList.SelectionFont = _textFont;
-            txtMessageList.AppendText(message + "\r\n");
+            txtMessageList.AppendText(message + "\r\n");            
         }
 
         public void Initialise(string caption)
@@ -118,9 +118,18 @@ namespace GUI
 
             txtMessageList.SelectionStart = txtMessageList.TextLength;
 
+            IDataObject clipContent = Clipboard.GetDataObject();
+
+            Clipboard.SetImage(Resources.progress_bar_texture);
+
             txtMessageList.SelectionColor = _userColor;
             txtMessageList.SelectionFont = _usersFont;
             txtMessageList.AppendText(currentUserName + ": ");
+
+            txtMessageList.ReadOnly = false;
+            txtMessageList.Paste();
+            txtMessageList.ReadOnly = true;
+
             txtMessageList.SelectionColor = _textColor;
             txtMessageList.SelectionFont = _textFont;
             txtMessageList.AppendText(message + "\r\n");
@@ -128,6 +137,8 @@ namespace GUI
 
             txtMessage.Clear();
             txtMessage.Focus();
+
+            Clipboard.SetDataObject(clipContent);
 
             OnSendMessageEvent(message);
         }
@@ -139,5 +150,6 @@ namespace GUI
             }
         }
         #endregion       
+
     }
 }
