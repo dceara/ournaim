@@ -192,9 +192,9 @@ namespace Controller.StateObjects
                 _fileTransferView.ContactOffline(userDisconnectedData.UserName);
             }
             _onlineContacts.Remove(userDisconnectedData.UserName);
-            if (_madeConnectionRequests.ContainsKey(userDisconnectedData.UserName))
+            if (_madeConnectionRequests != null && _madeConnectionRequests.ContainsKey(userDisconnectedData.UserName))
                 _madeConnectionRequests.Remove(userDisconnectedData.UserName);
-            if (_doawnloadedFileLists.ContainsKey(userDisconnectedData.UserName))
+            if (_doawnloadedFileLists != null && _doawnloadedFileLists.ContainsKey(userDisconnectedData.UserName))
                 _doawnloadedFileLists.Remove(userDisconnectedData.UserName);
         }
 
@@ -228,16 +228,10 @@ namespace Controller.StateObjects
         private void HandleStatusMessage(StatusMessageData messageData)
         {
             StatusMessageData statusData = (StatusMessageData)messageData;
-            UserListEntry contact = _onlineContacts[statusData.UserName];
-            if (contact != null)
+            if(_onlineContacts.ContainsKey(statusData.UserName))
             {
-                _mainView.ChangeClientStatus(statusData.UserName, statusData.Status);
+                UserListEntry contact = _onlineContacts[statusData.UserName];
                 contact.Status = statusData.Status;
-            }
-            else
-            {
-                // TODO: Throw an exception ?
-                // NOTTODO: No exception.... This must be a server bug... :p
             }
         }
 
