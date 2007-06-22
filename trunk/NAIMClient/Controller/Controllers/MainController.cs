@@ -133,6 +133,8 @@ namespace Controllers
             set { localIpAddress = value; }
         }
 
+        private IPAddress localIp;
+
         /// <summary>
         /// the port for accepting peer to peer connections
         /// </summary>
@@ -245,6 +247,8 @@ namespace Controllers
                 ForceEmptyOutputQueue();
                 return;
             }
+
+            StartPeerConnectionManager();
 
             while (true)
             {
@@ -519,7 +523,7 @@ namespace Controllers
             this._downloadedFileLists = new Dictionary<string, IDictionary<int, string>>();
             this.currentUserName = userName;
             this.currentPassword = password;
-            StartPeerConnectionManager();
+            //StartPeerConnectionManager();
 
             this.currentState.PeerConnectionManagerThread = this.listenThread;
 
@@ -547,8 +551,7 @@ namespace Controllers
 
         void StartPeer(object param)
         {
-            this.localIpAddress = Dns.GetHostName();
-            localPort = peerConnectionManager.CreateListenerConnection(ref localIpAddress);
+            localPort = peerConnectionManager.CreateListenerConnection(localIp);
             peerConnectionManager.MainLoop();
         }
         
@@ -774,6 +777,8 @@ namespace Controllers
                     if (tempSocket.Connected)
                     {
                         serverSocket = tempSocket;
+                        localIpAddress = ((IPEndPoint)serverSocket.LocalEndPoint).Address.ToString();
+                        localIp = ((IPEndPoint)serverSocket.LocalEndPoint).Address;
                         break;
                     }
                     else
