@@ -36,9 +36,15 @@ namespace Common.FileTransfer
 
     public class PeerConnectionManager
     {
+        #region Constants
+
         private const int _maxConn = 10000;
 
         private const int _fileListId = -2;
+
+        #endregion
+
+        #region Fields
 
         private List<PeerClientData> _connectedClients = new List<PeerClientData>();
 
@@ -51,6 +57,8 @@ namespace Common.FileTransfer
         private string _localAddress = "127.0.0.1";
 
         private bool _toBreak = false;
+
+        #endregion
 
         #region public Delegates
 
@@ -191,6 +199,7 @@ namespace Common.FileTransfer
             FileListGetMessageData messageData = (FileListGetMessageData)Message.GetMessageData(new Message(buffer));
             return messageData.FileList;
         }
+
         private void GetFileFromPeer(string contact, int fileid,string localPath,string address, ushort port, string localUserName)
         {
             PeerClientData data =  new PeerClientData(contact,fileid,"","",null);
@@ -198,6 +207,7 @@ namespace Common.FileTransfer
             data.PeerPort = port;
             data.LocalUserName = localUserName;
             data.Alias = localPath;
+            ConnectToPeerServer(data);
             _receiverTransfers.Add(data);
         }
 
@@ -207,6 +217,8 @@ namespace Common.FileTransfer
         }
 
         #endregion
+
+        #region Constructors
 
         public PeerConnectionManager(int localPort, string address, ProgressChangedDelegate progressChangedDelegate)
         {
@@ -220,6 +232,8 @@ namespace Common.FileTransfer
             this._localPort = localPort;
             this._localAddress = address;
         }
+
+        #endregion
 
         #region private Methods
 
@@ -301,7 +315,7 @@ namespace Common.FileTransfer
             {
                 if (data.Socket == null)
                 {
-                    ConnectToPeerServer(data);
+                    //ConnectToPeerServer(data);
                     continue;
                 }
                 if (data.FileStream == null)
@@ -589,8 +603,12 @@ namespace Common.FileTransfer
 
     }
 
+    #region PeerClientData
+
     class PeerClientData
     {
+        #region Properties
+
         private string _userName;
 
         public string UserName
@@ -683,8 +701,10 @@ namespace Common.FileTransfer
             get { return _lastTimeStamp; }
             set { _lastTimeStamp = value; }
         }
-	
+        #endregion
 
+        #region Constructors
+        
         public PeerClientData(string username, int fileId, string localPath, string alias, Socket socket)
         {
             _userName = username;
@@ -694,6 +714,11 @@ namespace Common.FileTransfer
             _socket = socket;
             _lastTimeStamp = DateTime.Now;
         }
-	
+
+        #endregion
+
     }
+
+    #endregion
 }
+
