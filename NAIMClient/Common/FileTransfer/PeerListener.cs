@@ -350,8 +350,17 @@ namespace Common.FileTransfer
                     currentReceived = 0;
                     while (currentReceived != contentLen)
                     {
-                        int lastReceived = data.Socket.Receive(rawData, currentReceived, contentLen - currentReceived, SocketFlags.None);
-                        currentReceived += lastReceived;
+                        try
+                        {
+                            int lastReceived = data.Socket.Receive(rawData, currentReceived, contentLen - currentReceived, SocketFlags.None);
+                            currentReceived += lastReceived;
+                        }
+                        catch (ObjectDisposedException ex)
+                        {
+                            data.FileStream.Close();
+                            _receiverTransfers.Remove(data.Socket);
+                            return;
+                        }
                     }
                     data.FileStream.Write(rawData, 2 * sizeof(Int32), rawData.Length - 2 * sizeof(Int32));
                     if (rawData.Length < FileTransferSendMessageData.MAX_MESSAGE_SIZE)
