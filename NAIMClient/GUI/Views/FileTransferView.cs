@@ -358,7 +358,7 @@ namespace GUI
                     string progressText = "Canceled";
                     SizeF textSize = e.Graphics.MeasureString(progressText, progressTextFont);
                     PointF textLocation = new PointF(e.Bounds.Left + 3, (float)e.Bounds.Top + ((float)e.Bounds.Height - textSize.Height) / 2);
-                    e.Graphics.DrawString("Finished", progressTextFont, progressTextBrush, textLocation);
+                    e.Graphics.DrawString("Canceled", progressTextFont, progressTextBrush, textLocation);
                 }
                 else
                 {
@@ -379,30 +379,6 @@ namespace GUI
             else
             {
                 e.DrawDefault = true;
-            }
-        }
-
-        private void lwStatus_MouseDown(object sender, MouseEventArgs e)
-        {
-            tsmiCancel.Enabled = false;
-            tsmiRestart.Enabled = false;
-
-            foreach(ListViewItem lvi in lwStatus.SelectedItems)
-            {
-                if (lvi.SubItems["progress"].Text.CompareTo("Finished") == 0 ||
-                    lvi.SubItems["progress"].Text.CompareTo("Canceled") == 0)
-                {
-                    tsmiRestart.Enabled = true;
-                }
-                else
-                {
-                    tsmiCancel.Enabled = true;
-                }
-
-                if (tsmiCancel.Enabled == true && tsmiRestart.Enabled == true)
-                {
-                    break;
-                }
             }
         }
 
@@ -430,6 +406,33 @@ namespace GUI
                      lvsi.Text.CompareTo("Canceled") == 0))
                 {
                     OnStartFileTransfer(lvi.SubItems[0].Text, lvi.SubItems["file"].Text, lvi.SubItems["location"].Text);
+                }
+            }
+        }
+
+        private void lwStatus_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                tsmiCancel.Enabled = false;
+                tsmiRestart.Enabled = false;
+
+                foreach (ListViewItem lvi in lwStatus.SelectedItems)
+                {
+                    if (lvi.SubItems["progress"].Text.CompareTo("Finished") == 0 ||
+                        lvi.SubItems["progress"].Text.CompareTo("Canceled") == 0)
+                    {
+                        tsmiRestart.Enabled = true;
+                    }
+                    else
+                    {
+                        tsmiCancel.Enabled = true;
+                    }
+
+                    if (tsmiCancel.Enabled == true && tsmiRestart.Enabled == true)
+                    {
+                        break;
+                    }
                 }
             }
         }
