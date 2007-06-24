@@ -1,4 +1,5 @@
 using System.Windows.Forms;
+using GUI.Controls;
 namespace GUI
 {
     public partial class ConversationView : Form
