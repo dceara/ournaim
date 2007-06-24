@@ -424,7 +424,7 @@ namespace GUI
                     lvsi.Text.CompareTo("Finished") != 0 &&
                     lvsi.Text.CompareTo("Canceled") != 0)
                 {
-                    OnCancelFileTransfer(lvi.SubItems["contact"].Text, lvi.SubItems["file"].Text);
+                    OnCancelFileTransfer(lvi.SubItems[0].Text, lvi.SubItems["file"].Text);
                 }
             }
         }
@@ -438,7 +438,7 @@ namespace GUI
                     (lvsi.Text.CompareTo("Finished") == 0 ||
                      lvsi.Text.CompareTo("Canceled") == 0))
                 {
-                    OnStartFileTransfer(lvi.SubItems["contact"].Text, lvi.SubItems["file"].Text, lvi.SubItems["location"].Text);
+                    OnStartFileTransfer(lvi.SubItems[0].Text, lvi.SubItems["file"].Text, lvi.SubItems["location"].Text);
                 }
             }
         }
