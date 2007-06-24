@@ -148,8 +148,8 @@ namespace GUI
             this.lwStatus.UseCompatibleStateImageBehavior = false;
             this.lwStatus.View = System.Windows.Forms.View.Details;
             this.lwStatus.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lwStatus_DrawSubItem);
+            this.lwStatus.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lwStatus_MouseUp);
             this.lwStatus.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lwStatus_DrawColumnHeader);
-            this.lwStatus.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lwStatus_MouseDown);
             // 
             // chFTClient
             // 
