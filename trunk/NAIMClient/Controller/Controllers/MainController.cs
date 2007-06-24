@@ -965,7 +965,7 @@ namespace Controllers
             }
             if(fileId == -1)
                 return;
-            peerConnectionManager.cancelFileTransferDelegate.Invoke(contact, fileId);
+            peerConnectionManager.cancelFileTransferDelegate.BeginInvoke(contact, fileId,null,null);
             fileTransferView.CancelFileTransfer(contact, file);
         }
 
