@@ -941,6 +941,19 @@ namespace Controllers
 
         void fileTransferView_CancelFileTransferEvent(string contact, string file)
         {
+            IDictionary<int,string> fileList = _downloadedFileLists[contact];
+            int fileId = -1;
+            foreach(KeyValuePair<int,string> pair in fileList)
+            {
+                if(file == pair.Value)
+                {
+                    fileId = pair.Key;
+                    break;
+                }
+            }
+            if(fileId == -1)
+                return;
+            peerConnectionManager.cancelFileTransferDelegate.Invoke(contact, fileId);
             fileTransferView.CancelFileTransfer(contact, file);
         }
 
