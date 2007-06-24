@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using Common.Interfaces;
+using GUI.Controls;
 using System.Drawing;
 
 namespace GUI
@@ -149,7 +150,6 @@ namespace GUI
                 SendMessage();
             }
         }
-        #endregion       
-
+        #endregion
     }
 }
