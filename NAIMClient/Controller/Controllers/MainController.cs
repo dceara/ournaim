@@ -965,7 +965,14 @@ namespace Controllers
 
             if (TransferAlreadyExists(contact, fileId))
             {
-                ErrorHandler.HandleError("Transfer Already in Progress", "Error", (IWin32Window)mainView);
+                if (fileTransferView != null)
+                {
+                    ErrorHandler.HandleError("Transfer Already in Progress", "Error", (IWin32Window)fileTransferView);
+                }
+                else
+                {
+                    ErrorHandler.HandleError("Transfer Already in Progress", "Error", (IWin32Window)mainView);
+                }
                 return;
             }
 
