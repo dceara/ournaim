@@ -172,6 +172,7 @@ namespace Common.FileTransfer
                     clientDataPair.Value.Socket.Send(message.Serialize());
                     clientDataPair.Value.Socket.Close();
                     _receiverTransfers.Remove(clientDataPair.Value.Socket);
+                    clientDataPair.Value.FileStream.Close();
                     break;
                 }
             }
