@@ -32,7 +32,7 @@ namespace GUI
 
         #region Delegates
 
-        private delegate void StartFileTransferDelegate(string contact, string file);
+        private delegate void StartFileTransferDelegate(string contact, string file, string location);
         private delegate void CancelFileTrasnferDelegate(string contact, string file);
         private delegate void UpdateTransferProgressDelegate(string contact, string file, int progress, float speed);
         private delegate void FileTransferFinishedDelegate(string contact, string file);
@@ -69,7 +69,7 @@ namespace GUI
         {
             if (StartFileTransferEvent != null)
             {
-                StartFileTransferEvent(contact, file,writeLocation);
+                StartFileTransferEvent(contact, file, writeLocation);
             }
         }
 
@@ -118,7 +118,7 @@ namespace GUI
             lwContacts.Items.Remove(lvi);
         }
 
-        public void StartFileTransfer(string contact, string file)
+        public void StartFileTransfer(string contact, string file, string location)
         {
             if (this.InvokeRequired)
             {
@@ -138,7 +138,7 @@ namespace GUI
                 }
                 else
                 {
-                    ListViewItem.ListViewSubItem[] subItems = new ListViewItem.ListViewSubItem[4];
+                    ListViewItem.ListViewSubItem[] subItems = new ListViewItem.ListViewSubItem[5];
 
                     subItems[0] = new ListViewItem.ListViewSubItem();
                     subItems[0].Name = "contact";
@@ -157,6 +157,9 @@ namespace GUI
                     subItems[3].Text = "0";
                     subItems[3].Tag = (int)0;
 
+                    subItems[4] = new ListViewItem.ListViewSubItem();
+                    subItems[4].Name = "location";
+                    subItems[4].Text = location;
 
                     ListViewItem lvi = new ListViewItem(subItems, 0);
 
@@ -376,6 +379,67 @@ namespace GUI
             else
             {
                 e.DrawDefault = true;
+            }
+        }
+
+        private void lwStatus_MouseDown(object sender, MouseEventArgs e)
+        {
+            tsmiCancel.Enabled = false;
+            tsmiRestart.Enabled = false;
+
+            if (lwStatus.SelectedIndices.Count > 0)
+            {
+                cmsStatus.Visible = true;
+            }
+            else
+            {
+                cmsStatus.Visible = false;
+            }
+
+            foreach(ListViewItem lvi in lwStatus.SelectedItems)
+            {
+                if (lvi.SubItems["progress"].Text.CompareTo("Finished") == 0 ||
+                    lvi.SubItems["progress"].Text.CompareTo("Canceled") == 0)
+                {
+                    tsmiRestart.Enabled = true;
+                }
+                else
+                {
+                    tsmiCancel.Enabled = true;
+                }
+
+                if (tsmiCancel.Enabled == true && tsmiRestart.Enabled == true)
+                {
+                    break;
+                }
+            }
+        }
+
+        private void tsmiCancel_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem lvi in lwStatus.SelectedItems)
+            {
+                ListViewItem.ListViewSubItem lvsi = lvi.SubItems["progress"];
+                if (lvsi != null &&
+                    lvsi.Text.CompareTo("Finished") != 0 &&
+                    lvsi.Text.CompareTo("Canceled") != 0)
+                {
+                    OnCancelFileTransfer(lvi.SubItems["contact"].Text, lvi.SubItems["file"].Text);
+                }
+            }
+        }
+
+        private void tsmiRestart_Click(object sender, EventArgs e)
+        {
+            foreach(ListViewItem lvi in lwStatus.SelectedItems)
+            {
+                ListViewItem.ListViewSubItem lvsi = lvi.SubItems["progress"];
+                if (lvsi != null && 
+                    (lvsi.Text.CompareTo("Finished") == 0 ||
+                     lvsi.Text.CompareTo("Canceled") == 0))
+                {
+                    OnStartFileTransfer(lvi.SubItems["contact"].Text, lvi.SubItems["file"].Text, lvi.SubItems["location"].Text);
+                }
             }
         }
 
