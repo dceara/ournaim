@@ -198,7 +198,9 @@ namespace GUI
             {
                 ListViewItem lvi = lwStatus.Items[contact + " " + file];
                 
-                if (lvi != null)
+                if (lvi != null &&
+                    lvi.SubItems["progress"].Text.CompareTo("Finished") != 0 &&
+                    lvi.SubItems["progress"].Text.CompareTo("Canceled") != 0)
                 {
                     ListViewItem.ListViewSubItem progressItem = lvi.SubItems["progress"];
                     if (progressItem.Text.CompareTo("" + progress) != 0)

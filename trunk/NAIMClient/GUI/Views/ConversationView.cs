@@ -16,7 +16,7 @@ namespace GUI
 
         private const string BUZZ_TEXT = "BUZZ!";
 
-        private const int BUZZ_CNT = 500;
+        private const int BUZZ_CNT = 300;
 
         private const int BUZZ_MOVE = 4;
 
