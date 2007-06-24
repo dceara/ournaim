@@ -36,6 +36,7 @@ namespace Common.ErrorHandling
             // 
             // btnOk
             // 
+            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnOk.Location = new System.Drawing.Point(132, 43);
@@ -47,12 +48,16 @@ namespace Common.ErrorHandling
             // 
             // lblError
             // 
+            this.lblError.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F);
             this.lblError.Location = new System.Drawing.Point(65, 6);
             this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(216, 34);
+            this.lblError.Size = new System.Drawing.Size(215, 34);
             this.lblError.TabIndex = 3;
             this.lblError.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblError.TextChanged += new System.EventHandler(this.lblError_TextChanged);
             // 
             // pictureBox1
             // 
