@@ -26,6 +26,7 @@ namespace GUI.Views
                 return;
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.AutoUpgradeEnabled = true;
             openFileDialog.AddExtension = true;
             if (openFileDialog.ShowDialog((IWin32Window)parent) != DialogResult.OK)
             {
