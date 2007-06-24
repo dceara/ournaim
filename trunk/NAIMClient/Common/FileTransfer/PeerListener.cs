@@ -333,12 +333,12 @@ namespace Common.FileTransfer
                     _receiverTransfers.Remove(data.Socket);
                     return;
                 }
-                //catch (ObjectDisposedException ex)
-                //{
-                //    data.FileStream.Close();
-                //    _receiverTransfers.Remove(data.Socket);
-                //    return;
-                //}
+                catch (ObjectDisposedException ex)
+                {
+                    data.FileStream.Close();
+                    _receiverTransfers.Remove(data.Socket);
+                    return;
+                }
                 currentReceived += lastReceived;
             }
             Message recMessage = new Message(messageBuffer);

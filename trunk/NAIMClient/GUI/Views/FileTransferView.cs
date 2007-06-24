@@ -387,15 +387,6 @@ namespace GUI
             tsmiCancel.Enabled = false;
             tsmiRestart.Enabled = false;
 
-            if (lwStatus.SelectedIndices.Count > 0)
-            {
-                cmsStatus.Visible = true;
-            }
-            else
-            {
-                cmsStatus.Visible = false;
-            }
-
             foreach(ListViewItem lvi in lwStatus.SelectedItems)
             {
                 if (lvi.SubItems["progress"].Text.CompareTo("Finished") == 0 ||
