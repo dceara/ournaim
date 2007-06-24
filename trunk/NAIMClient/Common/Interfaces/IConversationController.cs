@@ -160,6 +160,8 @@ namespace Common.Interfaces
         void CreatePeerToPeerConnection();
 
         #endregion
+
+        void ShowView();
     }
     #endregion
 }
