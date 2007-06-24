@@ -198,6 +198,11 @@ namespace GUI
             this.tsmiCancel.Text = "Cancel transfer";
             this.tsmiCancel.Click += new System.EventHandler(this.tsmiCancel_Click);
             // 
+            // chFTLocation
+            // 
+            this.chFTLocation.Text = "Download location";
+            this.chFTLocation.Width = 250;
+            // 
             // FileTransferView
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(245)))), ((int)(((byte)(235)))));
