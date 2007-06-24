@@ -61,7 +61,9 @@ namespace Controller.Archive
             string fileListFilename = _currentDir + "\\" + _fileListLocation + "\\" + uname;
             if (!File.Exists(fileListFilename))
             {
-                File.Create(fileListFilename);
+                //File.Create(fileListFilename);
+                FileStream stream = new FileStream(fileListFilename, FileMode.CreateNew);
+                stream.Close();
                 return;
             }
             StreamReader reader = new StreamReader(fileListFilename);

@@ -415,7 +415,8 @@ namespace Controllers
 
         void mainView_MainCloseEvent()
         {
-            fileListManager.SaveFileList();
+            if(currentState is StateIdle)
+                fileListManager.SaveFileList();
 
             StopPeerConnectionManager();
 
