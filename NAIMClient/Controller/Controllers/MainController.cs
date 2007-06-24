@@ -193,6 +193,10 @@ namespace Controllers
 
         public void InitialiseConversation(string userName,IConversationView conversationView)
         {
+            if (conversationControllers.ContainsKey(userName))
+            {
+                conversationControllers[userName].ShowView();
+            }
             ConversationController newConversationController = new ConversationController();
             newConversationController.ReceiverName = userName;
             newConversationController.CurrentClientName = this.currentUserName;
@@ -948,6 +952,14 @@ namespace Controllers
                 if(file == pair.Value)
                 {
                     fileId = pair.Key;
+                    foreach (KeyValuePair<string, KeyValuePair<int, string>> download in startedDownloads)
+                    {
+                        if (download.Key == contact && download.Value.Key == fileId)
+                        {
+                            startedDownloads.Remove(download);
+                            break;
+                        }
+                    }
                     break;
                 }
             }

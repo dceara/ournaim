@@ -187,6 +187,11 @@ namespace Controllers
             conversationView.CloseView();
         }
 
+        public void ShowView()
+        {
+            conversationView.ShowView();
+        }
+
         #endregion
 
         #region ConversationView Event handlers

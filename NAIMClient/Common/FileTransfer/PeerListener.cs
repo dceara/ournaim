@@ -163,7 +163,7 @@ namespace Common.FileTransfer
 
         private void CancelFileTransfer(string contactName, int fileId)
         {
-            foreach (KeyValuePair<Socket, PeerClientData> clientDataPair in _connectedClients)
+            foreach (KeyValuePair<Socket, PeerClientData> clientDataPair in _receiverTransfers)
             {
                 if (clientDataPair.Value.UserName == contactName && clientDataPair.Value.FileId == fileId)
                 {
