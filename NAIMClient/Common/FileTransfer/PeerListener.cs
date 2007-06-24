@@ -171,7 +171,7 @@ namespace Common.FileTransfer
                     Message message = new Message(new MessageHeader(ServiceTypes.NACK),messageData);
                     clientDataPair.Value.Socket.Send(message.Serialize());
                     clientDataPair.Value.Socket.Close();
-                    _connectedClients.Remove(clientDataPair.Value.Socket);
+                    _receiverTransfers.Remove(clientDataPair.Value.Socket);
                     break;
                 }
             }
@@ -333,12 +333,12 @@ namespace Common.FileTransfer
                     _receiverTransfers.Remove(data.Socket);
                     return;
                 }
-                catch (ObjectDisposedException ex)
-                {
-                    data.FileStream.Close();
-                    _receiverTransfers.Remove(data.Socket);
-                    return;
-                }
+                //catch (ObjectDisposedException ex)
+                //{
+                //    data.FileStream.Close();
+                //    _receiverTransfers.Remove(data.Socket);
+                //    return;
+                //}
                 currentReceived += lastReceived;
             }
             Message recMessage = new Message(messageBuffer);
