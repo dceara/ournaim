@@ -163,17 +163,20 @@ namespace Common.FileTransfer
 
         private void CancelFileTransfer(string contactName, int fileId)
         {
-            foreach (KeyValuePair<Socket, PeerClientData> clientDataPair in _receiverTransfers)
+            lock (_receiverTransfers)
             {
-                if (clientDataPair.Value.UserName == contactName && clientDataPair.Value.FileId == fileId)
+                foreach (KeyValuePair<Socket, PeerClientData> clientDataPair in _receiverTransfers)
                 {
-                    NackMessageData messageData = new NackMessageData();
-                    Message message = new Message(new MessageHeader(ServiceTypes.NACK),messageData);
-                    clientDataPair.Value.Socket.Send(message.Serialize());
-                    clientDataPair.Value.Socket.Close();
-                    _receiverTransfers.Remove(clientDataPair.Value.Socket);
-                    clientDataPair.Value.FileStream.Close();
-                    break;
+                    if (clientDataPair.Value.UserName == contactName && clientDataPair.Value.FileId == fileId)
+                    {
+                        NackMessageData messageData = new NackMessageData();
+                        Message message = new Message(new MessageHeader(ServiceTypes.NACK), messageData);
+                        clientDataPair.Value.Socket.Send(message.Serialize());
+                        clientDataPair.Value.Socket.Close();
+                        _receiverTransfers.Remove(clientDataPair.Value.Socket);
+                        clientDataPair.Value.FileStream.Close();
+                        break;
+                    }
                 }
             }
         }
@@ -270,7 +273,10 @@ namespace Common.FileTransfer
 
                 SendData();
 
-                ReceiveData();
+                lock (_receiverTransfers)
+                {
+                    ReceiveData();
+                }
             }
 
             foreach (KeyValuePair<Socket, PeerClientData> dataPair in _receiverTransfers)
