@@ -62,6 +62,7 @@ namespace GUI
             this.txtMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtMessage.Size = new System.Drawing.Size(427, 53);
             this.txtMessage.TabIndex = 0;
+            this.txtMessage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMessage_KeyDown);
             // 
             // txtMessageList
             // 
