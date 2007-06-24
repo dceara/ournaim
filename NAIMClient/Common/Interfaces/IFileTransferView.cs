@@ -46,7 +46,7 @@ namespace Common.Interfaces
 
         void LoadList(string contact, IList<string> list);
 
-        void StartFileTransfer(string contact, string file);
+        void StartFileTransfer(string contact, string file, string location);
 
 #warning TODO
         void CancelFileTransfer(string contact, string file);

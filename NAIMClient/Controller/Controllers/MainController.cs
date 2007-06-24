@@ -961,7 +961,7 @@ namespace Controllers
             if(fileId == -1)
                 return;
 
-            fileTransferView.StartFileTransfer(contact, file);
+            fileTransferView.StartFileTransfer(contact, file, writeLocation);
 
             if (TransferAlreadyExists(contact, fileId))
             {

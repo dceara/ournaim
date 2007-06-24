@@ -29,6 +29,7 @@ namespace GUI
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.lwContacts = new System.Windows.Forms.ListView();
@@ -38,14 +39,19 @@ namespace GUI
             this.lwStatus = new System.Windows.Forms.ListView();
             this.chFTClient = new System.Windows.Forms.ColumnHeader();
             this.chFTFile = new System.Windows.Forms.ColumnHeader();
-            this.chFTProgress = new System.Windows.Forms.ColumnHeader();
             this.chFTSpeed = new System.Windows.Forms.ColumnHeader();
+            this.chFTProgress = new System.Windows.Forms.ColumnHeader();
+            this.cmsStatus = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiRestart = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiCancel = new System.Windows.Forms.ToolStripMenuItem();
+            this.chFTLocation = new System.Windows.Forms.ColumnHeader();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.cmsStatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -129,7 +135,9 @@ namespace GUI
             this.chFTClient,
             this.chFTFile,
             this.chFTSpeed,
-            this.chFTProgress});
+            this.chFTProgress,
+            this.chFTLocation});
+            this.lwStatus.ContextMenuStrip = this.cmsStatus;
             this.lwStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lwStatus.FullRowSelect = true;
             this.lwStatus.Location = new System.Drawing.Point(0, 0);
@@ -141,6 +149,7 @@ namespace GUI
             this.lwStatus.View = System.Windows.Forms.View.Details;
             this.lwStatus.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lwStatus_DrawSubItem);
             this.lwStatus.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lwStatus_DrawColumnHeader);
+            this.lwStatus.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lwStatus_MouseDown);
             // 
             // chFTClient
             // 
@@ -152,15 +161,42 @@ namespace GUI
             this.chFTFile.Text = "File";
             this.chFTFile.Width = 250;
             // 
+            // chFTSpeed
+            // 
+            this.chFTSpeed.Text = "Speed";
+            this.chFTSpeed.Width = 61;
+            // 
             // chFTProgress
             // 
             this.chFTProgress.Text = "Progress";
             this.chFTProgress.Width = 144;
             // 
-            // chFTSpeed
+            // cmsStatus
             // 
-            this.chFTSpeed.Text = "Speed";
-            this.chFTSpeed.Width = 61;
+            this.cmsStatus.BackColor = System.Drawing.Color.MintCream;
+            this.cmsStatus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.cmsStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiRestart,
+            this.tsmiCancel});
+            this.cmsStatus.Name = "cmsStatus";
+            this.cmsStatus.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.cmsStatus.ShowImageMargin = false;
+            this.cmsStatus.ShowItemToolTips = false;
+            this.cmsStatus.Size = new System.Drawing.Size(139, 48);
+            // 
+            // tsmiRestart
+            // 
+            this.tsmiRestart.Name = "tsmiRestart";
+            this.tsmiRestart.Size = new System.Drawing.Size(138, 22);
+            this.tsmiRestart.Text = "Restart transfer";
+            this.tsmiRestart.Click += new System.EventHandler(this.tsmiRestart_Click);
+            // 
+            // tsmiCancel
+            // 
+            this.tsmiCancel.Name = "tsmiCancel";
+            this.tsmiCancel.Size = new System.Drawing.Size(138, 22);
+            this.tsmiCancel.Text = "Cancel transfer";
+            this.tsmiCancel.Click += new System.EventHandler(this.tsmiCancel_Click);
             // 
             // FileTransferView
             // 
@@ -177,6 +213,7 @@ namespace GUI
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.ResumeLayout(false);
+            this.cmsStatus.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -193,6 +230,10 @@ namespace GUI
         private ColumnHeader chFTFile;
         private ColumnHeader chFTProgress;
         private ColumnHeader chFTSpeed;
+        private ContextMenuStrip cmsStatus;
+        private ToolStripMenuItem tsmiRestart;
+        private ToolStripMenuItem tsmiCancel;
+        private ColumnHeader chFTLocation;
 
     }
 }
