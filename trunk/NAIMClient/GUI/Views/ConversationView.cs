@@ -5,6 +5,8 @@ using System.Windows.Forms;
 using Common.Interfaces;
 using GUI.Controls;
 using System.Drawing;
+using Common.ErrorHandling;
+using System.Media;
 
 namespace GUI
 {
@@ -20,6 +22,10 @@ namespace GUI
 
         private const int BUZZ_MOVE = 4;
 
+        private const double BUZZ_LIMIT = 5;
+
+        private const double MESSAGE_LIMIT = 300;
+
         #endregion
 
         #region Members
@@ -34,6 +40,9 @@ namespace GUI
         private Font _usersFont = new Font("Tahoma", 8, FontStyle.Bold);
         private Font _textFont = new Font("Arial", 10, FontStyle.Regular);
         private Font _buzzFont = new Font("Tahoma", 12, FontStyle.Bold);
+
+        private DateTime? lastSentBuzz = null;
+        private DateTime? lastSentMessage = null;
 
         #endregion
 
@@ -128,6 +137,12 @@ namespace GUI
 
         private void btnSend_Click(object sender, EventArgs e)
         {
+            if (lastSentMessage != null && ((TimeSpan)(DateTime.Now - lastSentMessage)).TotalMilliseconds < MESSAGE_LIMIT)
+            {
+                ErrorHandler.HandleError("NAIM cannot send more than three instant messages per second. Please wait a second before sending another message!", "Error", this);
+                return;
+            }
+            this.lastSentMessage = DateTime.Now;
             SendMessage();
         }
 
@@ -138,6 +153,11 @@ namespace GUI
             {
                 if (e.KeyCode == Keys.G)
                 {
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                    if (lastSentBuzz != null && ((TimeSpan)(DateTime.Now - lastSentBuzz)).TotalSeconds < BUZZ_LIMIT)
+                        return;
+
                     OnSendMessageEvent(BUZZ);
 
                     txtMessage.Clear();
@@ -155,9 +175,10 @@ namespace GUI
 
                     txtMessage.Clear();
                     txtMessage.Focus();
-                    e.Handled = true;
 
                     BuzzWindow();
+
+                    lastSentBuzz = DateTime.Now;
                 }
             }
         }
@@ -210,6 +231,10 @@ namespace GUI
 
         private void BuzzWindow()
         {
+            SoundPlayer player = new SoundPlayer();
+            player.Stream = Resources.buzz;
+            player.Play();
+
             for (int i = 0; i < BUZZ_CNT;  i++)
             {
                 int dir = i % 4;

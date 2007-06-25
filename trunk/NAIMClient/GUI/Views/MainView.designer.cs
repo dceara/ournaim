@@ -351,9 +351,9 @@ namespace GUI
             // pictureBoxPoza
             // 
             this.pictureBoxPoza.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxPoza.Location = new System.Drawing.Point(84, 89);
+            this.pictureBoxPoza.Location = new System.Drawing.Point(67, 64);
             this.pictureBoxPoza.Name = "pictureBoxPoza";
-            this.pictureBoxPoza.Size = new System.Drawing.Size(159, 133);
+            this.pictureBoxPoza.Size = new System.Drawing.Size(192, 192);
             this.pictureBoxPoza.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxPoza.TabIndex = 16;
             this.pictureBoxPoza.TabStop = false;
