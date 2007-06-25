@@ -39,7 +39,7 @@ namespace GUI
 
             cbStatuses.SelectedIndex = 0;
 
-            pictureBoxPoza.Image = Pozainceput.locked_in_my_head;
+            //pictureBoxPoza.Image = Pozainceput.locked_in_my_head;
 
         }
 
