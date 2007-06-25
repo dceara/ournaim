@@ -65,7 +65,7 @@ class Protocol {
 public:
     Protocol();
     ~Protocol();
-    
+     
     /* 
      * Packs the data from packet in a contiguous buffer that can be sent through a TCP connection. The buffer is 
      * allocated dynamically so it should be deleted after use.
