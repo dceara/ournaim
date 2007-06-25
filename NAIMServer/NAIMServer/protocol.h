@@ -57,7 +57,7 @@ const char INVISIBLE[]  = "Invisible";
 /* Class that contains functions specific to the NAIM protocol */
 
 class Protocol {
-    const static unsigned short HEADER_LENGTH = 8;
+    static const unsigned short HEADER_LENGTH = 8;
     char header[16];
     NAIMpacket * tempPacket;                // the packet that will be returned.
     unsigned short readHeaderSize;          // the size of the part of the header already read.
