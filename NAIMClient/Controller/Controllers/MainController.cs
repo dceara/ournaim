@@ -504,7 +504,7 @@ namespace Controllers
             if (peerConnectionManager == null)
                 return;
             startedDownloads.Clear();
-            peerConnectionManager.stopDelegate.Invoke();
+            bool b = peerConnectionManager.stopDelegate.Invoke();
             this.peerConnectionManager.CancelTransferEvent -= peerConnectionManager_CancelTransferEvent;
             this.peerConnectionManager.ProgressChangedEvent -= peerConnectionManager_ProgressChangedEvent;
             this.peerConnectionManager.RequestFileEvent -= peerConnectionManager_RequestFileEvent;
@@ -744,10 +744,25 @@ namespace Controllers
                 {
                     StopPeerConnectionManager();
                     mainView.Initialise();
+                    DisposeFileTransferView();
                 }
                 mainView.LoginEvent += this.mainView_LoginEvent;
             }
             EmptyCurrentStateOutputBuffer();
+        }
+
+        private void DisposeFileTransferView()
+        {
+            if (fileTransferView != null)
+            {
+                fileTransferView.CloseView();
+                fileTransferView.CancelFileTransferEvent -= this.fileTransferView_CancelFileTransferEvent;
+                fileTransferView.ContactSelectedEvent -= this.fileTransferView_ContactSelectedEvent;
+                fileTransferView.GetContactListEvent -= this.fileTransferView_GetContactListEvent;
+                fileTransferView.StartFileTransferEvent -= this.fileTransferView_StartFileTransferEvent;
+                fileTransferView.ViewClosedEvent -= this.fileTransferView_ViewClosedEvent;
+                fileTransferView = null;
+            }
         }
 
         private void CloseServerConnection()
@@ -973,6 +988,11 @@ namespace Controllers
 
         void fileTransferView_StartFileTransferEvent(string contact, string file, string writeLocation)
         {
+            if (!_downloadedFileLists.ContainsKey(contact))
+            {
+                ErrorHandler.HandleError("The current file list is obsolete. Get the file list again for a new download!","Error",(IWin32Window)fileTransferView);
+                return;
+            }
             IDictionary<int,string> fileList = _downloadedFileLists[contact];
             int fileId = -1;
             foreach(KeyValuePair<int,string> pair in fileList)
@@ -1042,7 +1062,8 @@ namespace Controllers
             {
                 if (download.Key == contact && download.Value.Key == fileId)
                 {
-                    fileTransferView.FileTransferFinished(contact, download.Value.Value);
+                    fileTransferView.CancelFileTransfer(contact, download.Value.Value);
+                    //fileTransferView.FileTransferFinished(contact, download.Value.Value);
                     startedDownloads.Remove(download);
                     break;
                 }
