@@ -124,7 +124,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
+				DebugInformationFormat="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -140,7 +140,8 @@
 				AdditionalDependencies="pthreadVCE2.lib SqLite.lib WS2_32.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="PThread\Win32; SqLite\Win32"
-				GenerateDebugInformation="true"
+				IgnoreDefaultLibraryNames="msvcrtd"
+				GenerateDebugInformation="false"
 				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -151,6 +152,8 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				EmbedManifest="false"
+				VerboseOutput="true"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
