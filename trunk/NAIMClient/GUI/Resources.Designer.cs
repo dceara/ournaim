@@ -66,6 +66,13 @@ namespace GUI {
             }
         }
         
+        internal static System.Drawing.Bitmap naim {
+            get {
+                object obj = ResourceManager.GetObject("naim", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap progress_bar_back_texture {
             get {
                 object obj = ResourceManager.GetObject("progress_bar_back_texture", resourceCulture);
