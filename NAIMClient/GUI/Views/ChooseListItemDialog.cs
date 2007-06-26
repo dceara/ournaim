@@ -39,6 +39,7 @@ namespace GUI.Views
                 extension = fileName.Substring(index);
             }
             FileListAliasChooser aliasChooser = new FileListAliasChooser();
+            aliasChooser.FileName = fileName;
             aliasChooser.ShowDialog((IWin32Window)parent);
             string alias = aliasChooser.Alias;
             if (alias.LastIndexOf('.') == -1)

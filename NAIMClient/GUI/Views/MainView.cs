@@ -39,6 +39,11 @@ namespace GUI
 
             cbStatuses.SelectedIndex = 0;
 
+            pictureBoxPoza.Image = Resources.naim;
+            pictureBoxPoza.BorderStyle = BorderStyle.None;
+            pictureBoxPoza.SizeMode = PictureBoxSizeMode.CenterImage;
+            //this.Icon = Resources.naim;
+
             //pictureBoxPoza.Image = Pozainceput.locked_in_my_head;
 
         }

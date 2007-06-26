@@ -24,6 +24,14 @@ namespace GUI.Views
             }
         }
 
+        public string FileName
+        {
+            set
+            {
+                this.txtAlias.Text = value;
+            }
+        }
+
         private void FileListAliasChooser_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.txtAlias.Text == "" || this.DialogResult != DialogResult.OK)

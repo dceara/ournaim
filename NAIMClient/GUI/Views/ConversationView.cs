@@ -110,6 +110,7 @@ namespace GUI
         public void ShowView()
         {
             this.Show();
+            this.Focus();
         }
         public void CloseView()
         {
