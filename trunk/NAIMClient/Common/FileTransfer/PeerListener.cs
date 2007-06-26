@@ -183,21 +183,28 @@ namespace Common.FileTransfer
         
         private IDictionary<int, string> GetFileListFromPeer(string contact, string address, ushort port)
         {
-            Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            clientSocket.Connect(new IPAddress(Dns.Resolve(address).AddressList[0].Address), port);
-            Message message = new Message(new MessageHeader(ServiceTypes.FILE_LIST_GET),new FileListGetMessageData(new byte[]{0,0,0,0}));
-            clientSocket.Send(message.Serialize());
+            try
+            {
+                Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                clientSocket.Connect(new IPAddress(Dns.Resolve(address).AddressList[0].Address), port);
+                Message message = new Message(new MessageHeader(ServiceTypes.FILE_LIST_GET), new FileListGetMessageData(new byte[] { 0, 0, 0, 0 }));
+                clientSocket.Send(message.Serialize());
 
-            byte[] headerBuffer = new byte[MessageHeader.HEADER_SIZE];
-            clientSocket.Receive(headerBuffer);
-            ushort contentLen = AMessageData.ToShort(headerBuffer[MessageHeader.HEADER_SIZE - 2], headerBuffer[MessageHeader.HEADER_SIZE - 1]);
-            byte[] rawData = new byte[contentLen];
-            clientSocket.Receive(rawData);
-            byte[] buffer = new byte[headerBuffer.Length + contentLen];
-            Array.Copy(headerBuffer, buffer, headerBuffer.Length);
-            Array.Copy(rawData, 0, buffer, headerBuffer.Length, rawData.Length);
-            FileListGetMessageData messageData = (FileListGetMessageData)Message.GetMessageData(new Message(buffer));
-            return messageData.FileList;
+                byte[] headerBuffer = new byte[MessageHeader.HEADER_SIZE];
+                clientSocket.Receive(headerBuffer);
+                ushort contentLen = AMessageData.ToShort(headerBuffer[MessageHeader.HEADER_SIZE - 2], headerBuffer[MessageHeader.HEADER_SIZE - 1]);
+                byte[] rawData = new byte[contentLen];
+                clientSocket.Receive(rawData);
+                byte[] buffer = new byte[headerBuffer.Length + contentLen];
+                Array.Copy(headerBuffer, buffer, headerBuffer.Length);
+                Array.Copy(rawData, 0, buffer, headerBuffer.Length, rawData.Length);
+                FileListGetMessageData messageData = (FileListGetMessageData)Message.GetMessageData(new Message(buffer));
+                return messageData.FileList;
+            }
+            catch (SocketException ex)
+            {
+                return new Dictionary<int, string>();
+            }
         }
 
         private bool inIteration = false;

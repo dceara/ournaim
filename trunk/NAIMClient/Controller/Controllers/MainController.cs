@@ -196,6 +196,7 @@ namespace Controllers
             if (conversationControllers.ContainsKey(userName))
             {
                 conversationControllers[userName].ShowView();
+                return;
             }
             ConversationController newConversationController = new ConversationController();
             newConversationController.ReceiverName = userName;
