@@ -152,7 +152,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				EmbedManifest="false"
+				EmbedManifest="true"
 				VerboseOutput="true"
 			/>
 			<Tool
