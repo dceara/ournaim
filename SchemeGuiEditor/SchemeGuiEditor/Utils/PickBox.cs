@@ -57,6 +57,7 @@ namespace SchemeGuiEditor.Utils
         public void SelectControl(Control newControl)
         {
             _control = newControl;
+            HideHandles();
             
             //Add sizing handles to Control's container (Form or PictureBox)
             for (int i = 0; i < 8; i++)

@@ -32,6 +32,11 @@ namespace SchemeGuiEditor.Gui
             this.TabText = projectFile.Name;
         }
 
+        public override List<object> GetPropertiesObjects()
+        {
+            return base.GetPropertiesObjects();
+        }
+
         #region Private Methods
         private void SelectControl(Control ctrl)
         {
@@ -104,7 +109,7 @@ namespace SchemeGuiEditor.Gui
             Control ctrl = sender as Control;
             _dragging = false;
 
-            if (!(ctrl is ScmFrame))
+            if (!(ctrl is ScmFrame) && _startParent != null)
             {
                 ScmContainer newParent = GetContainerAt(ctrl.Location);
                 if (newParent == null|| newParent == ctrl)
@@ -117,23 +122,28 @@ namespace SchemeGuiEditor.Gui
                     panelContainer.Controls.Remove(ctrl);
                     newParent.AddControl(ctrl,panelContainer.PointToScreen(ctrl.Location));
                 }
+                _startParent = null;
+                SelectControl(ctrl);
             }
-            SelectControl(ctrl);
         }
 
         private void ctrl_MouseMove(object sender, MouseEventArgs e)
         {
+            Console.WriteLine("mouse move " + sender.GetType().Name);
+
             if (_dragging)
                 _pickBox.MoveControl(e);
         }
 
         private void ctrl_MouseDown(object sender, MouseEventArgs e)
         {
+            Console.WriteLine("mouse down " + sender.GetType().Name);
             Control ctrl = sender as Control;
             if (!(ctrl is ScmFrame))
             {
                 _startLocation = ctrl.Location;
                 _startParent = ctrl.Parent;
+                Console.WriteLine("mouse down startParent: " + _startParent.GetType().ToString());
                 _startParent.Controls.Remove(ctrl);
                 ctrl.Location = panelContainer.PointToClient(_startParent.PointToScreen(ctrl.Location));
                 panelContainer.Controls.Add(ctrl);
@@ -146,6 +156,8 @@ namespace SchemeGuiEditor.Gui
 
         private void ctrl_Click(object sender, EventArgs e)
         {
+            Console.WriteLine("mouse click " + sender.GetType().Name);
+
             SelectControl(sender as Control);
         }
         #endregion
