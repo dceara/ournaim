@@ -34,9 +34,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="ToolBox, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ToolBox, Version=1.0.4.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Documents and Settings\Ana\Desktop\ToolBox_Src\ToolBoxTest\bin\Debug\ToolBox.dll</HintPath>
+      <HintPath>Lib\ToolBox.dll</HintPath>
     </Reference>
     <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.2.2977.30571, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

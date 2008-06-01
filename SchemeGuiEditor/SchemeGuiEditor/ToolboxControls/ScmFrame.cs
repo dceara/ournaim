@@ -25,16 +25,9 @@ namespace SchemeGuiEditor.ToolboxControls
             set{labelTitle.Text = value;}
         }
 
-        public override void AddControl(Control ctrl)
-        {
-            if (ctrl != null)
-                panelContainer.Controls.Add(ctrl);
-        }
-
         public override void AddControl(Control ctrl, Point location)
         {
-            ctrl.Location = new Point(location.X - this.Location.X - panelContainer.Location.X,
-                location.Y - Location.Y - panelContainer.Location.Y);
+            ctrl.Location = panelContainer.PointToClient(location);
             panelContainer.Controls.Add(ctrl);
         }
 

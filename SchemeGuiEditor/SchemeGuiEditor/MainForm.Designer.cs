@@ -35,6 +35,7 @@ namespace SchemeGuiEditor
             this.menuItemNewProject = new System.Windows.Forms.ToolStripMenuItem();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemOpenProject = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemClose = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemCloseAll = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemCloseAllButThisOne = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,7 +87,6 @@ namespace SchemeGuiEditor
             this.toolBarButtonLayoutByCode = new System.Windows.Forms.ToolStripButton();
             this.toolBarButtonLayoutByXml = new System.Windows.Forms.ToolStripButton();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.menuItemOpenProject = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.toolBar.SuspendLayout();
             this.SuspendLayout();
@@ -134,14 +134,14 @@ namespace SchemeGuiEditor
             // menuItemNewProject
             // 
             this.menuItemNewProject.Name = "menuItemNewProject";
-            this.menuItemNewProject.Size = new System.Drawing.Size(152, 22);
+            this.menuItemNewProject.Size = new System.Drawing.Size(119, 22);
             this.menuItemNewProject.Text = "Project";
             this.menuItemNewProject.Click += new System.EventHandler(this.menuItemNewProject_Click);
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.fileToolStripMenuItem.Text = "File";
             this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
             // 
@@ -153,6 +153,13 @@ namespace SchemeGuiEditor
             this.menuItemOpen.Size = new System.Drawing.Size(215, 22);
             this.menuItemOpen.Text = "&Open...";
             this.menuItemOpen.Click += new System.EventHandler(this.menuItemOpen_Click);
+            // 
+            // menuItemOpenProject
+            // 
+            this.menuItemOpenProject.Name = "menuItemOpenProject";
+            this.menuItemOpenProject.Size = new System.Drawing.Size(152, 22);
+            this.menuItemOpenProject.Text = "Project";
+            this.menuItemOpenProject.Click += new System.EventHandler(this.menuItemOpenProject_Click);
             // 
             // menuItemClose
             // 
@@ -487,6 +494,7 @@ namespace SchemeGuiEditor
             this.toolBarButtonOpen.Name = "toolBarButtonOpen";
             this.toolBarButtonOpen.Size = new System.Drawing.Size(23, 22);
             this.toolBarButtonOpen.ToolTipText = "Open";
+            this.toolBarButtonOpen.Click += new System.EventHandler(this.toolBarButtonOpen_Click);
             // 
             // toolBarButtonSeparator1
             // 
@@ -561,13 +569,6 @@ namespace SchemeGuiEditor
             this.dockPanel.RightToLeftLayout = true;
             this.dockPanel.Size = new System.Drawing.Size(1008, 626);
             this.dockPanel.TabIndex = 0;
-            // 
-            // menuItemOpenProject
-            // 
-            this.menuItemOpenProject.Name = "menuItemOpenProject";
-            this.menuItemOpenProject.Size = new System.Drawing.Size(152, 22);
-            this.menuItemOpenProject.Text = "Project";
-            this.menuItemOpenProject.Click += new System.EventHandler(this.menuItemOpenProject_Click);
             // 
             // MainForm
             // 
