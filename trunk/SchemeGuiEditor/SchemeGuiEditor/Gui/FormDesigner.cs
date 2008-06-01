@@ -14,13 +14,14 @@ namespace SchemeGuiEditor.Gui
 {
     public partial class FormDesigner : ToolWindow
     {
+        #region Members
         private ProjectFile _projectFile;
-        private List<Object> _propertyItems;
         private PickBox _pickBox;
         private Control _selectedColtrol;
         private Control _startParent;
         private bool _dragging;
         private Point _startLocation;
+        #endregion
 
         public FormDesigner(ProjectFile projectFile)
         {
@@ -31,7 +32,41 @@ namespace SchemeGuiEditor.Gui
             this.TabText = projectFile.Name;
         }
 
-        void panelContainer_DragDrop(object sender, DragEventArgs e)
+        #region Private Methods
+        private void SelectControl(Control ctrl)
+        {
+            if (_selectedColtrol != ctrl)
+            {
+                if (_selectedColtrol != null)
+                {
+                    _selectedColtrol.MouseDown -= new MouseEventHandler(ctrl_MouseDown);
+                    _selectedColtrol.MouseMove -= new MouseEventHandler(ctrl_MouseMove);
+                    _selectedColtrol.MouseUp -= new MouseEventHandler(ctrl_MouseUp);
+                }
+
+                ctrl.MouseDown += new MouseEventHandler(ctrl_MouseDown);
+                ctrl.MouseMove += new MouseEventHandler(ctrl_MouseMove);
+                ctrl.MouseUp += new MouseEventHandler(ctrl_MouseUp);
+
+                _selectedColtrol = ctrl;
+            }
+            ctrl.BringToFront();
+            _pickBox.SelectControl(ctrl);
+        }
+
+        private ScmContainer GetContainerAt(Point location)
+        {
+            foreach (Control ctrl in panelContainer.Controls)
+            {
+                if (ctrl is ScmContainer && ctrl.Bounds.Contains(location))
+                    return ctrl as ScmContainer;
+            }
+            return null;
+        }
+        #endregion
+
+        #region Event Handlers
+        private void panelContainer_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(typeof(ToolBoxItem)))
             {
@@ -47,7 +82,7 @@ namespace SchemeGuiEditor.Gui
                     {
                         Point location = panelContainer.PointToClient(new Point(e.X, e.Y));
                         ScmContainer container = GetContainerAt(location);
-                        container.AddControl(ctrl,location);
+                        container.AddControl(ctrl,new Point(e.X,e.Y));
                     }
                     ctrl.Click += new EventHandler(ctrl_Click);
                     SelectControl(ctrl);
@@ -55,34 +90,16 @@ namespace SchemeGuiEditor.Gui
             }
         }
 
-        protected void AddControl(Control ctrl)
+        private void panelContainer_DragOver(object sender, DragEventArgs e)
         {
-            if (ctrl != null)
+            if (e.Data.GetDataPresent(typeof(Silver.UI.ToolBoxItem)))
             {
-                panelContainer.Controls.Add(ctrl);
-                ctrl.Click += new EventHandler(ctrl_Click);
-                if (_selectedColtrol == null)
-                    SelectControl(ctrl);
-            }
-        }
-
-        private void SelectControl(Control ctrl)
-        {
-            if (_selectedColtrol != null)
-            {
-                _selectedColtrol.MouseDown -= new MouseEventHandler(ctrl_MouseDown);
-                _selectedColtrol.MouseMove -= new MouseEventHandler(ctrl_MouseMove);
-                _selectedColtrol.MouseUp -= new MouseEventHandler(ctrl_MouseUp);
+                e.Effect = DragDropEffects.Copy;
             }
 
-            ctrl.MouseDown += new MouseEventHandler(ctrl_MouseDown);
-            ctrl.MouseMove += new MouseEventHandler(ctrl_MouseMove);
-            ctrl.MouseUp += new MouseEventHandler(ctrl_MouseUp);
-
-            _pickBox.SelectControl(ctrl);
         }
 
-        void ctrl_MouseUp(object sender, MouseEventArgs e)
+        private void ctrl_MouseUp(object sender, MouseEventArgs e)
         {
             Control ctrl = sender as Control;
             _dragging = false;
@@ -98,30 +115,19 @@ namespace SchemeGuiEditor.Gui
                 else
                 {
                     panelContainer.Controls.Remove(ctrl);
-                    ctrl.Location= new Point(ctrl.Location.X- newParent.Location.X,ctrl.Location.Y-newParent.Location.Y);
-                    newParent.AddControl(ctrl);
+                    newParent.AddControl(ctrl,panelContainer.PointToScreen(ctrl.Location));
                 }
             }
-            _pickBox.SelectControl(ctrl);
+            SelectControl(ctrl);
         }
 
-        private ScmContainer GetContainerAt(Point location)
-        {
-            foreach (Control ctrl in panelContainer.Controls)
-            {
-                if (ctrl is ScmContainer && ctrl.Bounds.Contains(location))
-                    return ctrl as ScmContainer;
-            }
-            return null;
-        }
-
-        void ctrl_MouseMove(object sender, MouseEventArgs e)
+        private void ctrl_MouseMove(object sender, MouseEventArgs e)
         {
             if (_dragging)
                 _pickBox.MoveControl(e);
         }
 
-        void ctrl_MouseDown(object sender, MouseEventArgs e)
+        private void ctrl_MouseDown(object sender, MouseEventArgs e)
         {
             Control ctrl = sender as Control;
             if (!(ctrl is ScmFrame))
@@ -132,36 +138,17 @@ namespace SchemeGuiEditor.Gui
                 ctrl.Location = panelContainer.PointToClient(_startParent.PointToScreen(ctrl.Location));
                 panelContainer.Controls.Add(ctrl);
                 ctrl.BringToFront();
-                _pickBox.SelectControl(ctrl);
+                ctrl.Capture = true;
             }
             _dragging = true;
             _pickBox.StartMove(e);
         }
 
-        void ctrl_Click(object sender, EventArgs e)
+        private void ctrl_Click(object sender, EventArgs e)
         {
-            _pickBox.SelectControl(sender as Control);
+            SelectControl(sender as Control);
         }
+        #endregion
 
-        protected Control CreateControl(Type controlType)
-        {
-            Control ctrl = Activator.CreateInstance(controlType) as Control;
-
-            return ctrl;
-        }
-
-        private void panelContainer_DragOver(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(typeof(Silver.UI.ToolBoxItem)))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-
-        }
-
-        private void panelContainer_MouseDown(object sender, MouseEventArgs e)
-        {
-
-        }
     }
 }

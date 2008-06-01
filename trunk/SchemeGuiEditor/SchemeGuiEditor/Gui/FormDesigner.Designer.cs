@@ -42,7 +42,6 @@ namespace SchemeGuiEditor.Gui
             this.panelContainer.TabIndex = 0;
             this.panelContainer.DragOver += new System.Windows.Forms.DragEventHandler(this.panelContainer_DragOver);
             this.panelContainer.DragDrop += new System.Windows.Forms.DragEventHandler(this.panelContainer_DragDrop);
-            this.panelContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelContainer_MouseDown);
             // 
             // FormDesigner
             // 

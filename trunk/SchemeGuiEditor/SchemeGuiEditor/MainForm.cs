@@ -130,6 +130,14 @@ namespace SchemeGuiEditor
             return null;
         }
 
+        private void OpenProject()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "*.sprj|*.sprj";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+                ProjectManager.Instance.LoadProject(openFileDialog.FileName);
+        }
+
         #endregion
 
         #region Event Handlers
@@ -169,10 +177,7 @@ namespace SchemeGuiEditor
 
         private void menuItemOpenProject_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "*.sprj|*.sprj";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-                ProjectManager.Instance.LoadProject(openFileDialog.FileName);
+            OpenProject();
         }
         #endregion
 
@@ -394,6 +399,11 @@ namespace SchemeGuiEditor
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void toolBarButtonOpen_Click(object sender, EventArgs e)
+        {
+            OpenProject();
         }
 
 
