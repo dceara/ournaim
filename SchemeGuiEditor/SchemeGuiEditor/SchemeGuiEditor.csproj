@@ -172,6 +172,7 @@
     <Compile Include="Gui\ToolWindow.designer.cs">
       <DependentUpon>ToolWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ToolboxControls\IScmControl.cs" />
     <Compile Include="ToolboxControls\ScmContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>

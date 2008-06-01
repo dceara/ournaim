@@ -10,13 +10,13 @@ using SchemeGuiEditor.Constants;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
-    public partial class ScmFrame : ScmContainer
+    public partial class ScmFrame : ScmContainer,IScmControl
     {
-        private int _priority = 1;
-        
+        private ScmFrameProperties _scmProperties;
         public ScmFrame()
         {
             InitializeComponent();
+            _scmProperties = new ScmFrameProperties(this);
         }
 
         public string Label
@@ -31,20 +31,29 @@ namespace SchemeGuiEditor.ToolboxControls
             panelContainer.Controls.Add(ctrl);
         }
 
-        public override int Priority
-        {
-            get { return 1; }
-        }
-
         private void panelContainer_DragDrop(object sender, DragEventArgs e)
         {
             Console.WriteLine(e.Data.ToString());
         }
+
+        #region IScmControl Members
+
+        public object ScmPropertyObject
+        {
+            get { return _scmProperties; }
+        }
+
+        #endregion
     }
 
     public class ScmFrameProperties
     {
         private ScmFrame _frame;
+
+        public ScmFrameProperties(ScmFrame frame)
+        {
+            _frame = frame;
+        }
 
         public string Label
         {
