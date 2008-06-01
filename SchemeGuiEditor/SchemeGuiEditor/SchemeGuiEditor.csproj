@@ -54,6 +54,7 @@
       <DependentUpon>NewItemDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\Document.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Gui\Document.Designer.cs">
       <DependentUpon>Document.cs</DependentUpon>
@@ -77,11 +78,13 @@
     <Compile Include="Projects\ProjectItem.cs" />
     <Compile Include="Projects\ProjectManager.cs" />
     <Compile Include="Gui\PropertyWindow.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Gui\PropertyWindow.Designer.cs">
       <DependentUpon>PropertyWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\SolutionExplorer.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Gui\SolutionExplorer.designer.cs">
       <DependentUpon>SolutionExplorer.cs</DependentUpon>
@@ -164,6 +167,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Gui\ToolWindow.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Gui\ToolWindow.designer.cs">
       <DependentUpon>ToolWindow.cs</DependentUpon>
