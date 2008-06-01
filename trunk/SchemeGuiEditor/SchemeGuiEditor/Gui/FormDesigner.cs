@@ -21,6 +21,7 @@ namespace SchemeGuiEditor.Gui
         private Control _startParent;
         private bool _dragging;
         private Point _startLocation;
+        private List<object> _propertyObjects;
         #endregion
 
         public FormDesigner(ProjectFile projectFile)
@@ -28,13 +29,14 @@ namespace SchemeGuiEditor.Gui
             InitializeComponent();
             _projectFile = projectFile;
             _pickBox = new PickBox();
+            _propertyObjects = new List<object>();
             this.Text = projectFile.Name;
             this.TabText = projectFile.Name;
         }
 
         public override List<object> GetPropertiesObjects()
         {
-            return base.GetPropertiesObjects();
+            return _propertyObjects;
         }
 
         #region Private Methods
@@ -87,9 +89,12 @@ namespace SchemeGuiEditor.Gui
                     {
                         Point location = panelContainer.PointToClient(new Point(e.X, e.Y));
                         ScmContainer container = GetContainerAt(location);
+                        if (container == null)
+                            return;
                         container.AddControl(ctrl,new Point(e.X,e.Y));
                     }
                     ctrl.Click += new EventHandler(ctrl_Click);
+                    _propertyObjects.Add((ctrl as IScmControl).ScmPropertyObject);
                     SelectControl(ctrl);
                 }
             }

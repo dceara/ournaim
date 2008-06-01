@@ -156,7 +156,7 @@ namespace SchemeGuiEditor
 
         private void dockPanel_ActiveContentChanged(object sender, EventArgs e)
         {
-            if (dockPanel.ActiveContent != null && dockPanel.ActiveContent is ToolWindow)
+            if (dockPanel.ActiveContent != null && dockPanel.ActiveContent is FormDesigner)
             {
                 ToolWindow activeToolWindow = dockPanel.ActiveContent as ToolWindow;
                 _propertyWindow.LoadPropertyItems(activeToolWindow.GetPropertiesObjects());
@@ -180,11 +180,7 @@ namespace SchemeGuiEditor
         #endregion
 
 
-
-
-
-
-
+        
 
 
 
