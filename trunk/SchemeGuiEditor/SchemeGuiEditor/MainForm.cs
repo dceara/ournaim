@@ -42,18 +42,6 @@ namespace SchemeGuiEditor
             MessageService.MainForm = this;
         }
 
-        void dockPanel_ActiveContentChanged(object sender, EventArgs e)
-        {
-            if (dockPanel.ActiveContent != null)
-            {
-                if (dockPanel.ActiveContent is FormDesigner)
-                {
-
-                }
-                Console.WriteLine("Active content changed" + dockPanel.ActiveContent.GetType().ToString());
-            }
-        }
-
         private void CreateBasicLayout()
         {
             _propertyWindow.Show(dockPanel);
@@ -165,6 +153,16 @@ namespace SchemeGuiEditor
                 _formDesigners[e.Data.Name].Show(dockPanel);
             }
         }
+
+        private void dockPanel_ActiveContentChanged(object sender, EventArgs e)
+        {
+            if (dockPanel.ActiveContent != null && dockPanel.ActiveContent is ToolWindow)
+            {
+                ToolWindow activeToolWindow = dockPanel.ActiveContent as ToolWindow;
+                _propertyWindow.LoadPropertyItems(activeToolWindow.GetPropertiesObjects());
+            }
+        }
+
         #endregion
 
         #region Menu Items Event Handlers

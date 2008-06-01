@@ -24,7 +24,7 @@ namespace SchemeGuiEditor.Gui
             base.OnDockStateChanged(e);
         }
 
-        protected virtual List<object> GetObjectProperties()
+        public virtual List<object> GetPropertiesObjects()
         {
             return new List<Object>();
         }
