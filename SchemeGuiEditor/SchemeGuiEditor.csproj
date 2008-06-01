@@ -1,0 +1,197 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D3A9D7CF-8E10-4028-B090-45833E549113}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SchemeGuiEditor</RootNamespace>
+    <AssemblyName>SchemeGuiEditor</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ToolBox, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Documents and Settings\Ana\Desktop\ToolBox_Src\ToolBoxTest\bin\Debug\ToolBox.dll</HintPath>
+    </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.2.2977.30571, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants\ConstantNames.cs" />
+    <Compile Include="Constants\ControlValidation.cs" />
+    <Compile Include="Constants\GuiConstants.cs" />
+    <Compile Include="Dialogs\NewItemDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\NewItemDialog.Designer.cs">
+      <DependentUpon>NewItemDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Document.cs">
+    </Compile>
+    <Compile Include="Gui\Document.Designer.cs">
+      <DependentUpon>Document.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\NewProjectDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\NewProjectDialog.Designer.cs">
+      <DependentUpon>NewProjectDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\FormDesigner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gui\FormDesigner.Designer.cs">
+      <DependentUpon>FormDesigner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\MessageService.cs" />
+    <Compile Include="Projects\Project.cs" />
+    <Compile Include="Projects\ProjectDirectory.cs" />
+    <Compile Include="Projects\ProjectFile.cs" />
+    <Compile Include="Projects\ProjectItem.cs" />
+    <Compile Include="Projects\ProjectManager.cs" />
+    <Compile Include="Gui\PropertyWindow.cs">
+    </Compile>
+    <Compile Include="Gui\PropertyWindow.Designer.cs">
+      <DependentUpon>PropertyWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\SolutionExplorer.cs">
+    </Compile>
+    <Compile Include="Gui\SolutionExplorer.designer.cs">
+      <DependentUpon>SolutionExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Toolbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gui\Toolbox.designer.cs">
+      <DependentUpon>Toolbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Dialogs\NewItemDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NewItemDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Document.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Document.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\NewProjectDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NewProjectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\FormDesigner.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormDesigner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\PropertyWindow.resx">
+      <DependentUpon>PropertyWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\SolutionExplorer.resx">
+      <DependentUpon>SolutionExplorer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Toolbox.resx">
+      <DependentUpon>Toolbox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\ToolWindow.resx">
+      <DependentUpon>ToolWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ToolboxControls\ScmContainer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScmContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ToolboxControls\ScmFrame.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScmFrame.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Gui\ToolWindow.cs">
+    </Compile>
+    <Compile Include="Gui\ToolWindow.designer.cs">
+      <DependentUpon>ToolWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxControls\ScmContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToolboxControls\ScmContainer.Designer.cs">
+      <DependentUpon>ScmContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxControls\ScmFrame.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToolboxControls\ScmFrame.Designer.cs">
+      <DependentUpon>ScmFrame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxControls\ScmButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\DataEventArgs.cs" />
+    <Compile Include="Utils\PickBox.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
