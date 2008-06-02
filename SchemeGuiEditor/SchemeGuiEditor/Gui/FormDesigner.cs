@@ -14,7 +14,9 @@ namespace SchemeGuiEditor.Gui
 {
     public partial class FormDesigner : ToolWindow
     {
-        #region Members
+        public event EventHandler<DataEventArgs<Object>> SelectedItemChanged;
+
+        #region Private Members
         private ProjectFile _projectFile;
         private PickBox _pickBox;
         private Control _selectedColtrol;
@@ -56,6 +58,9 @@ namespace SchemeGuiEditor.Gui
                 ctrl.MouseUp += new MouseEventHandler(ctrl_MouseUp);
 
                 _selectedColtrol = ctrl;
+                if (SelectedItemChanged != null)
+                    SelectedItemChanged(this,
+                        new DataEventArgs<object>((_selectedColtrol as IScmControl).ScmPropertyObject));
             }
             ctrl.BringToFront();
             _pickBox.SelectControl(ctrl);

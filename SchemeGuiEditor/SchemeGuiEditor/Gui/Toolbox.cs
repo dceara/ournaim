@@ -112,7 +112,7 @@ namespace SchemeGuiEditor.Gui
             return items;
         }
 
-        public int CompareToolboxItem(ToolBoxItem obj1, ToolBoxItem obj2)
+        private int CompareToolboxItem(ToolBoxItem obj1, ToolBoxItem obj2)
         {
             return obj1.Caption.CompareTo(obj2.Caption);
         }
