@@ -19,6 +19,7 @@ namespace SchemeGuiEditor
     {
         PropertyWindow _propertyWindow;
         SolutionExplorer _solutionExplorer;
+        ToolWindow _activeToolWindow;
         Toolbox _toolbox;
         Dictionary<string, FormDesigner> _formDesigners;
 
@@ -146,6 +147,7 @@ namespace SchemeGuiEditor
             {
                 FormDesigner designer = new FormDesigner(e.Data);
                 _formDesigners.Add(e.Data.Name, designer);
+                designer.SelectedItemChanged += new EventHandler<DataEventArgs<object>>(designer_SelectedItemChanged);
                 designer.Show(dockPanel, DockState.Document);
             }
             else
@@ -154,12 +156,19 @@ namespace SchemeGuiEditor
             }
         }
 
+        private void designer_SelectedItemChanged(object sender, DataEventArgs<object> e)
+        {
+            _propertyWindow.SelectItem(e.Data);
+        }
+
         private void dockPanel_ActiveContentChanged(object sender, EventArgs e)
         {
-            if (dockPanel.ActiveContent != null && dockPanel.ActiveContent is FormDesigner)
+            if (dockPanel.ActiveContent != null && dockPanel.ActiveContent is FormDesigner 
+                && dockPanel.ActiveContent != _activeToolWindow)
             {
                 ToolWindow activeToolWindow = dockPanel.ActiveContent as ToolWindow;
                 _propertyWindow.LoadPropertyItems(activeToolWindow.GetPropertiesObjects());
+                _activeToolWindow = dockPanel.ActiveContent as ToolWindow;
             }
         }
 
