@@ -12,6 +12,7 @@ using SchemeGuiEditor.Services;
 using SchemeGuiEditor.Projects;
 using SchemeGuiEditor.Gui;
 using SchemeGuiEditor.Utils;
+using SchemeGuiEditor.ToolboxControls;
 
 namespace SchemeGuiEditor
 {
@@ -37,6 +38,7 @@ namespace SchemeGuiEditor
             _solutionExplorer = new SolutionExplorer();
             _formDesigners = new Dictionary<string, FormDesigner>();
 
+            _propertyWindow.SelectedControlChanged += new EventHandler<DataEventArgs<IScmControl>>(_propertyWindow_SelectedControlChanged);
             _solutionExplorer.OpenFile += new EventHandler<DataEventArgs<ProjectFile>>(_solutionExplorer_OpenFile);
             dockPanel.ActiveContentChanged += new EventHandler(dockPanel_ActiveContentChanged);
 
@@ -156,6 +158,14 @@ namespace SchemeGuiEditor
             }
         }
 
+        void _propertyWindow_SelectedControlChanged(object sender, DataEventArgs<IScmControl> e)
+        {
+            if (_activeToolWindow is FormDesigner)
+            {
+                (_activeToolWindow as FormDesigner).SelectControl(e.Data as Control,false);
+            }
+        }
+
         private void designer_SelectedItemChanged(object sender, DataEventArgs<object> e)
         {
             _propertyWindow.SelectItem(e.Data);
@@ -166,7 +176,7 @@ namespace SchemeGuiEditor
             if (dockPanel.ActiveContent != null && dockPanel.ActiveContent is FormDesigner 
                 && dockPanel.ActiveContent != _activeToolWindow)
             {
-                ToolWindow activeToolWindow = dockPanel.ActiveContent as ToolWindow;
+                FormDesigner activeToolWindow = dockPanel.ActiveContent as FormDesigner;
                 _propertyWindow.LoadPropertyItems(activeToolWindow.GetPropertiesObjects());
                 _activeToolWindow = dockPanel.ActiveContent as ToolWindow;
             }

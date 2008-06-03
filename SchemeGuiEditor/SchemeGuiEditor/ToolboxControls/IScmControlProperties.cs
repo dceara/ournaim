@@ -4,8 +4,8 @@ using System.Text;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
-    public interface IScmControl
+    public interface IScmControlProperties
     {
-        IScmControlProperties ScmPropertyObject { get;}
+        IScmControl Control { get;}
     }
 }

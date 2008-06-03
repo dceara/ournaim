@@ -38,7 +38,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
         #region IScmControl Members
 
-        public object ScmPropertyObject
+        public IScmControlProperties ScmPropertyObject
         {
             get { return _scmProperties; }
         }
@@ -46,13 +46,25 @@ namespace SchemeGuiEditor.ToolboxControls
         #endregion
     }
 
-    public class ScmFrameProperties
+    public class ScmFrameProperties : IScmControlProperties
     {
         private ScmFrame _frame;
 
         public ScmFrameProperties(ScmFrame frame)
         {
             _frame = frame;
+        }
+
+        public string Name
+        {
+            get
+            {
+                return _frame.Name;
+            }
+            set
+            {
+                _frame.Name = value;
+            }
         }
 
         public string Label
@@ -70,5 +82,14 @@ namespace SchemeGuiEditor.ToolboxControls
                 _frame.Label = value;
             }
         }
+
+        #region IScmControlProperties Members
+
+        public IScmControl Control
+        {
+            get { return _frame; }
+        }
+
+        #endregion
     }
 }
