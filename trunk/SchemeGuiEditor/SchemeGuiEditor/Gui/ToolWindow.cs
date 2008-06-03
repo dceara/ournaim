@@ -25,11 +25,6 @@ namespace SchemeGuiEditor.Gui
             base.OnDockStateChanged(e);
         }
 
-        public virtual List<object> GetPropertiesObjects()
-        {
-            return new List<Object>();
-        }
-
         #region Private Methods
         private void SetContextMenuState()
         {

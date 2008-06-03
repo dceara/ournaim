@@ -173,6 +173,8 @@
       <DependentUpon>ToolWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="ToolboxControls\IScmControl.cs" />
+    <Compile Include="ToolboxControls\IScmControlProperties.cs" />
+    <Compile Include="ToolboxControls\ScmButtonProperties.cs" />
     <Compile Include="ToolboxControls\ScmContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>

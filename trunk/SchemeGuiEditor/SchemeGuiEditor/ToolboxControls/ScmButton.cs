@@ -19,22 +19,11 @@ namespace SchemeGuiEditor.ToolboxControls
 
         #region IScmControl Members
 
-        public object ScmPropertyObject
+        public IScmControlProperties ScmPropertyObject
         {
             get { return _scmProperties; }
         }
 
         #endregion
     }
-
-    public class ScmButtonProperties
-    {
-        private ScmButton _button;
-
-        public ScmButtonProperties(ScmButton button)
-        {
-            _button = button;
-        }
-    }
-
 }

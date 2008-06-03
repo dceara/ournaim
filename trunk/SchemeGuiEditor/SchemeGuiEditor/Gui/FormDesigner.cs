@@ -23,7 +23,7 @@ namespace SchemeGuiEditor.Gui
         private Control _startParent;
         private bool _dragging;
         private Point _startLocation;
-        private List<object> _propertyObjects;
+        private List<IScmControlProperties> _propertyObjects;
         #endregion
 
         public FormDesigner(ProjectFile projectFile)
@@ -31,18 +31,18 @@ namespace SchemeGuiEditor.Gui
             InitializeComponent();
             _projectFile = projectFile;
             _pickBox = new PickBox();
-            _propertyObjects = new List<object>();
+            _propertyObjects = new List<IScmControlProperties>();
             this.Text = projectFile.Name;
             this.TabText = projectFile.Name;
         }
 
-        public override List<object> GetPropertiesObjects()
+        #region Public Methods
+        public List<IScmControlProperties> GetPropertiesObjects()
         {
             return _propertyObjects;
         }
 
-        #region Private Methods
-        private void SelectControl(Control ctrl)
+        public void SelectControl(Control ctrl,bool throwEvent)
         {
             if (_selectedColtrol != ctrl)
             {
@@ -58,14 +58,16 @@ namespace SchemeGuiEditor.Gui
                 ctrl.MouseUp += new MouseEventHandler(ctrl_MouseUp);
 
                 _selectedColtrol = ctrl;
-                if (SelectedItemChanged != null)
+                if (throwEvent && SelectedItemChanged != null)
                     SelectedItemChanged(this,
                         new DataEventArgs<object>((_selectedColtrol as IScmControl).ScmPropertyObject));
             }
             ctrl.BringToFront();
             _pickBox.SelectControl(ctrl);
         }
+        #endregion
 
+        #region Private Methods
         private ScmContainer GetContainerAt(Point location)
         {
             foreach (Control ctrl in panelContainer.Controls)
@@ -100,7 +102,7 @@ namespace SchemeGuiEditor.Gui
                     }
                     ctrl.Click += new EventHandler(ctrl_Click);
                     _propertyObjects.Add((ctrl as IScmControl).ScmPropertyObject);
-                    SelectControl(ctrl);
+                    SelectControl(ctrl,true);
                 }
             }
         }
@@ -133,27 +135,23 @@ namespace SchemeGuiEditor.Gui
                     newParent.AddControl(ctrl,panelContainer.PointToScreen(ctrl.Location));
                 }
                 _startParent = null;
-                SelectControl(ctrl);
+                SelectControl(ctrl,true);
             }
         }
 
         private void ctrl_MouseMove(object sender, MouseEventArgs e)
         {
-            Console.WriteLine("mouse move " + sender.GetType().Name);
-
             if (_dragging)
                 _pickBox.MoveControl(e);
         }
 
         private void ctrl_MouseDown(object sender, MouseEventArgs e)
         {
-            Console.WriteLine("mouse down " + sender.GetType().Name);
             Control ctrl = sender as Control;
             if (!(ctrl is ScmFrame))
             {
                 _startLocation = ctrl.Location;
                 _startParent = ctrl.Parent;
-                Console.WriteLine("mouse down startParent: " + _startParent.GetType().ToString());
                 _startParent.Controls.Remove(ctrl);
                 ctrl.Location = panelContainer.PointToClient(_startParent.PointToScreen(ctrl.Location));
                 panelContainer.Controls.Add(ctrl);
@@ -166,9 +164,7 @@ namespace SchemeGuiEditor.Gui
 
         private void ctrl_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("mouse click " + sender.GetType().Name);
-
-            SelectControl(sender as Control);
+            SelectControl(sender as Control,true);
         }
         #endregion
 

@@ -7,20 +7,26 @@ using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using SchemeGuiEditor.Gui;
+using SchemeGuiEditor.ToolboxControls;
+using SchemeGuiEditor.Utils;
 
 namespace SchemeGuiEditor.Gui
 {
     public partial class PropertyWindow : ToolWindow
     {
-        private List<object> _propertyObjects;
+        public event EventHandler<DataEventArgs<IScmControl>> SelectedControlChanged;
 
+        private List<IScmControlProperties> _propertyObjects;
+        private bool _throwEvent;
+        
         public PropertyWindow()
         {
             InitializeComponent();
+            _throwEvent = true;
             comboBox.SelectedIndexChanged += new EventHandler(comboBox_SelectedIndexChanged);
         }
 
-        public void LoadPropertyItems(List<object> items)
+        public void LoadPropertyItems(List<IScmControlProperties> items)
         {
             _propertyObjects = items;
             FillCombo();
@@ -28,6 +34,7 @@ namespace SchemeGuiEditor.Gui
 
         public void SelectItem(object item)
         {
+            _throwEvent = false;
             if (comboBox.Items.Contains(item))
             {
                 comboBox.SelectedItem = item;
@@ -39,14 +46,14 @@ namespace SchemeGuiEditor.Gui
             }
         }
 
-        private int ComparePropertyObjects(object obj1, object obj2)
+        private int ComparePropertyObjects(IScmControlProperties obj1, IScmControlProperties obj2)
         {
             return obj1.ToString().CompareTo(obj2.ToString());
         }
 
         private void FillCombo()
         {
-            _propertyObjects.Sort(new Comparison<object>(ComparePropertyObjects));
+            _propertyObjects.Sort(new Comparison<IScmControlProperties>(ComparePropertyObjects));
             comboBox.Items.Clear();
             comboBox.Items.AddRange(_propertyObjects.ToArray());
         }
@@ -54,6 +61,10 @@ namespace SchemeGuiEditor.Gui
         void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             propertyGrid.SelectedObject = comboBox.SelectedItem;
+            if (_throwEvent && SelectedControlChanged != null)
+                SelectedControlChanged(this, new DataEventArgs<IScmControl>((comboBox.SelectedItem as IScmControlProperties).Control));
+            else
+                _throwEvent = true;
         }
     }
 }
