@@ -7,6 +7,6 @@ namespace SchemeGuiEditor.Constants
     public class ControlValidation
     {
         public const string FrameLabelToLong = "Label can not have more than 200 characters";
-
+        public const string FrameValueInvalid = "Value must be between 0 and 1000 pixels";
     }
 }

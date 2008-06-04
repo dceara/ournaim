@@ -11,4 +11,13 @@ namespace SchemeGuiEditor.Constants
         public const string ImageFolderClosed = "FolderClosed";
         public const string ImageSourceFile = "SourceFile";
     }
+
+    public class AttributesCategories
+    {
+        public const string CategoryDesign = "Design";
+        public const string CategoryAppearance = "Appearance";
+        public const string CategoryLayout = "Layout";
+        public const string CategoryBehavior = "Behavior";
+    }
+
 }
