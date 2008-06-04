@@ -152,6 +152,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>ScmFrame.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ToolboxControls\ScmFrameStyleEditorControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScmFrameStyleEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -172,6 +176,7 @@
     <Compile Include="Gui\ToolWindow.designer.cs">
       <DependentUpon>ToolWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ToolboxControls\ContainerAlignment.cs" />
     <Compile Include="ToolboxControls\IScmControl.cs" />
     <Compile Include="ToolboxControls\IScmControlProperties.cs" />
     <Compile Include="ToolboxControls\ScmButtonProperties.cs" />
@@ -190,6 +195,15 @@
     <Compile Include="ToolboxControls\ScmButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ToolboxControls\ScmFrameProperties.cs" />
+    <Compile Include="ToolboxControls\ScmFrameStyle.cs" />
+    <Compile Include="ToolboxControls\ScmFrameStyleEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToolboxControls\ScmFrameStyleEditorControl.Designer.cs">
+      <DependentUpon>ScmFrameStyleEditorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxControls\ScmFrameStyleUiEditor.cs" />
     <Compile Include="Utils\DataEventArgs.cs" />
     <Compile Include="Utils\PickBox.cs" />
   </ItemGroup>

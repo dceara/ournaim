@@ -10,7 +10,7 @@ namespace SchemeGuiEditor.Utils
     /// </summary>
     public class PickBox
     {
-        #region constants
+        #region Constants
         private const int BoxSize = 8;
         private const int MinSize = 20;
         #endregion
@@ -56,7 +56,15 @@ namespace SchemeGuiEditor.Utils
         #region Public methods
         public void SelectControl(Control newControl)
         {
-            _control = newControl;
+            if (_control != newControl)
+            {
+                if (_control != null)
+                {
+                    _control.SizeChanged -= new EventHandler(_control_SizeChanged);
+                }
+                _control = newControl;
+                _control.SizeChanged += new EventHandler(_control_SizeChanged);
+            }
             HideHandles();
             
             //Add sizing handles to Control's container (Form or PictureBox)
@@ -74,6 +82,11 @@ namespace SchemeGuiEditor.Utils
 
             oldCursor = _control.Cursor;
             _control.Cursor = Cursors.SizeAll;
+        }
+
+        void _control_SizeChanged(object sender, EventArgs e)
+        {
+            MoveHandles();
         }
 
         // Get mouse pointer starting position on mouse down and hide sizing handles
