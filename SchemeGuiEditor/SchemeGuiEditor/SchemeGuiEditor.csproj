@@ -148,11 +148,11 @@
       <SubType>Designer</SubType>
       <DependentUpon>ScmContainer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ToolboxControls\ScmFrame.resx">
+    <EmbeddedResource Include="ToolboxControls\ScmFrame\ScmFrame.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ScmFrame.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ToolboxControls\ScmFrameStyleEditorControl.resx">
+    <EmbeddedResource Include="ToolboxControls\ScmFrame\ScmFrameStyleEditorControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ScmFrameStyleEditorControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -186,24 +186,24 @@
     <Compile Include="ToolboxControls\ScmContainer.Designer.cs">
       <DependentUpon>ScmContainer.cs</DependentUpon>
     </Compile>
-    <Compile Include="ToolboxControls\ScmFrame.cs">
+    <Compile Include="ToolboxControls\ScmFrame\ScmFrame.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ToolboxControls\ScmFrame.Designer.cs">
+    <Compile Include="ToolboxControls\ScmFrame\ScmFrame.Designer.cs">
       <DependentUpon>ScmFrame.cs</DependentUpon>
     </Compile>
     <Compile Include="ToolboxControls\ScmButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ToolboxControls\ScmFrameProperties.cs" />
-    <Compile Include="ToolboxControls\ScmFrameStyle.cs" />
-    <Compile Include="ToolboxControls\ScmFrameStyleEditorControl.cs">
+    <Compile Include="ToolboxControls\ScmFrame\ScmFrameProperties.cs" />
+    <Compile Include="ToolboxControls\ScmFrame\ScmFrameStyle.cs" />
+    <Compile Include="ToolboxControls\ScmFrame\ScmFrameStyleEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ToolboxControls\ScmFrameStyleEditorControl.Designer.cs">
+    <Compile Include="ToolboxControls\ScmFrame\ScmFrameStyleEditorControl.Designer.cs">
       <DependentUpon>ScmFrameStyleEditorControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ToolboxControls\ScmFrameStyleUiEditor.cs" />
+    <Compile Include="ToolboxControls\ScmFrame\ScmFrameStyleUiEditor.cs" />
     <Compile Include="Utils\DataEventArgs.cs" />
     <Compile Include="Utils\PickBox.cs" />
   </ItemGroup>
