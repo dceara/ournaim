@@ -44,6 +44,7 @@ namespace SchemeGuiEditor.ToolboxControls
                 _frame.Name = value;
             }
         }
+
         [CategoryAttribute(AttributesCategories.CategoryAppearance)]
         [DescriptionAttribute("The string displayed in the frame's title bar")]
         public string Label
@@ -56,7 +57,7 @@ namespace SchemeGuiEditor.ToolboxControls
             {
                 if (value.Length > 200)
                 {
-                    MessageService.ShowError(ControlValidation.FrameLabelToLong);
+                    MessageService.ShowError(ControlValidation.LabelToLong);
                     return;
                 }
                 _frame.Label = value;
