@@ -6,20 +6,49 @@ using SchemeGuiEditor.Constants;
 using SchemeGuiEditor.Services;
 using System.Drawing;
 using System.Drawing.Design;
+using System.Windows.Forms;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
+    public enum FramePropNames
+    {
+        None,
+        Label,
+        Parent,
+        Width,
+        Height,
+        X,
+        Y,
+        Style,
+        Enabled,
+        Border,
+        Spacing,
+        Alignment,
+        MinWidth,
+        MinHeight,
+        StrechWidth,
+        StrechHeight
+    }
+
     [DefaultPropertyAttribute("Name")]
     public class ScmFrameProperties : IScmControlProperties
     {
         private ScmFrame _frame;
         private bool _enabled;
-        private int _border;
-        private int _spacing;
+        private string _parent;
         private bool _stretchableWidth;
         private bool _stretchableHeight;
+        private bool _useWidth;
+        private bool _useHeight;
+        private string _width;
+        private string _height;
+        private int _minWidth;
+        private int _minHeight;
         private ContainerAlignment _alignment;
         private ScmFrameStyle _style;
+        private FramePropNames _lastSetProperty;
+
+        private Dictionary<FramePropNames, List<object>> _externalObjects;
 
         public ScmFrameProperties(ScmFrame frame)
         {
@@ -29,30 +58,42 @@ namespace SchemeGuiEditor.ToolboxControls
             _stretchableHeight = true;
             _stretchableWidth = true;
             _style = new ScmFrameStyle();
+            _externalObjects = new Dictionary<FramePropNames, List<object>>();
+            _frame.SizeChanged += new EventHandler(_frame_SizeChanged);
+        }
+
+        public void AddExternalObject(object obj)
+        {
+        }
+
+        [Browsable(false)]
+        public FramePropNames LastSetProperty
+        {
+            get { return _lastSetProperty; }
+            set { _lastSetProperty = value; }
+        }
+
+        [CategoryAttribute(AttributesCategories.CategoryDesign)]
+        [DescriptionAttribute("Indicates the name of the parent frame")]
+        public string Parent
+        {
+            get { return _parent; }
+            set { _parent = value; }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryDesign)]
         [DescriptionAttribute("Indicates the name used in code to identify the object")]
         public string Name
         {
-            get
-            {
-                return _frame.Name;
-            }
-            set
-            {
-                _frame.Name = value;
-            }
+            get { return _frame.Name; }
+            set { _frame.Name = value; }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryAppearance)]
         [DescriptionAttribute("The string displayed in the frame's title bar")]
         public string Label
         {
-            get
-            {
-                return _frame.Label;
-            }
+            get { return _frame.Label; }
             set
             {
                 if (value.Length > 200)
@@ -65,30 +106,106 @@ namespace SchemeGuiEditor.ToolboxControls
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Initial size for the frame in pixels")]
-        public Size Size
+        [DescriptionAttribute("Allow seting an initial width for the frame, else MinWidth is used")]
+        [DefaultValue(false)]
+        public bool UseWidth
         {
-            get
-            {
-                return _frame.Size;
-            }
+            get { return _useWidth; }
+            set { _useWidth = value;}
+        }
+
+        [CategoryAttribute(AttributesCategories.CategoryLayout)]
+        [DescriptionAttribute("Allow setting an initial Height for the frame, else MinHeight is used")]
+        [DefaultValue(false)]
+        public bool UseHeight
+        {
+            get { return _useHeight; }
+            set { _useHeight = value; }
+        }
+
+        [CategoryAttribute(AttributesCategories.CategoryLayout)]
+        [DescriptionAttribute("Initial width for the frame in pixels")]
+        [DefaultValue("")]
+        public string Width
+        {
+            get { return _width; }
             set
             {
-                _frame.Size = value;
+                if (_useWidth)
+                {
+                    int width;
+                    if (!int.TryParse(value, out width))
+                    {
+                        MessageService.ShowError(ControlValidation.InvalidFormat);
+                        return;
+                    }
+
+                    if (width < 0 || width > 10000)
+                    {
+                        MessageService.ShowError(ControlValidation.SizeValueInvalid);
+                        return;
+                    }
+
+                    _frame.Size = new Size(width, _frame.Size.Height);
+                    _width = value;
+                }
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Minimum size for the frame in pixels")]
-        public Size MinSize
+        [DescriptionAttribute("Initial width for the frame in pixels")]
+        [DefaultValue("")]
+        public string Height
         {
-            get
-            {
-                return _frame.MinimumSize;
-            }
+            get { return _height; }
             set
             {
-                _frame.MinimumSize = value;
+                if (_useWidth)
+                {
+                    int height;
+                    if (!int.TryParse(value, out height))
+                    {
+                        MessageService.ShowError(ControlValidation.InvalidFormat);
+                        return;
+                    }
+
+                    if (height < 0 || height > 10000)
+                    {
+                        MessageService.ShowError(ControlValidation.SizeValueInvalid);
+                        return;
+                    }
+
+                    _frame.Size = new Size(_frame.Size.Width,height);
+                    _height = value;
+                }
+            }
+        }
+
+        [CategoryAttribute(AttributesCategories.CategoryLayout)]
+        [DescriptionAttribute("Initial width for the frame in pixels")]
+        [DefaultValue(0)]
+        public int MinWidth
+        {
+            get { return _minWidth; }
+            set
+            {
+                _minWidth = value;
+                if (value > _frame.MinimumSize.Width)
+                    _frame.MinimumSize = new Size(value, _frame.MinimumSize.Height);
+            }
+        }
+
+        [CategoryAttribute(AttributesCategories.CategoryLayout)]
+        [DescriptionAttribute("Initial width for the frame in pixels")]
+        [DefaultValue(0)]
+        public int MinHeight
+        {
+            get { return _minHeight; }
+            set
+            {
+                _minHeight = value;
+                if (value > _frame.MinimumSize.Height)
+                    _frame.MinimumSize = new Size(_frame.MinimumSize.Width, value);
             }
         }
 
@@ -128,7 +245,7 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             get
             {
-                return _border;
+                return _frame.LayoutManager.Padding.All;
             }
             set
             {
@@ -138,7 +255,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     return;
                 }
 
-                _border = value;
+                _frame.LayoutManager.Padding = new Padding(value);
             }
         }
 
@@ -149,7 +266,7 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             get
             {
-                return _spacing;
+                return _frame.LayoutManager.Spacing;
             }
             set
             {
@@ -159,7 +276,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     return;
                 }
 
-                _spacing = value;
+                _frame.LayoutManager.Spacing = value;
             }
         }
 
@@ -169,11 +286,11 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             get
             {
-                return _alignment;
+                return _frame.LayoutManager.Alignment;
             }
             set
             {
-                _alignment = value;
+                _frame.LayoutManager.Alignment = value;
             }
         }
 
@@ -219,6 +336,15 @@ namespace SchemeGuiEditor.ToolboxControls
                 _style = value;
             }
         }
+        #region EventHandlers
+        void _frame_SizeChanged(object sender, EventArgs e)
+        {
+            if (_useHeight)
+                _height = _frame.Height.ToString();
+            if (_useWidth)
+                _width = _frame.Width.ToString();
+        }
+        #endregion
 
         #region IScmControlProperties Members
 

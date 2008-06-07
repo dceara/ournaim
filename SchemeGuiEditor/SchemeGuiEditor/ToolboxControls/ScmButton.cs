@@ -24,6 +24,10 @@ namespace SchemeGuiEditor.ToolboxControls
             get { return _scmProperties; }
         }
 
+        public void SetInitialProperties()
+        {
+        }
+
         #endregion
     }
 }

@@ -2,9 +2,21 @@ using System;
 using System.Windows.Forms;
 using System.Drawing;
 using SchemeGuiEditor.ToolboxControls;
+using System.Collections.Generic;
 
 namespace SchemeGuiEditor.Utils
 {
+    public enum ControlPoint
+    {
+        TopLeft,
+        Top,
+        TopRight,
+        Right,
+        BottomRight,
+        Bottom,
+        BottomLeft,
+        Left
+    }
     /// <summary>
     /// This class implements sizing and moving functions for runtime editing of graphic controls
     /// </summary>
@@ -18,7 +30,8 @@ namespace SchemeGuiEditor.Utils
         #region Members
         private Color BoxColor = Color.White;
         private Control _control;
-        private Label[] _lbl = new Label[8];
+        private Control _parentContainer;
+        private List<Label> _lbls = new List<Label>();
         private int _startl;
         private int _startt;
         private int _startw;
@@ -34,21 +47,24 @@ namespace SchemeGuiEditor.Utils
 
         #region Constructor
         // Constructor creates 8 sizing handles & wires mouse events to each that implement sizing functions
-        public PickBox()
+        public PickBox(Control parentContainer)
         {
+            _parentContainer = parentContainer;
             for (int i = 0; i < 8; i++)
             {
-                _lbl[i] = new Label();
-                _lbl[i].TabIndex = i;
-                _lbl[i].FlatStyle = 0;
-                _lbl[i].BorderStyle = BorderStyle.FixedSingle;
-                _lbl[i].BackColor = BoxColor;
-                _lbl[i].Cursor = arrArrow[i];
-                _lbl[i].Text = "";
-                _lbl[i].BringToFront();
-                _lbl[i].MouseDown += new MouseEventHandler(this.lbl_MouseDown);
-                _lbl[i].MouseMove += new MouseEventHandler(this.lbl_MouseMove);
-                _lbl[i].MouseUp += new MouseEventHandler(this.lbl_MouseUp);
+                Label lbl = new Label();
+                lbl.Tag = i;
+                lbl.FlatStyle = 0;
+                lbl.BorderStyle = BorderStyle.FixedSingle;
+                lbl.BackColor = BoxColor;
+                lbl.Cursor = arrArrow[i];
+                lbl.Text = "";
+                lbl.Visible = false;
+                _parentContainer.Controls.Add(lbl);
+                lbl.MouseDown += new MouseEventHandler(this.lbl_MouseDown);
+                lbl.MouseMove += new MouseEventHandler(this.lbl_MouseMove);
+                lbl.MouseUp += new MouseEventHandler(this.lbl_MouseUp);
+                _lbls.Add(lbl);
             }
         }
         #endregion
@@ -66,17 +82,8 @@ namespace SchemeGuiEditor.Utils
                 _control.SizeChanged += new EventHandler(_control_SizeChanged);
             }
             HideHandles();
-            
-            //Add sizing handles to Control's container (Form or PictureBox)
-            for (int i = 0; i < 8; i++)
-            {
-                _control.Parent.Controls.Add(_lbl[i]);
-                _lbl[i].BringToFront();
-            }
-
             //Position sizing handles around Control
             MoveHandles();
-
             //Display sizing handles
             ShowHandles();
 
@@ -86,7 +93,8 @@ namespace SchemeGuiEditor.Utils
 
         void _control_SizeChanged(object sender, EventArgs e)
         {
-            MoveHandles();
+            if (!_dragging)
+                MoveHandles();
         }
 
         // Get mouse pointer starting position on mouse down and hide sizing handles
@@ -120,7 +128,8 @@ namespace SchemeGuiEditor.Utils
             {
                 for (int i = 0; i < 8; i++)
                 {
-                    _lbl[i].Visible = true;
+                    _lbls[i].Visible = true;
+                    _lbls[i].BringToFront();
                 }
             }
         }
@@ -129,14 +138,15 @@ namespace SchemeGuiEditor.Utils
         {
             for (int i = 0; i < 8; i++)
             {
-                _lbl[i].Visible = false;
+                _lbls[i].Visible = false;
             }
         }
 
         private void MoveHandles()
         {
-            int sX = _control.Left - BoxSize;
-            int sY = _control.Top - BoxSize;
+            Point location = _parentContainer.PointToClient(_control.Parent.PointToScreen(_control.Location));
+            int sX = location.X - BoxSize;
+            int sY = location.Y - BoxSize;
             int sW = _control.Width + BoxSize;
             int sH = _control.Height + BoxSize;
             int hB = BoxSize / 2;
@@ -145,7 +155,7 @@ namespace SchemeGuiEditor.Utils
             int[] arrPosY = new int[] {sY+hB, sY+hB, sY+hB, sY + sH / 2, sY + sH-hB,
 			sY + sH-hB, sY + sH-hB, sY + sH / 2};
             for (int i = 0; i < 8; i++)
-                _lbl[i].SetBounds(arrPosX[i], arrPosY[i], BoxSize, BoxSize);
+                _lbls[i].SetBounds(arrPosX[i], arrPosY[i], BoxSize, BoxSize);
         }
         #endregion
 
@@ -153,12 +163,50 @@ namespace SchemeGuiEditor.Utils
         // Store control position and size when mouse button pushed over any sizing handle
         private void lbl_MouseDown(object sender, MouseEventArgs e)
         {
-            _dragging = true;
-            _startl = _control.Left;
-            _startt = _control.Top;
-            _startw = _control.Width;
-            _starth = _control.Height;
-            HideHandles();
+            if (ResizeAllowed(sender as Label))
+            {
+                _dragging = true;
+                _startl = _control.Left;
+                _startt = _control.Top;
+                _startw = _control.Width;
+                _starth = _control.Height;
+                HideHandles();
+            }
+        }
+
+        private bool ResizeAllowed(Label label)
+        {
+            if (_control is ScmFrame)
+            {
+                ScmFrameProperties frameProp = (_control as ScmFrame).ScmPropertyObject as ScmFrameProperties;
+                if (!frameProp.UseHeight)
+                {
+                    switch ((ControlPoint)label.Tag)
+                    {
+                        case ControlPoint.Bottom:
+                        case ControlPoint.BottomLeft:
+                        case ControlPoint.BottomRight:
+                        case ControlPoint.Top:
+                        case ControlPoint.TopLeft:
+                        case ControlPoint.TopRight:
+                            return false;
+                    }
+                }
+                if (!frameProp.UseWidth)
+                {
+                    switch ((ControlPoint)label.Tag)
+                    {
+                        case ControlPoint.BottomLeft:
+                        case ControlPoint.BottomRight:
+                        case ControlPoint.Left:
+                        case ControlPoint.Right:
+                        case ControlPoint.TopLeft:
+                        case ControlPoint.TopRight:
+                            return false;
+                    }
+                }
+            }
+            return true;
         }
 
         // Size the picked control in accordance with sizing handle being dragged
@@ -167,52 +215,55 @@ namespace SchemeGuiEditor.Utils
         //  6   5   4
         private void lbl_MouseMove(object sender, MouseEventArgs e)
         {
-            int l = _control.Left;
-            int w = _control.Width;
-            int t = _control.Top;
-            int h = _control.Height;
-            if (_dragging)
+            if (ResizeAllowed(sender as Label))
             {
-                switch (((Label)sender).TabIndex)
+                int l = _control.Left;
+                int w = _control.Width;
+                int t = _control.Top;
+                int h = _control.Height;
+                if (_dragging)
                 {
-                    case 0: // Dragging top-left sizing box
-                        l = _startl + e.X < _startl + _startw - MinSize ? _startl + e.X : _startl + _startw - MinSize;
-                        t = _startt + e.Y < _startt + _starth - MinSize ? _startt + e.Y : _startt + _starth - MinSize;
-                        w = _startl + _startw - _control.Left;
-                        h = _startt + _starth - _control.Top;
-                        break;
-                    case 1: // Dragging top-center sizing box
-                        t = _startt + e.Y < _startt + _starth - MinSize ? _startt + e.Y : _startt + _starth - MinSize;
-                        h = _startt + _starth - _control.Top;
-                        break;
-                    case 2: // Dragging top-right sizing box
-                        w = _startw + e.X > MinSize ? _startw + e.X : MinSize;
-                        t = _startt + e.Y < _startt + _starth - MinSize ? _startt + e.Y : _startt + _starth - MinSize;
-                        h = _startt + _starth - _control.Top;
-                        break;
-                    case 3: // Dragging right-middle sizing box
-                        w = _startw + e.X > MinSize ? _startw + e.X : MinSize;
-                        break;
-                    case 4: // Dragging right-bottom sizing box
-                        w = _startw + e.X > MinSize ? _startw + e.X : MinSize;
-                        h = _starth + e.Y > MinSize ? _starth + e.Y : MinSize;
-                        break;
-                    case 5: // Dragging center-bottom sizing box
-                        h = _starth + e.Y > MinSize ? _starth + e.Y : MinSize;
-                        break;
-                    case 6: // Dragging left-bottom sizing box
-                        l = _startl + e.X < _startl + _startw - MinSize ? _startl + e.X : _startl + _startw - MinSize;
-                        w = _startl + _startw - _control.Left;
-                        h = _starth + e.Y > MinSize ? _starth + e.Y : MinSize;
-                        break;
-                    case 7: // Dragging left-middle sizing box
-                        l = _startl + e.X < _startl + _startw - MinSize ? _startl + e.X : _startl + _startw - MinSize;
-                        w = _startl + _startw - _control.Left;
-                        break;
+                    switch ((ControlPoint)((Label)sender).Tag)
+                    {
+                        case ControlPoint.TopLeft:
+                            l = _startl + e.X < _startl + _startw - MinSize ? _startl + e.X : _startl + _startw - MinSize;
+                            t = _startt + e.Y < _startt + _starth - MinSize ? _startt + e.Y : _startt + _starth - MinSize;
+                            w = _startl + _startw - _control.Left;
+                            h = _startt + _starth - _control.Top;
+                            break;
+                        case ControlPoint.Top: 
+                            t = _startt + e.Y < _startt + _starth - MinSize ? _startt + e.Y : _startt + _starth - MinSize;
+                            h = _startt + _starth - _control.Top;
+                            break;
+                        case ControlPoint.TopRight:
+                            w = _startw + e.X > MinSize ? _startw + e.X : MinSize;
+                            t = _startt + e.Y < _startt + _starth - MinSize ? _startt + e.Y : _startt + _starth - MinSize;
+                            h = _startt + _starth - _control.Top;
+                            break;
+                        case ControlPoint.Right:
+                            w = _startw + e.X > MinSize ? _startw + e.X : MinSize;
+                            break;
+                        case ControlPoint.BottomRight:
+                            w = _startw + e.X > MinSize ? _startw + e.X : MinSize;
+                            h = _starth + e.Y > MinSize ? _starth + e.Y : MinSize;
+                            break;
+                        case ControlPoint.Bottom: 
+                            h = _starth + e.Y > MinSize ? _starth + e.Y : MinSize;
+                            break;
+                        case ControlPoint.BottomLeft:
+                            l = _startl + e.X < _startl + _startw - MinSize ? _startl + e.X : _startl + _startw - MinSize;
+                            w = _startl + _startw - _control.Left;
+                            h = _starth + e.Y > MinSize ? _starth + e.Y : MinSize;
+                            break;
+                        case ControlPoint.Left:
+                            l = _startl + e.X < _startl + _startw - MinSize ? _startl + e.X : _startl + _startw - MinSize;
+                            w = _startl + _startw - _control.Left;
+                            break;
+                    }
+                    l = (l < 0) ? 0 : l;
+                    t = (t < 0) ? 0 : t;
+                    _control.SetBounds(l, t, w, h, BoundsSpecified.All);
                 }
-                l = (l < 0) ? 0 : l;
-                t = (t < 0) ? 0 : t;
-                _control.SetBounds(l, t, w, h);
             }
         }
 

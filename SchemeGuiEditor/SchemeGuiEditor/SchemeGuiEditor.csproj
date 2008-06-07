@@ -28,6 +28,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="antlr.runtime, Version=2.7.7.1, Culture=neutral, PublicKeyToken=d7701e059243744f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\antlr.runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime, Version=0.3.0.37313, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Utility, Version=0.1.0.37314, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Antlr3.Utility.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -71,6 +83,10 @@
     <Compile Include="Gui\FormDesigner.Designer.cs">
       <DependentUpon>FormDesigner.cs</DependentUpon>
     </Compile>
+    <Compile Include="ParserComponents\ParserUtils.cs" />
+    <Compile Include="ParserComponents\ScmGrammarLexer.cs" />
+    <Compile Include="ParserComponents\ScmGrammarParser.cs" />
+    <Compile Include="ParserComponents\ScmLoader.cs" />
     <Compile Include="Services\MessageService.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Projects\ProjectDirectory.cs" />
@@ -144,9 +160,9 @@
       <DependentUpon>ToolWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ToolboxControls\ScmContainer.resx">
+    <EmbeddedResource Include="ToolboxControls\LayoutManagerContainer.resx">
+      <DependentUpon>LayoutManagerContainer.cs</DependentUpon>
       <SubType>Designer</SubType>
-      <DependentUpon>ScmContainer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ToolboxControls\ScmFrame\ScmFrame.resx">
       <SubType>Designer</SubType>
@@ -177,15 +193,16 @@
       <DependentUpon>ToolWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="ToolboxControls\ContainerAlignment.cs" />
+    <Compile Include="ToolboxControls\IScmContainer.cs" />
     <Compile Include="ToolboxControls\IScmControl.cs" />
     <Compile Include="ToolboxControls\IScmControlProperties.cs" />
-    <Compile Include="ToolboxControls\ScmButtonProperties.cs" />
-    <Compile Include="ToolboxControls\ScmContainer.cs">
+    <Compile Include="ToolboxControls\LayoutManagerContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ToolboxControls\ScmContainer.Designer.cs">
-      <DependentUpon>ScmContainer.cs</DependentUpon>
+    <Compile Include="ToolboxControls\LayoutManagerContainer.Designer.cs">
+      <DependentUpon>LayoutManagerContainer.cs</DependentUpon>
     </Compile>
+    <Compile Include="ToolboxControls\ScmButtonProperties.cs" />
     <Compile Include="ToolboxControls\ScmFrame\ScmFrame.cs">
       <SubType>UserControl</SubType>
     </Compile>
