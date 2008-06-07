@@ -29,36 +29,24 @@ namespace SchemeGuiEditor.ToolboxControls
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScmFrame));
-            this.panelContainer = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.labelTitle = new System.Windows.Forms.Label();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.layoutManagerContainer1 = new SchemeGuiEditor.ToolboxControls.LayoutManagerContainer();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
-            // 
-            // panelContainer
-            // 
-            this.panelContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelContainer.BackColor = System.Drawing.SystemColors.Control;
-            this.panelContainer.ForeColor = System.Drawing.SystemColors.Window;
-            this.panelContainer.Location = new System.Drawing.Point(3, 28);
-            this.panelContainer.Name = "panelContainer";
-            this.panelContainer.Size = new System.Drawing.Size(387, 253);
-            this.panelContainer.TabIndex = 0;
-            this.panelContainer.DragDrop += new System.Windows.Forms.DragEventHandler(this.panelContainer_DragDrop);
             // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(367, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(318, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(21, 21);
             this.pictureBox1.TabIndex = 1;
@@ -68,9 +56,8 @@ namespace SchemeGuiEditor.ToolboxControls
             // 
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(343, 3);
+            this.pictureBox2.Location = new System.Drawing.Point(294, 3);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(21, 21);
             this.pictureBox2.TabIndex = 2;
@@ -80,9 +67,8 @@ namespace SchemeGuiEditor.ToolboxControls
             // 
             this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(319, 3);
+            this.pictureBox3.Location = new System.Drawing.Point(270, 3);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(21, 21);
             this.pictureBox3.TabIndex = 3;
@@ -94,27 +80,51 @@ namespace SchemeGuiEditor.ToolboxControls
             this.labelTitle.BackColor = System.Drawing.Color.Transparent;
             this.labelTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTitle.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.labelTitle.Location = new System.Drawing.Point(18, 10);
+            this.labelTitle.Location = new System.Drawing.Point(24, 8);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(41, 13);
             this.labelTitle.TabIndex = 4;
             this.labelTitle.Text = "Frame";
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
+            this.pictureBox4.Location = new System.Drawing.Point(5, 6);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(21, 21);
+            this.pictureBox4.TabIndex = 6;
+            this.pictureBox4.TabStop = false;
+            // 
+            // layoutManagerContainer1
+            // 
+            this.layoutManagerContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.layoutManagerContainer1.BackColor = System.Drawing.SystemColors.Control;
+            this.layoutManagerContainer1.Location = new System.Drawing.Point(3, 26);
+            this.layoutManagerContainer1.Name = "layoutManagerContainer1";
+            this.layoutManagerContainer1.Size = new System.Drawing.Size(338, 290);
+            this.layoutManagerContainer1.Spacing = 0;
+            this.layoutManagerContainer1.TabIndex = 5;
             // 
             // ScmFrame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Controls.Add(this.pictureBox4);
+            this.Controls.Add(this.layoutManagerContainer1);
             this.Controls.Add(this.labelTitle);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.panelContainer);
             this.Name = "ScmFrame";
-            this.Size = new System.Drawing.Size(393, 285);
+            this.Size = new System.Drawing.Size(344, 319);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -122,10 +132,11 @@ namespace SchemeGuiEditor.ToolboxControls
 
         #endregion
 
-        private System.Windows.Forms.Panel panelContainer;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label labelTitle;
+        private LayoutManagerContainer layoutManagerContainer1;
+        private System.Windows.Forms.PictureBox pictureBox4;
     }
 }

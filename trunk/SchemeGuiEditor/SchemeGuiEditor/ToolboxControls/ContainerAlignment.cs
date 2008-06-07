@@ -22,8 +22,14 @@ namespace SchemeGuiEditor.ToolboxControls
     [TypeConverter(typeof(AlignmentTypeConverter))]
     public class ContainerAlignment
     {
+        public event EventHandler AlignmentChanged;
+
         private HorizontalAlign _horizontalAlignment;
         private VerticalAlign _verticalAlignment;
+
+        public ContainerAlignment()
+        {
+        }
 
         public ContainerAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
         {
@@ -35,14 +41,30 @@ namespace SchemeGuiEditor.ToolboxControls
         public HorizontalAlign HorizontalAlignment
         {
             get { return _horizontalAlignment; }
-            set { _horizontalAlignment = value; }
+            set 
+            {
+                if (_horizontalAlignment != value)
+                {
+                    _horizontalAlignment = value;
+                    if (AlignmentChanged != null)
+                        AlignmentChanged(this, EventArgs.Empty);
+                }
+            }
         }
 
         [DefaultValue(VerticalAlign.Top)]
         public VerticalAlign VerticalAlignment
         {
             get { return _verticalAlignment; }
-            set { _verticalAlignment = value; }
+            set
+            {
+                if (_verticalAlignment != value)
+                {
+                    _verticalAlignment = value;
+                    if (AlignmentChanged != null)
+                        AlignmentChanged(this, EventArgs.Empty);
+                }
+            }
         }
 
         public override string ToString()

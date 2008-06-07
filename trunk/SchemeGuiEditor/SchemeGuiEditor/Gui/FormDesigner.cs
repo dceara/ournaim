@@ -9,6 +9,7 @@ using SchemeGuiEditor.Projects;
 using SchemeGuiEditor.Utils;
 using Silver.UI;
 using SchemeGuiEditor.ToolboxControls;
+using SchemeGuiEditor.ParserComponents;
 
 namespace SchemeGuiEditor.Gui
 {
@@ -20,6 +21,7 @@ namespace SchemeGuiEditor.Gui
         private ProjectFile _projectFile;
         private PickBox _pickBox;
         private Control _selectedColtrol;
+        private IScmContainer _startContainer;
         private Control _startParent;
         private bool _dragging;
         private Point _startLocation;
@@ -29,13 +31,14 @@ namespace SchemeGuiEditor.Gui
         public FormDesigner(ProjectFile projectFile)
         {
             InitializeComponent();
+            ScmLoader.LoadScmData(projectFile.FullPath);
             _projectFile = projectFile;
-            _pickBox = new PickBox();
+            _pickBox = new PickBox(panelContainer);
             _propertyObjects = new List<IScmControlProperties>();
             this.Text = projectFile.Name;
             this.TabText = projectFile.Name;
         }
-
+        
         #region Public Methods
         public List<IScmControlProperties> GetPropertiesObjects()
         {
@@ -68,12 +71,12 @@ namespace SchemeGuiEditor.Gui
         #endregion
 
         #region Private Methods
-        private ScmContainer GetContainerAt(Point location)
+        private IScmContainer GetContainerAt(Point location)
         {
             foreach (Control ctrl in panelContainer.Controls)
             {
-                if (ctrl is ScmContainer && ctrl.Bounds.Contains(location))
-                    return ctrl as ScmContainer;
+                if (ctrl is IScmContainer && ctrl.Bounds.Contains(location))
+                    return ctrl as IScmContainer;
             }
             return null;
         }
@@ -88,6 +91,7 @@ namespace SchemeGuiEditor.Gui
                 if (toolBoxItem.Object is Type)
                 {
                     Control ctrl = Activator.CreateInstance(toolBoxItem.Object as Type) as Control;
+                    (ctrl as IScmControl).SetInitialProperties();
                     if (ctrl is ScmFrame)
                     {
                         panelContainer.Controls.Add(ctrl);
@@ -95,10 +99,12 @@ namespace SchemeGuiEditor.Gui
                     else
                     {
                         Point location = panelContainer.PointToClient(new Point(e.X, e.Y));
-                        ScmContainer container = GetContainerAt(location);
+                        IScmContainer container = GetContainerAt(location);
                         if (container == null)
                             return;
-                        container.AddControl(ctrl,new Point(e.X,e.Y));
+                        container.LayoutManager.AddControl(ctrl,new Point(e.X,e.Y));
+                        if (container is ScmFrame)
+                            (container as ScmFrame).RecomputeFrameSizes();
                     }
                     ctrl.Click += new EventHandler(ctrl_Click);
                     _propertyObjects.Add((ctrl as IScmControl).ScmPropertyObject);
@@ -121,45 +127,63 @@ namespace SchemeGuiEditor.Gui
             Control ctrl = sender as Control;
             _dragging = false;
 
-            if (!(ctrl is ScmFrame) && _startParent != null)
+            if (!(ctrl is ScmFrame) && _startContainer != null)
             {
-                ScmContainer newParent = GetContainerAt(ctrl.Location);
+                panelContainer.Controls.Remove(ctrl);
+
+                panelContainer.SuspendLayout();
+                IScmContainer newParent = GetContainerAt(ctrl.Location);
                 if (newParent == null|| newParent == ctrl)
                 {
-                    ctrl.Location = _startLocation;
-                    ctrl.Parent = _startParent;
+                    _startContainer.LayoutManager.AddControl(ctrl, _startLocation);
                 }
                 else
                 {
-                    panelContainer.Controls.Remove(ctrl);
-                    newParent.AddControl(ctrl,panelContainer.PointToScreen(ctrl.Location));
+                    bool sameParent;
+                    newParent.LayoutManager.AddControl(ctrl,panelContainer.PointToScreen(ctrl.Location),out sameParent);
+                    if (!sameParent)
+                        _startContainer.LayoutManager.RemoveContainer(_startParent);
+                    if (_startContainer is ScmFrame)
+                        (_startContainer as ScmFrame).RecomputeFrameSizes();
                 }
-                _startParent = null;
+                _startContainer = null;
                 SelectControl(ctrl,true);
+                Console.WriteLine(ctrl.Location.X + " - " + ctrl.Location.Y);
+                panelContainer.ResumeLayout(false);
             }
         }
 
         private void ctrl_MouseMove(object sender, MouseEventArgs e)
         {
             if (_dragging)
+            {
+                //Console.WriteLine("move" + e.X + " " + e.Y + sender.GetType().ToString());
                 _pickBox.MoveControl(e);
+            }
         }
 
         private void ctrl_MouseDown(object sender, MouseEventArgs e)
         {
             Control ctrl = sender as Control;
+            //Console.WriteLine("down" + e.X + " " + e.Y);
+
             if (!(ctrl is ScmFrame))
             {
-                _startLocation = ctrl.Location;
+                _startLocation = ctrl.Parent.PointToScreen(ctrl.Location);
+                Control parent = ctrl.Parent;
+                while (!(parent is IScmContainer))
+                    parent = parent.Parent;
+                _startContainer = parent as IScmContainer;
                 _startParent = ctrl.Parent;
-                _startParent.Controls.Remove(ctrl);
-                ctrl.Location = panelContainer.PointToClient(_startParent.PointToScreen(ctrl.Location));
+                _startContainer.LayoutManager.RemoveControl(ctrl);
+
+                ctrl.Location = panelContainer.PointToClient(_startLocation);
                 panelContainer.Controls.Add(ctrl);
                 ctrl.BringToFront();
                 ctrl.Capture = true;
             }
-            _dragging = true;
             _pickBox.StartMove(e);
+            _dragging = true;
         }
 
         private void ctrl_Click(object sender, EventArgs e)

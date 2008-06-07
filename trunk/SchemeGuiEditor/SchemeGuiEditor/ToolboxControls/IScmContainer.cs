@@ -4,9 +4,8 @@ using System.Text;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
-    public interface IScmControl
+    public interface IScmContainer : IScmControl
     {
-        IScmControlProperties ScmPropertyObject { get;}
-        void SetInitialProperties();
+        LayoutManagerContainer LayoutManager { get;}
     }
 }

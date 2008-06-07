@@ -10,12 +10,16 @@ using SchemeGuiEditor.Constants;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
-    public partial class ScmFrame : ScmContainer,IScmControl
+    public partial class ScmFrame : UserControl ,IScmContainer
     {
         private ScmFrameProperties _scmProperties;
         public ScmFrame()
         {
             InitializeComponent();
+            Size s = layoutManagerContainer1.ComputeMinSize();
+            this.Size = s;
+            this.MinimumSize = s;
+            layoutManagerContainer1.BringToFront();
             _scmProperties = new ScmFrameProperties(this);
         }
 
@@ -25,15 +29,20 @@ namespace SchemeGuiEditor.ToolboxControls
             set{labelTitle.Text = value;}
         }
 
-        public override void AddControl(Control ctrl, Point location)
+        public void RecomputeFrameSizes()
         {
-            ctrl.Location = panelContainer.PointToClient(location);
-            panelContainer.Controls.Add(ctrl);
-        }
+            Size s = layoutManagerContainer1.ComputeMinSize();
+            if (!_scmProperties.UseHeight)
+                this.Height = s.Height;
+            if (!_scmProperties.UseWidth)
+                this.Width = s.Width;
 
-        private void panelContainer_DragDrop(object sender, DragEventArgs e)
-        {
-            Console.WriteLine(e.Data.ToString());
+            if (_scmProperties.MinWidth > s.Width)
+                s.Width = _scmProperties.MinWidth;
+            if (_scmProperties.MinHeight > s.Height)
+                s.Height = _scmProperties.MinHeight;
+
+            this.MinimumSize = s;
         }
 
         #region IScmControl Members
@@ -41,6 +50,23 @@ namespace SchemeGuiEditor.ToolboxControls
         public IScmControlProperties ScmPropertyObject
         {
             get { return _scmProperties; }
+        }
+        
+        public void SetInitialProperties()
+        {
+            _scmProperties.UseWidth = true;
+            _scmProperties.UseHeight = true;
+            _scmProperties.Width = "300";
+            _scmProperties.Height = "300";
+        }
+
+        #endregion
+
+        #region IScmContainer Members
+
+        public LayoutManagerContainer LayoutManager
+        {
+            get { return layoutManagerContainer1; }
         }
 
         #endregion

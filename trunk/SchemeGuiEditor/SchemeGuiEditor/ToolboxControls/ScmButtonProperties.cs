@@ -4,6 +4,7 @@ using System.Text;
 using SchemeGuiEditor.Constants;
 using System.ComponentModel;
 using System.Drawing;
+using SchemeGuiEditor.Services;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
