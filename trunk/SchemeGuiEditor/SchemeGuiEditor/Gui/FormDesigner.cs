@@ -106,8 +106,6 @@ namespace SchemeGuiEditor.Gui
                     if (parent is IScmContainer)
                     {
                         (parent as IScmContainer).LayoutManager.AddControl(ctrl);
-                        if (parent is ScmFrame)
-                            (parent as ScmFrame).RecomputeFrameSizes();
                         ctrl.Click += new EventHandler(ctrl_Click);
                     }
                 }
@@ -121,7 +119,10 @@ namespace SchemeGuiEditor.Gui
                 }
             }
         }
-        
+
+        private void SaveDesignerData()
+        {
+        }
         #endregion
 
         #region Event Handlers
@@ -145,8 +146,6 @@ namespace SchemeGuiEditor.Gui
                         if (container == null)
                             return;
                         container.LayoutManager.AddControl(ctrl,new Point(e.X,e.Y));
-                        if (container is ScmFrame)
-                            (container as ScmFrame).RecomputeFrameSizes();
                     }
                     ctrl.Click += new EventHandler(ctrl_Click);
                     _propertyObjects.Add((ctrl as IScmControl).ScmPropertyObject);
@@ -185,8 +184,6 @@ namespace SchemeGuiEditor.Gui
                     newParent.LayoutManager.AddControl(ctrl,panelContainer.PointToScreen(ctrl.Location),out sameParent);
                     if (!sameParent)
                         _startContainer.LayoutManager.RemoveContainer(_startParent);
-                    if (_startContainer is ScmFrame)
-                        (_startContainer as ScmFrame).RecomputeFrameSizes();
                 }
                 _startContainer = null;
                 SelectControl(ctrl,true);
@@ -199,7 +196,6 @@ namespace SchemeGuiEditor.Gui
         {
             if (_dragging)
             {
-                //Console.WriteLine("move" + e.X + " " + e.Y + sender.GetType().ToString());
                 _pickBox.MoveControl(e);
             }
         }
@@ -207,7 +203,8 @@ namespace SchemeGuiEditor.Gui
         private void ctrl_MouseDown(object sender, MouseEventArgs e)
         {
             Control ctrl = sender as Control;
-            //Console.WriteLine("down" + e.X + " " + e.Y);
+            _pickBox.StartMove(e);
+            _dragging = true;
 
             if (!(ctrl is ScmFrame))
             {
@@ -224,8 +221,6 @@ namespace SchemeGuiEditor.Gui
                 ctrl.BringToFront();
                 ctrl.Capture = true;
             }
-            _pickBox.StartMove(e);
-            _dragging = true;
         }
 
         private void ctrl_Click(object sender, EventArgs e)

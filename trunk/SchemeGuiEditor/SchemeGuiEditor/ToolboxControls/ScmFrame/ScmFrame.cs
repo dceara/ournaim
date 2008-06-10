@@ -22,8 +22,10 @@ namespace SchemeGuiEditor.ToolboxControls
             this.Size = s;
             this.MinimumSize = s;
             layoutManagerContainer1.BringToFront();
+            layoutManagerContainer1.ContentSizeChanged += new EventHandler(layoutManagerContainer1_ContentSizeChanged);
             _scmProperties = new ScmFrameProperties(this);
         }
+
 
         public string Label
         {
@@ -49,6 +51,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
         #region IScmControl Members
         public event EventHandler<DataEventArgs<StrechDirection>> StrechChanged;
+        public event EventHandler ContentSizeChanged;
 
         public IScmControlProperties ScmPropertyObject
         {
@@ -76,5 +79,11 @@ namespace SchemeGuiEditor.ToolboxControls
         }
 
         #endregion
+
+
+        void layoutManagerContainer1_ContentSizeChanged(object sender, EventArgs e)
+        {
+            RecomputeFrameSizes();
+        }
     }
 }

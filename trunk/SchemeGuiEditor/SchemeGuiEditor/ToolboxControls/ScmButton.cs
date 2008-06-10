@@ -26,9 +26,16 @@ namespace SchemeGuiEditor.ToolboxControls
                 StrechChanged(this, new DataEventArgs<StrechDirection>(direction));
         }
 
+        public void RaiseContentSizeChanged()
+        {
+            if (ContentSizeChanged != null)
+                ContentSizeChanged(this, EventArgs.Empty);
+        }
+
         #region IScmControl Members
 
         public event EventHandler<DataEventArgs<StrechDirection>> StrechChanged;
+        public event EventHandler ContentSizeChanged;
 
         public IScmControlProperties ScmPropertyObject
         {

@@ -7,12 +7,13 @@ using SchemeGuiEditor.Services;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms;
+using SchemeGuiEditor.Utils;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
+    #region Properties enum
     public enum FramePropNames
     {
-        None,
         Label,
         Parent,
         Width,
@@ -27,12 +28,16 @@ namespace SchemeGuiEditor.ToolboxControls
         MinWidth,
         MinHeight,
         StrechWidth,
-        StrechHeight
+        StrechHeight,
+        ScmComment,
+        ScmBlock
     }
+    #endregion
 
     [DefaultPropertyAttribute("Name")]
     public class ScmFrameProperties : IScmControlProperties
     {
+        #region Private Members
         private ScmFrame _frame;
         private bool _enabled;
         private string _parent;
@@ -48,9 +53,12 @@ namespace SchemeGuiEditor.ToolboxControls
         private bool _useY;
         private string _x;
         private string _y;
+        private bool _forceDisplay;
         private ScmFrameStyle _style;
-        private FramePropNames _lastSetProperty;
-        private Dictionary<FramePropNames, List<string>> _externalObjects;
+        private List<FramePropNames> _parsedProperties;
+        private Dictionary<int,string> _parsedComments;
+        private Dictionary<int,string> _parsedScmBlocks;
+        #endregion
 
         public ScmFrameProperties(ScmFrame frame)
         {
@@ -61,9 +69,11 @@ namespace SchemeGuiEditor.ToolboxControls
             _autosizeHeight = true;
             _autosizeWidth = true;
             _style = new ScmFrameStyle();
-            _externalObjects = new Dictionary<FramePropNames, List<string>>();
             _frame.SizeChanged += new EventHandler(_frame_SizeChanged);
             _frame.LocationChanged += new EventHandler(_frame_LocationChanged);
+            _parsedProperties = new List<FramePropNames>();
+            _parsedComments = new Dictionary<int, string>();
+            _parsedScmBlocks = new Dictionary<int, string>();
         }
 
         #region IScmControlProperties Members
@@ -82,13 +92,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
         #endregion
 
-        [Browsable(false)]
-        public FramePropNames LastSetProperty
-        {
-            get { return _lastSetProperty; }
-            set { _lastSetProperty = value; }
-        }
-
+        #region Properties
         [CategoryAttribute(AttributesCategories.CategoryDesign)]
         [DescriptionAttribute("Indicates the name of the parent frame")]
         public string Parent
@@ -466,6 +470,7 @@ namespace SchemeGuiEditor.ToolboxControls
                 _style = value;
             }
         }
+        #endregion
 
         #region EventHandlers
         void _frame_SizeChanged(object sender, EventArgs e)
@@ -496,24 +501,24 @@ namespace SchemeGuiEditor.ToolboxControls
         }
         #endregion
 
+        #region Override Methods
         public override string ToString()
         {
             return Name + " " + _frame.GetType().FullName;
         }
+        #endregion
 
-        public void SetExternalObject(string comm)
+        #region Public Methods
+        public void SetScmComment(string comment)
         {
-            List<string> extObj;
-            if (!_externalObjects.ContainsKey(_lastSetProperty))
-            {
-                extObj = new List<string>();
-                _externalObjects.Add(_lastSetProperty, extObj);
-            }
-            else
-            {
-                extObj = _externalObjects[_lastSetProperty];
-            }
-            extObj.Add(comm);
+            _parsedProperties.Add(FramePropNames.ScmComment);
+            _parsedComments.Add(_parsedProperties.Count - 1, comment);
+        }
+
+        public void SetScmBlock(string scmBlock)
+        {
+            _parsedProperties.Add(FramePropNames.ScmBlock);
+            _parsedScmBlocks.Add(_parsedProperties.Count - 1, scmBlock);
         }
 
         public void SetXYProp(string name, string value)
@@ -522,18 +527,152 @@ namespace SchemeGuiEditor.ToolboxControls
             {
                 this.UseX = true;
                 this.X = value;
-                this.LastSetProperty = FramePropNames.X;
+                AddParesedProperty(FramePropNames.X);
                 return;
             }
             if (name == "y")
             {
                 this.UseY = true;
                 this.Y = value;
-                this.LastSetProperty = FramePropNames.Y;
+                AddParesedProperty(FramePropNames.Y);
                 return;
             }
             string str = "(" + name + " " + value + ")";
-            SetExternalObject(str);
+            SetScmBlock(str);
+        }
+
+        public void AddParesedProperty(FramePropNames propertyName)
+        {
+            _parsedProperties.Add(propertyName);
+        }
+
+        public string ToScmCode()
+        {
+            string code = string.Format("(define {0}\n\t(new frame% {1}))", this.Name, GetScmPropertiesCode());
+            return code;
+        }
+        #endregion
+
+        #region Private Methods
+        private string GetScmPropertiesCode()
+        {
+            string propertiesCode = "";
+            AddMissingProperties();
+            for (int i = 0;i< _parsedProperties.Count;i++)
+                propertiesCode += GetProppertyCode(_parsedProperties[i],i);
+            return propertiesCode;
+        }
+
+        private string GetProppertyCode(FramePropNames propName, int index)
+        {
+            string code = "";
+            switch (propName)
+            {
+                case FramePropNames.Label:
+                    code = string.Format("\n\t\t(width {0})", this.Label);
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.Parent:
+                    if (_forceDisplay || this.Parent != "")
+                        code = string.Format("\n\t\t(parent {0})", this.Parent);
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.Width:
+                    if (_forceDisplay || this.AutosizeWidth != true)
+                        if (this.AutosizeHeight == true)
+                            code = string.Format("\n\t\t(width {0})", CodeGenerationUtils.ToScmBoolValue(false));
+                        else
+                            code = string.Format("\n\t\t(width {0})", this.Width);
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.Height:
+                    if (_forceDisplay || this.AutosizeHeight != true)
+                        if (this.AutosizeHeight == true)
+                            code = string.Format("\n\t\t(width {0})", CodeGenerationUtils.ToScmBoolValue(false));
+                        else
+                            code = string.Format("\n\t\t(width {0})", this.Height);
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.X:
+                    if (_forceDisplay || this.UseX != false)
+                        if (this.UseX == false)
+                            code = string.Format("\n\t\t(x {0})", CodeGenerationUtils.ToScmBoolValue(false));
+                        else
+                            code = string.Format("\n\t\t(x {0})", this.X);
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.Y:
+                    if (_forceDisplay || this.UseY != false)
+                        if (this.UseY == false)
+                            code = string.Format("\n\t\t(y {0})", CodeGenerationUtils.ToScmBoolValue(false));
+                        else
+                            code = string.Format("\n\t\t(y {0})", this.Y);
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.Style:
+                    if (_forceDisplay || this.Style.HasDefaultValues())
+                        code = string.Format("\n\t\t(style \'{0})", this.Style.ToScmCode());
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.Enabled:
+                    if (_forceDisplay || this.Enabled != true)
+                        code = string.Format("\n\t\t(enabled {0})", CodeGenerationUtils.ToScmBoolValue(this.Enabled));
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.Border:
+                    if (_forceDisplay || this.Border != 0)
+                        code = string.Format("\n\t\t(border {0})", this.Border);
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.Spacing:
+                    if (_forceDisplay || this.Spacing != 0)
+                        code = string.Format("\n\t\t(spacing {0})", this.Spacing);
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.Alignment:
+                    if (_forceDisplay ||
+                        this.Alignment.HorizontalAlignment != HorizontalAlign.Center ||
+                        this.Alignment.VerticalAlignment != VerticalAlign.Top)
+                        code = string.Format("\n\t\t(alignment \'{0})", this.Alignment.ToScmCode());
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.MinWidth:
+                    if (_forceDisplay || this.MinWidth != 0)
+                        code = string.Format("\n\t\t(min-widtht {0})", this.MinWidth);
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.MinHeight:
+                    if (_forceDisplay || this.MinHeight != 0)
+                        code = string.Format("\n\t\t(min-height {0})", this.MinHeight);
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.StrechWidth:
+                    if (_forceDisplay || this.StretchableWidth != true)
+                        code = string.Format("\n\t\t(stretchable-width {0})", CodeGenerationUtils.ToScmBoolValue(this.StretchableWidth));
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.StrechHeight:
+                    if (_forceDisplay || this.StretchableHeight != true)
+                        code = string.Format("\n\t\t(stretchable-height {0})", CodeGenerationUtils.ToScmBoolValue(this.StretchableHeight));
+                    _forceDisplay = false;
+                    break;
+                case FramePropNames.ScmComment:
+                    code = string.Format("\n\t\t{0}", _parsedComments[index]);
+                    _forceDisplay = true;
+                    break;
+                case FramePropNames.ScmBlock:
+                    code = string.Format("\n\t\t{0}", _parsedScmBlocks[index]);
+                    _forceDisplay = false;
+                    break;
+            }
+            return code;
+        }
+
+        private void AddMissingProperties()
+        {
+            for (int i = 0; i < 16; i++)    //iterate trough all posible properties
+                if (!_parsedProperties.Contains((FramePropNames)i))
+                    _parsedProperties.Add((FramePropNames)i);
         }
 
         private void NotifyPropertyChanged()
@@ -543,6 +682,7 @@ namespace SchemeGuiEditor.ToolboxControls
                 PropertyChanged(this, new PropertyChangedEventArgs(""));
             }
         }
+        #endregion
 
     }
 }

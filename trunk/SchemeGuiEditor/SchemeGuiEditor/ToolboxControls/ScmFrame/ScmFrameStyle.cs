@@ -70,5 +70,41 @@ namespace SchemeGuiEditor.ToolboxControls
 
             return description;
         }
+
+        public bool HasDefaultValues()
+        {
+            if (_noResizeBorder)
+                return false;
+            if (_noCaption)
+                return false;
+            if (_noSystemMenu)
+                return false;
+            if (_mdiParent)
+                return false;
+            if (_mdiChild)
+                return false;
+            if (_floating)
+                return false;
+            return true;
+        }
+
+        public string ToScmCode()
+        {
+            string code = "(";
+            if (_noResizeBorder)
+                code += "no-resize-border ";
+            if (_noCaption)
+                code += "no-caption ";
+            if (_noSystemMenu)
+                code += "no-system-menu ";
+            if (_mdiParent)
+                code += "mdi-parent ";
+            if (_mdiChild)
+                code += "mdi-child ";
+            if (_floating)
+                code += "float ";
+            code = code.TrimEnd(' ') + ")";
+            return code;
+        }
     }
 }

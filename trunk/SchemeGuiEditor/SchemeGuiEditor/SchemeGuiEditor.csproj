@@ -221,6 +221,7 @@
       <DependentUpon>ScmFrameStyleEditorControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ToolboxControls\ScmFrame\ScmFrameStyleUiEditor.cs" />
+    <Compile Include="Utils\CodeGenerationUtils.cs" />
     <Compile Include="Utils\DataEventArgs.cs" />
     <Compile Include="Utils\PickBox.cs" />
   </ItemGroup>

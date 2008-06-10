@@ -66,7 +66,7 @@ namespace SchemeGuiEditor.Projects
 
             }
             FileStream stream = File.Create(file.FullPath);
-            //stream.Close();
+            stream.Close();
             projectItem.Files.Add(file);
             WriteProjectConfiguration();
             return file;
