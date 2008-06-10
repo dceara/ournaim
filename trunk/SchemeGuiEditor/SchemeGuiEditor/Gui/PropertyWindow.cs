@@ -60,11 +60,29 @@ namespace SchemeGuiEditor.Gui
 
         void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            IScmControlProperties ctrl;
+            if (propertyGrid.SelectedObject != null && propertyGrid.SelectedObject is IScmControlProperties)
+            {
+                ctrl = propertyGrid.SelectedObject as IScmControlProperties;
+                ctrl.PropertyChanged -= new PropertyChangedEventHandler(ctrl_PropertyChanged);
+            }
             propertyGrid.SelectedObject = comboBox.SelectedItem;
+
+            if (propertyGrid.SelectedObject is IScmControlProperties)
+            {
+                ctrl = propertyGrid.SelectedObject as IScmControlProperties;
+                ctrl.PropertyChanged += new PropertyChangedEventHandler(ctrl_PropertyChanged);
+            }
+
             if (_throwEvent && SelectedControlChanged != null)
                 SelectedControlChanged(this, new DataEventArgs<IScmControl>((comboBox.SelectedItem as IScmControlProperties).Control));
             else
                 _throwEvent = true;
+        }
+
+        void ctrl_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            propertyGrid.Refresh();
         }
     }
 }

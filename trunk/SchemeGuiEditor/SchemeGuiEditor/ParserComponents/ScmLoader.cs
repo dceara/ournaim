@@ -9,13 +9,20 @@ namespace SchemeGuiEditor.ParserComponents
     {
         public static List<object> LoadScmData(string fileName)
         {
-            ANTLRFileStream antlrFileStream = new ANTLRFileStream(fileName);
-            ScmGrammarLexer lexer = new ScmGrammarLexer(antlrFileStream);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            ScmGrammarParser parser = new ScmGrammarParser(tokens);
-            parser.main();
+            try
+            {
+                ANTLRFileStream antlrFileStream = new ANTLRFileStream(fileName);
+                ScmGrammarLexer lexer = new ScmGrammarLexer(antlrFileStream);
+                CommonTokenStream tokens = new CommonTokenStream(lexer);
+                ScmGrammarParser parser = new ScmGrammarParser(tokens);
+                parser.main();
 
-            return parser.ParsedData;
+                return parser.ParsedData;
+            }
+            catch (Exception)
+            {
+                return new List<object>();
+            }
         }
     }
 }
