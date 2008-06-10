@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 D:\\Projects\\AntlrTestApps\\ScmGrammar.g 2008-06-10 19:34:59
+// $ANTLR 3.0.1 D:\\Projects\\AntlrTestApps\\ScmGrammar.g 2008-06-11 02:02:18
 namespace 
 	SchemeGuiEditor.ParserComponents
 
@@ -827,7 +827,7 @@ public class ScmGrammarParser : Parser
                     	parent = scmParentProp();
                     	followingStackPointer_--;
 
-                    	frmProp.Parent = parent; frmProp.LastSetProperty = FramePropNames.Parent; 
+                    	frmProp.Parent = parent; frmProp.AddParesedProperty(FramePropNames.Parent); 
                     
                     }
                     break;
@@ -838,7 +838,7 @@ public class ScmGrammarParser : Parser
                     	label = scmLabelProp();
                     	followingStackPointer_--;
 
-                    	frmProp.Label = label; frmProp.LastSetProperty = FramePropNames.Label; 
+                    	frmProp.Label = label; frmProp.AddParesedProperty(FramePropNames.Label); 
                     
                     }
                     break;
@@ -849,7 +849,7 @@ public class ScmGrammarParser : Parser
                     	width = scmWidthProp();
                     	followingStackPointer_--;
 
-                    	if (width != "#f") {frmProp.Width = width; frmProp.AutosizeWidth = false; frmProp.LastSetProperty = FramePropNames.Width;}
+                    	if (width != "#f") {frmProp.Width = width; frmProp.AutosizeWidth = false; frmProp.AddParesedProperty(FramePropNames.Width);}
                     
                     }
                     break;
@@ -860,7 +860,7 @@ public class ScmGrammarParser : Parser
                     	height = scmHeightProp();
                     	followingStackPointer_--;
 
-                    	if (height != "#f") {frmProp.Height = height; frmProp.AutosizeHeight = false; frmProp.LastSetProperty = FramePropNames.Height;}
+                    	if (height != "#f") {frmProp.Height = height; frmProp.AutosizeHeight = false; frmProp.AddParesedProperty(FramePropNames.Height);}
                     
                     }
                     break;
@@ -871,7 +871,7 @@ public class ScmGrammarParser : Parser
                     	enabled = scmEnabledProp();
                     	followingStackPointer_--;
 
-                    	frmProp.Enabled = enabled; frmProp.LastSetProperty = FramePropNames.Enabled;
+                    	frmProp.Enabled = enabled; frmProp.AddParesedProperty(FramePropNames.Enabled);
                     
                     }
                     break;
@@ -882,7 +882,7 @@ public class ScmGrammarParser : Parser
                     	border = scmBorderProp();
                     	followingStackPointer_--;
 
-                    	frmProp.Border = border; frmProp.LastSetProperty = FramePropNames.Border;
+                    	frmProp.Border = border; frmProp.AddParesedProperty(FramePropNames.Border);
                     
                     }
                     break;
@@ -893,7 +893,7 @@ public class ScmGrammarParser : Parser
                     	spacing = scmSpacingProp();
                     	followingStackPointer_--;
 
-                    	frmProp.Spacing = spacing; frmProp.LastSetProperty = FramePropNames.Spacing;
+                    	frmProp.Spacing = spacing; frmProp.AddParesedProperty(FramePropNames.Spacing);
                     
                     }
                     break;
@@ -904,7 +904,7 @@ public class ScmGrammarParser : Parser
                     	minWidth = scmMinWidthProp();
                     	followingStackPointer_--;
 
-                    	frmProp.MinWidth = minWidth; frmProp.LastSetProperty = FramePropNames.MinWidth;
+                    	frmProp.MinWidth = minWidth; frmProp.AddParesedProperty(FramePropNames.MinWidth);
                     
                     }
                     break;
@@ -915,7 +915,7 @@ public class ScmGrammarParser : Parser
                     	minHeight = scmMinHeightProp();
                     	followingStackPointer_--;
 
-                    	frmProp.MinHeight = minHeight; frmProp.LastSetProperty = FramePropNames.MinHeight;
+                    	frmProp.MinHeight = minHeight; frmProp.AddParesedProperty(FramePropNames.MinHeight);
                     
                     }
                     break;
@@ -926,7 +926,7 @@ public class ScmGrammarParser : Parser
                     	strechWidth = scmStretchWidthProp();
                     	followingStackPointer_--;
 
-                    	frmProp.StretchableWidth = strechWidth; frmProp.LastSetProperty = FramePropNames.StrechWidth;
+                    	frmProp.StretchableWidth = strechWidth; frmProp.AddParesedProperty(FramePropNames.StrechWidth);
                     
                     }
                     break;
@@ -937,7 +937,7 @@ public class ScmGrammarParser : Parser
                     	strechHeight = scmStretchHeightProp();
                     	followingStackPointer_--;
 
-                    	frmProp.StretchableHeight = strechHeight; frmProp.LastSetProperty = FramePropNames.StrechHeight;
+                    	frmProp.StretchableHeight = strechHeight; frmProp.AddParesedProperty(FramePropNames.StrechHeight);
                     
                     }
                     break;
@@ -948,7 +948,7 @@ public class ScmGrammarParser : Parser
                     	scmAlignmentProp(frmProp.Alignment);
                     	followingStackPointer_--;
 
-                    	frmProp.LastSetProperty = FramePropNames.Alignment;
+                    	frmProp.AddParesedProperty(FramePropNames.Alignment);
                     
                     }
                     break;
@@ -959,7 +959,7 @@ public class ScmGrammarParser : Parser
                     	style = scmFrmStyleProp();
                     	followingStackPointer_--;
 
-                    	frmProp.Style = style; frmProp.LastSetProperty = FramePropNames.Style;
+                    	frmProp.Style = style; frmProp.AddParesedProperty(FramePropNames.Style);
                     
                     }
                     break;
@@ -981,7 +981,7 @@ public class ScmGrammarParser : Parser
                     	comm = comment();
                     	followingStackPointer_--;
 
-                    	frmProp.SetExternalObject(comm); 
+                    	frmProp.SetScmComment(comm); 
                     
                     }
                     break;
@@ -992,7 +992,7 @@ public class ScmGrammarParser : Parser
                     	pe = parExpr();
                     	followingStackPointer_--;
 
-                    	frmProp.SetExternalObject(pe); 
+                    	frmProp.SetScmBlock(pe); 
                     
                     }
                     break;
@@ -1162,7 +1162,7 @@ public class ScmGrammarParser : Parser
                     	parent = scmParentProp();
                     	followingStackPointer_--;
 
-                    	btnProp.Parent = parent; btnProp.LastSetProperty = ButtonPropNames.Parent; 
+                    	btnProp.Parent = parent; btnProp.AddParesedProperty(ButtonPropNames.Parent); 
                     
                     }
                     break;
@@ -1173,7 +1173,7 @@ public class ScmGrammarParser : Parser
                     	label = scmLabelProp();
                     	followingStackPointer_--;
 
-                    	btnProp.Label = label; btnProp.LastSetProperty = ButtonPropNames.Label; 
+                    	btnProp.Label = label; btnProp.AddParesedProperty(ButtonPropNames.Label); 
                     
                     }
                     break;
@@ -1184,7 +1184,7 @@ public class ScmGrammarParser : Parser
                     	enabled = scmEnabledProp();
                     	followingStackPointer_--;
 
-                    	btnProp.Enabled = enabled; btnProp.LastSetProperty = ButtonPropNames.Enabled;
+                    	btnProp.Enabled = enabled; btnProp.AddParesedProperty(ButtonPropNames.Enabled);
                     
                     }
                     break;
@@ -1195,7 +1195,7 @@ public class ScmGrammarParser : Parser
                     	minWidth = scmMinWidthProp();
                     	followingStackPointer_--;
 
-                    	btnProp.MinWidth = minWidth;if (minWidth == 0) btnProp.AutosizeWidth = true; btnProp.LastSetProperty = ButtonPropNames.MinWidth;
+                    	btnProp.MinWidth = minWidth;if (minWidth == 0) btnProp.AutosizeWidth = true; btnProp.AddParesedProperty(ButtonPropNames.MinWidth);
                     
                     }
                     break;
@@ -1206,7 +1206,7 @@ public class ScmGrammarParser : Parser
                     	minHeight = scmMinHeightProp();
                     	followingStackPointer_--;
 
-                    	btnProp.MinHeight = minHeight; if (minHeight == 0) btnProp.AutosizeHeight = true; btnProp.LastSetProperty = ButtonPropNames.MinHeight;
+                    	btnProp.MinHeight = minHeight; if (minHeight == 0) btnProp.AutosizeHeight = true; btnProp.AddParesedProperty( ButtonPropNames.MinHeight);
                     
                     }
                     break;
@@ -1217,7 +1217,7 @@ public class ScmGrammarParser : Parser
                     	strechWidth = scmStretchWidthProp();
                     	followingStackPointer_--;
 
-                    	btnProp.StretchableWidth = strechWidth; btnProp.LastSetProperty = ButtonPropNames.StrechWidth;
+                    	btnProp.StretchableWidth = strechWidth; btnProp.AddParesedProperty(ButtonPropNames.StrechWidth);
                     
                     }
                     break;
@@ -1228,7 +1228,7 @@ public class ScmGrammarParser : Parser
                     	strechHeight = scmStretchHeightProp();
                     	followingStackPointer_--;
 
-                    	btnProp.StretchableHeight = strechHeight; btnProp.LastSetProperty = ButtonPropNames.StrechHeight;
+                    	btnProp.StretchableHeight = strechHeight; btnProp.AddParesedProperty(ButtonPropNames.StrechHeight);
                     
                     }
                     break;
@@ -1239,7 +1239,7 @@ public class ScmGrammarParser : Parser
                     	vertMarg = scmVertMargin();
                     	followingStackPointer_--;
 
-                    	btnProp.VerticalMargin = vertMarg; btnProp.LastSetProperty = ButtonPropNames.VerticalMargin;
+                    	btnProp.VerticalMargin = vertMarg; btnProp.AddParesedProperty(ButtonPropNames.VerticalMargin);
                     
                     }
                     break;
@@ -1250,7 +1250,7 @@ public class ScmGrammarParser : Parser
                     	horizMarg = scmHorizMargin();
                     	followingStackPointer_--;
 
-                    	btnProp.HorizontalMargin = vertMarg; btnProp.LastSetProperty = ButtonPropNames.HorizontalMargin;
+                    	btnProp.HorizontalMargin = vertMarg; btnProp.AddParesedProperty(ButtonPropNames.HorizontalMargin);
                     
                     }
                     break;
@@ -1271,7 +1271,7 @@ public class ScmGrammarParser : Parser
                     	comm = comment();
                     	followingStackPointer_--;
 
-                    	btnProp.SetExternalObject(comm); 
+                    	btnProp.SetScmComment(comm); 
                     
                     }
                     break;
@@ -1282,7 +1282,7 @@ public class ScmGrammarParser : Parser
                     	pe = parExpr();
                     	followingStackPointer_--;
 
-                    	btnProp.SetExternalObject(pe); 
+                    	btnProp.SetScmBlock(pe); 
                     
                     }
                     break;

@@ -5,6 +5,7 @@ using System.ComponentModel;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
+    #region Alignment Enums
     public enum HorizontalAlign
     {
         Left,
@@ -18,15 +19,18 @@ namespace SchemeGuiEditor.ToolboxControls
         Center,
         Bottom
     }
+    #endregion
 
     [TypeConverter(typeof(AlignmentTypeConverter))]
     public class ContainerAlignment
     {
-        public event EventHandler AlignmentChanged;
-
+        #region Members
         private HorizontalAlign _horizontalAlignment;
         private VerticalAlign _verticalAlignment;
+        public event EventHandler AlignmentChanged;
+        #endregion
 
+        #region Constructors
         public ContainerAlignment()
         {
         }
@@ -36,7 +40,9 @@ namespace SchemeGuiEditor.ToolboxControls
             _horizontalAlignment = horizontalAlign;
             _verticalAlignment = verticalAlign;
         }
+        #endregion
 
+        #region Properties
         [DefaultValue(HorizontalAlign.Center)]       
         public HorizontalAlign HorizontalAlignment
         {
@@ -66,17 +72,59 @@ namespace SchemeGuiEditor.ToolboxControls
                 }
             }
         }
+        #endregion
 
+        #region Override methods
         public override string ToString()
         {
             return _horizontalAlignment.ToString() +", "+ _verticalAlignment.ToString();
         }
-
+        
         public override bool Equals(object obj)
         {
             ContainerAlignment ca = obj as ContainerAlignment;
             return (this.VerticalAlignment == ca.VerticalAlignment && this.VerticalAlignment == ca.VerticalAlignment);
         }
+        #endregion
+
+        #region Public Methods
+        public string ToScmCode()
+        {
+            string code = string.Format("({0} {1})",HorizontalAlignString(),VerticalAlignString());
+            return code;
+        }
+        #endregion
+
+        #region Private Methods
+        private string VerticalAlignString()
+        {
+            switch (_verticalAlignment)
+            {
+                case VerticalAlign.Top:
+                    return "top";
+                case VerticalAlign.Center:
+                    return "center";
+                case VerticalAlign.Bottom:
+                    return "bottom";
+            }
+            return "";
+        }
+
+        private string HorizontalAlignString()
+        {
+            switch (_horizontalAlignment)
+            {
+                case HorizontalAlign.Center:
+                    return "center";
+                case HorizontalAlign.Left:
+                    return "left";
+                case HorizontalAlign.Right:
+                    return "right";
+            }
+            return "";
+        }
+        #endregion
+
     }
 
     public class AlignmentTypeConverter : TypeConverter

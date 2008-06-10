@@ -6,12 +6,13 @@ using System.ComponentModel;
 using System.Drawing;
 using SchemeGuiEditor.Services;
 using System.Windows.Forms;
+using SchemeGuiEditor.Utils;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
+    #region Properties enum
     public enum ButtonPropNames
     {
-        None,
         Parent,
         Label,
         Enabled,
@@ -20,10 +21,15 @@ namespace SchemeGuiEditor.ToolboxControls
         StrechWidth,
         StrechHeight,
         VerticalMargin,
-        HorizontalMargin
+        HorizontalMargin,
+        ScmBlock,
+        ScmComment
     }
+    #endregion
+
     public class ScmButtonProperties :IScmControlProperties
     {
+        #region Private Members
         private ScmButton _button;
         private bool _enabled;
         private string _parent;
@@ -35,16 +41,23 @@ namespace SchemeGuiEditor.ToolboxControls
         private int _horizontalMargin;
         private bool _autosizeWidth;
         private bool _autosizeHeight;
-        private ButtonPropNames _lastSetProperty;
-        private Dictionary<ButtonPropNames, List<string>> _externalObjects;
+        private bool _forceDisplay;
+        private List<ButtonPropNames> _parsedProperties;
+        private Dictionary<int, string> _parsedComments;
+        private Dictionary<int, string> _parsedScmBlocks;
+        #endregion
 
         public ScmButtonProperties(ScmButton button)
         {
             _button = button;
             _enabled = true;
+            _verticalMargin = 2;
+            _horizontalMargin = 2;
             _button.SizeChanged += new EventHandler(_button_SizeChanged);
             _button.MarginChanged += new EventHandler(_button_MarginChanged);
-            _externalObjects = new Dictionary<ButtonPropNames, List<string>>();
+            _parsedProperties = new List<ButtonPropNames>();
+            _parsedComments = new Dictionary<int, string>();
+            _parsedScmBlocks = new Dictionary<int, string>();
         }
                 
         #region INotifyPropertyChanged Members
@@ -63,13 +76,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
         #endregion
 
-        [Browsable(false)]
-        public ButtonPropNames LastSetProperty
-        {
-            get { return _lastSetProperty; }
-            set { _lastSetProperty = value; }
-        }
-
+        #region Properties
         [CategoryAttribute(AttributesCategories.CategoryDesign)]
         [DescriptionAttribute("Indicates the name of the parent container")]
         [ReadOnly(true)]
@@ -169,6 +176,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     }
                     _minWidth = value;
                     _button.Width = value;
+                    _button.RaiseContentSizeChanged();
                 }
             }
         }
@@ -211,6 +219,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     _button.RaiseStrechChanged(StrechDirection.Horizontal);
                     if (!_stretchableWidth)
                         _button.Width = _minWidth;
+                    _button.RaiseContentSizeChanged();
                 }
             }
         }
@@ -237,7 +246,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
         [DescriptionAttribute("Vertical margins for the button in pixels")]
-        [DefaultValue(0)]
+        [DefaultValue(2)]
         public int VerticalMargin
         {
             get { return _verticalMargin; }
@@ -256,7 +265,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
         [DescriptionAttribute("Vertical margins for the button in pixels")]
-        [DefaultValue(0)]
+        [DefaultValue(2)]
         public int HorizontalMargin
         {
             get { return _horizontalMargin; }
@@ -272,12 +281,15 @@ namespace SchemeGuiEditor.ToolboxControls
                 _button.Margin = new Padding(0, 0, value, _button.Margin.Bottom);
             }
         }
+        #endregion
 
+        #region Event Handlers
         void _button_MarginChanged(object sender, EventArgs e)
         {
             _verticalMargin = _button.Margin.Bottom;
             _horizontalMargin = _button.Margin.Right;
             NotifyPropertyChanged();
+            _button.RaiseContentSizeChanged();
         }
 
         void _button_SizeChanged(object sender, EventArgs e)
@@ -286,6 +298,7 @@ namespace SchemeGuiEditor.ToolboxControls
             {
                 _minWidth = _button.Width;
                 NotifyPropertyChanged();
+                _button.RaiseContentSizeChanged();
             }
             if (!_stretchableHeight && !_autosizeHeight)
             {
@@ -293,25 +306,116 @@ namespace SchemeGuiEditor.ToolboxControls
                 NotifyPropertyChanged();
             }
         }
+        #endregion
 
+        #region Override Mothods
         public override string ToString()
         {
             return Name + " " + _button.GetType().FullName;
         }
+        #endregion
 
-        public void SetExternalObject(string comm)
+        #region Public Methods
+        public void SetScmComment(string comment)
         {
-            List<string> extObj;
-            if (!_externalObjects.ContainsKey(_lastSetProperty))
+            _parsedProperties.Add(ButtonPropNames.ScmComment);
+            _parsedComments.Add(_parsedProperties.Count - 1, comment);
+        }
+
+        public void SetScmBlock(string scmBlock)
+        {
+            _parsedProperties.Add(ButtonPropNames.ScmBlock);
+            _parsedScmBlocks.Add(_parsedProperties.Count - 1, scmBlock);
+        }
+
+        public void AddParesedProperty(ButtonPropNames propertyName)
+        {
+            _parsedProperties.Add(propertyName);
+        }
+
+        public string ToScmCode()
+        {
+            string code = string.Format("(define {0}\n\t(new button% {1}))", this.Name, GetScmPropertiesCode());
+            return code;
+        }
+        #endregion
+
+        #region Private methods
+        private string GetScmPropertiesCode()
+        {
+            string propertiesCode = "";
+            AddMissingProperties();
+            for (int i = 0; i < _parsedProperties.Count; i++)
+                propertiesCode += GetProppertyCode(_parsedProperties[i], i);
+            return propertiesCode;
+        }
+
+        private string GetProppertyCode(ButtonPropNames propName, int index)
+        {
+            string code = "";
+            switch (propName)
             {
-                extObj = new List<string>();
-                _externalObjects.Add(_lastSetProperty, extObj);
+                case ButtonPropNames.Label:
+                    code = string.Format("\n\t\t(width {0})", this.Label);
+                    _forceDisplay = false;
+                    break;
+                case ButtonPropNames.Parent:
+                    code = string.Format("\n\t\t(parent {0})", this.Parent);
+                    _forceDisplay = false;
+                    break;
+                case ButtonPropNames.Enabled:
+                    if (_forceDisplay || this.Enabled != true)
+                        code = string.Format("\n\t\t(enabled {0})", CodeGenerationUtils.ToScmBoolValue(this.Enabled));
+                    _forceDisplay = false;
+                    break;
+                case ButtonPropNames.MinWidth:
+                    if (_forceDisplay || this.MinWidth != 0)
+                        code = string.Format("\n\t\t(min-widtht {0})", this.MinWidth);
+                    _forceDisplay = false;
+                    break;
+                case ButtonPropNames.MinHeight:
+                    if (_forceDisplay || this.MinHeight != 0)
+                        code = string.Format("\n\t\t(min-height {0})", this.MinHeight);
+                    _forceDisplay = false;
+                    break;
+                case ButtonPropNames.StrechWidth:
+                    if (_forceDisplay || this.StretchableWidth != false)
+                        code = string.Format("\n\t\t(stretchable-width {0})", CodeGenerationUtils.ToScmBoolValue(this.StretchableWidth));
+                    _forceDisplay = false;
+                    break;
+                case ButtonPropNames.StrechHeight:
+                    if (_forceDisplay || this.StretchableHeight != false)
+                        code = string.Format("\n\t\t(stretchable-height {0})", CodeGenerationUtils.ToScmBoolValue(this.StretchableHeight));
+                    _forceDisplay = false;
+                    break;
+                case ButtonPropNames.VerticalMargin:
+                    if (_forceDisplay || this.VerticalMargin != 2)
+                        code = string.Format("\n\t\t(vert-margin {0})", this.VerticalMargin);
+                    _forceDisplay = false;
+                    break;
+                case ButtonPropNames.HorizontalMargin:
+                    if (_forceDisplay || this.HorizontalMargin != 0)
+                        code = string.Format("\n\t\t(horiz-margin {0})", this.HorizontalMargin);
+                    _forceDisplay = false;
+                    break;
+                case ButtonPropNames.ScmComment:
+                    code = string.Format("\n\t\t{0}", _parsedComments[index]);
+                    _forceDisplay = true;
+                    break;
+                case ButtonPropNames.ScmBlock:
+                    code = string.Format("\n\t\t{0}", _parsedScmBlocks[index]);
+                    _forceDisplay = false;
+                    break;
+
             }
-            else
-            {
-                extObj = _externalObjects[_lastSetProperty];
-            }
-            extObj.Add(comm);
+            return code;
+        }
+
+        private void AddMissingProperties()
+        {
+            for (int i = 1; i < 9; i++)    //iterate trough all posible properties
+                if (!_parsedProperties.Contains((ButtonPropNames)i))
+                    _parsedProperties.Add((ButtonPropNames)i);
         }
 
         private void NotifyPropertyChanged()
@@ -321,6 +425,6 @@ namespace SchemeGuiEditor.ToolboxControls
                 PropertyChanged(this, new PropertyChangedEventArgs(""));
             }
         }
-
+        #endregion
     }
 }

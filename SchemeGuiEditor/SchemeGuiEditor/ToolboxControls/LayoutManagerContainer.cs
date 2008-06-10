@@ -12,6 +12,7 @@ namespace SchemeGuiEditor.ToolboxControls
 {
     public partial class LayoutManagerContainer : UserControl
     {
+        public event EventHandler ContentSizeChanged;
         private ContainerAlignment _alignment;
         private int _spacing;
         private int _strechRowCount;
@@ -100,7 +101,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     tableLayoutPanel1.RowStyles.Insert(rowIndex, new RowStyle(SizeType.AutoSize));
                 }
                 Panel containerPanel = new Panel();
-                ctrl.Location = new Point(0, 0);
+                ctrl.Location = new Point(2, 2);
                 containerPanel.Margin = new Padding(0);
                 containerPanel.AutoSize = true;
                 containerPanel.BackColor = Color.Aquamarine;
@@ -120,7 +121,15 @@ namespace SchemeGuiEditor.ToolboxControls
                 sameParent = false;
             }
             (ctrl as IScmControl).StrechChanged += new EventHandler<DataEventArgs<StrechDirection>>(LayoutManagerContainer_StrechChanged);
+            (ctrl as IScmControl).ContentSizeChanged += new EventHandler(LayoutManagerContainer_SizeChanged);
             SetControlsSpacing();
+            LayoutManagerContainer_SizeChanged(this, EventArgs.Empty);
+        }
+
+        void LayoutManagerContainer_SizeChanged(object sender, EventArgs e)
+        {
+            if (ContentSizeChanged != null)
+                ContentSizeChanged(this, EventArgs.Empty);
         }
 
         public void RemoveControl(Control ctrl)
@@ -131,6 +140,7 @@ namespace SchemeGuiEditor.ToolboxControls
             parent.Size = size;
             parent.Controls.Remove(ctrl);
             (ctrl as IScmControl).StrechChanged -= new EventHandler<DataEventArgs<StrechDirection>>(LayoutManagerContainer_StrechChanged);
+            (ctrl as IScmControl).ContentSizeChanged -= new EventHandler(LayoutManagerContainer_SizeChanged);
         }
 
         public void RemoveContainer(Control ctrl)
@@ -158,6 +168,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
                 tableLayoutPanel1.RowCount -= 1;
                 SetControlsSpacing();
+                LayoutManagerContainer_SizeChanged(this, EventArgs.Empty);
             }
         }
 
@@ -168,9 +179,9 @@ namespace SchemeGuiEditor.ToolboxControls
 
             foreach (Control ctrl in tableLayoutPanel1.Controls)
             {
-                height += ctrl.Height;
-                if (ctrl.Width > width)
-                    width = ctrl.Width;
+                height += ctrl.Height + 2;
+                if (ctrl.Width > width && tableLayoutPanel1.GetColumnSpan(ctrl) == 1)
+                    width = ctrl.Width + 8;
             }
             return new Size(width, height);
         }
