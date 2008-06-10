@@ -38,33 +38,49 @@ namespace SchemeGuiEditor.ToolboxControls
         private string _parent;
         private bool _stretchableWidth;
         private bool _stretchableHeight;
-        private bool _useWidth;
-        private bool _useHeight;
+        private bool _autosizeWidth;
+        private bool _autosizeHeight;
         private string _width;
         private string _height;
         private int _minWidth;
         private int _minHeight;
-        private ContainerAlignment _alignment;
+        private bool _useX;
+        private bool _useY;
+        private string _x;
+        private string _y;
         private ScmFrameStyle _style;
         private FramePropNames _lastSetProperty;
-
-        private Dictionary<FramePropNames, List<object>> _externalObjects;
+        private Dictionary<FramePropNames, List<string>> _externalObjects;
 
         public ScmFrameProperties(ScmFrame frame)
         {
             _frame = frame;
-            _alignment = new ContainerAlignment(HorizontalAlign.Center,VerticalAlign.Top);
             _enabled = true;
             _stretchableHeight = true;
             _stretchableWidth = true;
+            _autosizeHeight = true;
+            _autosizeWidth = true;
             _style = new ScmFrameStyle();
-            _externalObjects = new Dictionary<FramePropNames, List<object>>();
+            _externalObjects = new Dictionary<FramePropNames, List<string>>();
             _frame.SizeChanged += new EventHandler(_frame_SizeChanged);
+            _frame.LocationChanged += new EventHandler(_frame_LocationChanged);
         }
 
-        public void AddExternalObject(object obj)
+        #region IScmControlProperties Members
+
+        [Browsable(false)]
+        public IScmControl Control
         {
+            get { return _frame; }
         }
+
+        #endregion
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
 
         [Browsable(false)]
         public FramePropNames LastSetProperty
@@ -105,22 +121,44 @@ namespace SchemeGuiEditor.ToolboxControls
             }
         }
 
-        [CategoryAttribute(AttributesCategories.CategoryLayout)]
+        [CategoryAttribute(AttributesCategories.CategoryBehavior)]
         [DescriptionAttribute("Allow seting an initial width for the frame, else MinWidth is used")]
         [DefaultValue(false)]
-        public bool UseWidth
+        public bool AutosizeWidth
         {
-            get { return _useWidth; }
-            set { _useWidth = value;}
+            get { return _autosizeWidth; }
+            set
+            {
+                _autosizeWidth = value;
+                if (_autosizeWidth)
+                {
+                    _width = "";
+                    _frame.RecomputeFrameSizes();
+                }
+                else
+                    _width = _frame.Width.ToString();
+                NotifyPropertyChanged();
+            }
         }
 
-        [CategoryAttribute(AttributesCategories.CategoryLayout)]
+        [CategoryAttribute(AttributesCategories.CategoryBehavior)]
         [DescriptionAttribute("Allow setting an initial Height for the frame, else MinHeight is used")]
         [DefaultValue(false)]
-        public bool UseHeight
+        public bool AutosizeHeight
         {
-            get { return _useHeight; }
-            set { _useHeight = value; }
+            get { return _autosizeHeight; }
+            set 
+            {
+                _autosizeHeight = value;
+                if (_autosizeHeight)
+                {
+                    _height = "";
+                    _frame.RecomputeFrameSizes();
+                }
+                else
+                    _height = _frame.Height.ToString();
+                NotifyPropertyChanged();
+            }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
@@ -131,7 +169,7 @@ namespace SchemeGuiEditor.ToolboxControls
             get { return _width; }
             set
             {
-                if (_useWidth)
+                if (!_autosizeWidth)
                 {
                     int width;
                     if (!int.TryParse(value, out width))
@@ -153,14 +191,14 @@ namespace SchemeGuiEditor.ToolboxControls
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Initial width for the frame in pixels")]
+        [DescriptionAttribute("Initial height for the frame in pixels")]
         [DefaultValue("")]
         public string Height
         {
             get { return _height; }
             set
             {
-                if (_useWidth)
+                if (!_autosizeWidth)
                 {
                     int height;
                     if (!int.TryParse(value, out height))
@@ -182,44 +220,136 @@ namespace SchemeGuiEditor.ToolboxControls
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Initial width for the frame in pixels")]
+        [DescriptionAttribute("Minimum width for the frame in pixels")]
         [DefaultValue(0)]
         public int MinWidth
         {
             get { return _minWidth; }
             set
             {
+                if (value < 0 || value > 10000)
+                {
+                    MessageService.ShowError(ControlValidation.SizeValueInvalid);
+                    return;
+                }
+
                 _minWidth = value;
                 if (value > _frame.MinimumSize.Width)
                     _frame.MinimumSize = new Size(value, _frame.MinimumSize.Height);
+                else
+                    _frame.RecomputeFrameSizes();
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Initial width for the frame in pixels")]
+        [DescriptionAttribute("Minimum height for the frame in pixels")]
         [DefaultValue(0)]
         public int MinHeight
         {
             get { return _minHeight; }
             set
             {
+                if (value < 0 || value > 10000)
+                {
+                    MessageService.ShowError(ControlValidation.SizeValueInvalid);
+                    return;
+                }
+
                 _minHeight = value;
                 if (value > _frame.MinimumSize.Height)
                     _frame.MinimumSize = new Size(_frame.MinimumSize.Width, value);
+                else
+                    _frame.RecomputeFrameSizes();
+            }
+        }
+
+        [CategoryAttribute(AttributesCategories.CategoryBehavior)]
+        [DescriptionAttribute("Allow seting an initial location for the frame Otherwise, a location is selected automatically")]
+        [DefaultValue(false)]
+        public bool UseX
+        {
+            get { return _useX; }
+            set 
+            {
+                _useX = value;
+                if (!_useX)
+                    _x = "";
+                else
+                    _x = _frame.Location.X.ToString();
+                NotifyPropertyChanged();
+            }
+        }
+
+        [CategoryAttribute(AttributesCategories.CategoryBehavior)]
+        [DescriptionAttribute("Allow seting an initial location for the frame Otherwise, a location is selected automatically")]
+        [DefaultValue(false)]
+        public bool UseY
+        {
+            get { return _useY; }
+            set 
+            {
+                _useY = value;
+                if (!_useY)
+                    _y = "";
+                else
+                    _y = _frame.Location.Y.ToString();
+                NotifyPropertyChanged();
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
         [DescriptionAttribute("Initial location for the frame")]
-        public Point Location
+        public string X
         {
-            get
+            get { return _x; }
+            set 
             {
-                return _frame.Location;
+                if (_useX)
+                {
+                    int x;
+                    if (!int.TryParse(value, out x))
+                    {
+                        MessageService.ShowError(ControlValidation.InvalidFormat);
+                        return;
+                    }
+
+                    if (x < -10000 || x > 10000)
+                    {
+                        MessageService.ShowError(ControlValidation.LocationValueInvalid);
+                        return;
+                    }
+
+                    _frame.Location = new Point(x, _frame.Location.Y);
+                    _x = value;
+                }
             }
-            set
+        }
+
+        [CategoryAttribute(AttributesCategories.CategoryLayout)]
+        [DescriptionAttribute("Initial location for the frame")]
+        public string Y
+        {
+            get { return _y; }
+            set 
             {
-                _frame.Location = value;
+                if (_useY)
+                {
+                    int y;
+                    if (!int.TryParse(value, out y))
+                    {
+                        MessageService.ShowError(ControlValidation.InvalidFormat);
+                        return;
+                    }
+
+                    if (y < -10000 || y > 10000)
+                    {
+                        MessageService.ShowError(ControlValidation.LocationValueInvalid);
+                        return;
+                    }
+
+                    _frame.Location = new Point(_frame.Location.X,y);
+                    _y = value;
+                }
             }
         }
 
@@ -251,7 +381,7 @@ namespace SchemeGuiEditor.ToolboxControls
             {
                 if (value < 0 || value > 1000)
                 {
-                    MessageService.ShowError(ControlValidation.FrameValueInvalid);
+                    MessageService.ShowError(ControlValidation.ValueInvalid);
                     return;
                 }
 
@@ -272,7 +402,7 @@ namespace SchemeGuiEditor.ToolboxControls
             {
                 if (value < 0 || value > 1000)
                 {
-                    MessageService.ShowError(ControlValidation.FrameValueInvalid);
+                    MessageService.ShowError(ControlValidation.ValueInvalid);
                     return;
                 }
 
@@ -336,29 +466,83 @@ namespace SchemeGuiEditor.ToolboxControls
                 _style = value;
             }
         }
+
         #region EventHandlers
         void _frame_SizeChanged(object sender, EventArgs e)
         {
-            if (_useHeight)
+            if (!_autosizeHeight)
+            {
                 _height = _frame.Height.ToString();
-            if (_useWidth)
+                NotifyPropertyChanged();
+            }
+            if (!_autosizeWidth)
+            {
                 _width = _frame.Width.ToString();
+                NotifyPropertyChanged();
+            }
         }
-        #endregion
-
-        #region IScmControlProperties Members
-
-        [Browsable(false)]
-        public IScmControl Control
+        void _frame_LocationChanged(object sender, EventArgs e)
         {
-            get { return _frame; }
+            if (_useX)
+            {
+                _x = _frame.Location.X.ToString();
+                NotifyPropertyChanged();
+            }
+            if (_useY)
+            {
+                _y = _frame.Location.Y.ToString();
+                NotifyPropertyChanged();
+            }
         }
-
         #endregion
 
         public override string ToString()
         {
             return Name + " " + _frame.GetType().FullName;
         }
+
+        public void SetExternalObject(string comm)
+        {
+            List<string> extObj;
+            if (!_externalObjects.ContainsKey(_lastSetProperty))
+            {
+                extObj = new List<string>();
+                _externalObjects.Add(_lastSetProperty, extObj);
+            }
+            else
+            {
+                extObj = _externalObjects[_lastSetProperty];
+            }
+            extObj.Add(comm);
+        }
+
+        public void SetXYProp(string name, string value)
+        {
+            if (name == "x")
+            {
+                this.UseX = true;
+                this.X = value;
+                this.LastSetProperty = FramePropNames.X;
+                return;
+            }
+            if (name == "y")
+            {
+                this.UseY = true;
+                this.Y = value;
+                this.LastSetProperty = FramePropNames.Y;
+                return;
+            }
+            string str = "(" + name + " " + value + ")";
+            SetExternalObject(str);
+        }
+
+        private void NotifyPropertyChanged()
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(""));
+            }
+        }
+
     }
 }

@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 D:\\Projects\\AntlrTestApps\\ScmGrammar.g 2008-06-08 01:48:33
+// $ANTLR 3.0.1 D:\\Projects\\AntlrTestApps\\ScmGrammar.g 2008-06-10 19:34:59
 namespace 
 	SchemeGuiEditor.ParserComponents
 
@@ -905,8 +905,8 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = WS;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:237:5: ( ( ' ' | '\\t' | '\\r' | '\\n' ) )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:237:7: ( ' ' | '\\t' | '\\r' | '\\n' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:236:5: ( ( ' ' | '\\t' | '\\r' | '\\n' ) )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:236:7: ( ' ' | '\\t' | '\\r' | '\\n' )
             {
             	if ( (input.LA(1) >= '\t' && input.LA(1) <= '\n') || input.LA(1) == '\r' || input.LA(1) == ' ' ) 
             	{
@@ -938,8 +938,8 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = ID;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:239:4: ( ( 'a' .. 'z' | 'A' .. 'Z' | CAR ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | PLUS | MINUS | STAR | SLASH | DOT | LT | GT | EQ | CAR )* )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:239:6: ( 'a' .. 'z' | 'A' .. 'Z' | CAR ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | PLUS | MINUS | STAR | SLASH | DOT | LT | GT | EQ | CAR )*
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:238:4: ( ( 'a' .. 'z' | 'A' .. 'Z' | CAR ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | PLUS | MINUS | STAR | SLASH | DOT | LT | GT | EQ | CAR )* )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:238:6: ( 'a' .. 'z' | 'A' .. 'Z' | CAR ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | PLUS | MINUS | STAR | SLASH | DOT | LT | GT | EQ | CAR )*
             {
             	if ( input.LA(1) == '!' || (input.LA(1) >= '$' && input.LA(1) <= '&') || input.LA(1) == ':' || (input.LA(1) >= '?' && input.LA(1) <= 'Z') || (input.LA(1) >= '^' && input.LA(1) <= '_') || (input.LA(1) >= 'a' && input.LA(1) <= 'z') || input.LA(1) == '~' ) 
             	{
@@ -953,7 +953,7 @@ public class ScmGrammarLexer : Lexer
             	    Recover(mse);    throw mse;
             	}
 
-            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:239:34: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | PLUS | MINUS | STAR | SLASH | DOT | LT | GT | EQ | CAR )*
+            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:238:34: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | PLUS | MINUS | STAR | SLASH | DOT | LT | GT | EQ | CAR )*
             	do 
             	{
             	    int alt1 = 2;
@@ -1010,7 +1010,7 @@ public class ScmGrammarLexer : Lexer
     {
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:242:2: ( '?' | '!' | ':' | '$' | '%' | '^' | '&' | '_' | '~' | '@' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:241:2: ( '?' | '!' | ':' | '$' | '%' | '^' | '&' | '_' | '~' | '@' )
             // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:
             {
             	if ( input.LA(1) == '!' || (input.LA(1) >= '$' && input.LA(1) <= '&') || input.LA(1) == ':' || (input.LA(1) >= '?' && input.LA(1) <= '@') || (input.LA(1) >= '^' && input.LA(1) <= '_') || input.LA(1) == '~' ) 
@@ -1040,8 +1040,8 @@ public class ScmGrammarLexer : Lexer
     {
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:245:2: ( '0' .. '9' )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:245:4: '0' .. '9'
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:244:2: ( '0' .. '9' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:244:4: '0' .. '9'
             {
             	MatchRange('0','9'); 
             
@@ -1059,8 +1059,8 @@ public class ScmGrammarLexer : Lexer
     {
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:248:2: ( '1' .. '9' )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:248:4: '1' .. '9'
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:247:2: ( '1' .. '9' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:247:4: '1' .. '9'
             {
             	MatchRange('1','9'); 
             
@@ -1078,8 +1078,8 @@ public class ScmGrammarLexer : Lexer
     {
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:251:2: ( '0' )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:251:4: '0'
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:250:2: ( '0' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:250:4: '0'
             {
             	Match('0'); 
             
@@ -1098,7 +1098,7 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = NUMBER;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:254:2: ( ZERO | LEAD_DIGIT ( DIGIT )* ( DOT ( DIGIT )+ )? )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:253:2: ( ZERO | LEAD_DIGIT ( DIGIT )* ( DOT ( DIGIT )+ )? )
             int alt5 = 2;
             int LA5_0 = input.LA(1);
             
@@ -1113,24 +1113,24 @@ public class ScmGrammarLexer : Lexer
             else 
             {
                 NoViableAltException nvae_d5s0 =
-                    new NoViableAltException("253:1: NUMBER : ( ZERO | LEAD_DIGIT ( DIGIT )* ( DOT ( DIGIT )+ )? );", 5, 0, input);
+                    new NoViableAltException("252:1: NUMBER : ( ZERO | LEAD_DIGIT ( DIGIT )* ( DOT ( DIGIT )+ )? );", 5, 0, input);
             
                 throw nvae_d5s0;
             }
             switch (alt5) 
             {
                 case 1 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:254:4: ZERO
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:253:4: ZERO
                     {
                     	mZERO(); 
                     
                     }
                     break;
                 case 2 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:254:11: LEAD_DIGIT ( DIGIT )* ( DOT ( DIGIT )+ )?
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:253:11: LEAD_DIGIT ( DIGIT )* ( DOT ( DIGIT )+ )?
                     {
                     	mLEAD_DIGIT(); 
-                    	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:254:22: ( DIGIT )*
+                    	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:253:22: ( DIGIT )*
                     	do 
                     	{
                     	    int alt2 = 2;
@@ -1145,7 +1145,7 @@ public class ScmGrammarLexer : Lexer
                     	    switch (alt2) 
                     		{
                     			case 1 :
-                    			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:254:22: DIGIT
+                    			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:253:22: DIGIT
                     			    {
                     			    	mDIGIT(); 
                     			    
@@ -1160,7 +1160,7 @@ public class ScmGrammarLexer : Lexer
                     	loop2:
                     		;	// Stops C# compiler whinging that label 'loop2' has no statements
 
-                    	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:254:29: ( DOT ( DIGIT )+ )?
+                    	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:253:29: ( DOT ( DIGIT )+ )?
                     	int alt4 = 2;
                     	int LA4_0 = input.LA(1);
                     	
@@ -1171,10 +1171,10 @@ public class ScmGrammarLexer : Lexer
                     	switch (alt4) 
                     	{
                     	    case 1 :
-                    	        // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:254:30: DOT ( DIGIT )+
+                    	        // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:253:30: DOT ( DIGIT )+
                     	        {
                     	        	mDOT(); 
-                    	        	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:254:34: ( DIGIT )+
+                    	        	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:253:34: ( DIGIT )+
                     	        	int cnt3 = 0;
                     	        	do 
                     	        	{
@@ -1190,7 +1190,7 @@ public class ScmGrammarLexer : Lexer
                     	        	    switch (alt3) 
                     	        		{
                     	        			case 1 :
-                    	        			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:254:34: DIGIT
+                    	        			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:253:34: DIGIT
                     	        			    {
                     	        			    	mDIGIT(); 
                     	        			    
@@ -1234,11 +1234,11 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = NAME;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:256:5: ( '\"' ( . )* '\"' )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:256:7: '\"' ( . )* '\"'
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:255:5: ( '\"' ( . )* '\"' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:255:7: '\"' ( . )* '\"'
             {
             	Match('\"'); 
-            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:256:11: ( . )*
+            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:255:11: ( . )*
             	do 
             	{
             	    int alt6 = 2;
@@ -1257,7 +1257,7 @@ public class ScmGrammarLexer : Lexer
             	    switch (alt6) 
             		{
             			case 1 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:256:11: .
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:255:11: .
             			    {
             			    	MatchAny(); 
             			    
@@ -1290,13 +1290,13 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = NEWLINE;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:259:2: ( ( ( '\\r' )? '\\n' ) )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:259:4: ( ( '\\r' )? '\\n' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:258:2: ( ( ( '\\r' )? '\\n' ) )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:258:4: ( ( '\\r' )? '\\n' )
             {
-            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:259:4: ( ( '\\r' )? '\\n' )
-            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:259:5: ( '\\r' )? '\\n'
+            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:258:4: ( ( '\\r' )? '\\n' )
+            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:258:5: ( '\\r' )? '\\n'
             	{
-            		// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:259:5: ( '\\r' )?
+            		// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:258:5: ( '\\r' )?
             		int alt7 = 2;
             		int LA7_0 = input.LA(1);
             		
@@ -1307,7 +1307,7 @@ public class ScmGrammarLexer : Lexer
             		switch (alt7) 
             		{
             		    case 1 :
-            		        // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:259:5: '\\r'
+            		        // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:258:5: '\\r'
             		        {
             		        	Match('\r'); 
             		        
@@ -1338,11 +1338,11 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = COMMENT;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:263:2: ( SEMI (~ ( '\\r' | '\\n' ) )* )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:263:4: SEMI (~ ( '\\r' | '\\n' ) )*
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:262:2: ( SEMI (~ ( '\\r' | '\\n' ) )* )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:262:4: SEMI (~ ( '\\r' | '\\n' ) )*
             {
             	mSEMI(); 
-            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:263:9: (~ ( '\\r' | '\\n' ) )*
+            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:262:9: (~ ( '\\r' | '\\n' ) )*
             	do 
             	{
             	    int alt8 = 2;
@@ -1357,7 +1357,7 @@ public class ScmGrammarLexer : Lexer
             	    switch (alt8) 
             		{
             			case 1 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:263:10: ~ ( '\\r' | '\\n' )
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:262:10: ~ ( '\\r' | '\\n' )
             			    {
             			    	if ( (input.LA(1) >= '\u0000' && input.LA(1) <= '\t') || (input.LA(1) >= '\u000B' && input.LA(1) <= '\f') || (input.LA(1) >= '\u000E' && input.LA(1) <= '\uFFFE') ) 
             			    	{
@@ -1400,8 +1400,8 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = PLUS;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:265:7: ( '+' )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:265:9: '+'
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:264:7: ( '+' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:264:9: '+'
             {
             	Match('+'); 
             
@@ -1421,8 +1421,8 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = MINUS;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:267:8: ( '-' )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:267:10: '-'
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:266:8: ( '-' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:266:10: '-'
             {
             	Match('-'); 
             
@@ -1442,8 +1442,8 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = STAR;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:269:7: ( '*' )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:269:9: '*'
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:268:7: ( '*' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:268:9: '*'
             {
             	Match('*'); 
             
@@ -1463,8 +1463,8 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = SLASH;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:271:8: ( '/' )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:271:10: '/'
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:270:8: ( '/' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:270:10: '/'
             {
             	Match('/'); 
             
@@ -1484,8 +1484,8 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = DOT;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:273:6: ( '.' )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:273:8: '.'
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:272:6: ( '.' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:272:8: '.'
             {
             	Match('.'); 
             
@@ -1505,8 +1505,8 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = LT;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:275:5: ( '<' )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:275:7: '<'
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:274:5: ( '<' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:274:7: '<'
             {
             	Match('<'); 
             
@@ -1526,8 +1526,8 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = GT;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:277:5: ( '>' )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:277:7: '>'
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:276:5: ( '>' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:276:7: '>'
             {
             	Match('>'); 
             
@@ -1547,8 +1547,8 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = EQ;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:279:5: ( '=' )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:279:7: '='
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:278:5: ( '=' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:278:7: '='
             {
             	Match('='); 
             
@@ -1568,8 +1568,8 @@ public class ScmGrammarLexer : Lexer
         try 
     	{
             int _type = QUOTE;
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:281:8: ( '\\'' )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:281:10: '\\''
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:280:8: ( '\\'' )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:280:10: '\\''
             {
             	Match('\''); 
             

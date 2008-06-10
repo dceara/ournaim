@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using SchemeGuiEditor.Utils;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
@@ -14,10 +15,20 @@ namespace SchemeGuiEditor.ToolboxControls
 
         public ScmButton()
         {
+            this.Margin = new Padding(0);
+            this.Height = 20;
             _scmProperties = new ScmButtonProperties(this);
         }
 
+        public void RaiseStrechChanged(StrechDirection direction)
+        {
+            if (StrechChanged != null)
+                StrechChanged(this, new DataEventArgs<StrechDirection>(direction));
+        }
+
         #region IScmControl Members
+
+        public event EventHandler<DataEventArgs<StrechDirection>> StrechChanged;
 
         public IScmControlProperties ScmPropertyObject
         {
@@ -29,5 +40,27 @@ namespace SchemeGuiEditor.ToolboxControls
         }
 
         #endregion
+
+        protected override void OnTextChanged(EventArgs e)
+        {
+            RecomputeSizes();
+        }
+
+        public void RecomputeSizes()
+        {
+            SizeF textSize = this.CreateGraphics().MeasureString(this.Text, this.Font);
+            Size s = new Size(Convert.ToInt32(textSize.Width) + 10, 20);
+            this.MinimumSize = s;
+
+            if (_scmProperties.AutosizeWidth)
+                this.Width = s.Width;
+            else
+                this.Width = _scmProperties.MinWidth;
+
+            if (_scmProperties.AutosizeHeight)
+                this.Height = s.Height;
+            else
+                this.Height = _scmProperties.MinHeight;
+        }
     }
 }

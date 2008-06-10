@@ -26,19 +26,21 @@ namespace SchemeGuiEditor.Gui
         private bool _dragging;
         private Point _startLocation;
         private List<IScmControlProperties> _propertyObjects;
+        private List<object> _loadedItems;
         #endregion
 
         public FormDesigner(ProjectFile projectFile)
         {
             InitializeComponent();
-            ScmLoader.LoadScmData(projectFile.FullPath);
+            _loadedItems = ScmLoader.LoadScmData(projectFile.FullPath);
             _projectFile = projectFile;
             _pickBox = new PickBox(panelContainer);
             _propertyObjects = new List<IScmControlProperties>();
             this.Text = projectFile.Name;
             this.TabText = projectFile.Name;
+            DisplayScmControls();
         }
-        
+               
         #region Public Methods
         public List<IScmControlProperties> GetPropertiesObjects()
         {
@@ -80,6 +82,46 @@ namespace SchemeGuiEditor.Gui
             }
             return null;
         }
+
+        private void DisplayScmControls()
+        {
+            Dictionary<string,IScmControl> scmControls = new Dictionary<string,IScmControl>();
+            foreach (object obj in _loadedItems)
+            {
+                if (obj is IScmControlProperties)
+                {
+                    IScmControlProperties ctrlProp = obj as IScmControlProperties;
+                    scmControls.Add(ctrlProp.Name, ctrlProp.Control);
+                    _propertyObjects.Add(ctrlProp);
+                }
+            }
+
+            foreach (IScmControlProperties property in _propertyObjects)
+            {
+                Control ctrl = property.Control as Control;
+                IScmControl parent;
+                if (scmControls.ContainsKey(property.Parent))
+                {
+                    parent = scmControls[property.Parent];
+                    if (parent is IScmContainer)
+                    {
+                        (parent as IScmContainer).LayoutManager.AddControl(ctrl);
+                        if (parent is ScmFrame)
+                            (parent as ScmFrame).RecomputeFrameSizes();
+                        ctrl.Click += new EventHandler(ctrl_Click);
+                    }
+                }
+                else
+                {
+                    if (ctrl is IScmContainer)
+                    {
+                        panelContainer.Controls.Add(ctrl);
+                        ctrl.Click += new EventHandler(ctrl_Click);
+                    }
+                }
+            }
+        }
+        
         #endregion
 
         #region Event Handlers

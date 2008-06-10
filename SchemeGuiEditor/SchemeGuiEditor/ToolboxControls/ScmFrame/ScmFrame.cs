@@ -7,12 +7,14 @@ using System.Text;
 using System.Windows.Forms;
 using SchemeGuiEditor.Services;
 using SchemeGuiEditor.Constants;
+using SchemeGuiEditor.Utils;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
     public partial class ScmFrame : UserControl ,IScmContainer
     {
         private ScmFrameProperties _scmProperties;
+
         public ScmFrame()
         {
             InitializeComponent();
@@ -32,9 +34,9 @@ namespace SchemeGuiEditor.ToolboxControls
         public void RecomputeFrameSizes()
         {
             Size s = layoutManagerContainer1.ComputeMinSize();
-            if (!_scmProperties.UseHeight)
+            if (_scmProperties.AutosizeHeight)
                 this.Height = s.Height;
-            if (!_scmProperties.UseWidth)
+            if (_scmProperties.AutosizeWidth)
                 this.Width = s.Width;
 
             if (_scmProperties.MinWidth > s.Width)
@@ -46,6 +48,7 @@ namespace SchemeGuiEditor.ToolboxControls
         }
 
         #region IScmControl Members
+        public event EventHandler<DataEventArgs<StrechDirection>> StrechChanged;
 
         public IScmControlProperties ScmPropertyObject
         {
@@ -54,12 +57,15 @@ namespace SchemeGuiEditor.ToolboxControls
         
         public void SetInitialProperties()
         {
-            _scmProperties.UseWidth = true;
-            _scmProperties.UseHeight = true;
+            _scmProperties.AutosizeWidth = false;
+            _scmProperties.AutosizeHeight = false;
             _scmProperties.Width = "300";
             _scmProperties.Height = "300";
+            _scmProperties.UseX = true;
+            _scmProperties.UseY = true;
+            _scmProperties.X = "0";
+            _scmProperties.Y = "0";
         }
-
         #endregion
 
         #region IScmContainer Members

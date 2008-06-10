@@ -31,6 +31,7 @@ namespace SchemeGuiEditor.Utils
         private Color BoxColor = Color.White;
         private Control _control;
         private Control _parentContainer;
+        private Control _parent;
         private List<Label> _lbls = new List<Label>();
         private int _startl;
         private int _startt;
@@ -77,9 +78,14 @@ namespace SchemeGuiEditor.Utils
                 if (_control != null)
                 {
                     _control.SizeChanged -= new EventHandler(_control_SizeChanged);
+                    _control.MarginChanged -= new EventHandler(_control_MarginChanged);
+                    _control.ParentChanged -= new EventHandler(_control_ParentChanged);
                 }
                 _control = newControl;
                 _control.SizeChanged += new EventHandler(_control_SizeChanged);
+                _control.ParentChanged += new EventHandler(_control_ParentChanged);
+                _control.MarginChanged += new EventHandler(_control_MarginChanged);
+                SetParent();
             }
             HideHandles();
             //Position sizing handles around Control
@@ -89,6 +95,32 @@ namespace SchemeGuiEditor.Utils
 
             oldCursor = _control.Cursor;
             _control.Cursor = Cursors.SizeAll;
+        }
+
+        void _control_MarginChanged(object sender, EventArgs e)
+        {
+            if (!_dragging)
+                MoveHandles();
+        }
+
+        void _control_ParentChanged(object sender, EventArgs e)
+        {
+            SetParent();
+        }
+
+        private void SetParent()
+        {
+            if (_parent != null)
+                _parent.LocationChanged -= new EventHandler(_parent_LocationChanged);
+            _parent = _control.Parent;
+            if (_parent != null)
+                _parent.LocationChanged += new EventHandler(_parent_LocationChanged);
+        }
+
+        void _parent_LocationChanged(object sender, EventArgs e)
+        {
+            if (!_dragging)
+                MoveHandles();
         }
 
         void _control_SizeChanged(object sender, EventArgs e)
@@ -176,34 +208,60 @@ namespace SchemeGuiEditor.Utils
 
         private bool ResizeAllowed(Label label)
         {
-            if (_control is ScmFrame)
+            IScmControlProperties ctrlProp = (_control as IScmControl).ScmPropertyObject;
+            if (ctrlProp.AutosizeHeight)
             {
-                ScmFrameProperties frameProp = (_control as ScmFrame).ScmPropertyObject as ScmFrameProperties;
-                if (!frameProp.UseHeight)
+                switch ((ControlPoint)label.Tag)
                 {
-                    switch ((ControlPoint)label.Tag)
-                    {
-                        case ControlPoint.Bottom:
-                        case ControlPoint.BottomLeft:
-                        case ControlPoint.BottomRight:
-                        case ControlPoint.Top:
-                        case ControlPoint.TopLeft:
-                        case ControlPoint.TopRight:
-                            return false;
-                    }
+                    case ControlPoint.Bottom:
+                    case ControlPoint.BottomLeft:
+                    case ControlPoint.BottomRight:
+                    case ControlPoint.Top:
+                    case ControlPoint.TopLeft:
+                    case ControlPoint.TopRight:
+                        return false;
                 }
-                if (!frameProp.UseWidth)
+            }
+
+            if (!(_control is ScmFrame) && ctrlProp.StretchableHeight)
+            {
+                switch ((ControlPoint)label.Tag)
                 {
-                    switch ((ControlPoint)label.Tag)
-                    {
-                        case ControlPoint.BottomLeft:
-                        case ControlPoint.BottomRight:
-                        case ControlPoint.Left:
-                        case ControlPoint.Right:
-                        case ControlPoint.TopLeft:
-                        case ControlPoint.TopRight:
-                            return false;
-                    }
+                    case ControlPoint.Bottom:
+                    case ControlPoint.BottomLeft:
+                    case ControlPoint.BottomRight:
+                    case ControlPoint.Top:
+                    case ControlPoint.TopLeft:
+                    case ControlPoint.TopRight:
+                        return false;
+                }
+            }
+
+            if (ctrlProp.AutosizeWidth)
+            {
+                switch ((ControlPoint)label.Tag)
+                {
+                    case ControlPoint.BottomLeft:
+                    case ControlPoint.BottomRight:
+                    case ControlPoint.Left:
+                    case ControlPoint.Right:
+                    case ControlPoint.TopLeft:
+                    case ControlPoint.TopRight:
+                        return false;
+                }
+            }
+
+            if (!(_control is ScmFrame) && ctrlProp.StretchableWidth)
+            {
+                switch ((ControlPoint)label.Tag)
+                {
+                    case ControlPoint.BottomLeft:
+                    case ControlPoint.BottomRight:
+                    case ControlPoint.Left:
+                    case ControlPoint.Right:
+                    case ControlPoint.TopLeft:
+                    case ControlPoint.TopRight:
+                        return false;
                 }
             }
             return true;
