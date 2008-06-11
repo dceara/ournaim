@@ -43,8 +43,8 @@ namespace SchemeGuiEditor.ToolboxControls
         private bool _autosizeHeight;
         private bool _forceDisplay;
         private List<ButtonPropNames> _parsedProperties;
-        private Dictionary<int, string> _parsedComments;
-        private Dictionary<int, string> _parsedScmBlocks;
+        private Dictionary<int, ScmComment> _parsedComments;
+        private Dictionary<int, ScmBlock> _parsedScmBlocks;
         #endregion
 
         public ScmButtonProperties(ScmButton button)
@@ -56,8 +56,8 @@ namespace SchemeGuiEditor.ToolboxControls
             _button.SizeChanged += new EventHandler(_button_SizeChanged);
             _button.MarginChanged += new EventHandler(_button_MarginChanged);
             _parsedProperties = new List<ButtonPropNames>();
-            _parsedComments = new Dictionary<int, string>();
-            _parsedScmBlocks = new Dictionary<int, string>();
+            _parsedComments = new Dictionary<int, ScmComment>();
+            _parsedScmBlocks = new Dictionary<int, ScmBlock>();
         }
                 
         #region INotifyPropertyChanged Members
@@ -72,6 +72,12 @@ namespace SchemeGuiEditor.ToolboxControls
         public IScmControl Control
         {
             get { return _button; }
+        }
+
+        public string ToScmCode()
+        {
+            string code = string.Format("(define {0}\n\t(new button%\n {1}))\n\n", this.Name, GetScmPropertiesCode());
+            return code;
         }
 
         #endregion
@@ -316,13 +322,13 @@ namespace SchemeGuiEditor.ToolboxControls
         #endregion
 
         #region Public Methods
-        public void SetScmComment(string comment)
+        public void SetScmComment(ScmComment comment)
         {
             _parsedProperties.Add(ButtonPropNames.ScmComment);
             _parsedComments.Add(_parsedProperties.Count - 1, comment);
         }
 
-        public void SetScmBlock(string scmBlock)
+        public void SetScmBlock(ScmBlock scmBlock)
         {
             _parsedProperties.Add(ButtonPropNames.ScmBlock);
             _parsedScmBlocks.Add(_parsedProperties.Count - 1, scmBlock);
@@ -333,11 +339,6 @@ namespace SchemeGuiEditor.ToolboxControls
             _parsedProperties.Add(propertyName);
         }
 
-        public string ToScmCode()
-        {
-            string code = string.Format("(define {0}\n\t(new button% {1}))", this.Name, GetScmPropertiesCode());
-            return code;
-        }
         #endregion
 
         #region Private methods
@@ -356,54 +357,56 @@ namespace SchemeGuiEditor.ToolboxControls
             switch (propName)
             {
                 case ButtonPropNames.Label:
-                    code = string.Format("\n\t\t(width {0})", this.Label);
+                    code = CodeGenerationUtils.Indent(string.Format("(width {0})", this.Label),2);
                     _forceDisplay = false;
                     break;
                 case ButtonPropNames.Parent:
-                    code = string.Format("\n\t\t(parent {0})", this.Parent);
+                    code = CodeGenerationUtils.Indent(string.Format("(parent {0})", this.Parent),2);
                     _forceDisplay = false;
                     break;
                 case ButtonPropNames.Enabled:
                     if (_forceDisplay || this.Enabled != true)
-                        code = string.Format("\n\t\t(enabled {0})", CodeGenerationUtils.ToScmBoolValue(this.Enabled));
+                        code = CodeGenerationUtils.Indent(string.Format("(enabled {0})", CodeGenerationUtils.ToScmBoolValue(this.Enabled)),2);
                     _forceDisplay = false;
                     break;
                 case ButtonPropNames.MinWidth:
                     if (_forceDisplay || this.MinWidth != 0)
-                        code = string.Format("\n\t\t(min-widtht {0})", this.MinWidth);
+                        code = CodeGenerationUtils.Indent(string.Format("(min-widtht {0})", this.MinWidth),2);
                     _forceDisplay = false;
                     break;
                 case ButtonPropNames.MinHeight:
                     if (_forceDisplay || this.MinHeight != 0)
-                        code = string.Format("\n\t\t(min-height {0})", this.MinHeight);
+                        code = CodeGenerationUtils.Indent(string.Format("(min-height {0})", this.MinHeight),2);
                     _forceDisplay = false;
                     break;
                 case ButtonPropNames.StrechWidth:
                     if (_forceDisplay || this.StretchableWidth != false)
-                        code = string.Format("\n\t\t(stretchable-width {0})", CodeGenerationUtils.ToScmBoolValue(this.StretchableWidth));
+                        code = CodeGenerationUtils.Indent(string.Format("(stretchable-width {0})",
+                            CodeGenerationUtils.ToScmBoolValue(this.StretchableWidth)),2);
                     _forceDisplay = false;
                     break;
                 case ButtonPropNames.StrechHeight:
                     if (_forceDisplay || this.StretchableHeight != false)
-                        code = string.Format("\n\t\t(stretchable-height {0})", CodeGenerationUtils.ToScmBoolValue(this.StretchableHeight));
+                        code = CodeGenerationUtils.Indent(string.Format("(stretchable-height {0})",
+                            CodeGenerationUtils.ToScmBoolValue(this.StretchableHeight)),2);
                     _forceDisplay = false;
                     break;
                 case ButtonPropNames.VerticalMargin:
                     if (_forceDisplay || this.VerticalMargin != 2)
-                        code = string.Format("\n\t\t(vert-margin {0})", this.VerticalMargin);
+                        code = CodeGenerationUtils.Indent(string.Format("(vert-margin {0})", this.VerticalMargin),2);
                     _forceDisplay = false;
                     break;
                 case ButtonPropNames.HorizontalMargin:
                     if (_forceDisplay || this.HorizontalMargin != 0)
-                        code = string.Format("\n\t\t(horiz-margin {0})", this.HorizontalMargin);
+                        code = CodeGenerationUtils.Indent(string.Format("(horiz-margin {0})", this.HorizontalMargin), 2);
                     _forceDisplay = false;
                     break;
                 case ButtonPropNames.ScmComment:
-                    code = string.Format("\n\t\t{0}", _parsedComments[index]);
+                    code = _parsedComments[index].ToScmCode(2);
                     _forceDisplay = true;
                     break;
                 case ButtonPropNames.ScmBlock:
-                    code = string.Format("\n\t\t{0}", _parsedScmBlocks[index]);
+                    code = _parsedScmBlocks[index].ToScmCode(2);
                     _forceDisplay = false;
                     break;
 
@@ -417,6 +420,8 @@ namespace SchemeGuiEditor.ToolboxControls
                 if (!_parsedProperties.Contains((ButtonPropNames)i))
                     _parsedProperties.Add((ButtonPropNames)i);
         }
+
+
 
         private void NotifyPropertyChanged()
         {

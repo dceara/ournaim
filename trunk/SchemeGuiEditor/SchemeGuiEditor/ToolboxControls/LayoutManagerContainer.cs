@@ -185,6 +185,18 @@ namespace SchemeGuiEditor.ToolboxControls
             }
             return new Size(width, height);
         }
+
+
+        public List<IScmControl> GetChildControls()
+        {
+            List<IScmControl> ctrls = new List<IScmControl>();
+
+            foreach (Control ctrl in tableLayoutPanel1.Controls)
+            {
+                ctrls.Add(ctrl.Controls[0] as IScmControl);
+            }
+            return ctrls;
+        }
         #endregion
 
         #region Private Methods
@@ -328,5 +340,6 @@ namespace SchemeGuiEditor.ToolboxControls
         }
                
         #endregion
+
     }
 }

@@ -56,8 +56,8 @@ namespace SchemeGuiEditor.ToolboxControls
         private bool _forceDisplay;
         private ScmFrameStyle _style;
         private List<FramePropNames> _parsedProperties;
-        private Dictionary<int,string> _parsedComments;
-        private Dictionary<int,string> _parsedScmBlocks;
+        private Dictionary<int,ScmComment> _parsedComments;
+        private Dictionary<int,ScmBlock> _parsedScmBlocks;
         #endregion
 
         public ScmFrameProperties(ScmFrame frame)
@@ -72,8 +72,8 @@ namespace SchemeGuiEditor.ToolboxControls
             _frame.SizeChanged += new EventHandler(_frame_SizeChanged);
             _frame.LocationChanged += new EventHandler(_frame_LocationChanged);
             _parsedProperties = new List<FramePropNames>();
-            _parsedComments = new Dictionary<int, string>();
-            _parsedScmBlocks = new Dictionary<int, string>();
+            _parsedComments = new Dictionary<int, ScmComment>();
+            _parsedScmBlocks = new Dictionary<int, ScmBlock>();
         }
 
         #region IScmControlProperties Members
@@ -84,6 +84,11 @@ namespace SchemeGuiEditor.ToolboxControls
             get { return _frame; }
         }
 
+        public string ToScmCode()
+        {
+            string code = string.Format("(define {0}\n\t(new frame% {1}))\n\n", this.Name, GetScmPropertiesCode());
+            return code;
+        }
         #endregion
 
         #region INotifyPropertyChanged Members
@@ -509,13 +514,13 @@ namespace SchemeGuiEditor.ToolboxControls
         #endregion
 
         #region Public Methods
-        public void SetScmComment(string comment)
+        public void SetScmComment(ScmComment comment)
         {
             _parsedProperties.Add(FramePropNames.ScmComment);
             _parsedComments.Add(_parsedProperties.Count - 1, comment);
         }
 
-        public void SetScmBlock(string scmBlock)
+        public void SetScmBlock(ScmBlock scmBlock)
         {
             _parsedProperties.Add(FramePropNames.ScmBlock);
             _parsedScmBlocks.Add(_parsedProperties.Count - 1, scmBlock);
@@ -538,18 +543,12 @@ namespace SchemeGuiEditor.ToolboxControls
                 return;
             }
             string str = "(" + name + " " + value + ")";
-            SetScmBlock(str);
+            SetScmBlock(new ScmBlock(str));
         }
 
         public void AddParesedProperty(FramePropNames propertyName)
         {
             _parsedProperties.Add(propertyName);
-        }
-
-        public string ToScmCode()
-        {
-            string code = string.Format("(define {0}\n\t(new frame% {1}))", this.Name, GetScmPropertiesCode());
-            return code;
         }
         #endregion
 
@@ -569,99 +568,101 @@ namespace SchemeGuiEditor.ToolboxControls
             switch (propName)
             {
                 case FramePropNames.Label:
-                    code = string.Format("\n\t\t(width {0})", this.Label);
+                    code = CodeGenerationUtils.Indent(string.Format("(width {0})", this.Label),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.Parent:
                     if (_forceDisplay || this.Parent != "")
-                        code = string.Format("\n\t\t(parent {0})", this.Parent);
+                        code = CodeGenerationUtils.Indent(string.Format("(parent {0})", this.Parent),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.Width:
                     if (_forceDisplay || this.AutosizeWidth != true)
                         if (this.AutosizeHeight == true)
-                            code = string.Format("\n\t\t(width {0})", CodeGenerationUtils.ToScmBoolValue(false));
+                            code = CodeGenerationUtils.Indent(string.Format("(width {0})", CodeGenerationUtils.ToScmBoolValue(false)),2);
                         else
-                            code = string.Format("\n\t\t(width {0})", this.Width);
+                            code = CodeGenerationUtils.Indent(string.Format("(width {0})", this.Width),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.Height:
                     if (_forceDisplay || this.AutosizeHeight != true)
                         if (this.AutosizeHeight == true)
-                            code = string.Format("\n\t\t(width {0})", CodeGenerationUtils.ToScmBoolValue(false));
+                            code = CodeGenerationUtils.Indent(string.Format("(width {0})", CodeGenerationUtils.ToScmBoolValue(false)),2);
                         else
-                            code = string.Format("\n\t\t(width {0})", this.Height);
+                            code = CodeGenerationUtils.Indent(string.Format("(width {0})", this.Height),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.X:
                     if (_forceDisplay || this.UseX != false)
                         if (this.UseX == false)
-                            code = string.Format("\n\t\t(x {0})", CodeGenerationUtils.ToScmBoolValue(false));
+                            code = CodeGenerationUtils.Indent(string.Format("(x {0})", CodeGenerationUtils.ToScmBoolValue(false)),2);
                         else
-                            code = string.Format("\n\t\t(x {0})", this.X);
+                            code = CodeGenerationUtils.Indent(string.Format("(x {0})", this.X),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.Y:
                     if (_forceDisplay || this.UseY != false)
                         if (this.UseY == false)
-                            code = string.Format("\n\t\t(y {0})", CodeGenerationUtils.ToScmBoolValue(false));
+                            code = CodeGenerationUtils.Indent(string.Format("(y {0})", CodeGenerationUtils.ToScmBoolValue(false)),2);
                         else
-                            code = string.Format("\n\t\t(y {0})", this.Y);
+                            code = CodeGenerationUtils.Indent(string.Format("(y {0})", this.Y),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.Style:
                     if (_forceDisplay || this.Style.HasDefaultValues())
-                        code = string.Format("\n\t\t(style \'{0})", this.Style.ToScmCode());
+                        code = CodeGenerationUtils.Indent(string.Format("(style \'{0})", this.Style.ToScmCode()),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.Enabled:
                     if (_forceDisplay || this.Enabled != true)
-                        code = string.Format("\n\t\t(enabled {0})", CodeGenerationUtils.ToScmBoolValue(this.Enabled));
+                        code = CodeGenerationUtils.Indent(string.Format("(enabled {0})", CodeGenerationUtils.ToScmBoolValue(this.Enabled)),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.Border:
                     if (_forceDisplay || this.Border != 0)
-                        code = string.Format("\n\t\t(border {0})", this.Border);
+                        code = CodeGenerationUtils.Indent(string.Format("(border {0})", this.Border),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.Spacing:
                     if (_forceDisplay || this.Spacing != 0)
-                        code = string.Format("\n\t\t(spacing {0})", this.Spacing);
+                        code = CodeGenerationUtils.Indent(string.Format("(spacing {0})", this.Spacing),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.Alignment:
                     if (_forceDisplay ||
                         this.Alignment.HorizontalAlignment != HorizontalAlign.Center ||
                         this.Alignment.VerticalAlignment != VerticalAlign.Top)
-                        code = string.Format("\n\t\t(alignment \'{0})", this.Alignment.ToScmCode());
+                        code = CodeGenerationUtils.Indent(string.Format("(alignment \'{0})", this.Alignment.ToScmCode()),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.MinWidth:
                     if (_forceDisplay || this.MinWidth != 0)
-                        code = string.Format("\n\t\t(min-widtht {0})", this.MinWidth);
+                        code = CodeGenerationUtils.Indent(string.Format("(min-widtht {0})", this.MinWidth),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.MinHeight:
                     if (_forceDisplay || this.MinHeight != 0)
-                        code = string.Format("\n\t\t(min-height {0})", this.MinHeight);
+                        code = CodeGenerationUtils.Indent(string.Format("(min-height {0})", this.MinHeight),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.StrechWidth:
                     if (_forceDisplay || this.StretchableWidth != true)
-                        code = string.Format("\n\t\t(stretchable-width {0})", CodeGenerationUtils.ToScmBoolValue(this.StretchableWidth));
+                        code = CodeGenerationUtils.Indent(string.Format("(stretchable-width {0})",
+                            CodeGenerationUtils.ToScmBoolValue(this.StretchableWidth)),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.StrechHeight:
                     if (_forceDisplay || this.StretchableHeight != true)
-                        code = string.Format("\n\t\t(stretchable-height {0})", CodeGenerationUtils.ToScmBoolValue(this.StretchableHeight));
+                        code = CodeGenerationUtils.Indent(string.Format("(stretchable-height {0})",
+                            CodeGenerationUtils.ToScmBoolValue(this.StretchableHeight)), 2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.ScmComment:
-                    code = string.Format("\n\t\t{0}", _parsedComments[index]);
+                    code = _parsedComments[index].ToScmCode(2);
                     _forceDisplay = true;
                     break;
                 case FramePropNames.ScmBlock:
-                    code = string.Format("\n\t\t{0}", _parsedScmBlocks[index]);
+                    code = _parsedScmBlocks[index].ToScmCode(2);
                     _forceDisplay = false;
                     break;
             }

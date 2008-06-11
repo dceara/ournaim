@@ -10,6 +10,7 @@ using SchemeGuiEditor.Utils;
 using Silver.UI;
 using SchemeGuiEditor.ToolboxControls;
 using SchemeGuiEditor.ParserComponents;
+using System.IO;
 
 namespace SchemeGuiEditor.Gui
 {
@@ -73,6 +74,65 @@ namespace SchemeGuiEditor.Gui
         #endregion
 
         #region Private Methods
+
+        private void SaveControlsData()
+        {
+            string scmCode = "";
+            FileStream stream = File.OpenWrite(_projectFile.FullPath);
+            StreamWriter writer = new StreamWriter(stream);
+
+            foreach (Control ctrl in panelContainer.Controls)
+            {
+                if (!(ctrl is IScmControl))
+                    continue;
+
+                scmCode += GetScmCode(ctrl as IScmControl);
+            }
+            writer.Write(scmCode);
+            writer.Close();
+            stream.Close();
+        }
+
+        private string GetScmCode(IScmControl ctrl)
+        {
+            string code = "";
+            IScmControlProperties scmContolProperties = ctrl.ScmPropertyObject;
+
+            if (_loadedItems.Contains(scmContolProperties))
+                code += GetPrecedingScmData(scmContolProperties);
+            code += scmContolProperties.ToScmCode();
+
+            if (ctrl is IScmContainer)
+            {
+                List<IScmControl> childControls = (ctrl as IScmContainer).LayoutManager.GetChildControls();
+                foreach (IScmControl child in childControls)
+                    code += GetScmCode(child);
+            }
+            return code;
+        }
+
+        private string GetPrecedingScmData(IScmControlProperties scmContolProperties)
+        {
+            string code = "";
+            int index = _loadedItems.IndexOf(scmContolProperties);
+            int startIndex = index - 1;
+
+            while (_loadedItems[startIndex] is ScmBlock || _loadedItems[startIndex] is ScmComment)
+                startIndex--;
+
+            for (int i = startIndex; i < index; i++)
+            {
+                if (_loadedItems[i] is ScmBlock)
+                {
+                    code += (_loadedItems[i] as ScmBlock).ToScmCode(0);
+                }
+                else
+                    code += (_loadedItems[i] as ScmComment).ToScmCode(0);
+            }
+
+            return code;
+        }
+
         private IScmContainer GetContainerAt(Point location)
         {
             foreach (Control ctrl in panelContainer.Controls)

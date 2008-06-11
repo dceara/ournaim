@@ -15,7 +15,6 @@ namespace SchemeGuiEditor.Gui
         {
             InitializeComponent();
             InitMenuItems();
-            this.HideOnClose = true;
             this.TabPageContextMenuStrip = contextMenuStripFloatingOptions;
         }
 

@@ -49,6 +49,7 @@ namespace SchemeGuiEditor.Gui
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(604, 520);
             this.Controls.Add(this.panelContainer);
+            this.HideOnClose = false;
             this.Name = "FormDesigner";
             this.TabText = "Form Designer";
             this.Text = "Form Designer";
