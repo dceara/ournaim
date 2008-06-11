@@ -58,6 +58,7 @@ namespace SchemeGuiEditor.Gui
             this.ClientSize = new System.Drawing.Size(341, 584);
             this.Controls.Add(this.comboBox);
             this.Controls.Add(this.propertyGrid);
+            this.HideOnClose = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PropertyWindow";
             this.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);

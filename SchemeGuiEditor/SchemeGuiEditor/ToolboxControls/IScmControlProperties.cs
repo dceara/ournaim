@@ -8,6 +8,7 @@ namespace SchemeGuiEditor.ToolboxControls
     public interface IScmControlProperties : INotifyPropertyChanged
     {
         IScmControl Control { get;}
+        string ToScmCode();
         string Name { get;}
         string Parent { get; }
         bool StretchableWidth { get;}

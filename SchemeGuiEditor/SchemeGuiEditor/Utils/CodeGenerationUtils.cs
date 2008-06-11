@@ -12,5 +12,14 @@ namespace SchemeGuiEditor.Utils
                 return "#t";
             else return "#f";
         }
+
+        public static string Indent(string str, int indent)
+        {
+            string code = "";
+            for (int i = 0; i < indent; i++)
+                code += "\t";
+            code += str + "\n";
+            return code;
+        }
     }
 }

@@ -202,7 +202,9 @@
     <Compile Include="ToolboxControls\LayoutManagerContainer.Designer.cs">
       <DependentUpon>LayoutManagerContainer.cs</DependentUpon>
     </Compile>
+    <Compile Include="ToolboxControls\ScmBlock.cs" />
     <Compile Include="ToolboxControls\ScmButtonProperties.cs" />
+    <Compile Include="ToolboxControls\ScmComment.cs" />
     <Compile Include="ToolboxControls\ScmFrame\ScmFrame.cs">
       <SubType>UserControl</SubType>
     </Compile>
