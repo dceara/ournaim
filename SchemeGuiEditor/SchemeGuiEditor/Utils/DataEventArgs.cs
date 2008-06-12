@@ -13,12 +13,12 @@ namespace SchemeGuiEditor.Utils
         /// </summary>
         /// <param name="data">Information related to the event.</param>
         /// <exception cref="ArgumentNullException">The data is null.</exception>
+        private DataEventArgs()
+        {
+        }
+
         public DataEventArgs(TData data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
             this.data = data;
         }
 

@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 D:\\Projects\\AntlrTestApps\\ScmGrammar.g 2008-06-11 02:02:18
+// $ANTLR 3.0.1 D:\\Projects\\AntlrTestApps\\ScmGrammar.g 2008-06-12 17:00:34
 namespace 
 	SchemeGuiEditor.ParserComponents
 
@@ -387,7 +387,7 @@ public class ScmGrammarParser : Parser
                     	com = comment();
                     	followingStackPointer_--;
 
-                    	_parsedData.Add(com);
+                    	_parsedData.Add(new ScmComment(com));
                     
                     }
                     break;
@@ -398,7 +398,7 @@ public class ScmGrammarParser : Parser
                     	pe = parExpr();
                     	followingStackPointer_--;
 
-                    	_parsedData.Add(pe);
+                    	_parsedData.Add(new ScmBlock(pe));
                     
                     }
                     break;
@@ -849,7 +849,7 @@ public class ScmGrammarParser : Parser
                     	width = scmWidthProp();
                     	followingStackPointer_--;
 
-                    	if (width != "#f") {frmProp.Width = width; frmProp.AutosizeWidth = false; frmProp.AddParesedProperty(FramePropNames.Width);}
+                    	if (width != "#f") { frmProp.AutosizeWidth = false; frmProp.Width = width; frmProp.AddParesedProperty(FramePropNames.Width);}
                     
                     }
                     break;
@@ -860,7 +860,7 @@ public class ScmGrammarParser : Parser
                     	height = scmHeightProp();
                     	followingStackPointer_--;
 
-                    	if (height != "#f") {frmProp.Height = height; frmProp.AutosizeHeight = false; frmProp.AddParesedProperty(FramePropNames.Height);}
+                    	if (height != "#f") {frmProp.AutosizeHeight = false; frmProp.Height = height; frmProp.AddParesedProperty(FramePropNames.Height);}
                     
                     }
                     break;
@@ -981,7 +981,7 @@ public class ScmGrammarParser : Parser
                     	comm = comment();
                     	followingStackPointer_--;
 
-                    	frmProp.SetScmComment(comm); 
+                    	frmProp.SetScmComment(new ScmComment(comm)); 
                     
                     }
                     break;
@@ -992,7 +992,7 @@ public class ScmGrammarParser : Parser
                     	pe = parExpr();
                     	followingStackPointer_--;
 
-                    	frmProp.SetScmBlock(pe); 
+                    	frmProp.SetScmBlock(new ScmBlock(pe)); 
                     
                     }
                     break;
@@ -1271,7 +1271,7 @@ public class ScmGrammarParser : Parser
                     	comm = comment();
                     	followingStackPointer_--;
 
-                    	btnProp.SetScmComment(comm); 
+                    	btnProp.SetScmComment(new ScmComment(comm)); 
                     
                     }
                     break;
@@ -1282,7 +1282,7 @@ public class ScmGrammarParser : Parser
                     	pe = parExpr();
                     	followingStackPointer_--;
 
-                    	btnProp.SetScmBlock(pe); 
+                    	btnProp.SetScmBlock(new ScmBlock(pe)); 
                     
                     }
                     break;
@@ -2449,7 +2449,7 @@ public class ScmGrammarParser : Parser
                     			    	pe = parExpr();
                     			    	followingStackPointer_--;
 
-                    			    	expr += "(" + pe + ") "; 
+                    			    	expr +=pe; 
                     			    
                     			    }
                     			    break;
@@ -2467,13 +2467,14 @@ public class ScmGrammarParser : Parser
                     		;	// Stops C# compiler whinging that label 'loop11' has no statements
 
                     	Match(input,RP,FOLLOW_RP_in_parExpr1422); 
+                    	expr =  "(" + expr + ")";
                     
                     }
                     break;
                 case 2 :
                     // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:213:4: op= operand
                     {
-                    	PushFollow(FOLLOW_operand_in_parExpr1432);
+                    	PushFollow(FOLLOW_operand_in_parExpr1434);
                     	op = operand();
                     	followingStackPointer_--;
 
@@ -2484,7 +2485,7 @@ public class ScmGrammarParser : Parser
                 case 3 :
                     // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:214:4: oa= opartors
                     {
-                    	PushFollow(FOLLOW_opartors_in_parExpr1443);
+                    	PushFollow(FOLLOW_opartors_in_parExpr1445);
                     	oa = opartors();
                     	followingStackPointer_--;
 
@@ -2556,7 +2557,7 @@ public class ScmGrammarParser : Parser
                     // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:218:4: i= ID
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,ID,FOLLOW_ID_in_operand1464); 
+                    	Match(input,ID,FOLLOW_ID_in_operand1466); 
                     	str =  i.Text; 
                     
                     }
@@ -2565,7 +2566,7 @@ public class ScmGrammarParser : Parser
                     // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:219:4: i= NUMBER
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,NUMBER,FOLLOW_NUMBER_in_operand1475); 
+                    	Match(input,NUMBER,FOLLOW_NUMBER_in_operand1477); 
                     	str =  i.Text; 
                     
                     }
@@ -2574,7 +2575,7 @@ public class ScmGrammarParser : Parser
                     // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:220:4: i= TRUE
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,TRUE,FOLLOW_TRUE_in_operand1486); 
+                    	Match(input,TRUE,FOLLOW_TRUE_in_operand1488); 
                     	str =  i.Text; 
                     
                     }
@@ -2583,7 +2584,7 @@ public class ScmGrammarParser : Parser
                     // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:221:4: i= FALSE
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,FALSE,FOLLOW_FALSE_in_operand1497); 
+                    	Match(input,FALSE,FOLLOW_FALSE_in_operand1499); 
                     	str =  i.Text; 
                     
                     }
@@ -2672,7 +2673,7 @@ public class ScmGrammarParser : Parser
                     // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:224:4: i= PLUS
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,PLUS,FOLLOW_PLUS_in_opartors1516); 
+                    	Match(input,PLUS,FOLLOW_PLUS_in_opartors1518); 
                     	str =  i.Text; 
                     
                     }
@@ -2681,7 +2682,7 @@ public class ScmGrammarParser : Parser
                     // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:225:4: i= MINUS
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,MINUS,FOLLOW_MINUS_in_opartors1527); 
+                    	Match(input,MINUS,FOLLOW_MINUS_in_opartors1529); 
                     	str =  i.Text; 
                     
                     }
@@ -2690,7 +2691,7 @@ public class ScmGrammarParser : Parser
                     // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:226:4: i= STAR
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,STAR,FOLLOW_STAR_in_opartors1538); 
+                    	Match(input,STAR,FOLLOW_STAR_in_opartors1540); 
                     	str =  i.Text; 
                     
                     }
@@ -2699,7 +2700,7 @@ public class ScmGrammarParser : Parser
                     // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:227:4: i= SLASH
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,SLASH,FOLLOW_SLASH_in_opartors1549); 
+                    	Match(input,SLASH,FOLLOW_SLASH_in_opartors1551); 
                     	str =  i.Text; 
                     
                     }
@@ -2708,7 +2709,7 @@ public class ScmGrammarParser : Parser
                     // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:228:4: i= LT
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,LT,FOLLOW_LT_in_opartors1560); 
+                    	Match(input,LT,FOLLOW_LT_in_opartors1562); 
                     	str =  i.Text; 
                     
                     }
@@ -2717,7 +2718,7 @@ public class ScmGrammarParser : Parser
                     // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:229:4: i= GT
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,GT,FOLLOW_GT_in_opartors1571); 
+                    	Match(input,GT,FOLLOW_GT_in_opartors1573); 
                     	str =  i.Text; 
                     
                     }
@@ -2726,7 +2727,7 @@ public class ScmGrammarParser : Parser
                     // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:230:4: i= EQ
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,EQ,FOLLOW_EQ_in_opartors1582); 
+                    	Match(input,EQ,FOLLOW_EQ_in_opartors1584); 
                     	str =  i.Text; 
                     
                     }
@@ -2735,7 +2736,7 @@ public class ScmGrammarParser : Parser
                     // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:231:4: i= QUOTE
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,QUOTE,FOLLOW_QUOTE_in_opartors1593); 
+                    	Match(input,QUOTE,FOLLOW_QUOTE_in_opartors1595); 
                     	str =  i.Text; 
                     
                     }
@@ -2771,7 +2772,7 @@ public class ScmGrammarParser : Parser
             // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:234:4: c= COMMENT
             {
             	c = (IToken)input.LT(1);
-            	Match(input,COMMENT,FOLLOW_COMMENT_in_comment1612); 
+            	Match(input,COMMENT,FOLLOW_COMMENT_in_comment1614); 
             	comm =  c.Text; 
             
             }
@@ -2942,21 +2943,21 @@ public class ScmGrammarParser : Parser
     public static readonly BitSet FOLLOW_LP_in_parExpr1409 = new BitSet(new ulong[]{0x000FFA0006800000UL});
     public static readonly BitSet FOLLOW_parExpr_in_parExpr1416 = new BitSet(new ulong[]{0x000FFA0007800000UL});
     public static readonly BitSet FOLLOW_RP_in_parExpr1422 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_operand_in_parExpr1432 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_opartors_in_parExpr1443 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_ID_in_operand1464 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_NUMBER_in_operand1475 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_TRUE_in_operand1486 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_FALSE_in_operand1497 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_PLUS_in_opartors1516 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_MINUS_in_opartors1527 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_STAR_in_opartors1538 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_SLASH_in_opartors1549 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LT_in_opartors1560 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_GT_in_opartors1571 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_EQ_in_opartors1582 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_QUOTE_in_opartors1593 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_COMMENT_in_comment1612 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_operand_in_parExpr1434 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_opartors_in_parExpr1445 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_ID_in_operand1466 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_NUMBER_in_operand1477 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_TRUE_in_operand1488 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_FALSE_in_operand1499 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_PLUS_in_opartors1518 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_MINUS_in_opartors1529 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_STAR_in_opartors1540 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_SLASH_in_opartors1551 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LT_in_opartors1562 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_GT_in_opartors1573 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_EQ_in_opartors1584 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_QUOTE_in_opartors1595 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_COMMENT_in_comment1614 = new BitSet(new ulong[]{0x0000000000000002UL});
 
 }
 }

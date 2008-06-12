@@ -35,7 +35,7 @@ namespace SchemeGuiEditor.Gui
         public void SelectItem(object item)
         {
             _throwEvent = false;
-            if (comboBox.Items.Contains(item))
+            if (item != null && comboBox.Items.Contains(item))
             {
                 comboBox.SelectedItem = item;
             }
@@ -44,6 +44,8 @@ namespace SchemeGuiEditor.Gui
                 FillCombo();
                 comboBox.SelectedItem = item;
             }
+            if (item == null)
+                comboBox_SelectedIndexChanged(this, EventArgs.Empty);
         }
 
         private int ComparePropertyObjects(IScmControlProperties obj1, IScmControlProperties obj2)

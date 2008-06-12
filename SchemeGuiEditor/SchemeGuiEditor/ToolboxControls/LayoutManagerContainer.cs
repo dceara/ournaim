@@ -87,21 +87,22 @@ namespace SchemeGuiEditor.ToolboxControls
             else
             {
                 int rowIndex;
-                if (tableLayoutPanel1.Controls.Count == 0)
+                Control nearestContainer = FindNearestContainer(clientPosition);
+                if (nearestContainer != null)
                 {
-                    rowIndex = 1;
-                }
-                else
-                {
-                    Control nearestContainer = FindNearestContainer(clientPosition);
                     rowIndex = tableLayoutPanel1.GetRow(nearestContainer);
-                    tableLayoutPanel1.RowCount += 1;
                     if (nearestContainer.Location.Y < clientPosition.Y)
                         rowIndex += 1;
-                    tableLayoutPanel1.RowStyles.Insert(rowIndex, new RowStyle(SizeType.AutoSize));
                 }
+                else
+                    rowIndex = 1;
+
+                tableLayoutPanel1.RowCount += 1;
+                tableLayoutPanel1.RowStyles.Insert(rowIndex, new RowStyle(SizeType.AutoSize));
+
                 Panel containerPanel = new Panel();
                 ctrl.Location = new Point(2, 2);
+                ctrl.Margin = new Padding(0, 0, 2, 2);
                 containerPanel.Margin = new Padding(0);
                 containerPanel.AutoSize = true;
                 containerPanel.BackColor = Color.Aquamarine;
@@ -110,7 +111,7 @@ namespace SchemeGuiEditor.ToolboxControls
                 for (int i = rowIndex; i < tableLayoutPanel1.RowCount - 2; i++)
                 {
                     Control cellControl = tableLayoutPanel1.GetControlFromPosition(1, i);
-                    tableLayoutPanel1.SetRow(cellControl, i+1);
+                    tableLayoutPanel1.SetRow(cellControl, i + 1);
                 }
                 tableLayoutPanel1.Controls.Add(containerPanel, 1, rowIndex);
                 IScmControlProperties ctrlProp = (ctrl as IScmControl).ScmPropertyObject;

@@ -29,15 +29,8 @@ namespace SchemeGuiEditor.Gui
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Toolbox));
-            this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.toolBox1 = new Silver.UI.ToolBox();
             this.SuspendLayout();
-            // 
-            // imageList
-            // 
-            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
-            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList.Images.SetKeyName(0, "Mouse.bmp");
             // 
             // toolBox1
             // 
@@ -91,7 +84,6 @@ namespace SchemeGuiEditor.Gui
 		}
 		#endregion
 
-        private System.Windows.Forms.ImageList imageList;
         private Silver.UI.ToolBox toolBox1;
     }
 }
