@@ -64,25 +64,17 @@ namespace SchemeGuiEditor.Gui
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Project");
-            this.imageList1.Images.SetKeyName(1, "FolderClosed");
-            this.imageList1.Images.SetKeyName(2, "FolderOpened");
+            this.imageList1.Images.SetKeyName(0, "FolderClosed");
+            this.imageList1.Images.SetKeyName(1, "FolderOpened");
+            this.imageList1.Images.SetKeyName(2, "Solution");
             this.imageList1.Images.SetKeyName(3, "SourceFile");
-            this.imageList1.Images.SetKeyName(4, "Projectold");
-            this.imageList1.Images.SetKeyName(5, "");
-            this.imageList1.Images.SetKeyName(6, "");
-            this.imageList1.Images.SetKeyName(7, "");
-            this.imageList1.Images.SetKeyName(8, "");
-            this.imageList1.Images.SetKeyName(9, "");
-            this.imageList1.Images.SetKeyName(10, "");
-            this.imageList1.Images.SetKeyName(11, "");
             // 
             // contextMenuStripProject
             // 
             this.contextMenuStripProject.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addToolStripMenuItem});
             this.contextMenuStripProject.Name = "contextMenuStrip1";
-            this.contextMenuStripProject.Size = new System.Drawing.Size(105, 26);
+            this.contextMenuStripProject.Size = new System.Drawing.Size(153, 48);
             // 
             // addToolStripMenuItem
             // 
@@ -91,26 +83,27 @@ namespace SchemeGuiEditor.Gui
             this.existingItemToolStripMenuItem,
             this.newFolderToolStripMenuItem});
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addToolStripMenuItem.Text = "Add";
             // 
             // newItemToolStripMenuItem
             // 
             this.newItemToolStripMenuItem.Name = "newItemToolStripMenuItem";
-            this.newItemToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.newItemToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newItemToolStripMenuItem.Text = "New Item";
             this.newItemToolStripMenuItem.Click += new System.EventHandler(this.newItemToolStripMenuItem_Click);
             // 
             // existingItemToolStripMenuItem
             // 
             this.existingItemToolStripMenuItem.Name = "existingItemToolStripMenuItem";
-            this.existingItemToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.existingItemToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.existingItemToolStripMenuItem.Text = "Existing Item";
+            this.existingItemToolStripMenuItem.Click += new System.EventHandler(this.existingItemToolStripMenuItem_Click);
             // 
             // newFolderToolStripMenuItem
             // 
             this.newFolderToolStripMenuItem.Name = "newFolderToolStripMenuItem";
-            this.newFolderToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.newFolderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newFolderToolStripMenuItem.Text = "New Folder";
             this.newFolderToolStripMenuItem.Click += new System.EventHandler(this.newFolderToolStripMenuItem_Click);
             // 

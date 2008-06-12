@@ -6,11 +6,19 @@ using System.Xml;
 
 namespace SchemeGuiEditor.Projects
 {
+    public enum ProjectType
+    {
+        EmptyProject,
+        WindowsApplication
+    }
+
     public class Project:ProjectItem
     {
-              
-        public Project(string name, string path):base(name,path)
+        private ProjectType _projectType;
+
+        public Project(string name, string path,ProjectType type):base(name,path)
         {
+            _projectType = type;
         }
 
         public string ProjectFileName

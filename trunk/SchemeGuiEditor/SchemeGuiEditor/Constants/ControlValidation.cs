@@ -11,5 +11,6 @@ namespace SchemeGuiEditor.Constants
         public const string InvalidFormat = "Value must be a number";
         public const string SizeValueInvalid = "Value must be between 0 and 10000";
         public const string LocationValueInvalid = "Value must be between -10000 and 10000";
+        public const string InvalidValue = "Invalid value";
     }
 }

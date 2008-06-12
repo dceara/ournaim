@@ -29,7 +29,7 @@ namespace SchemeGuiEditor
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Windows application", 0);
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Empty project", 0);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewProjectDialog));
             this.listView1 = new System.Windows.Forms.ListView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
@@ -47,21 +47,22 @@ namespace SchemeGuiEditor
             // listView1
             // 
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
+            listViewItem1});
             this.listView1.Location = new System.Drawing.Point(8, 31);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(471, 97);
             this.listView1.SmallImageList = this.imageList1;
-            this.listView1.TabIndex = 0;
+            this.listView1.TabIndex = 5;
             this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.SmallIcon;
+            this.listView1.View = System.Windows.Forms.View.List;
             // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "CSProject.ico");
+            this.imageList1.Images.SetKeyName(0, "solution.gif");
+            this.imageList1.Images.SetKeyName(1, "scheme.ico");
             // 
             // labelProjectType
             // 
@@ -86,7 +87,7 @@ namespace SchemeGuiEditor
             this.textBoxName.Location = new System.Drawing.Point(80, 153);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(331, 20);
-            this.textBoxName.TabIndex = 3;
+            this.textBoxName.TabIndex = 0;
             this.textBoxName.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
             // labelLocation
@@ -103,7 +104,7 @@ namespace SchemeGuiEditor
             this.textBoxLocation.Location = new System.Drawing.Point(80, 196);
             this.textBoxLocation.Name = "textBoxLocation";
             this.textBoxLocation.Size = new System.Drawing.Size(331, 20);
-            this.textBoxLocation.TabIndex = 5;
+            this.textBoxLocation.TabIndex = 1;
             this.textBoxLocation.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
             // buttonBrowse
@@ -111,7 +112,7 @@ namespace SchemeGuiEditor
             this.buttonBrowse.Location = new System.Drawing.Point(417, 196);
             this.buttonBrowse.Name = "buttonBrowse";
             this.buttonBrowse.Size = new System.Drawing.Size(62, 23);
-            this.buttonBrowse.TabIndex = 6;
+            this.buttonBrowse.TabIndex = 2;
             this.buttonBrowse.Text = "Browse";
             this.buttonBrowse.UseVisualStyleBackColor = true;
             this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
@@ -121,7 +122,7 @@ namespace SchemeGuiEditor
             this.buttonCancel.Location = new System.Drawing.Point(417, 268);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(62, 23);
-            this.buttonCancel.TabIndex = 7;
+            this.buttonCancel.TabIndex = 4;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
@@ -130,7 +131,7 @@ namespace SchemeGuiEditor
             this.buttonOK.Location = new System.Drawing.Point(349, 268);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(62, 23);
-            this.buttonOK.TabIndex = 8;
+            this.buttonOK.TabIndex = 3;
             this.buttonOK.Text = "OK";
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);

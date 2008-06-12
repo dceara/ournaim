@@ -80,6 +80,11 @@ namespace SchemeGuiEditor.ToolboxControls
             return code;
         }
 
+        [Browsable(false)]
+        public string DefaultControlName
+        {
+            get { return "Button"; }
+        }
         #endregion
 
         #region Properties
@@ -89,7 +94,11 @@ namespace SchemeGuiEditor.ToolboxControls
         public string Parent
         {
             get { return _parent; }
-            set { _parent = value; }
+            set 
+            {
+                _parent = value;
+                NotifyPropertyChanged();
+            }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryDesign)]
@@ -97,7 +106,14 @@ namespace SchemeGuiEditor.ToolboxControls
         public string Name
         {
             get { return _button.Name; }
-            set { _button.Name = value; }
+            set 
+            {
+                if (value == string.Empty)
+                {
+                    MessageService.ShowError(ControlValidation.InvalidValue);
+                    return;
+                }
+                _button.Name = value; }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryAppearance)]
@@ -357,7 +373,7 @@ namespace SchemeGuiEditor.ToolboxControls
             switch (propName)
             {
                 case ButtonPropNames.Label:
-                    code = CodeGenerationUtils.Indent(string.Format("(width {0})", this.Label),2);
+                    code = CodeGenerationUtils.Indent(string.Format("(label \"{0}\")", this.Label),2);
                     _forceDisplay = false;
                     break;
                 case ButtonPropNames.Parent:
@@ -371,7 +387,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     break;
                 case ButtonPropNames.MinWidth:
                     if (_forceDisplay || this.MinWidth != 0)
-                        code = CodeGenerationUtils.Indent(string.Format("(min-widtht {0})", this.MinWidth),2);
+                        code = CodeGenerationUtils.Indent(string.Format("(min-width {0})", this.MinWidth),2);
                     _forceDisplay = false;
                     break;
                 case ButtonPropNames.MinHeight:
@@ -397,7 +413,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     _forceDisplay = false;
                     break;
                 case ButtonPropNames.HorizontalMargin:
-                    if (_forceDisplay || this.HorizontalMargin != 0)
+                    if (_forceDisplay || this.HorizontalMargin != 2)
                         code = CodeGenerationUtils.Indent(string.Format("(horiz-margin {0})", this.HorizontalMargin), 2);
                     _forceDisplay = false;
                     break;
@@ -416,7 +432,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
         private void AddMissingProperties()
         {
-            for (int i = 1; i < 9; i++)    //iterate trough all posible properties
+            for (int i = 0; i < 9; i++)    //iterate trough all posible properties
                 if (!_parsedProperties.Contains((ButtonPropNames)i))
                     _parsedProperties.Add((ButtonPropNames)i);
         }

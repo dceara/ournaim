@@ -26,9 +26,20 @@ namespace SchemeGuiEditor
             set { textBoxLocation.Text = value; }
         }
 
+        public ProjectType ProjectType
+        {
+            get
+            {
+                if (listView1.SelectedItems.Count == 0)
+                    return ProjectType.EmptyProject;
+                return (ProjectType)listView1.SelectedItems[0].Tag;
+            }
+        }
+
         public NewProjectDialog()
         {
             InitializeComponent();
+            listView1.Items[0].Tag = ProjectType.EmptyProject;
         }
 
         private void NewProjectDialog_Load(object sender, EventArgs e)

@@ -20,6 +20,7 @@ namespace SchemeGuiEditor.Projects
         {
         }
 
+        #region Public Methods
         public static ProjectManager Instance
         {
             get
@@ -28,19 +29,21 @@ namespace SchemeGuiEditor.Projects
             }
         }
 
-        public bool CreateProject(string projectName, string projectPath)
+        public bool CreateProject(string projectName, string projectPath, ProjectType projectType)
         {
             string path = Path.Combine(projectPath, projectName);
-            _project = new Project(projectName,path);
+            _project = new Project(projectName,path,projectType);
            
             Directory.CreateDirectory(_project.ContainingFolder);
-            FileStream projectFile = File.Create(_project.ProjectFileName);
-            projectFile.Close();
+            using (FileStream projectFile = File.Create(_project.ProjectFileName)) { }
+            WriteProjectConfiguration();
 
-            AddNewProjectFile("Main"+ConstantNames.SourceFileExtension, _project);
+            if (projectType == ProjectType.WindowsApplication)
+                AddNewProjectFile("main"+ConstantNames.SourceFileExtension, _project);
 
             if (ProjectChanged != null)
                 ProjectChanged(this, new DataEventArgs<Project>(_project));
+
             return true;
         }
 
@@ -49,7 +52,7 @@ namespace SchemeGuiEditor.Projects
             XmlDocument doc = new XmlDocument();
             doc.Load(projectFileName);
             _project = new Project(Path.GetFileNameWithoutExtension(projectFileName),
-                Path.GetDirectoryName(projectFileName));
+                Path.GetDirectoryName(projectFileName),ProjectType.EmptyProject);
             _project.FromXml(doc.DocumentElement);
             _projectFileName = projectFileName;
             if (ProjectChanged != null)
@@ -65,8 +68,21 @@ namespace SchemeGuiEditor.Projects
                 return null;
 
             }
-            FileStream stream = File.Create(file.FullPath);
-            stream.Close();
+            using (FileStream stream = File.Create(file.FullPath)) { }
+            projectItem.Files.Add(file);
+            WriteProjectConfiguration();
+            return file;
+        }
+
+        public ProjectFile AddExistingProjectFile(string path, ProjectItem projectItem)
+        {
+            string fileName = Path.GetFileName(path);
+            string newPath = Path.Combine(projectItem.ContainingFolder, fileName);
+            if (newPath != path)
+            {
+                File.Copy(path, newPath, true);
+            }
+            ProjectFile file = new ProjectFile(fileName, projectItem.ContainingFolder);
             projectItem.Files.Add(file);
             WriteProjectConfiguration();
             return file;
@@ -85,28 +101,6 @@ namespace SchemeGuiEditor.Projects
             return dir;
         }
 
-        //public ProjectDirectory AddNewProjectDirectory(string name, ProjectItem projectItem)
-        //{
-        //    string dirPath = Path.Combine(projectItem.ContainingFolder,name);
-        //    if (Directory.Exists(dir.ContainingFolder))
-        //    {
-        //        MessageService.ShowError(Strings.ProjectAlreadyExists);
-        //        return null;
-        //    }
-        //    ProjectDirectory dir = new ProjectDirectory(name, dirPath);
-        //    projectItem.Directorys.Add(dir);
-        //    WriteProjectConfiguration();
-        //    return dir;
-        //}
-
-        private void WriteProjectConfiguration()
-        {
-            XmlDocument doc = new XmlDocument();
-            doc.AppendChild(_project.ToXml(doc));
-            doc.Save(_project.ProjectFileName);
-        }
-
-
         public bool Rename(string newName, ProjectDirectory dir)
         {
             if (newName == dir.Name)
@@ -124,5 +118,17 @@ namespace SchemeGuiEditor.Projects
             WriteProjectConfiguration();
             return true;
         }
+
+        #endregion
+
+        #region Private Methods
+        private void WriteProjectConfiguration()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.AppendChild(_project.ToXml(doc));
+            doc.Save(_project.ProjectFileName);
+        }
+
+        #endregion
     }
 }

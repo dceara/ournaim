@@ -48,6 +48,24 @@ namespace SchemeGuiEditor.Gui
             return _propertyObjects;
         }
 
+        public void SaveDesignerData()
+        {
+            string scmCode = "";
+            FileStream stream = File.Open(_projectFile.FullPath,FileMode.Create);
+            StreamWriter writer = new StreamWriter(stream);
+
+            foreach (Control ctrl in panelContainer.Controls)
+            {
+                if (!(ctrl is IScmControl))
+                    continue;
+
+                scmCode += GetScmCode(ctrl as IScmControl);
+            }
+            writer.Write(scmCode);
+            writer.Close();
+            stream.Close();
+        }
+
         public void SelectControl(Control ctrl,bool throwEvent)
         {
             if (_selectedColtrol != ctrl)
@@ -71,27 +89,15 @@ namespace SchemeGuiEditor.Gui
             ctrl.BringToFront();
             _pickBox.SelectControl(ctrl);
         }
+
+        public void DeleteSelectedControl()
+        {
+            if (_selectedColtrol != null)
+                DeleteControl(_selectedColtrol);
+        }
         #endregion
 
         #region Private Methods
-
-        private void SaveControlsData()
-        {
-            string scmCode = "";
-            FileStream stream = File.OpenWrite(_projectFile.FullPath);
-            StreamWriter writer = new StreamWriter(stream);
-
-            foreach (Control ctrl in panelContainer.Controls)
-            {
-                if (!(ctrl is IScmControl))
-                    continue;
-
-                scmCode += GetScmCode(ctrl as IScmControl);
-            }
-            writer.Write(scmCode);
-            writer.Close();
-            stream.Close();
-        }
 
         private string GetScmCode(IScmControl ctrl)
         {
@@ -115,10 +121,17 @@ namespace SchemeGuiEditor.Gui
         {
             string code = "";
             int index = _loadedItems.IndexOf(scmContolProperties);
-            int startIndex = index - 1;
+            int startIndex =0;
+            
+            if (index > 0)
+            {
+                startIndex = index - 1;
 
-            while (_loadedItems[startIndex] is ScmBlock || _loadedItems[startIndex] is ScmComment)
-                startIndex--;
+                while (_loadedItems[startIndex] is ScmBlock || _loadedItems[startIndex] is ScmComment)
+                    startIndex--;
+
+                startIndex++;
+            }
 
             for (int i = startIndex; i < index; i++)
             {
@@ -180,8 +193,49 @@ namespace SchemeGuiEditor.Gui
             }
         }
 
-        private void SaveDesignerData()
+        private void DeleteControl(Control _selectedColtrol)
         {
+            if (_selectedColtrol is IScmContainer)
+            {
+                List<IScmControl> childs = (_selectedColtrol as IScmContainer).LayoutManager.GetChildControls();
+                foreach (IScmControl ctrl in childs)
+                    DeleteControl(ctrl as Control);
+            }
+            _propertyObjects.Remove((_selectedColtrol as IScmControl).ScmPropertyObject);
+            if (_selectedColtrol is ScmFrame)
+                panelContainer.Controls.Remove(_selectedColtrol);
+            else
+            {
+                Control parent = _selectedColtrol.Parent;
+                IScmContainer container;
+                while (!(parent is IScmContainer))
+                    parent = parent.Parent;
+                container = parent as IScmContainer;
+                parent = _selectedColtrol.Parent;
+                container.LayoutManager.RemoveControl(_selectedColtrol);
+                container.LayoutManager.RemoveContainer(parent);
+            }
+            _pickBox.SelectControl(null);
+            if (SelectedItemChanged != null)
+                SelectedItemChanged(this, new DataEventArgs<object>(null));
+        }
+
+
+        private string GetDefaultName(IScmControlProperties iScmControlProperties)
+        {
+            string name = iScmControlProperties.DefaultControlName;
+            int i = 0;
+            bool exists = true;
+            MatchUtil matchUtil = new MatchUtil();
+
+            while (exists)
+            {
+                i++;
+                matchUtil.MatchString = name + i.ToString();
+                exists = _propertyObjects.Exists(new Predicate<IScmControlProperties>(matchUtil.Match));
+            }
+
+            return name + i.ToString();
         }
         #endregion
 
@@ -194,7 +248,11 @@ namespace SchemeGuiEditor.Gui
                 if (toolBoxItem.Object is Type)
                 {
                     Control ctrl = Activator.CreateInstance(toolBoxItem.Object as Type) as Control;
-                    (ctrl as IScmControl).SetInitialProperties();
+                    IScmControl scmCtrl = ctrl as IScmControl;
+                    scmCtrl.SetInitialProperties();
+                    string name = GetDefaultName(scmCtrl.ScmPropertyObject);
+                    scmCtrl.ScmPropertyObject.Name = name;
+                    scmCtrl.ScmPropertyObject.Label = name;
                     if (ctrl is ScmFrame)
                     {
                         panelContainer.Controls.Add(ctrl);
@@ -206,9 +264,10 @@ namespace SchemeGuiEditor.Gui
                         if (container == null)
                             return;
                         container.LayoutManager.AddControl(ctrl,new Point(e.X,e.Y));
+                        scmCtrl.ScmPropertyObject.Parent = container.ScmPropertyObject.Name;
                     }
                     ctrl.Click += new EventHandler(ctrl_Click);
-                    _propertyObjects.Add((ctrl as IScmControl).ScmPropertyObject);
+                    _propertyObjects.Add(scmCtrl.ScmPropertyObject);
                     SelectControl(ctrl,true);
                 }
             }
@@ -242,6 +301,7 @@ namespace SchemeGuiEditor.Gui
                 {
                     bool sameParent;
                     newParent.LayoutManager.AddControl(ctrl,panelContainer.PointToScreen(ctrl.Location),out sameParent);
+                    (ctrl as IScmControl).ScmPropertyObject.Parent = newParent.ScmPropertyObject.Name;
                     if (!sameParent)
                         _startContainer.LayoutManager.RemoveContainer(_startParent);
                 }
@@ -287,7 +347,30 @@ namespace SchemeGuiEditor.Gui
         {
             SelectControl(sender as Control,true);
         }
-        #endregion
 
+        #endregion
+    }
+
+    public class MatchUtil
+    {
+        private string _matchString;
+
+        public string MatchString
+        {
+            get { return _matchString; }
+            set { _matchString = value; }
+        }
+
+        public Predicate<IScmControlProperties> Match
+        {
+            get { return IsMatch; }
+        }
+
+        private bool IsMatch(IScmControlProperties properties)
+        {
+            if (properties.Name == MatchString)
+                return true;
+            return false;
+        }
     }
 }

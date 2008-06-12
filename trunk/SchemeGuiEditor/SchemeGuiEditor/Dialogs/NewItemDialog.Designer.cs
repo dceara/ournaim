@@ -29,8 +29,7 @@ namespace SchemeGuiEditor.Dialogs
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Code file", 0);
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Windows form", 0);
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Code file", 0);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewItemDialog));
             this.label1 = new System.Windows.Forms.Label();
             this.buttonOK = new System.Windows.Forms.Button();
@@ -58,7 +57,7 @@ namespace SchemeGuiEditor.Dialogs
             this.buttonOK.Location = new System.Drawing.Point(349, 271);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(62, 23);
-            this.buttonOK.TabIndex = 17;
+            this.buttonOK.TabIndex = 1;
             this.buttonOK.Text = "OK";
             this.buttonOK.UseVisualStyleBackColor = true;
             // 
@@ -67,7 +66,7 @@ namespace SchemeGuiEditor.Dialogs
             this.buttonCancel.Location = new System.Drawing.Point(417, 271);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(62, 23);
-            this.buttonCancel.TabIndex = 16;
+            this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
@@ -76,8 +75,9 @@ namespace SchemeGuiEditor.Dialogs
             this.textBoxName.Location = new System.Drawing.Point(80, 222);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(331, 20);
-            this.textBoxName.TabIndex = 13;
+            this.textBoxName.TabIndex = 0;
             this.textBoxName.TextChanged += new System.EventHandler(this.textBoxName_TextChanged);
+            this.textBoxName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxName_KeyDown);
             // 
             // labelName
             // 
@@ -100,8 +100,7 @@ namespace SchemeGuiEditor.Dialogs
             // listViewTemplates
             // 
             this.listViewTemplates.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3,
-            listViewItem4});
+            listViewItem2});
             this.listViewTemplates.Location = new System.Drawing.Point(8, 34);
             this.listViewTemplates.MultiSelect = false;
             this.listViewTemplates.Name = "listViewTemplates";
@@ -115,7 +114,7 @@ namespace SchemeGuiEditor.Dialogs
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "CSProject.ico");
+            this.imageList1.Images.SetKeyName(0, "file.gif");
             // 
             // NewItemDialog
             // 

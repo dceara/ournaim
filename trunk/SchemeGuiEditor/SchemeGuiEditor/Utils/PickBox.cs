@@ -73,6 +73,18 @@ namespace SchemeGuiEditor.Utils
         #region Public methods
         public void SelectControl(Control newControl)
         {
+            if (newControl == null)
+            {
+                if (_control != null)
+                {
+                    _control.SizeChanged -= new EventHandler(_control_SizeChanged);
+                    _control.MarginChanged -= new EventHandler(_control_MarginChanged);
+                    _control.ParentChanged -= new EventHandler(_control_ParentChanged);
+                }
+                _control = newControl;
+                HideHandles();
+                return;
+            }
             if (_control != newControl)
             {
                 if (_control != null)
@@ -97,17 +109,6 @@ namespace SchemeGuiEditor.Utils
             _control.Cursor = Cursors.SizeAll;
         }
 
-        void _control_MarginChanged(object sender, EventArgs e)
-        {
-            if (!_dragging)
-                MoveHandles();
-        }
-
-        void _control_ParentChanged(object sender, EventArgs e)
-        {
-            SetParent();
-        }
-
         private void SetParent()
         {
             if (_parent != null)
@@ -115,18 +116,6 @@ namespace SchemeGuiEditor.Utils
             _parent = _control.Parent;
             if (_parent != null)
                 _parent.LocationChanged += new EventHandler(_parent_LocationChanged);
-        }
-
-        void _parent_LocationChanged(object sender, EventArgs e)
-        {
-            if (!_dragging)
-                MoveHandles();
-        }
-
-        void _control_SizeChanged(object sender, EventArgs e)
-        {
-            if (!_dragging)
-                MoveHandles();
         }
 
         // Get mouse pointer starting position on mouse down and hide sizing handles
@@ -192,6 +181,30 @@ namespace SchemeGuiEditor.Utils
         #endregion
 
         #region Event Handlers
+
+        void _control_MarginChanged(object sender, EventArgs e)
+        {
+            if (!_dragging)
+                MoveHandles();
+        }
+
+        void _control_ParentChanged(object sender, EventArgs e)
+        {
+            SetParent();
+        }
+
+        void _parent_LocationChanged(object sender, EventArgs e)
+        {
+            if (!_dragging)
+                MoveHandles();
+        }
+
+        void _control_SizeChanged(object sender, EventArgs e)
+        {
+            if (!_dragging)
+                MoveHandles();
+        }
+
         // Store control position and size when mouse button pushed over any sizing handle
         private void lbl_MouseDown(object sender, MouseEventArgs e)
         {

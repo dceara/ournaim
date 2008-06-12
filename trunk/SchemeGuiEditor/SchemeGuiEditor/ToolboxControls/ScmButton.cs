@@ -15,7 +15,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
         public ScmButton()
         {
-            this.Margin = new Padding(0);
+            this.Margin = new Padding(2);
             this.Height = 20;
             _scmProperties = new ScmButtonProperties(this);
         }

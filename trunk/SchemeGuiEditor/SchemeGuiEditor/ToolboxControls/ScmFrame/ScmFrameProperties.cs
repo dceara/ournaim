@@ -63,6 +63,7 @@ namespace SchemeGuiEditor.ToolboxControls
         public ScmFrameProperties(ScmFrame frame)
         {
             _frame = frame;
+            _parent = "";
             _enabled = true;
             _stretchableHeight = true;
             _stretchableWidth = true;
@@ -86,8 +87,13 @@ namespace SchemeGuiEditor.ToolboxControls
 
         public string ToScmCode()
         {
-            string code = string.Format("(define {0}\n\t(new frame% {1}))\n\n", this.Name, GetScmPropertiesCode());
+            string code = string.Format("(define {0}\n\t(new frame%\n {1}))\n\n", this.Name, GetScmPropertiesCode());
             return code;
+        }
+        
+        public string DefaultControlName
+        {
+            get { return "Frame"; }
         }
         #endregion
 
@@ -568,7 +574,7 @@ namespace SchemeGuiEditor.ToolboxControls
             switch (propName)
             {
                 case FramePropNames.Label:
-                    code = CodeGenerationUtils.Indent(string.Format("(width {0})", this.Label),2);
+                    code = CodeGenerationUtils.Indent(string.Format("(label \"{0}\")", this.Label),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.Parent:
@@ -587,9 +593,9 @@ namespace SchemeGuiEditor.ToolboxControls
                 case FramePropNames.Height:
                     if (_forceDisplay || this.AutosizeHeight != true)
                         if (this.AutosizeHeight == true)
-                            code = CodeGenerationUtils.Indent(string.Format("(width {0})", CodeGenerationUtils.ToScmBoolValue(false)),2);
+                            code = CodeGenerationUtils.Indent(string.Format("(height {0})", CodeGenerationUtils.ToScmBoolValue(false)),2);
                         else
-                            code = CodeGenerationUtils.Indent(string.Format("(width {0})", this.Height),2);
+                            code = CodeGenerationUtils.Indent(string.Format("(height {0})", this.Height), 2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.X:
@@ -609,7 +615,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     _forceDisplay = false;
                     break;
                 case FramePropNames.Style:
-                    if (_forceDisplay || this.Style.HasDefaultValues())
+                    if (_forceDisplay || !this.Style.HasDefaultValues())
                         code = CodeGenerationUtils.Indent(string.Format("(style \'{0})", this.Style.ToScmCode()),2);
                     _forceDisplay = false;
                     break;
@@ -671,7 +677,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
         private void AddMissingProperties()
         {
-            for (int i = 0; i < 16; i++)    //iterate trough all posible properties
+            for (int i = 0; i < 15; i++)    //iterate trough all posible properties
                 if (!_parsedProperties.Contains((FramePropNames)i))
                     _parsedProperties.Add((FramePropNames)i);
         }

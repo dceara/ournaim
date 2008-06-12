@@ -30,5 +30,11 @@ namespace SchemeGuiEditor.Dialogs
             else
                 buttonOK.Enabled = false;
         }
+
+        private void textBoxName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                buttonOK.PerformClick();
+        }
     }
 }

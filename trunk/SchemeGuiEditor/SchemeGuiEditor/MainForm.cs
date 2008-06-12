@@ -189,7 +189,7 @@ namespace SchemeGuiEditor
         {
             NewProjectDialog newProjectDialog = new NewProjectDialog();
             if (newProjectDialog.ShowDialog() == DialogResult.OK)
-                ProjectManager.Instance.CreateProject(newProjectDialog.ProjectName, newProjectDialog.ProjectLocation);
+                ProjectManager.Instance.CreateProject(newProjectDialog.ProjectName, newProjectDialog.ProjectLocation,newProjectDialog.ProjectType);
         }
 
         private void menuItemOpenProject_Click(object sender, EventArgs e)
@@ -273,28 +273,6 @@ namespace SchemeGuiEditor
             statusBar.Visible = menuItemStatusBar.Checked = !menuItemStatusBar.Checked;
         }
 
-        private void toolBar_ButtonClick(object sender, System.Windows.Forms.ToolStripItemClickedEventArgs e)
-        {
-            if (e.ClickedItem == toolBarButtonNew)
-                menuItemNew_Click(null, null);
-            else if (e.ClickedItem == toolBarButtonOpen)
-                menuItemOpen_Click(null, null);
-            else if (e.ClickedItem == toolBarButtonSolutionExplorer)
-                menuItemSolutionExplorer_Click(null, null);
-            else if (e.ClickedItem == toolBarButtonPropertyWindow)
-                menuItemPropertyWindow_Click(null, null);
-            else if (e.ClickedItem == toolBarButtonToolbox)
-                menuItemToolbox_Click(null, null);
-            else if (e.ClickedItem == toolBarButtonOutputWindow)
-                menuItemOutputWindow_Click(null, null);
-            else if (e.ClickedItem == toolBarButtonTaskList)
-                menuItemTaskList_Click(null, null);
-            else if (e.ClickedItem == toolBarButtonLayoutByCode)
-                menuItemLayoutByCode_Click(null, null);
-            else if (e.ClickedItem == toolBarButtonLayoutByXml)
-                menuItemLayoutByXml_Click(null, null);
-        }
-
         private void menuItemNewWindow_Click(object sender, System.EventArgs e)
         {
             MainForm newWindow = new MainForm();
@@ -302,125 +280,21 @@ namespace SchemeGuiEditor
             newWindow.Show();
         }
 
-        private void menuItemTools_Popup(object sender, System.EventArgs e)
-        {
-            menuItemLockLayout.Checked = !this.dockPanel.AllowEndUserDocking;
-        }
-
-        private void menuItemLockLayout_Click(object sender, System.EventArgs e)
-        {
-            dockPanel.AllowEndUserDocking = !dockPanel.AllowEndUserDocking;
-        }
-
-        private void menuItemLayoutByCode_Click(object sender, System.EventArgs e)
-        {
-        }
-
-        private void menuItemLayoutByXml_Click(object sender, System.EventArgs e)
-        {
-        }
-
-        private void CloseAllContents()
-        {
-        }
-
-        private void SetSchema(object sender, System.EventArgs e)
-        {
-            CloseAllContents();
-
-            menuItemSchemaVS2005.Checked = (sender == menuItemSchemaVS2005);
-            menuItemSchemaVS2003.Checked = (sender == menuItemSchemaVS2003);
-        }
-
-        private void SetDocumentStyle(object sender, System.EventArgs e)
-        {
-            DocumentStyle oldStyle = dockPanel.DocumentStyle;
-            DocumentStyle newStyle;
-            if (sender == menuItemDockingMdi)
-                newStyle = DocumentStyle.DockingMdi;
-            else if (sender == menuItemDockingWindow)
-                newStyle = DocumentStyle.DockingWindow;
-            else if (sender == menuItemDockingSdi)
-                newStyle = DocumentStyle.DockingSdi;
-            else
-                newStyle = DocumentStyle.SystemMdi;
-
-            if (oldStyle == newStyle)
-                return;
-
-            if (oldStyle == DocumentStyle.SystemMdi || newStyle == DocumentStyle.SystemMdi)
-                CloseAllDocuments();
-
-            dockPanel.DocumentStyle = newStyle;
-            menuItemDockingMdi.Checked = (newStyle == DocumentStyle.DockingMdi);
-            menuItemDockingWindow.Checked = (newStyle == DocumentStyle.DockingWindow);
-            menuItemDockingSdi.Checked = (newStyle == DocumentStyle.DockingSdi);
-            menuItemSystemMdi.Checked = (newStyle == DocumentStyle.SystemMdi);
-            menuItemLayoutByCode.Enabled = (newStyle != DocumentStyle.SystemMdi);
-            menuItemLayoutByXml.Enabled = (newStyle != DocumentStyle.SystemMdi);
-            toolBarButtonLayoutByCode.Enabled = (newStyle != DocumentStyle.SystemMdi);
-            toolBarButtonLayoutByXml.Enabled = (newStyle != DocumentStyle.SystemMdi);
-        }
-
-        private void menuItemCloseAllButThisOne_Click(object sender, System.EventArgs e)
-        {
-            if (dockPanel.DocumentStyle == DocumentStyle.SystemMdi)
-            {
-                Form activeMdi = ActiveMdiChild;
-                foreach (Form form in MdiChildren)
-                {
-                    if (form != activeMdi)
-                        form.Close();
-                }
-            }
-            else
-            {
-                foreach (IDockContent document in dockPanel.DocumentsToArray())
-                {
-                    if (!document.DockHandler.IsActivated)
-                        document.DockHandler.Close();
-                }
-            }
-        }
-
-        private void menuItemShowDocumentIcon_Click(object sender, System.EventArgs e)
-        {
-            dockPanel.ShowDocumentIcon = menuItemShowDocumentIcon.Checked = !menuItemShowDocumentIcon.Checked;
-        }
-
-        private void showRightToLeft_Click(object sender, EventArgs e)
-        {
-            CloseAllContents();
-            if (showRightToLeft.Checked)
-            {
-                this.RightToLeft = RightToLeft.No;
-                this.RightToLeftLayout = false;
-            }
-            else
-            {
-                this.RightToLeft = RightToLeft.Yes;
-                this.RightToLeftLayout = true;
-            }
-           // m_solutionExplorer.RightToLeftLayout = this.RightToLeftLayout;
-            showRightToLeft.Checked = !showRightToLeft.Checked;
-        }
-
-        private void exitWithoutSavingLayout_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void toolBarButtonOpen_Click(object sender, EventArgs e)
         {
             OpenProject();
         }
 
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            (_activeToolWindow as FormDesigner).SaveDesignerData();
+        }
 
-
-
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+                (_activeToolWindow as FormDesigner).DeleteSelectedControl();
+        }
+                        
     }
 }

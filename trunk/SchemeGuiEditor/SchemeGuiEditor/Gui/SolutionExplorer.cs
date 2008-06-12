@@ -24,15 +24,7 @@ namespace SchemeGuiEditor.Gui
             ProjectManager.Instance.ProjectChanged += new EventHandler<DataEventArgs<Project>>(Instance_ProjectChanged);
         }
 
-        void Instance_ProjectChanged(object sender, DataEventArgs<Project> e)
-        {
-            projectTreeView.Nodes.Clear();
-            TreeNode node = CreateTreeNode(e.Data);
-            node.ImageKey = GuiConstants.ImageSolution;
-            node.SelectedImageKey = GuiConstants.ImageSolution;
-            projectTreeView.Nodes.Add(node);
-        }
-
+        #region Private Methods
         private TreeNode CreateTreeNode(ProjectItem projectItem)
         {
             TreeNode node = new TreeNode(projectItem.Name);
@@ -59,13 +51,25 @@ namespace SchemeGuiEditor.Gui
             node.Tag = projectFile;
             return node;
         }
+        #endregion
 
-        private void projectTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        #region Event Handlers
+        void Instance_ProjectChanged(object sender, DataEventArgs<Project> e)
+        {
+            projectTreeView.Nodes.Clear();
+            TreeNode node = CreateTreeNode(e.Data);
+            node.ImageKey = GuiConstants.ImageSolution;
+            node.SelectedImageKey = GuiConstants.ImageSolution;
+            node.Expand();
+            projectTreeView.Nodes.Add(node);
+        }
+
+        void projectTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             projectTreeView.SelectedNode = e.Node;
         }
 
-        private void projectTreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        void projectTreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
             if (e.Node.Tag is ProjectItem)
             {
@@ -78,7 +82,7 @@ namespace SchemeGuiEditor.Gui
             }
         }
 
-        private void projectTreeView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        void projectTreeView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
             if (e.Node.Tag is ProjectDirectory)
             {
@@ -87,7 +91,7 @@ namespace SchemeGuiEditor.Gui
             }
         }
 
-        private void projectTreeView_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
+        void projectTreeView_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
         {
             if (e.Node.Tag is ProjectDirectory)
             {
@@ -96,7 +100,7 @@ namespace SchemeGuiEditor.Gui
             }
         }
 
-        private void projectTreeView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        void projectTreeView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
             if (e.Node.Tag is ProjectDirectory)
             {
@@ -106,7 +110,7 @@ namespace SchemeGuiEditor.Gui
             }
         }
 
-        private void newFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        void newFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ProjectItem projectItem = projectTreeView.SelectedNode.Tag as ProjectItem;
             ProjectDirectory newDir = ProjectManager.Instance.AddNewProjectDirectory(projectItem);
@@ -118,7 +122,7 @@ namespace SchemeGuiEditor.Gui
             newNode.BeginEdit();
         }
 
-        private void newItemToolStripMenuItem_Click(object sender, EventArgs e)
+        void newItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NewItemDialog newItemDialog = new NewItemDialog();
             if (newItemDialog.ShowDialog() == DialogResult.OK)
@@ -126,14 +130,16 @@ namespace SchemeGuiEditor.Gui
                 ProjectItem projectItem = projectTreeView.SelectedNode.Tag as ProjectItem;
                 ProjectFile file = ProjectManager.Instance.AddNewProjectFile(
                     newItemDialog.FileName + ConstantNames.SourceFileExtension, projectItem);
-                TreeNode newNode = CreateTreeNode(file);
-                projectTreeView.SelectedNode.Nodes.Add(newNode);
-
+                if (file != null)
+                {
+                    TreeNode newNode = CreateTreeNode(file);
+                    projectTreeView.SelectedNode.Nodes.Add(newNode);
+                    projectTreeView.SelectedNode.Expand();
+                }
             }
-
         }
 
-        private void projectTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        void projectTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (!(e.Node.Tag is ProjectFile))
                 return;
@@ -141,9 +147,21 @@ namespace SchemeGuiEditor.Gui
             ProjectFile currentFile = e.Node.Tag as ProjectFile;
             if (OpenFile!=null)
                 OpenFile(this,new DataEventArgs<ProjectFile>(currentFile));
-            
+
         }
 
-
+        private void existingItemToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Scheme files (*.scm, *.ss)| *.scm ; *.ss";
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                ProjectItem projectItem = projectTreeView.SelectedNode.Tag as ProjectItem;
+                ProjectFile file = ProjectManager.Instance.AddExistingProjectFile(ofd.FileName,projectItem);
+                TreeNode newNode = CreateTreeNode(file);
+                projectTreeView.SelectedNode.Nodes.Add(newNode);
+            }
+        }
+        #endregion
     }
 }
