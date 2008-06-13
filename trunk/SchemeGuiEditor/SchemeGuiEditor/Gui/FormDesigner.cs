@@ -17,6 +17,7 @@ namespace SchemeGuiEditor.Gui
     public partial class FormDesigner : ToolWindow
     {
         public event EventHandler<DataEventArgs<Object>> SelectedItemChanged;
+        public event EventHandler DesignerClosed;
 
         #region Private Members
         private ProjectFile _projectFile;
@@ -40,6 +41,11 @@ namespace SchemeGuiEditor.Gui
             this.Text = projectFile.Name;
             this.TabText = projectFile.Name;
             DisplayScmControls();
+        }
+
+        public string DesignerName
+        {
+            get { return _projectFile.Name; }
         }
                
         #region Public Methods
@@ -348,6 +354,11 @@ namespace SchemeGuiEditor.Gui
             SelectControl(sender as Control,true);
         }
 
+        private void FormDesigner_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (DesignerClosed != null)
+                DesignerClosed(this, EventArgs.Empty);
+        }
         #endregion
     }
 
