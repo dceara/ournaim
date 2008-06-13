@@ -102,7 +102,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
                 Panel containerPanel = new Panel();
                 ctrl.Location = new Point(2, 2);
-                ctrl.Margin = new Padding(0, 0, 2, 2);
+                //ctrl.Margin = new Padding(0, 0, 2, 2);
                 containerPanel.Margin = new Padding(0);
                 containerPanel.AutoSize = true;
                 containerPanel.BackColor = Color.Aquamarine;
@@ -129,6 +129,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
         void LayoutManagerContainer_SizeChanged(object sender, EventArgs e)
         {
+
             if (ContentSizeChanged != null)
                 ContentSizeChanged(this, EventArgs.Empty);
         }
@@ -180,7 +181,13 @@ namespace SchemeGuiEditor.ToolboxControls
 
             foreach (Control ctrl in tableLayoutPanel1.Controls)
             {
-                height += ctrl.Height + 2;
+                int rowIndex = tableLayoutPanel1.GetRow(ctrl);
+                if (tableLayoutPanel1.RowStyles[rowIndex].SizeType == SizeType.Percent)
+                {
+
+                }
+                else
+                    height += ctrl.Height + 2;
                 if (ctrl.Width > width && tableLayoutPanel1.GetColumnSpan(ctrl) == 1)
                     width = ctrl.Width + 8;
             }
@@ -305,6 +312,8 @@ namespace SchemeGuiEditor.ToolboxControls
             RowStyle rowStyle = tableLayoutPanel1.RowStyles[row];
             if (rowStyle.SizeType == SizeType.AutoSize)
             {
+                ctrl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Bottom;
+                pnl.Dock = DockStyle.Fill;
                 rowStyle.SizeType = SizeType.Percent;
                 rowStyle.Height = 100;
                 if (_strechRowCount == 0)
@@ -316,6 +325,8 @@ namespace SchemeGuiEditor.ToolboxControls
             }
             else
             {
+                pnl.Dock = DockStyle.None;
+                ctrl.Anchor = AnchorStyles.Left | AnchorStyles.Top;
                 rowStyle.SizeType = SizeType.AutoSize;
                 _strechRowCount--;
                 if (_strechRowCount == 0)

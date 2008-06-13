@@ -150,6 +150,7 @@ namespace SchemeGuiEditor
                 FormDesigner designer = new FormDesigner(e.Data);
                 _formDesigners.Add(e.Data.Name, designer);
                 designer.SelectedItemChanged += new EventHandler<DataEventArgs<object>>(designer_SelectedItemChanged);
+                designer.DesignerClosed += new EventHandler(designer_DesignerClosed);
                 designer.Show(dockPanel, DockState.Document);
             }
             else
@@ -158,7 +159,15 @@ namespace SchemeGuiEditor
             }
         }
 
-        void _propertyWindow_SelectedControlChanged(object sender, DataEventArgs<IScmControl> e)
+        private void designer_DesignerClosed(object sender, EventArgs e)
+        {
+            FormDesigner designer = sender as FormDesigner;
+            designer.SelectedItemChanged -= new EventHandler<DataEventArgs<object>>(designer_SelectedItemChanged);
+            designer.DesignerClosed -= new EventHandler(designer_DesignerClosed);
+            _formDesigners.Remove(designer.DesignerName);
+        }
+
+        private void _propertyWindow_SelectedControlChanged(object sender, DataEventArgs<IScmControl> e)
         {
             if (_activeToolWindow is FormDesigner)
             {

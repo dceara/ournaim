@@ -52,6 +52,7 @@ namespace SchemeGuiEditor.Gui
             this.Name = "FormDesigner";
             this.TabText = "Form Designer";
             this.Text = "Form Designer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormDesigner_FormClosing);
             this.ResumeLayout(false);
 
         }
