@@ -133,7 +133,7 @@ namespace SchemeGuiEditor.Gui
             {
                 startIndex = index - 1;
 
-                while (_loadedItems[startIndex] is ScmBlock || _loadedItems[startIndex] is ScmComment)
+                while (startIndex>=0 && (_loadedItems[startIndex] is ScmBlock || _loadedItems[startIndex] is ScmComment))
                     startIndex--;
 
                 startIndex++;
@@ -185,6 +185,7 @@ namespace SchemeGuiEditor.Gui
                     if (parent is IScmContainer)
                     {
                         (parent as IScmContainer).LayoutManager.AddControl(ctrl);
+                        (ctrl as IScmContainee).ScmContainer = parent as IScmContainer;
                         ctrl.Click += new EventHandler(ctrl_Click);
                     }
                 }
@@ -226,7 +227,6 @@ namespace SchemeGuiEditor.Gui
                 SelectedItemChanged(this, new DataEventArgs<object>(null));
         }
 
-
         private string GetDefaultName(IScmControlProperties iScmControlProperties)
         {
             string name = iScmControlProperties.DefaultControlName;
@@ -255,10 +255,7 @@ namespace SchemeGuiEditor.Gui
                 {
                     Control ctrl = Activator.CreateInstance(toolBoxItem.Object as Type) as Control;
                     IScmControl scmCtrl = ctrl as IScmControl;
-                    scmCtrl.SetInitialProperties();
-                    string name = GetDefaultName(scmCtrl.ScmPropertyObject);
-                    scmCtrl.ScmPropertyObject.Name = name;
-                    scmCtrl.ScmPropertyObject.Label = name;
+                    scmCtrl.SetInitialProperties(GetDefaultName(scmCtrl.ScmPropertyObject));
                     if (ctrl is ScmFrame)
                     {
                         panelContainer.Controls.Add(ctrl);
@@ -270,7 +267,7 @@ namespace SchemeGuiEditor.Gui
                         if (container == null)
                             return;
                         container.LayoutManager.AddControl(ctrl,new Point(e.X,e.Y));
-                        scmCtrl.ScmPropertyObject.Parent = container.ScmPropertyObject.Name;
+                        (scmCtrl as IScmContainee).ScmContainer = container;
                     }
                     ctrl.Click += new EventHandler(ctrl_Click);
                     _propertyObjects.Add(scmCtrl.ScmPropertyObject);
@@ -297,7 +294,6 @@ namespace SchemeGuiEditor.Gui
             {
                 panelContainer.Controls.Remove(ctrl);
 
-                panelContainer.SuspendLayout();
                 IScmContainer newParent = GetContainerAt(ctrl.Location);
                 if (newParent == null|| newParent == ctrl)
                 {
@@ -307,15 +303,13 @@ namespace SchemeGuiEditor.Gui
                 {
                     bool sameParent;
                     newParent.LayoutManager.AddControl(ctrl,panelContainer.PointToScreen(ctrl.Location),out sameParent);
-                    (ctrl as IScmControl).ScmPropertyObject.Parent = newParent.ScmPropertyObject.Name;
+                    (ctrl as IScmContainee).ScmContainer = newParent;
                     if (!sameParent)
                         _startContainer.LayoutManager.RemoveContainer(_startParent);
                 }
                 _startContainer = null;
-                SelectControl(ctrl,true);
-                Console.WriteLine(ctrl.Location.X + " - " + ctrl.Location.Y);
-                panelContainer.ResumeLayout(false);
             }
+            _pickBox.EndMove();
         }
 
         private void ctrl_MouseMove(object sender, MouseEventArgs e)

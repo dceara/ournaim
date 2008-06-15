@@ -31,7 +31,6 @@ namespace SchemeGuiEditor.Utils
         private Color BoxColor = Color.White;
         private Control _control;
         private Control _parentContainer;
-        private Control _parent;
         private List<Label> _lbls = new List<Label>();
         private int _startl;
         private int _startt;
@@ -77,9 +76,7 @@ namespace SchemeGuiEditor.Utils
             {
                 if (_control != null)
                 {
-                    _control.SizeChanged -= new EventHandler(_control_SizeChanged);
-                    _control.MarginChanged -= new EventHandler(_control_MarginChanged);
-                    _control.ParentChanged -= new EventHandler(_control_ParentChanged);
+                    (_control as IScmControl).ControlChanged -= new EventHandler(PickBox_ControlChanged);
                 }
                 _control = newControl;
                 HideHandles();
@@ -89,15 +86,10 @@ namespace SchemeGuiEditor.Utils
             {
                 if (_control != null)
                 {
-                    _control.SizeChanged -= new EventHandler(_control_SizeChanged);
-                    _control.MarginChanged -= new EventHandler(_control_MarginChanged);
-                    _control.ParentChanged -= new EventHandler(_control_ParentChanged);
+                    (_control as IScmControl).ControlChanged -= new EventHandler(PickBox_ControlChanged);
                 }
                 _control = newControl;
-                _control.SizeChanged += new EventHandler(_control_SizeChanged);
-                _control.ParentChanged += new EventHandler(_control_ParentChanged);
-                _control.MarginChanged += new EventHandler(_control_MarginChanged);
-                SetParent();
+                (_control as IScmControl).ControlChanged += new EventHandler(PickBox_ControlChanged);
             }
             HideHandles();
             //Position sizing handles around Control
@@ -109,18 +101,10 @@ namespace SchemeGuiEditor.Utils
             _control.Cursor = Cursors.SizeAll;
         }
 
-        private void SetParent()
-        {
-            if (_parent != null)
-                _parent.LocationChanged -= new EventHandler(_parent_LocationChanged);
-            _parent = _control.Parent;
-            if (_parent != null)
-                _parent.LocationChanged += new EventHandler(_parent_LocationChanged);
-        }
-
         // Get mouse pointer starting position on mouse down and hide sizing handles
         public void StartMove(MouseEventArgs e)
         {
+            _dragging = true;
             _startx = e.X;
             _starty = e.Y;
             HideHandles();
@@ -139,6 +123,13 @@ namespace SchemeGuiEditor.Utils
             _control.Parent.ClientRectangle.Height - h : t);
             _control.Left = l;
             _control.Top = t;
+        }
+
+        public void EndMove()
+        {
+            _dragging = false;
+            MoveHandles();
+            ShowHandles();
         }
         #endregion
 
@@ -182,27 +173,9 @@ namespace SchemeGuiEditor.Utils
 
         #region Event Handlers
 
-        void _control_MarginChanged(object sender, EventArgs e)
+        void PickBox_ControlChanged(object sender, EventArgs e)
         {
-            if (!_dragging)
-                MoveHandles();
-        }
-
-        void _control_ParentChanged(object sender, EventArgs e)
-        {
-            SetParent();
-        }
-
-        void _parent_LocationChanged(object sender, EventArgs e)
-        {
-            if (!_dragging)
-                MoveHandles();
-        }
-
-        void _control_SizeChanged(object sender, EventArgs e)
-        {
-            if (!_dragging)
-                MoveHandles();
+            MoveHandles();
         }
 
         // Store control position and size when mouse button pushed over any sizing handle
@@ -331,8 +304,8 @@ namespace SchemeGuiEditor.Utils
                             w = _startl + _startw - _control.Left;
                             break;
                     }
-                    l = (l < 0) ? 0 : l;
-                    t = (t < 0) ? 0 : t;
+                    //l = (l < 0) ? 0 : l;
+                    //t = (t < 0) ? 0 : t;
                     _control.SetBounds(l, t, w, h, BoundsSpecified.All);
                 }
             }
@@ -342,6 +315,7 @@ namespace SchemeGuiEditor.Utils
         private void lbl_MouseUp(object sender, MouseEventArgs e)
         {
             _dragging = false;
+            (_control as IScmControl).ControlResized();
             MoveHandles();
             ShowHandles();
         }

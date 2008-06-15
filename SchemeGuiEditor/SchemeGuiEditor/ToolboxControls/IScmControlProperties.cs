@@ -5,17 +5,19 @@ using System.ComponentModel;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
-    public interface IScmControlProperties : INotifyPropertyChanged
+    public interface IScmControlProperties
     {
+        event EventHandler PropertyChanged;
         string DefaultControlName { get;}
         IScmControl Control { get;}
         string ToScmCode();
-        string Name { get; set;}
-        string Label { get; set;}
-        string Parent { get; set;}
+        string Name { get; }
+        //string Label { get; set;}
+        string Parent { get; }
         bool StretchableWidth { get;}
         bool StretchableHeight { get;}
         bool AutosizeHeight { get; }
         bool AutosizeWidth { get;}
+        void NotifyPropertyChanged();
     }
 }

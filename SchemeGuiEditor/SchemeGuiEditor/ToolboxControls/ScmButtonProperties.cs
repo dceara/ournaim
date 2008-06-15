@@ -33,15 +33,11 @@ namespace SchemeGuiEditor.ToolboxControls
         private ScmButton _button;
         private bool _enabled;
         private string _parent;
-        private bool _stretchableWidth;
-        private bool _stretchableHeight;
-        private int _minWidth;
-        private int _minHeight;
-        private int _verticalMargin;
-        private int _horizontalMargin;
         private bool _autosizeWidth;
         private bool _autosizeHeight;
         private bool _forceDisplay;
+        private int _minWidth;
+        private int _minHeight;
         private List<ButtonPropNames> _parsedProperties;
         private Dictionary<int, ScmComment> _parsedComments;
         private Dictionary<int, ScmBlock> _parsedScmBlocks;
@@ -51,22 +47,14 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             _button = button;
             _enabled = true;
-            _verticalMargin = 2;
-            _horizontalMargin = 2;
-            _button.SizeChanged += new EventHandler(_button_SizeChanged);
-            _button.MarginChanged += new EventHandler(_button_MarginChanged);
             _parsedProperties = new List<ButtonPropNames>();
             _parsedComments = new Dictionary<int, ScmComment>();
             _parsedScmBlocks = new Dictionary<int, ScmBlock>();
         }
-                
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
 
         #region IScmControlProperties Members
+
+        public event EventHandler PropertyChanged;
 
         [Browsable(false)]
         public IScmControl Control
@@ -84,6 +72,14 @@ namespace SchemeGuiEditor.ToolboxControls
         public string DefaultControlName
         {
             get { return "Button"; }
+        }
+
+        public void NotifyPropertyChanged()
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, EventArgs.Empty);
+            }
         }
         #endregion
 
@@ -129,6 +125,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     return;
                 }
                 _button.Text = value;
+                _button.Refresh();
             }
         }
 
@@ -152,11 +149,11 @@ namespace SchemeGuiEditor.ToolboxControls
                 _autosizeWidth = value;
                 if (_autosizeWidth)
                 {
-                    _minWidth = 0;
+                    _button.MinWidth = 0;
                     _button.RecomputeSizes();
                 }
                 else
-                    _minWidth = _button.Width;
+                    _button.MinWidth = _button.Width;
                 NotifyPropertyChanged();
             }
         }
@@ -172,11 +169,11 @@ namespace SchemeGuiEditor.ToolboxControls
                 _autosizeHeight = value;
                 if (_autosizeHeight)
                 {
-                    _minHeight = 0;
+                    _button.MinHeight = 0;
                     _button.RecomputeSizes();
                 }
                 else
-                    _minHeight = _button.Height;
+                    _button.MinHeight = _button.Height;
                 NotifyPropertyChanged();
             }
         }
@@ -197,8 +194,7 @@ namespace SchemeGuiEditor.ToolboxControls
                         return;
                     }
                     _minWidth = value;
-                    _button.Width = value;
-                    _button.RaiseContentSizeChanged();
+                    _button.MinWidth = value;
                 }
             }
         }
@@ -219,7 +215,7 @@ namespace SchemeGuiEditor.ToolboxControls
                         return;
                     }
                     _minHeight = value;
-                    _button.Height = value;
+                    _button.MinHeight = value;
                 }
             }
         }
@@ -231,18 +227,11 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             get
             {
-                return _stretchableWidth;
+                return _button.StretchableWidth;
             }
             set
             {
-                if (value != _stretchableWidth)
-                {
-                    _stretchableWidth = value;
-                    _button.RaiseStrechChanged(StrechDirection.Horizontal);
-                    if (!_stretchableWidth)
-                        _button.Width = _minWidth;
-                    _button.RaiseContentSizeChanged();
-                }
+                _button.StretchableWidth = value;
             }
         }
 
@@ -253,16 +242,11 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             get
             {
-                return _stretchableHeight;
+                return _button.StretchableHeight;
             }
             set
             {
-                if (value != _stretchableHeight)
-                {
-                    _stretchableHeight = value;
-                    _button.Height = _minHeight;
-                    _button.RaiseStrechChanged(StrechDirection.Vertical);
-                }
+                _button.StretchableHeight = value;
             }
         }
 
@@ -271,7 +255,7 @@ namespace SchemeGuiEditor.ToolboxControls
         [DefaultValue(2)]
         public int VerticalMargin
         {
-            get { return _verticalMargin; }
+            get { return _button.VerticalMargin; }
             set
             {
                 if (value < 0 || value > 1000)
@@ -279,9 +263,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     MessageService.ShowError(ControlValidation.ValueInvalid);
                     return;
                 }
-                _verticalMargin = value;
-                _button.Top = value;
-                _button.Margin = new Padding(0, 0, _button.Margin.Right, value);
+                _button.VerticalMargin = value;
             }
         }
 
@@ -290,7 +272,7 @@ namespace SchemeGuiEditor.ToolboxControls
         [DefaultValue(2)]
         public int HorizontalMargin
         {
-            get { return _horizontalMargin; }
+            get { return _button.HorizontalMargin; }
             set
             {
                 if (value < 0 || value > 1000)
@@ -298,34 +280,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     MessageService.ShowError(ControlValidation.ValueInvalid);
                     return;
                 }
-                _horizontalMargin = value;
-                _button.Left = value;
-                _button.Margin = new Padding(0, 0, value, _button.Margin.Bottom);
-            }
-        }
-        #endregion
-
-        #region Event Handlers
-        void _button_MarginChanged(object sender, EventArgs e)
-        {
-            _verticalMargin = _button.Margin.Bottom;
-            _horizontalMargin = _button.Margin.Right;
-            NotifyPropertyChanged();
-            _button.RaiseContentSizeChanged();
-        }
-
-        void _button_SizeChanged(object sender, EventArgs e)
-        {
-            if (!_stretchableWidth && !_autosizeWidth)
-            {
-                _minWidth = _button.Width;
-                NotifyPropertyChanged();
-                _button.RaiseContentSizeChanged();
-            }
-            if (!_stretchableHeight && !_autosizeHeight)
-            {
-                _minHeight = _button.Height;
-                NotifyPropertyChanged();
+                _button.HorizontalMargin = value;
             }
         }
         #endregion
@@ -435,16 +390,6 @@ namespace SchemeGuiEditor.ToolboxControls
             for (int i = 0; i < 9; i++)    //iterate trough all posible properties
                 if (!_parsedProperties.Contains((ButtonPropNames)i))
                     _parsedProperties.Add((ButtonPropNames)i);
-        }
-
-
-
-        private void NotifyPropertyChanged()
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(""));
-            }
         }
         #endregion
     }

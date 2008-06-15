@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
+using SchemeGuiEditor.Utils;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
@@ -19,6 +20,12 @@ namespace SchemeGuiEditor.ToolboxControls
         Center,
         Bottom
     }
+
+    public enum AlignmentType
+    {
+        Vertical,
+        Horizontal
+    }
     #endregion
 
     [TypeConverter(typeof(AlignmentTypeConverter))]
@@ -27,12 +34,14 @@ namespace SchemeGuiEditor.ToolboxControls
         #region Members
         private HorizontalAlign _horizontalAlignment;
         private VerticalAlign _verticalAlignment;
-        public event EventHandler AlignmentChanged;
+        public event EventHandler<DataEventArgs<AlignmentType>> AlignmentChanged;
         #endregion
 
         #region Constructors
         public ContainerAlignment()
         {
+            _horizontalAlignment = HorizontalAlign.Center;
+            _verticalAlignment = VerticalAlign.Top;
         }
 
         public ContainerAlignment(HorizontalAlign horizontalAlign, VerticalAlign verticalAlign)
@@ -53,7 +62,7 @@ namespace SchemeGuiEditor.ToolboxControls
                 {
                     _horizontalAlignment = value;
                     if (AlignmentChanged != null)
-                        AlignmentChanged(this, EventArgs.Empty);
+                        AlignmentChanged(this, new DataEventArgs<AlignmentType>(AlignmentType.Horizontal));
                 }
             }
         }
@@ -68,7 +77,7 @@ namespace SchemeGuiEditor.ToolboxControls
                 {
                     _verticalAlignment = value;
                     if (AlignmentChanged != null)
-                        AlignmentChanged(this, EventArgs.Empty);
+                        AlignmentChanged(this, new DataEventArgs<AlignmentType>(AlignmentType.Vertical));
                 }
             }
         }
