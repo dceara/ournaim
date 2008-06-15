@@ -10,7 +10,7 @@ using SchemeGuiEditor.Utils;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
-    public partial class LayoutManagerContainer : UserControl
+    public partial class VerticalLayoutManagerContainer : UserControl
     {
         public event EventHandler<DataEventArgs<int>> MinWidthChanged;
         public event EventHandler<DataEventArgs<int>> MinHeightChanged;
@@ -24,7 +24,7 @@ namespace SchemeGuiEditor.ToolboxControls
         #endregion
 
         #region Constructor
-        public LayoutManagerContainer()
+        public VerticalLayoutManagerContainer()
         {
             InitializeComponent();
             _alignment = new ContainerAlignment(HorizontalAlign.Center, VerticalAlign.Top);
@@ -56,6 +56,7 @@ namespace SchemeGuiEditor.ToolboxControls
                 {
                     _spacing = value;
                     RecomputeVerticalSizes();
+                    AlignAllControls();
                 }
             }
         }
@@ -142,21 +143,12 @@ namespace SchemeGuiEditor.ToolboxControls
             }
         }
 
-        //public void SetVerticalPozition(Control ctrl)
-        //{
-        //    IScmContainee scmCtrl = ctrl as IScmContainee;
-        //    Panel pnl = ctrl.Parent as Panel;
-
-        //    int rowIndex = tableLayoutPanel1.GetRow(pnl);
-        //    int initalHeight = (int)tableLayoutPanel1.RowStyles[rowIndex].Height;
-        //    int height = scmCtrl.VerticalMargin * 2 + scmCtrl.MinHeight;
-        //    if (rowIndex < tableLayoutPanel1.RowCount - 2)
-        //        height += _spacing;
-        //    tableLayoutPanel1.RowStyles[rowIndex].Height = height;
-        //    AlignControl(pnl, ctrl);
-        //    _minHeight = _minHeight - initalHeight + height;
-        //    RaiseHeightChenged();
-        //}
+        public void SetVerticalPozition(Control ctrl)
+        {
+            Panel pnl = ctrl.Parent as Panel;
+            RecomputeVerticalSizes();
+            AlignControl(pnl, ctrl);
+        }
 
         public void RecomputeVerticalSizes()
         {

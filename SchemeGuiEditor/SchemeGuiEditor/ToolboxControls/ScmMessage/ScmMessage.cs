@@ -75,8 +75,17 @@ namespace SchemeGuiEditor.ToolboxControls
             set
             {
                 _horizontalMargin = value;
-                if (_scmContainer != null)
-                    _scmContainer.LayoutManager.SetHorizontalPosition(this);
+                if (this.StretchableWidth)
+                {
+                    this.StretchableWidth = false;
+                    if (_scmContainer != null)
+                        _scmContainer.LayoutManager.SetHorizontalPosition(this);
+                    this.StretchableWidth = true;
+                }
+                else
+                    if (_scmContainer != null)
+                        _scmContainer.LayoutManager.SetHorizontalPosition(this);
+
                 RaiseControlChanged();
             }
         }
@@ -87,8 +96,17 @@ namespace SchemeGuiEditor.ToolboxControls
             set
             {
                 _verticalMargin = value;
-                if (_scmContainer != null)
-                    _scmContainer.LayoutManager.RecomputeVerticalSizes();
+                if (this.StretchableHeight)
+                {
+                    this.StretchableHeight = false;
+                    if (_scmContainer != null)
+                        _scmContainer.LayoutManager.SetVerticalPozition(this);
+                    this.StretchableHeight = true;
+                }
+                else
+                    if (_scmContainer != null)
+                        _scmContainer.LayoutManager.SetVerticalPozition(this);
+
                 RaiseControlChanged();
             }
         }
@@ -117,7 +135,7 @@ namespace SchemeGuiEditor.ToolboxControls
                 {
                     this.Height = value;
                     if (_scmContainer != null)
-                        _scmContainer.LayoutManager.RecomputeVerticalSizes();
+                        _scmContainer.LayoutManager.SetVerticalPozition(this);
                 }
                 RaiseControlChanged();
             }
