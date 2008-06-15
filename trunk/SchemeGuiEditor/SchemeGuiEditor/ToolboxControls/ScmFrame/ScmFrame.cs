@@ -71,7 +71,7 @@ namespace SchemeGuiEditor.ToolboxControls
         #region IScmContainer Members
         public event EventHandler NameChanged;
 
-        public LayoutManagerContainer LayoutManager
+        public VerticalLayoutManagerContainer LayoutManager
         {
             get { return layoutManagerContainer1; }
         }

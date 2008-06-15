@@ -160,8 +160,12 @@
       <DependentUpon>ToolWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ToolboxControls\LayoutManagerContainer.resx">
-      <DependentUpon>LayoutManagerContainer.cs</DependentUpon>
+    <EmbeddedResource Include="ToolboxControls\HorizontalLayoutManagerContainer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HorizontalLayoutManagerContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ToolboxControls\VerticalLayoutManagerContainer.resx">
+      <DependentUpon>VerticalLayoutManagerContainer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ToolboxControls\ScmButton\ScmButtonStyleEditorControl.resx">
@@ -175,6 +179,10 @@
     <EmbeddedResource Include="ToolboxControls\ScmFrame\ScmFrameStyleEditorControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ScmFrameStyleEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ToolboxControls\ScmHorizontalPanel\ScmHorizontalPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScmHorizontalPanel.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -207,15 +215,21 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ToolboxControls\ContainerAlignment.cs" />
+    <Compile Include="ToolboxControls\HorizontalLayoutManagerContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToolboxControls\HorizontalLayoutManagerContainer.Designer.cs">
+      <DependentUpon>HorizontalLayoutManagerContainer.cs</DependentUpon>
+    </Compile>
     <Compile Include="ToolboxControls\Interfaces\IScmContainee.cs" />
     <Compile Include="ToolboxControls\Interfaces\IScmContainer.cs" />
     <Compile Include="ToolboxControls\Interfaces\IScmControl.cs" />
     <Compile Include="ToolboxControls\Interfaces\IScmControlProperties.cs" />
-    <Compile Include="ToolboxControls\LayoutManagerContainer.cs">
+    <Compile Include="ToolboxControls\VerticalLayoutManagerContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ToolboxControls\LayoutManagerContainer.Designer.cs">
-      <DependentUpon>LayoutManagerContainer.cs</DependentUpon>
+    <Compile Include="ToolboxControls\VerticalLayoutManagerContainer.Designer.cs">
+      <DependentUpon>VerticalLayoutManagerContainer.cs</DependentUpon>
     </Compile>
     <Compile Include="ToolboxControls\Commmon\ScmBlock.cs" />
     <Compile Include="ToolboxControls\ScmButton\ScmButtonProperties.cs" />
@@ -247,6 +261,12 @@
     </Compile>
     <Compile Include="ToolboxControls\ScmFrame\ScmFrameStyleEditorControl.Designer.cs">
       <DependentUpon>ScmFrameStyleEditorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxControls\ScmHorizontalPanel\ScmHorizontalPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToolboxControls\ScmHorizontalPanel\ScmHorizontalPanel.Designer.cs">
+      <DependentUpon>ScmHorizontalPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="ToolboxControls\ScmMessage\ScmMessage.cs">
       <SubType>Component</SubType>

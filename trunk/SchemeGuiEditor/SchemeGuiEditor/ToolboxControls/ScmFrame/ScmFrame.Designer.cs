@@ -34,7 +34,7 @@ namespace SchemeGuiEditor.ToolboxControls
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.labelTitle = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.layoutManagerContainer1 = new SchemeGuiEditor.ToolboxControls.LayoutManagerContainer();
+            this.layoutManagerContainer1 = new SchemeGuiEditor.ToolboxControls.VerticalLayoutManagerContainer();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -139,7 +139,7 @@ namespace SchemeGuiEditor.ToolboxControls
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label labelTitle;
-        private LayoutManagerContainer layoutManagerContainer1;
+        private VerticalLayoutManagerContainer layoutManagerContainer1;
         private System.Windows.Forms.PictureBox pictureBox4;
     }
 }
