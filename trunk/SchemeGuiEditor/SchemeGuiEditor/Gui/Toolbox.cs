@@ -84,6 +84,7 @@ namespace SchemeGuiEditor.Gui
 
             item = new ToolBoxItem();
             item.Caption = "Message";
+            item.Object = typeof(ScmMessage);
             items.Add(item);
 
             item = new ToolBoxItem();

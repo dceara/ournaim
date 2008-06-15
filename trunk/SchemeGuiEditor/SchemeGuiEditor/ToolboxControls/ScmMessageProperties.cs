@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using SchemeGuiEditor.Constants;
@@ -7,11 +6,13 @@ using System.Drawing;
 using SchemeGuiEditor.Services;
 using System.Windows.Forms;
 using SchemeGuiEditor.Utils;
+using System;
+using System.Drawing.Design;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
     #region Properties enum
-    public enum ButtonPropNames
+    public enum MessagePropNames
     {
         Parent,
         Label,
@@ -22,15 +23,16 @@ namespace SchemeGuiEditor.ToolboxControls
         StrechHeight,
         VerticalMargin,
         HorizontalMargin,
+        Style,
         ScmBlock,
         ScmComment
     }
     #endregion
 
-    public class ScmButtonProperties :IScmControlProperties
+    public class ScmMessageProperties : IScmControlProperties
     {
         #region Private Members
-        private ScmButton _button;
+        private ScmMessage _message;
         private bool _enabled;
         private string _parent;
         private bool _autosizeWidth;
@@ -38,16 +40,18 @@ namespace SchemeGuiEditor.ToolboxControls
         private bool _forceDisplay;
         private int _minWidth;
         private int _minHeight;
-        private List<ButtonPropNames> _parsedProperties;
+        private ScmMessageStyle _style;
+        private List<MessagePropNames> _parsedProperties;
         private Dictionary<int, ScmComment> _parsedComments;
         private Dictionary<int, ScmBlock> _parsedScmBlocks;
         #endregion
 
-        public ScmButtonProperties(ScmButton button)
+        public ScmMessageProperties(ScmMessage message)
         {
-            _button = button;
+            _message = message;
             _enabled = true;
-            _parsedProperties = new List<ButtonPropNames>();
+            _style = new ScmMessageStyle();
+            _parsedProperties = new List<MessagePropNames>();
             _parsedComments = new Dictionary<int, ScmComment>();
             _parsedScmBlocks = new Dictionary<int, ScmBlock>();
         }
@@ -59,19 +63,19 @@ namespace SchemeGuiEditor.ToolboxControls
         [Browsable(false)]
         public IScmControl Control
         {
-            get { return _button; }
+            get { return _message; }
         }
 
         public string ToScmCode()
         {
-            string code = string.Format("(define {0}\n\t(new button%\n {1}))\n\n", this.Name, GetScmPropertiesCode());
+            string code = string.Format("(define {0}\n\t(new message%\n {1}))\n\n", this.Name, GetScmPropertiesCode());
             return code;
         }
 
         [Browsable(false)]
         public string DefaultControlName
         {
-            get { return "Button"; }
+            get { return "Message"; }
         }
 
         public void NotifyPropertyChanged()
@@ -90,7 +94,7 @@ namespace SchemeGuiEditor.ToolboxControls
         public string Parent
         {
             get { return _parent; }
-            set 
+            set
             {
                 _parent = value;
                 NotifyPropertyChanged();
@@ -101,22 +105,23 @@ namespace SchemeGuiEditor.ToolboxControls
         [DescriptionAttribute("Indicates the name used in code to identify the object")]
         public string Name
         {
-            get { return _button.Name; }
-            set 
+            get { return _message.Name; }
+            set
             {
                 if (value == string.Empty)
                 {
                     MessageService.ShowError(ControlValidation.InvalidValue);
                     return;
                 }
-                _button.Name = value; }
+                _message.Name = value;
+            }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryAppearance)]
-        [DescriptionAttribute("The string displayed on the button")]
+        [DescriptionAttribute("The displayed text")]
         public string Label
         {
-            get { return _button.Text; }
+            get { return _message.Text; }
             set
             {
                 if (value.Length > 200)
@@ -124,13 +129,13 @@ namespace SchemeGuiEditor.ToolboxControls
                     MessageService.ShowError(ControlValidation.LabelToLong);
                     return;
                 }
-                _button.Text = value;
-                _button.Refresh();
+                _message.Text = value;
+                _message.Refresh();
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryBehavior)]
-        [DescriptionAttribute("Enables or disables the button")]
+        [DescriptionAttribute("Enables or disables the message")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -139,7 +144,7 @@ namespace SchemeGuiEditor.ToolboxControls
         }
 
         [CategoryAttribute(AttributesCategories.CategoryBehavior)]
-        [DescriptionAttribute("Allow seting minimum width for the button")]
+        [DescriptionAttribute("Allow seting minimum width for the message")]
         [DefaultValue(true)]
         public bool AutosizeWidth
         {
@@ -149,17 +154,17 @@ namespace SchemeGuiEditor.ToolboxControls
                 _autosizeWidth = value;
                 if (_autosizeWidth)
                 {
-                    _button.MinWidth = 0;
-                    _button.RecomputeSizes();
+                    _message.MinWidth = 0;
+                    _message.RecomputeSizes();
                 }
                 else
-                    _button.MinWidth = _button.Width;
+                    _message.MinWidth = _message.Width;
                 NotifyPropertyChanged();
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryBehavior)]
-        [DescriptionAttribute("Allow setting an minimum Height for the button")]
+        [DescriptionAttribute("Allow setting an minimum Height for the message")]
         [DefaultValue(true)]
         public bool AutosizeHeight
         {
@@ -169,17 +174,17 @@ namespace SchemeGuiEditor.ToolboxControls
                 _autosizeHeight = value;
                 if (_autosizeHeight)
                 {
-                    _button.MinHeight = 0;
-                    _button.RecomputeSizes();
+                    _message.MinHeight = 0;
+                    _message.RecomputeSizes();
                 }
                 else
-                    _button.MinHeight = _button.Height;
+                    _message.MinHeight = _message.Height;
                 NotifyPropertyChanged();
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Minimum width for the button in pixels")]
+        [DescriptionAttribute("Minimum width for the message in pixels")]
         [DefaultValue(0)]
         public int MinWidth
         {
@@ -194,13 +199,13 @@ namespace SchemeGuiEditor.ToolboxControls
                         return;
                     }
                     _minWidth = value;
-                    _button.MinWidth = value;
+                    _message.MinWidth = value;
                 }
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Minimum height for the button in pixels")]
+        [DescriptionAttribute("Minimum height for the message in pixels")]
         [DefaultValue(0)]
         public int MinHeight
         {
@@ -215,47 +220,47 @@ namespace SchemeGuiEditor.ToolboxControls
                         return;
                     }
                     _minHeight = value;
-                    _button.MinHeight = value;
+                    _message.MinHeight = value;
                 }
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryAppearance)]
-        [DescriptionAttribute("Button's horizontal stretchability")]
+        [DescriptionAttribute("Message's horizontal stretchability")]
         [DefaultValue(false)]
         public bool StretchableWidth
         {
             get
             {
-                return _button.StretchableWidth;
+                return _message.StretchableWidth;
             }
             set
             {
-                _button.StretchableWidth = value;
+                _message.StretchableWidth = value;
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryAppearance)]
-        [DescriptionAttribute("Button's vertical stretchability")]
+        [DescriptionAttribute("Message's vertical stretchability")]
         [DefaultValue(false)]
         public bool StretchableHeight
         {
             get
             {
-                return _button.StretchableHeight;
+                return _message.StretchableHeight;
             }
             set
             {
-                _button.StretchableHeight = value;
+                _message.StretchableHeight = value;
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Vertical margins for the button in pixels")]
+        [DescriptionAttribute("Vertical margins for the message in pixels")]
         [DefaultValue(2)]
         public int VerticalMargin
         {
-            get { return _button.VerticalMargin; }
+            get { return _message.VerticalMargin; }
             set
             {
                 if (value < 0 || value > 1000)
@@ -263,16 +268,16 @@ namespace SchemeGuiEditor.ToolboxControls
                     MessageService.ShowError(ControlValidation.ValueInvalid);
                     return;
                 }
-                _button.VerticalMargin = value;
+                _message.VerticalMargin = value;
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Vertical margins for the button in pixels")]
+        [DescriptionAttribute("Horizontal margins for the message in pixels")]
         [DefaultValue(2)]
         public int HorizontalMargin
         {
-            get { return _button.HorizontalMargin; }
+            get { return _message.HorizontalMargin; }
             set
             {
                 if (value < 0 || value > 1000)
@@ -280,7 +285,20 @@ namespace SchemeGuiEditor.ToolboxControls
                     MessageService.ShowError(ControlValidation.ValueInvalid);
                     return;
                 }
-                _button.HorizontalMargin = value;
+                _message.HorizontalMargin = value;
+            }
+        }
+
+        [Editor(typeof(ScmStyleUiEditor), typeof(UITypeEditor))]
+        public ScmMessageStyle Style
+        {
+            get
+            {
+                return _style;
+            }
+            set
+            {
+                _style = value;
             }
         }
         #endregion
@@ -288,24 +306,24 @@ namespace SchemeGuiEditor.ToolboxControls
         #region Override Mothods
         public override string ToString()
         {
-            return Name + " " + _button.GetType().FullName;
+            return Name + " " + _message.GetType().FullName;
         }
         #endregion
 
         #region Public Methods
         public void SetScmComment(ScmComment comment)
         {
-            _parsedProperties.Add(ButtonPropNames.ScmComment);
+            _parsedProperties.Add(MessagePropNames.ScmComment);
             _parsedComments.Add(_parsedProperties.Count - 1, comment);
         }
 
         public void SetScmBlock(ScmBlock scmBlock)
         {
-            _parsedProperties.Add(ButtonPropNames.ScmBlock);
+            _parsedProperties.Add(MessagePropNames.ScmBlock);
             _parsedScmBlocks.Add(_parsedProperties.Count - 1, scmBlock);
         }
 
-        public void AddParesedProperty(ButtonPropNames propertyName)
+        public void AddParesedProperty(MessagePropNames propertyName)
         {
             _parsedProperties.Add(propertyName);
         }
@@ -322,61 +340,66 @@ namespace SchemeGuiEditor.ToolboxControls
             return propertiesCode;
         }
 
-        private string GetProppertyCode(ButtonPropNames propName, int index)
+        private string GetProppertyCode(MessagePropNames propName, int index)
         {
             string code = "";
             switch (propName)
             {
-                case ButtonPropNames.Label:
-                    code = CodeGenerationUtils.Indent(string.Format("(label \"{0}\")", this.Label),2);
+                case MessagePropNames.Label:
+                    code = CodeGenerationUtils.Indent(string.Format("(label \"{0}\")", this.Label), 2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.Parent:
-                    code = CodeGenerationUtils.Indent(string.Format("(parent {0})", this.Parent),2);
+                case MessagePropNames.Parent:
+                    code = CodeGenerationUtils.Indent(string.Format("(parent {0})", this.Parent), 2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.Enabled:
+                case MessagePropNames.Enabled:
                     if (_forceDisplay || this.Enabled != true)
-                        code = CodeGenerationUtils.Indent(string.Format("(enabled {0})", CodeGenerationUtils.ToScmBoolValue(this.Enabled)),2);
+                        code = CodeGenerationUtils.Indent(string.Format("(enabled {0})", CodeGenerationUtils.ToScmBoolValue(this.Enabled)), 2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.MinWidth:
+                case MessagePropNames.MinWidth:
                     if (_forceDisplay || this.MinWidth != 0)
-                        code = CodeGenerationUtils.Indent(string.Format("(min-width {0})", this.MinWidth),2);
+                        code = CodeGenerationUtils.Indent(string.Format("(min-width {0})", this.MinWidth), 2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.MinHeight:
+                case MessagePropNames.MinHeight:
                     if (_forceDisplay || this.MinHeight != 0)
-                        code = CodeGenerationUtils.Indent(string.Format("(min-height {0})", this.MinHeight),2);
+                        code = CodeGenerationUtils.Indent(string.Format("(min-height {0})", this.MinHeight), 2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.StrechWidth:
+                case MessagePropNames.StrechWidth:
                     if (_forceDisplay || this.StretchableWidth != false)
                         code = CodeGenerationUtils.Indent(string.Format("(stretchable-width {0})",
-                            CodeGenerationUtils.ToScmBoolValue(this.StretchableWidth)),2);
+                            CodeGenerationUtils.ToScmBoolValue(this.StretchableWidth)), 2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.StrechHeight:
+                case MessagePropNames.StrechHeight:
                     if (_forceDisplay || this.StretchableHeight != false)
                         code = CodeGenerationUtils.Indent(string.Format("(stretchable-height {0})",
-                            CodeGenerationUtils.ToScmBoolValue(this.StretchableHeight)),2);
+                            CodeGenerationUtils.ToScmBoolValue(this.StretchableHeight)), 2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.VerticalMargin:
+                case MessagePropNames.VerticalMargin:
                     if (_forceDisplay || this.VerticalMargin != 2)
-                        code = CodeGenerationUtils.Indent(string.Format("(vert-margin {0})", this.VerticalMargin),2);
+                        code = CodeGenerationUtils.Indent(string.Format("(vert-margin {0})", this.VerticalMargin), 2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.HorizontalMargin:
+                case MessagePropNames.HorizontalMargin:
                     if (_forceDisplay || this.HorizontalMargin != 2)
                         code = CodeGenerationUtils.Indent(string.Format("(horiz-margin {0})", this.HorizontalMargin), 2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.ScmComment:
+                case MessagePropNames.Style:
+                    if (_forceDisplay || !this.Style.HasDefaultValues())
+                        code = CodeGenerationUtils.Indent(string.Format("(style \'{0})", this.Style.ToScmCode()), 2);
+                    _forceDisplay = false;
+                    break;
+                case MessagePropNames.ScmComment:
                     code = _parsedComments[index].ToScmCode(2);
                     _forceDisplay = true;
                     break;
-                case ButtonPropNames.ScmBlock:
+                case MessagePropNames.ScmBlock:
                     code = _parsedScmBlocks[index].ToScmCode(2);
                     _forceDisplay = false;
                     break;
@@ -387,10 +410,12 @@ namespace SchemeGuiEditor.ToolboxControls
 
         private void AddMissingProperties()
         {
-            for (int i = 0; i < 9; i++)    //iterate trough all posible properties
-                if (!_parsedProperties.Contains((ButtonPropNames)i))
-                    _parsedProperties.Add((ButtonPropNames)i);
+            for (int i = 0; i < 10; i++)    //iterate trough all posible properties
+                if (!_parsedProperties.Contains((MessagePropNames)i))
+                    _parsedProperties.Add((MessagePropNames)i);
         }
         #endregion
     }
 }
+
+

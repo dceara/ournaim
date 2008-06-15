@@ -198,13 +198,13 @@ namespace SchemeGuiEditor.ToolboxControls
             if (scmCtrl.StretchableWidth)
             {
                 ctrl.Width = pnl.Width - 2 * scmCtrl.HorizontalMargin;
-                ctrl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+                ctrl.Anchor = ctrl.Anchor | AnchorStyles.Right;
                 tableLayoutPanel1.SetColumn(pnl, 0);
                 tableLayoutPanel1.SetColumnSpan(pnl, 3);
             }
             else
             {
-                ctrl.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+                ctrl.Anchor = ctrl.Anchor & ~AnchorStyles.Right;
                 tableLayoutPanel1.SetColumnSpan(pnl, 1);
                 tableLayoutPanel1.SetColumn(pnl, 1);
             }
@@ -219,7 +219,7 @@ namespace SchemeGuiEditor.ToolboxControls
             RowStyle rowStyle = tableLayoutPanel1.RowStyles[row];
             if (scmCtrl.StretchableHeight)
             {
-                ctrl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Bottom;
+                ctrl.Anchor = ctrl.Anchor | AnchorStyles.Bottom;
                 rowStyle.SizeType = SizeType.Percent;
                 rowStyle.Height = 100;
                 if (_strechRowCount == 0)
@@ -231,14 +231,14 @@ namespace SchemeGuiEditor.ToolboxControls
             }
             else
             {
-                ctrl.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+                ctrl.Anchor = ctrl.Anchor & ~AnchorStyles.Bottom;
                 rowStyle.SizeType = SizeType.Absolute;
                 _strechRowCount--;
                 if (_strechRowCount == 0)
                 {
                     ResetVerticalAlignment(_alignment.VerticalAlignment);
                 }
-                SetVerticalPozition(ctrl);
+                RecomputeVerticalSizes();
             }
         }
 
@@ -246,9 +246,11 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             List<IScmControl> ctrls = new List<IScmControl>();
 
-            foreach (Control ctrl in tableLayoutPanel1.Controls)
+            for (int i = 1; i < tableLayoutPanel1.RowCount - 1; i++)
             {
-                ctrls.Add(ctrl.Controls[0] as IScmControl);
+                Control pnl = tableLayoutPanel1.GetControlFromPosition(1, i);
+                if (pnl.Controls.Count > 0)
+                    ctrls.Add(pnl.Controls[0] as IScmControl);
             }
             return ctrls;
         }
@@ -318,7 +320,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
         private void MoveControls(int startIndex)
         {
-            for (int i = startIndex; i < tableLayoutPanel1.RowCount - 2; i++)
+            for (int i = tableLayoutPanel1.RowCount - 3; i >= startIndex; i--)
             {
                 Control cellControl = tableLayoutPanel1.GetControlFromPosition(1, i);
                 tableLayoutPanel1.SetRow(cellControl, i + 1);
