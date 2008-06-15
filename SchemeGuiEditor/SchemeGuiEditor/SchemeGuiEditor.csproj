@@ -164,6 +164,10 @@
       <DependentUpon>LayoutManagerContainer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="ToolboxControls\ScmButton\ScmButtonStyleEditorControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScmButtonStyleEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ToolboxControls\ScmFrame\ScmFrame.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ScmFrame.cs</DependentUpon>
@@ -171,6 +175,10 @@
     <EmbeddedResource Include="ToolboxControls\ScmFrame\ScmFrameStyleEditorControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ScmFrameStyleEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ToolboxControls\ScmMessageStyleEditorControl.cs.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScmMessageStyleEditorControl.cs.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -192,27 +200,37 @@
     <Compile Include="Gui\ToolWindow.designer.cs">
       <DependentUpon>ToolWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ToolboxControls\Commmon\ScmStyleUiEditor.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ToolboxControls\ContainerAlignment.cs" />
-    <Compile Include="ToolboxControls\IScmContainee.cs" />
-    <Compile Include="ToolboxControls\IScmContainer.cs" />
-    <Compile Include="ToolboxControls\IScmControl.cs" />
-    <Compile Include="ToolboxControls\IScmControlProperties.cs" />
+    <Compile Include="ToolboxControls\Interfaces\IScmContainee.cs" />
+    <Compile Include="ToolboxControls\Interfaces\IScmContainer.cs" />
+    <Compile Include="ToolboxControls\Interfaces\IScmControl.cs" />
+    <Compile Include="ToolboxControls\Interfaces\IScmControlProperties.cs" />
     <Compile Include="ToolboxControls\LayoutManagerContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ToolboxControls\LayoutManagerContainer.Designer.cs">
       <DependentUpon>LayoutManagerContainer.cs</DependentUpon>
     </Compile>
-    <Compile Include="ToolboxControls\ScmBlock.cs" />
-    <Compile Include="ToolboxControls\ScmButtonProperties.cs" />
-    <Compile Include="ToolboxControls\ScmComment.cs" />
+    <Compile Include="ToolboxControls\Commmon\ScmBlock.cs" />
+    <Compile Include="ToolboxControls\ScmButton\ScmButtonProperties.cs" />
+    <Compile Include="ToolboxControls\ScmButton\ScmButtonStyle.cs" />
+    <Compile Include="ToolboxControls\ScmButton\ScmButtonStyleEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToolboxControls\ScmButton\ScmButtonStyleEditorControl.Designer.cs">
+      <DependentUpon>ScmButtonStyleEditorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxControls\Commmon\ScmComment.cs" />
     <Compile Include="ToolboxControls\ScmFrame\ScmFrame.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ToolboxControls\ScmFrame\ScmFrame.Designer.cs">
       <DependentUpon>ScmFrame.cs</DependentUpon>
     </Compile>
-    <Compile Include="ToolboxControls\ScmButton.cs">
+    <Compile Include="ToolboxControls\ScmButton\ScmButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ToolboxControls\ScmFrame\ScmFrameProperties.cs" />
@@ -223,10 +241,23 @@
     <Compile Include="ToolboxControls\ScmFrame\ScmFrameStyleEditorControl.Designer.cs">
       <DependentUpon>ScmFrameStyleEditorControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ToolboxControls\ScmFrame\ScmFrameStyleUiEditor.cs" />
+    <Compile Include="ToolboxControls\ScmMessage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ToolboxControls\ScmMessageProperties.cs" />
+    <Compile Include="ToolboxControls\ScmMessageStyle.cs" />
+    <Compile Include="ToolboxControls\ScmMessageStyleEditorControl.cs.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToolboxControls\ScmMessageStyleEditorControl.cs.Designer.cs">
+      <DependentUpon>ScmMessageStyleEditorControl.cs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\CodeGenerationUtils.cs" />
     <Compile Include="Utils\DataEventArgs.cs" />
     <Compile Include="Utils\PickBox.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ToolboxControls\ScmMessage\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

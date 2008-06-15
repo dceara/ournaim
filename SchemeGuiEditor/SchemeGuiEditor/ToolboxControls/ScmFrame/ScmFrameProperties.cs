@@ -91,7 +91,7 @@ namespace SchemeGuiEditor.ToolboxControls
             string code = string.Format("(define {0}\n\t(new frame%\n {1}))\n\n", this.Name, GetScmPropertiesCode());
             return code;
         }
-        
+        [Browsable(false)]
         public string DefaultControlName
         {
             get { return "Frame"; }
@@ -471,7 +471,7 @@ namespace SchemeGuiEditor.ToolboxControls
             }
         }
 
-        [Editor(typeof(ScmFrameStyleUiEditor), typeof(UITypeEditor))]
+        [Editor(typeof(ScmStyleUiEditor), typeof(UITypeEditor))]
         public ScmFrameStyle Style
         {
             get
@@ -618,7 +618,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     break;
                 case FramePropNames.Style:
                     if (_forceDisplay || !this.Style.HasDefaultValues())
-                        code = CodeGenerationUtils.Indent(string.Format("(style \'{0})", this.Style.ToScmCode()),2);
+                        code = CodeGenerationUtils.Indent(string.Format("(style \'{0})", this.Style.ToScmCode()), 2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.Enabled:
@@ -645,7 +645,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     break;
                 case FramePropNames.MinWidth:
                     if (_forceDisplay || this.MinWidth != 0)
-                        code = CodeGenerationUtils.Indent(string.Format("(min-widtht {0})", this.MinWidth),2);
+                        code = CodeGenerationUtils.Indent(string.Format("(min-width {0})", this.MinWidth),2);
                     _forceDisplay = false;
                     break;
                 case FramePropNames.MinHeight:

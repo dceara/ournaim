@@ -7,7 +7,7 @@ using System.Windows.Forms.Design;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
-    public class ScmFrameStyleUiEditor : UITypeEditor
+    public class ScmStyleUiEditor : UITypeEditor
     {
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {
@@ -20,12 +20,22 @@ namespace SchemeGuiEditor.ToolboxControls
             if (formsEditorService == null)
                 return null;
 
-            if (!(value is ScmFrameStyle))
-                return null;
+            if (value is ScmFrameStyle)
+            {
+                ScmFrameStyleEditorControl editorCtrl = new ScmFrameStyleEditorControl(value as ScmFrameStyle);
+                formsEditorService.DropDownControl(editorCtrl);
+                return editorCtrl.Style;
+            }
 
-            ScmFrameStyleEditorControl editorCtrl = new ScmFrameStyleEditorControl(value as ScmFrameStyle);
-            formsEditorService.DropDownControl(editorCtrl);
-            return editorCtrl.Style;
+            if (value is ScmButtonStyle)
+            {
+                ScmButtonStyleEditorControl editorCtrl = new ScmButtonStyleEditorControl(value as ScmButtonStyle);
+                formsEditorService.DropDownControl(editorCtrl);
+                return editorCtrl.Style;
+            }
+
+            return null;
         }
     }
+
 }
