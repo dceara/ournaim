@@ -12,31 +12,38 @@ namespace SchemeGuiEditor.ToolboxControls
 {
     public partial class LayoutManagerContainer : UserControl
     {
-        public event EventHandler ContentSizeChanged;
+        public event EventHandler<DataEventArgs<int>> MinWidthChanged;
+        public event EventHandler<DataEventArgs<int>> MinHeightChanged;
+
+        #region Private Members
         private ContainerAlignment _alignment;
         private int _spacing;
         private int _strechRowCount;
+        private int _minHeight;
+        private int _minWidth;
+        #endregion
 
+        #region Constructor
         public LayoutManagerContainer()
         {
             InitializeComponent();
             _alignment = new ContainerAlignment(HorizontalAlign.Center, VerticalAlign.Top);
-            _alignment.AlignmentChanged += new EventHandler(_alignment_AlignmentChanged);
-            ResetLayoutPanel();
+            _alignment.AlignmentChanged += new EventHandler<DataEventArgs<AlignmentType>>(_alignment_AlignmentChanged);
+            ResetAlignment();
         }
+        #endregion
 
         #region Properties
         public ContainerAlignment Alignment
         {
             get { return _alignment; }
-            set 
+            set
             {
-                if (_alignment.HorizontalAlignment != value.HorizontalAlignment ||
-                    _alignment.VerticalAlignment != value.VerticalAlignment)
-                {
-                    _alignment = value;
-                    ResetLayoutPanel();
-                }
+                if (_alignment.HorizontalAlignment != value.HorizontalAlignment)
+                    ResetHorizontalAlignment(value.HorizontalAlignment);
+                if (_alignment.VerticalAlignment != value.VerticalAlignment)
+                    ResetVerticalAlignment(value.VerticalAlignment);
+                _alignment = value;
             }
         }
 
@@ -48,7 +55,7 @@ namespace SchemeGuiEditor.ToolboxControls
                 if (_spacing != value)
                 {
                     _spacing = value;
-                    SetControlsSpacing();
+                    RecomputeVerticalSizes();
                 }
             }
         }
@@ -62,7 +69,6 @@ namespace SchemeGuiEditor.ToolboxControls
             //right bottom corner of the container - to add the control at the last position
             Point screenLocation = tableLayoutPanel1.PointToScreen(new Point(tableLayoutPanel1.Width, tableLayoutPanel1.Height));
             AddControl(ctrl, screenLocation);
-            ctrl.Location = location;
         }
 
         public void AddControl(Control ctrl, Point screenPosition)
@@ -77,11 +83,8 @@ namespace SchemeGuiEditor.ToolboxControls
             Panel existingContainer = tableLayoutPanel1.GetChildAtPoint(clientPosition) as Panel;
             if (existingContainer != null && existingContainer.Controls.Count == 0)
             {
-                ctrl.Location = existingContainer.PointToClient(screenPosition);
-                tableLayoutPanel1.GetColumnSpan(existingContainer);
-                existingContainer.AutoSize = true;
                 existingContainer.Controls.Add(ctrl);
-                ctrl.Margin = new Padding(0, 0, ctrl.Location.X, ctrl.Location.Y);
+                AlignControl(existingContainer, ctrl);
                 sameParent = true;
             }
             else
@@ -98,51 +101,66 @@ namespace SchemeGuiEditor.ToolboxControls
                     rowIndex = 1;
 
                 tableLayoutPanel1.RowCount += 1;
-                tableLayoutPanel1.RowStyles.Insert(rowIndex, new RowStyle(SizeType.AutoSize));
-
-                Panel containerPanel = new Panel();
-                ctrl.Location = new Point(2, 2);
-                //ctrl.Margin = new Padding(0, 0, 2, 2);
-                containerPanel.Margin = new Padding(0);
-                containerPanel.AutoSize = true;
-                containerPanel.BackColor = Color.Aquamarine;
-                containerPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-                containerPanel.Controls.Add(ctrl);
-                for (int i = rowIndex; i < tableLayoutPanel1.RowCount - 2; i++)
-                {
-                    Control cellControl = tableLayoutPanel1.GetControlFromPosition(1, i);
-                    tableLayoutPanel1.SetRow(cellControl, i + 1);
-                }
-                tableLayoutPanel1.Controls.Add(containerPanel, 1, rowIndex);
-                IScmControlProperties ctrlProp = (ctrl as IScmControl).ScmPropertyObject;
-                if (ctrlProp.StretchableHeight)
+                tableLayoutPanel1.RowStyles.Insert(rowIndex, new RowStyle(SizeType.Absolute));
+                MoveControls(rowIndex);
+                AddControlToCell(rowIndex, ctrl);
+                SetHorizontalPosition(ctrl);
+                RecomputeVerticalSizes();
+                if ((ctrl as IScmContainee).StretchableHeight)
                     StrechHeight(ctrl);
-                if (ctrlProp.StretchableWidth)
+                if ((ctrl as IScmContainee).StretchableWidth)
                     StrechWidth(ctrl);
-                sameParent = false;
+                sameParent = false;   
             }
-            (ctrl as IScmControl).StrechChanged += new EventHandler<DataEventArgs<StrechDirection>>(LayoutManagerContainer_StrechChanged);
-            (ctrl as IScmControl).ContentSizeChanged += new EventHandler(LayoutManagerContainer_SizeChanged);
-            SetControlsSpacing();
-            LayoutManagerContainer_SizeChanged(this, EventArgs.Empty);
         }
 
-        void LayoutManagerContainer_SizeChanged(object sender, EventArgs e)
+        public void SetHorizontalPosition(Control ctrl)
         {
+            IScmContainee scmCtrl = ctrl as IScmContainee;
+            int width = scmCtrl.MinWidth + 2* scmCtrl.HorizontalMargin;
+            
+            if (tableLayoutPanel1.ColumnStyles[1].Width < width)
+            {
+                tableLayoutPanel1.ColumnStyles[1].Width = width;
+                AlignAllControls();
+                _minWidth = width;
+                RaiseWidthChanged();
+            }
+            else
+            {
+                int minwidth = RecomputeMinWidth();
+                if (minwidth != _minWidth)
+                {
+                    _minWidth = minwidth;
+                    tableLayoutPanel1.ColumnStyles[1].Width = minwidth;
+                    AlignAllControls();
+                    RaiseWidthChanged();
+                }
+                else
+                    AlignControl(ctrl.Parent as Panel, ctrl);
+            }
+        }
 
-            if (ContentSizeChanged != null)
-                ContentSizeChanged(this, EventArgs.Empty);
+        public void SetVerticalPozition(Control ctrl)
+        {
+            IScmContainee scmCtrl = ctrl as IScmContainee;
+            Panel pnl = ctrl.Parent as Panel;
+
+            int rowIndex = tableLayoutPanel1.GetRow(pnl);
+            int initalHeight = (int)tableLayoutPanel1.RowStyles[rowIndex].Height;
+            int height = scmCtrl.VerticalMargin * 2 + scmCtrl.MinHeight;
+            if (rowIndex < tableLayoutPanel1.RowCount - 2)
+                height += _spacing;
+            tableLayoutPanel1.RowStyles[rowIndex].Height = height;
+            AlignControl(pnl, ctrl);
+            _minHeight = _minHeight - initalHeight + height;
+            RaiseHeightChenged();
         }
 
         public void RemoveControl(Control ctrl)
         {
             Panel parent = ctrl.Parent as Panel;
-            Size size = new Size(parent.Width, parent.Height);
-            parent.AutoSize = false;
-            parent.Size = size;
             parent.Controls.Remove(ctrl);
-            (ctrl as IScmControl).StrechChanged -= new EventHandler<DataEventArgs<StrechDirection>>(LayoutManagerContainer_StrechChanged);
-            (ctrl as IScmControl).ContentSizeChanged -= new EventHandler(LayoutManagerContainer_SizeChanged);
         }
 
         public void RemoveContainer(Control ctrl)
@@ -169,31 +187,60 @@ namespace SchemeGuiEditor.ToolboxControls
                 }
 
                 tableLayoutPanel1.RowCount -= 1;
-                SetControlsSpacing();
-                LayoutManagerContainer_SizeChanged(this, EventArgs.Empty);
+                RecomputeVerticalSizes();
             }
         }
 
-        public Size ComputeMinSize()
+        public void StrechWidth(Control ctrl)
         {
-            int width = 124;
-            int height = 30;
-
-            foreach (Control ctrl in tableLayoutPanel1.Controls)
+            Panel pnl = ctrl.Parent as Panel;
+            IScmContainee scmCtrl = ctrl as IScmContainee;
+            if (scmCtrl.StretchableWidth)
             {
-                int rowIndex = tableLayoutPanel1.GetRow(ctrl);
-                if (tableLayoutPanel1.RowStyles[rowIndex].SizeType == SizeType.Percent)
-                {
-
-                }
-                else
-                    height += ctrl.Height + 2;
-                if (ctrl.Width > width && tableLayoutPanel1.GetColumnSpan(ctrl) == 1)
-                    width = ctrl.Width + 8;
+                ctrl.Width = pnl.Width - 2 * scmCtrl.HorizontalMargin;
+                ctrl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+                tableLayoutPanel1.SetColumn(pnl, 0);
+                tableLayoutPanel1.SetColumnSpan(pnl, 3);
             }
-            return new Size(width, height);
+            else
+            {
+                ctrl.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+                tableLayoutPanel1.SetColumnSpan(pnl, 1);
+                tableLayoutPanel1.SetColumn(pnl, 1);
+            }
+            SetHorizontalPosition(ctrl);
         }
 
+        public void StrechHeight(Control ctrl)
+        {
+            Panel pnl = ctrl.Parent as Panel;
+            IScmContainee scmCtrl = ctrl as IScmContainee;
+            int row = tableLayoutPanel1.GetRow(pnl);
+            RowStyle rowStyle = tableLayoutPanel1.RowStyles[row];
+            if (scmCtrl.StretchableHeight)
+            {
+                ctrl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Bottom;
+                rowStyle.SizeType = SizeType.Percent;
+                rowStyle.Height = 100;
+                if (_strechRowCount == 0)
+                {
+                    tableLayoutPanel1.RowStyles[0].Height = 0;
+                    tableLayoutPanel1.RowStyles[tableLayoutPanel1.RowCount - 1].Height = 0;
+                }
+                _strechRowCount++;
+            }
+            else
+            {
+                ctrl.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+                rowStyle.SizeType = SizeType.Absolute;
+                _strechRowCount--;
+                if (_strechRowCount == 0)
+                {
+                    ResetVerticalAlignment(_alignment.VerticalAlignment);
+                }
+                SetVerticalPozition(ctrl);
+            }
+        }
 
         public List<IScmControl> GetChildControls()
         {
@@ -208,19 +255,77 @@ namespace SchemeGuiEditor.ToolboxControls
         #endregion
 
         #region Private Methods
-        private void SetControlsSpacing()
+
+        private int RecomputeMinWidth()
         {
-            foreach (Control panelContainer in tableLayoutPanel1.Controls)
+            int maxWidth = 0;
+            foreach (Control pnl in tableLayoutPanel1.Controls)
             {
-                int rowIndex = tableLayoutPanel1.GetRow(panelContainer);
-                if (rowIndex < tableLayoutPanel1.RowCount - 2)
-                    panelContainer.Padding = new Padding(0, 0, 0, _spacing);
-                if (rowIndex == tableLayoutPanel1.RowCount - 2)
-                    panelContainer.Padding = new Padding(0);
+                if (pnl.Controls.Count == 0)
+                    continue;
+
+                IScmContainee scmCtrl = pnl.Controls[0] as IScmContainee;
+                int width = 2 * scmCtrl.HorizontalMargin + scmCtrl.MinWidth;
+                if (width > maxWidth)
+                    maxWidth = width;
+            }
+            return maxWidth;
+        }
+
+        private void AlignAllControls()
+        {
+            foreach (Control pnl in tableLayoutPanel1.Controls)
+                AlignControl(pnl as Panel);
+        }
+
+        private void AlignControl(Panel panel)
+        {
+            if (panel.Controls.Count > 0)
+                AlignControl(panel, panel.Controls[0]);
+        }
+
+        private void AlignControl(Panel parent, Control ctrl)
+        {
+            IScmContainee scmCtrl = ctrl as IScmContainee;
+            if (scmCtrl.StretchableWidth)
+            {
+                ctrl.Location = new Point(scmCtrl.HorizontalMargin, scmCtrl.VerticalMargin);
+                return;
+            }
+            switch (_alignment.HorizontalAlignment)
+            {
+                case HorizontalAlign.Center:
+                    ctrl.Location = new Point(parent.Width / 2 - scmCtrl.MinWidth / 2, scmCtrl.VerticalMargin);
+                    break;
+                case HorizontalAlign.Left:
+                    ctrl.Location = new Point(scmCtrl.HorizontalMargin, scmCtrl.VerticalMargin);
+                    break;
+                case HorizontalAlign.Right:
+                    ctrl.Location = new Point(parent.Width - scmCtrl.MinWidth - scmCtrl.HorizontalMargin, scmCtrl.VerticalMargin);
+                    break;
             }
         }
 
-        private void ResetLayoutPanel()
+        private void AddControlToCell(int rowIndex, Control ctrl)
+        {
+            Panel containerPanel = new Panel();
+            containerPanel.Margin = new Padding(0);
+            containerPanel.Dock = DockStyle.Fill;
+            containerPanel.BackColor = Color.Aquamarine;
+            containerPanel.Controls.Add(ctrl);
+            tableLayoutPanel1.Controls.Add(containerPanel, 1, rowIndex);
+        }
+
+        private void MoveControls(int startIndex)
+        {
+            for (int i = startIndex; i < tableLayoutPanel1.RowCount - 2; i++)
+            {
+                Control cellControl = tableLayoutPanel1.GetControlFromPosition(1, i);
+                tableLayoutPanel1.SetRow(cellControl, i + 1);
+            }
+        }
+
+        private void ResetAlignment()
         {
             ResetHorizontalAlignment(_alignment.HorizontalAlignment);
             ResetVerticalAlignment(_alignment.VerticalAlignment);
@@ -262,6 +367,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     tableLayoutPanel1.ColumnStyles[2].Width = 0;
                     break;
             }
+            AlignAllControls();
         }
 
         private Control FindNearestContainer(Point clientPosition)
@@ -283,64 +389,48 @@ namespace SchemeGuiEditor.ToolboxControls
             return nearestContainer;
         }
 
-        private void StrechWidth(Control ctrl)
+        private void RecomputeVerticalSizes()
         {
-            Panel pnl = ctrl.Parent as Panel;
-            int span = tableLayoutPanel1.GetColumnSpan(pnl);
-            if (span == 1) //not streched
+            int totalHeight = 0;
+            foreach (Control pnl in tableLayoutPanel1.Controls)
             {
-                tableLayoutPanel1.SetColumn(pnl, 0);
-                tableLayoutPanel1.SetColumnSpan(pnl, 3);
-                ctrl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
-                pnl.Width = tableLayoutPanel1.Width;
-                pnl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+                if (pnl.Controls.Count == 0)
+                    continue;
+
+                IScmContainee scmControl = pnl.Controls[0] as IScmContainee;
+                int rowIndex = tableLayoutPanel1.GetRow(pnl);
+                int height = scmControl.VerticalMargin * 2 + scmControl.MinHeight;
+                if (rowIndex < tableLayoutPanel1.RowCount - 2)
+                    height += _spacing;
+                if (!scmControl.StretchableHeight)
+                    tableLayoutPanel1.RowStyles[rowIndex].Height = height;
+                totalHeight += height;
             }
-            else
-            {
-                ctrl.Anchor = AnchorStyles.Left | AnchorStyles.Top;
-                pnl.Anchor = AnchorStyles.Left | AnchorStyles.Top;
-                tableLayoutPanel1.SetColumnSpan(pnl, 1);
-                tableLayoutPanel1.SetColumn(pnl, 1);
-            }
-            Console.WriteLine("change rowspan :" + span);
+            _minHeight = totalHeight;
+            RaiseHeightChenged();
         }
 
-        private void StrechHeight(Control ctrl)
+        private void RaiseHeightChenged()
         {
-            Panel pnl = ctrl.Parent as Panel;
-            int row = tableLayoutPanel1.GetRow(pnl);
-            RowStyle rowStyle = tableLayoutPanel1.RowStyles[row];
-            if (rowStyle.SizeType == SizeType.AutoSize)
-            {
-                ctrl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Bottom;
-                pnl.Dock = DockStyle.Fill;
-                rowStyle.SizeType = SizeType.Percent;
-                rowStyle.Height = 100;
-                if (_strechRowCount == 0)
-                {
-                    tableLayoutPanel1.RowStyles[0].Height = 0;
-                    tableLayoutPanel1.RowStyles[tableLayoutPanel1.RowCount - 1].Height = 0;
-                }
-                _strechRowCount++;
-            }
-            else
-            {
-                pnl.Dock = DockStyle.None;
-                ctrl.Anchor = AnchorStyles.Left | AnchorStyles.Top;
-                rowStyle.SizeType = SizeType.AutoSize;
-                _strechRowCount--;
-                if (_strechRowCount == 0)
-                {
-                    ResetVerticalAlignment(_alignment.VerticalAlignment);
-                }
-            }
+            if (MinHeightChanged != null)
+                MinHeightChanged(this, new DataEventArgs<int>(_minHeight));
         }
+
+        private void RaiseWidthChanged()
+        {
+            if (MinWidthChanged != null)
+                MinWidthChanged(this, new DataEventArgs<int>(_minWidth));
+        }
+
         #endregion
 
         #region EventHandlers
-        void _alignment_AlignmentChanged(object sender, EventArgs e)
+        void _alignment_AlignmentChanged(object sender, DataEventArgs<AlignmentType> e)
         {
-            ResetLayoutPanel();
+            if (e.Data == AlignmentType.Vertical)
+                ResetVerticalAlignment(_alignment.VerticalAlignment);
+            else
+                ResetHorizontalAlignment(_alignment.HorizontalAlignment);
         }
 
         void LayoutManagerContainer_StrechChanged(object sender, DataEventArgs<StrechDirection> e)

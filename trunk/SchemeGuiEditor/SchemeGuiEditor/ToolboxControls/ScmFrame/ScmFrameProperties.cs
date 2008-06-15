@@ -78,6 +78,7 @@ namespace SchemeGuiEditor.ToolboxControls
         }
 
         #region IScmControlProperties Members
+        public event EventHandler PropertyChanged;
 
         [Browsable(false)]
         public IScmControl Control
@@ -95,11 +96,14 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             get { return "Frame"; }
         }
-        #endregion
 
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged()
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, EventArgs.Empty);
+            }
+        }
 
         #endregion
 
@@ -117,7 +121,11 @@ namespace SchemeGuiEditor.ToolboxControls
         public string Name
         {
             get { return _frame.Name; }
-            set { _frame.Name = value; }
+            set 
+            { 
+                _frame.Name = value;
+                _frame.RaiseNameChanged();
+            }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryAppearance)]
@@ -148,7 +156,7 @@ namespace SchemeGuiEditor.ToolboxControls
                 if (_autosizeWidth)
                 {
                     _width = "";
-                    _frame.RecomputeFrameSizes();
+                    _frame.ResetWidth();
                 }
                 else
                     _width = _frame.Width.ToString();
@@ -168,7 +176,7 @@ namespace SchemeGuiEditor.ToolboxControls
                 if (_autosizeHeight)
                 {
                     _height = "";
-                    _frame.RecomputeFrameSizes();
+                    _frame.ResetHeight();
                 }
                 else
                     _height = _frame.Height.ToString();
@@ -249,10 +257,7 @@ namespace SchemeGuiEditor.ToolboxControls
                 }
 
                 _minWidth = value;
-                if (value > _frame.MinimumSize.Width)
-                    _frame.MinimumSize = new Size(value, _frame.MinimumSize.Height);
-                else
-                    _frame.RecomputeFrameSizes();
+                _frame.ResetMinWidth();
             }
         }
 
@@ -271,10 +276,7 @@ namespace SchemeGuiEditor.ToolboxControls
                 }
 
                 _minHeight = value;
-                if (value > _frame.MinimumSize.Height)
-                    _frame.MinimumSize = new Size(_frame.MinimumSize.Width, value);
-                else
-                    _frame.RecomputeFrameSizes();
+                _frame.ResetMinHeight();
             }
         }
 
@@ -680,14 +682,6 @@ namespace SchemeGuiEditor.ToolboxControls
             for (int i = 0; i < 15; i++)    //iterate trough all posible properties
                 if (!_parsedProperties.Contains((FramePropNames)i))
                     _parsedProperties.Add((FramePropNames)i);
-        }
-
-        private void NotifyPropertyChanged()
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(""));
-            }
         }
         #endregion
 

@@ -12,9 +12,9 @@ namespace SchemeGuiEditor.ToolboxControls
     }
     public interface IScmControl
     {
-        event EventHandler<DataEventArgs<StrechDirection>> StrechChanged;
-        event EventHandler ContentSizeChanged;
+        event EventHandler ControlChanged;
         IScmControlProperties ScmPropertyObject { get;}
-        void SetInitialProperties();
+        void SetInitialProperties(string name);
+        void ControlResized();
     }
 }

@@ -66,14 +66,14 @@ namespace SchemeGuiEditor.Gui
             if (propertyGrid.SelectedObject != null && propertyGrid.SelectedObject is IScmControlProperties)
             {
                 ctrl = propertyGrid.SelectedObject as IScmControlProperties;
-                ctrl.PropertyChanged -= new PropertyChangedEventHandler(ctrl_PropertyChanged);
+                ctrl.PropertyChanged -= new EventHandler(ctrl_PropertyChanged);
             }
             propertyGrid.SelectedObject = comboBox.SelectedItem;
 
             if (propertyGrid.SelectedObject is IScmControlProperties)
             {
                 ctrl = propertyGrid.SelectedObject as IScmControlProperties;
-                ctrl.PropertyChanged += new PropertyChangedEventHandler(ctrl_PropertyChanged);
+                ctrl.PropertyChanged += new EventHandler(ctrl_PropertyChanged);
             }
 
             if (_throwEvent && SelectedControlChanged != null)
@@ -82,7 +82,7 @@ namespace SchemeGuiEditor.Gui
                 _throwEvent = true;
         }
 
-        void ctrl_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        void ctrl_PropertyChanged(object sender, EventArgs e)
         {
             propertyGrid.Refresh();
         }

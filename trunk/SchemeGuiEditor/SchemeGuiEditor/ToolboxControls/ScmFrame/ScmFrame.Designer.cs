@@ -46,7 +46,7 @@ namespace SchemeGuiEditor.ToolboxControls
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackColor = System.Drawing.SystemColors.Window;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(318, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(597, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(21, 21);
             this.pictureBox1.TabIndex = 1;
@@ -57,7 +57,7 @@ namespace SchemeGuiEditor.ToolboxControls
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(294, 3);
+            this.pictureBox2.Location = new System.Drawing.Point(573, 3);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(21, 21);
             this.pictureBox2.TabIndex = 2;
@@ -68,7 +68,7 @@ namespace SchemeGuiEditor.ToolboxControls
             this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(270, 3);
+            this.pictureBox3.Location = new System.Drawing.Point(549, 3);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(21, 21);
             this.pictureBox3.TabIndex = 3;
@@ -103,8 +103,9 @@ namespace SchemeGuiEditor.ToolboxControls
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.layoutManagerContainer1.BackColor = System.Drawing.SystemColors.Control;
             this.layoutManagerContainer1.Location = new System.Drawing.Point(3, 26);
+            this.layoutManagerContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.layoutManagerContainer1.Name = "layoutManagerContainer1";
-            this.layoutManagerContainer1.Size = new System.Drawing.Size(338, 290);
+            this.layoutManagerContainer1.Size = new System.Drawing.Size(617, 407);
             this.layoutManagerContainer1.Spacing = 0;
             this.layoutManagerContainer1.TabIndex = 5;
             // 
@@ -112,6 +113,8 @@ namespace SchemeGuiEditor.ToolboxControls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.layoutManagerContainer1);
@@ -120,7 +123,7 @@ namespace SchemeGuiEditor.ToolboxControls
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Name = "ScmFrame";
-            this.Size = new System.Drawing.Size(344, 319);
+            this.Size = new System.Drawing.Size(623, 436);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();

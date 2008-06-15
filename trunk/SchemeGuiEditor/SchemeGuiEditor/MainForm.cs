@@ -302,7 +302,10 @@ namespace SchemeGuiEditor
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
-                (_activeToolWindow as FormDesigner).DeleteSelectedControl();
+            {
+                if (_activeToolWindow != null)
+                    (_activeToolWindow as FormDesigner).DeleteSelectedControl();
+            }
         }
                         
     }

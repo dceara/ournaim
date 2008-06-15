@@ -193,6 +193,7 @@
       <DependentUpon>ToolWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="ToolboxControls\ContainerAlignment.cs" />
+    <Compile Include="ToolboxControls\IScmContainee.cs" />
     <Compile Include="ToolboxControls\IScmContainer.cs" />
     <Compile Include="ToolboxControls\IScmControl.cs" />
     <Compile Include="ToolboxControls\IScmControlProperties.cs" />
