@@ -64,6 +64,7 @@ namespace SchemeGuiEditor.Gui
 
             item = new ToolBoxItem();
             item.Caption = "CheckBox";
+            item.Object = typeof(ScmCheckBox);
             items.Add(item);
 
             item = new ToolBoxItem();

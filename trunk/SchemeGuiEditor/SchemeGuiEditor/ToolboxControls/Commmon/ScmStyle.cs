@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
-    public class ScmMessageStyle
+    public class ScmStyle
     {
         private bool _deleted;
 

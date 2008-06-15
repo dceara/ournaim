@@ -1,6 +1,6 @@
 namespace SchemeGuiEditor.ToolboxControls
 {
-    partial class ScmMessageStyleEditorControl
+    partial class ScmStyleEditorControl
     {
         /// <summary> 
         /// Required designer variable.

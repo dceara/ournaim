@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using SchemeGuiEditor.Constants;
@@ -6,13 +7,12 @@ using System.Drawing;
 using SchemeGuiEditor.Services;
 using System.Windows.Forms;
 using SchemeGuiEditor.Utils;
-using System;
 using System.Drawing.Design;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
     #region Properties enum
-    public enum MessagePropNames
+    public enum CheckBoxPropNames
     {
         Parent,
         Label,
@@ -29,10 +29,10 @@ namespace SchemeGuiEditor.ToolboxControls
     }
     #endregion
 
-    public class ScmMessageProperties : IScmControlProperties
+    public class ScmCheckBoxProperties :IScmControlProperties
     {
         #region Private Members
-        private ScmMessage _message;
+        private ScmCheckBox _checkBox;
         private bool _enabled;
         private string _parent;
         private bool _autosizeWidth;
@@ -40,18 +40,18 @@ namespace SchemeGuiEditor.ToolboxControls
         private bool _forceDisplay;
         private int _minWidth;
         private int _minHeight;
-        private ScmMessageStyle _style;
-        private List<MessagePropNames> _parsedProperties;
+        private ScmStyle _style;
+        private List<CheckBoxPropNames> _parsedProperties;
         private Dictionary<int, ScmComment> _parsedComments;
         private Dictionary<int, ScmBlock> _parsedScmBlocks;
         #endregion
 
-        public ScmMessageProperties(ScmMessage message)
+        public ScmCheckBoxProperties(ScmCheckBox checkBox)
         {
-            _message = message;
+            _checkBox = checkBox;
             _enabled = true;
-            _style = new ScmMessageStyle();
-            _parsedProperties = new List<MessagePropNames>();
+            _style = new ScmStyle();
+            _parsedProperties = new List<CheckBoxPropNames>();
             _parsedComments = new Dictionary<int, ScmComment>();
             _parsedScmBlocks = new Dictionary<int, ScmBlock>();
         }
@@ -63,19 +63,19 @@ namespace SchemeGuiEditor.ToolboxControls
         [Browsable(false)]
         public IScmControl Control
         {
-            get { return _message; }
+            get { return _checkBox; }
         }
 
         public string ToScmCode()
         {
-            string code = string.Format("(define {0}\n\t(new message%\n {1}))\n\n", this.Name, GetScmPropertiesCode());
+            string code = string.Format("(define {0}\n\t(new check-box%\n {1}))\n\n", this.Name, GetScmPropertiesCode());
             return code;
         }
 
         [Browsable(false)]
         public string DefaultControlName
         {
-            get { return "Message"; }
+            get { return "CheckBox"; }
         }
 
         public void NotifyPropertyChanged()
@@ -94,7 +94,7 @@ namespace SchemeGuiEditor.ToolboxControls
         public string Parent
         {
             get { return _parent; }
-            set
+            set 
             {
                 _parent = value;
                 NotifyPropertyChanged();
@@ -105,23 +105,22 @@ namespace SchemeGuiEditor.ToolboxControls
         [DescriptionAttribute("Indicates the name used in code to identify the object")]
         public string Name
         {
-            get { return _message.Name; }
-            set
+            get { return _checkBox.Name; }
+            set 
             {
                 if (value == string.Empty)
                 {
                     MessageService.ShowError(ControlValidation.InvalidValue);
                     return;
                 }
-                _message.Name = value;
-            }
+                _checkBox.Name = value; }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryAppearance)]
-        [DescriptionAttribute("The displayed text")]
+        [DescriptionAttribute("The string displayed next to the checkbox")]
         public string Label
         {
-            get { return _message.Text; }
+            get { return _checkBox.Text; }
             set
             {
                 if (value.Length > 200)
@@ -129,13 +128,13 @@ namespace SchemeGuiEditor.ToolboxControls
                     MessageService.ShowError(ControlValidation.LabelToLong);
                     return;
                 }
-                _message.Text = value;
-                _message.Refresh();
+                _checkBox.Text = value;
+                _checkBox.Refresh();
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryBehavior)]
-        [DescriptionAttribute("Enables or disables the message")]
+        [DescriptionAttribute("Enables or disables the checkbox")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -144,7 +143,7 @@ namespace SchemeGuiEditor.ToolboxControls
         }
 
         [CategoryAttribute(AttributesCategories.CategoryBehavior)]
-        [DescriptionAttribute("Allow seting minimum width for the message")]
+        [DescriptionAttribute("Allow seting minimum width for the checkbox")]
         [DefaultValue(true)]
         public bool AutosizeWidth
         {
@@ -154,17 +153,17 @@ namespace SchemeGuiEditor.ToolboxControls
                 _autosizeWidth = value;
                 if (_autosizeWidth)
                 {
-                    _message.MinWidth = 0;
-                    _message.RecomputeSizes();
+                    _checkBox.MinWidth = 0;
+                    _checkBox.RecomputeSizes();
                 }
                 else
-                    _message.MinWidth = _message.Width;
+                    _checkBox.MinWidth = _checkBox.Width;
                 NotifyPropertyChanged();
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryBehavior)]
-        [DescriptionAttribute("Allow setting an minimum Height for the message")]
+        [DescriptionAttribute("Allow setting an minimum Height for the checkbox")]
         [DefaultValue(true)]
         public bool AutosizeHeight
         {
@@ -174,17 +173,17 @@ namespace SchemeGuiEditor.ToolboxControls
                 _autosizeHeight = value;
                 if (_autosizeHeight)
                 {
-                    _message.MinHeight = 0;
-                    _message.RecomputeSizes();
+                    _checkBox.MinHeight = 0;
+                    _checkBox.RecomputeSizes();
                 }
                 else
-                    _message.MinHeight = _message.Height;
+                    _checkBox.MinHeight = _checkBox.Height;
                 NotifyPropertyChanged();
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Minimum width for the message in pixels")]
+        [DescriptionAttribute("Minimum width for the checkbox in pixels")]
         [DefaultValue(0)]
         public int MinWidth
         {
@@ -199,13 +198,13 @@ namespace SchemeGuiEditor.ToolboxControls
                         return;
                     }
                     _minWidth = value;
-                    _message.MinWidth = value;
+                    _checkBox.MinWidth = value;
                 }
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Minimum height for the message in pixels")]
+        [DescriptionAttribute("Minimum height for the checkbox in pixels")]
         [DefaultValue(0)]
         public int MinHeight
         {
@@ -220,47 +219,47 @@ namespace SchemeGuiEditor.ToolboxControls
                         return;
                     }
                     _minHeight = value;
-                    _message.MinHeight = value;
+                    _checkBox.MinHeight = value;
                 }
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryAppearance)]
-        [DescriptionAttribute("Message's horizontal stretchability")]
+        [DescriptionAttribute("Checkbox's horizontal stretchability")]
         [DefaultValue(false)]
         public bool StretchableWidth
         {
             get
             {
-                return _message.StretchableWidth;
+                return _checkBox.StretchableWidth;
             }
             set
             {
-                _message.StretchableWidth = value;
+                _checkBox.StretchableWidth = value;
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryAppearance)]
-        [DescriptionAttribute("Message's vertical stretchability")]
+        [DescriptionAttribute("Checkbox's vertical stretchability")]
         [DefaultValue(false)]
         public bool StretchableHeight
         {
             get
             {
-                return _message.StretchableHeight;
+                return _checkBox.StretchableHeight;
             }
             set
             {
-                _message.StretchableHeight = value;
+                _checkBox.StretchableHeight = value;
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Vertical margins for the message in pixels")]
+        [DescriptionAttribute("Vertical margins for the checkbox in pixels")]
         [DefaultValue(2)]
         public int VerticalMargin
         {
-            get { return _message.VerticalMargin; }
+            get { return _checkBox.VerticalMargin; }
             set
             {
                 if (value < 0 || value > 1000)
@@ -268,16 +267,16 @@ namespace SchemeGuiEditor.ToolboxControls
                     MessageService.ShowError(ControlValidation.ValueInvalid);
                     return;
                 }
-                _message.VerticalMargin = value;
+                _checkBox.VerticalMargin = value;
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Horizontal margins for the message in pixels")]
+        [DescriptionAttribute("Horizontal margins for the checkbox in pixels")]
         [DefaultValue(2)]
         public int HorizontalMargin
         {
-            get { return _message.HorizontalMargin; }
+            get { return _checkBox.HorizontalMargin; }
             set
             {
                 if (value < 0 || value > 1000)
@@ -285,12 +284,12 @@ namespace SchemeGuiEditor.ToolboxControls
                     MessageService.ShowError(ControlValidation.ValueInvalid);
                     return;
                 }
-                _message.HorizontalMargin = value;
+                _checkBox.HorizontalMargin = value;
             }
         }
 
         [Editor(typeof(ScmStyleUiEditor), typeof(UITypeEditor))]
-        public ScmMessageStyle Style
+        public ScmStyle Style
         {
             get
             {
@@ -306,24 +305,24 @@ namespace SchemeGuiEditor.ToolboxControls
         #region Override Mothods
         public override string ToString()
         {
-            return Name + " " + _message.GetType().FullName;
+            return Name + " " + _checkBox.GetType().FullName;
         }
         #endregion
 
         #region Public Methods
         public void SetScmComment(ScmComment comment)
         {
-            _parsedProperties.Add(MessagePropNames.ScmComment);
+            _parsedProperties.Add(CheckBoxPropNames.ScmComment);
             _parsedComments.Add(_parsedProperties.Count - 1, comment);
         }
 
         public void SetScmBlock(ScmBlock scmBlock)
         {
-            _parsedProperties.Add(MessagePropNames.ScmBlock);
+            _parsedProperties.Add(CheckBoxPropNames.ScmBlock);
             _parsedScmBlocks.Add(_parsedProperties.Count - 1, scmBlock);
         }
 
-        public void AddParesedProperty(MessagePropNames propertyName)
+        public void AddParesedProperty(CheckBoxPropNames propertyName)
         {
             _parsedProperties.Add(propertyName);
         }
@@ -340,66 +339,66 @@ namespace SchemeGuiEditor.ToolboxControls
             return propertiesCode;
         }
 
-        private string GetProppertyCode(MessagePropNames propName, int index)
+        private string GetProppertyCode(CheckBoxPropNames propName, int index)
         {
             string code = "";
             switch (propName)
             {
-                case MessagePropNames.Label:
-                    code = CodeGenerationUtils.Indent(string.Format("(label \"{0}\")", this.Label), 2);
+                case CheckBoxPropNames.Label:
+                    code = CodeGenerationUtils.Indent(string.Format("(label \"{0}\")", this.Label),2);
                     _forceDisplay = false;
                     break;
-                case MessagePropNames.Parent:
-                    code = CodeGenerationUtils.Indent(string.Format("(parent {0})", this.Parent), 2);
+                case CheckBoxPropNames.Parent:
+                    code = CodeGenerationUtils.Indent(string.Format("(parent {0})", this.Parent),2);
                     _forceDisplay = false;
                     break;
-                case MessagePropNames.Enabled:
+                case CheckBoxPropNames.Enabled:
                     if (_forceDisplay || this.Enabled != true)
-                        code = CodeGenerationUtils.Indent(string.Format("(enabled {0})", CodeGenerationUtils.ToScmBoolValue(this.Enabled)), 2);
+                        code = CodeGenerationUtils.Indent(string.Format("(enabled {0})", CodeGenerationUtils.ToScmBoolValue(this.Enabled)),2);
                     _forceDisplay = false;
                     break;
-                case MessagePropNames.MinWidth:
+                case CheckBoxPropNames.MinWidth:
                     if (_forceDisplay || this.MinWidth != 0)
-                        code = CodeGenerationUtils.Indent(string.Format("(min-width {0})", this.MinWidth), 2);
+                        code = CodeGenerationUtils.Indent(string.Format("(min-width {0})", this.MinWidth),2);
                     _forceDisplay = false;
                     break;
-                case MessagePropNames.MinHeight:
+                case CheckBoxPropNames.MinHeight:
                     if (_forceDisplay || this.MinHeight != 0)
-                        code = CodeGenerationUtils.Indent(string.Format("(min-height {0})", this.MinHeight), 2);
+                        code = CodeGenerationUtils.Indent(string.Format("(min-height {0})", this.MinHeight),2);
                     _forceDisplay = false;
                     break;
-                case MessagePropNames.StrechWidth:
+                case CheckBoxPropNames.StrechWidth:
                     if (_forceDisplay || this.StretchableWidth != false)
                         code = CodeGenerationUtils.Indent(string.Format("(stretchable-width {0})",
-                            CodeGenerationUtils.ToScmBoolValue(this.StretchableWidth)), 2);
+                            CodeGenerationUtils.ToScmBoolValue(this.StretchableWidth)),2);
                     _forceDisplay = false;
                     break;
-                case MessagePropNames.StrechHeight:
+                case CheckBoxPropNames.StrechHeight:
                     if (_forceDisplay || this.StretchableHeight != false)
                         code = CodeGenerationUtils.Indent(string.Format("(stretchable-height {0})",
-                            CodeGenerationUtils.ToScmBoolValue(this.StretchableHeight)), 2);
+                            CodeGenerationUtils.ToScmBoolValue(this.StretchableHeight)),2);
                     _forceDisplay = false;
                     break;
-                case MessagePropNames.VerticalMargin:
+                case CheckBoxPropNames.VerticalMargin:
                     if (_forceDisplay || this.VerticalMargin != 2)
-                        code = CodeGenerationUtils.Indent(string.Format("(vert-margin {0})", this.VerticalMargin), 2);
+                        code = CodeGenerationUtils.Indent(string.Format("(vert-margin {0})", this.VerticalMargin),2);
                     _forceDisplay = false;
                     break;
-                case MessagePropNames.HorizontalMargin:
+                case CheckBoxPropNames.HorizontalMargin:
                     if (_forceDisplay || this.HorizontalMargin != 2)
                         code = CodeGenerationUtils.Indent(string.Format("(horiz-margin {0})", this.HorizontalMargin), 2);
                     _forceDisplay = false;
                     break;
-                case MessagePropNames.Style:
+                case CheckBoxPropNames.Style:
                     if (_forceDisplay || !this.Style.HasDefaultValues())
                         code = CodeGenerationUtils.Indent(string.Format("(style \'{0})", this.Style.ToScmCode()), 2);
                     _forceDisplay = false;
                     break;
-                case MessagePropNames.ScmComment:
+                case CheckBoxPropNames.ScmComment:
                     code = _parsedComments[index].ToScmCode(2);
                     _forceDisplay = true;
                     break;
-                case MessagePropNames.ScmBlock:
+                case CheckBoxPropNames.ScmBlock:
                     code = _parsedScmBlocks[index].ToScmCode(2);
                     _forceDisplay = false;
                     break;
@@ -411,11 +410,9 @@ namespace SchemeGuiEditor.ToolboxControls
         private void AddMissingProperties()
         {
             for (int i = 0; i < 10; i++)    //iterate trough all posible properties
-                if (!_parsedProperties.Contains((MessagePropNames)i))
-                    _parsedProperties.Add((MessagePropNames)i);
+                if (!_parsedProperties.Contains((CheckBoxPropNames)i))
+                    _parsedProperties.Add((CheckBoxPropNames)i);
         }
         #endregion
     }
 }
-
-
