@@ -9,10 +9,10 @@ using SchemeGuiEditor.Utils;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
-    public class ScmButton : Button, IScmContainee
+    public class ScmCheckBox : CheckBox, IScmContainee
     {
         #region Private Members
-        private ScmButtonProperties _scmProperties;
+        private ScmCheckBoxProperties _scmProperties;
         private IScmContainer _scmContainer;
         private int _verticalMargin;
         private int _horizontalMargin;
@@ -20,11 +20,11 @@ namespace SchemeGuiEditor.ToolboxControls
         private bool _stretchableHeight;
         #endregion
 
-        public ScmButton()
+        public ScmCheckBox()
         {
             _verticalMargin = 2;
             _horizontalMargin = 2;
-            _scmProperties = new ScmButtonProperties(this);
+            _scmProperties = new ScmCheckBoxProperties(this);
             this.Text = " "; 
         }
 
@@ -182,7 +182,7 @@ namespace SchemeGuiEditor.ToolboxControls
         public void RecomputeSizes()
         {
             SizeF textSize = this.CreateGraphics().MeasureString(this.Text, this.Font);
-            Size s = new Size(Convert.ToInt32(textSize.Width) + 10, 20);
+            Size s = new Size(Convert.ToInt32(textSize.Width) + 20, 20);
             this.MinimumSize = s;
 
             if (_scmProperties.AutosizeWidth)
@@ -213,3 +213,4 @@ namespace SchemeGuiEditor.ToolboxControls
         }
     }
 }
+

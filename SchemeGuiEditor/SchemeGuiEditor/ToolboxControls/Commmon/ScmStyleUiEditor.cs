@@ -34,6 +34,13 @@ namespace SchemeGuiEditor.ToolboxControls
                 return editorCtrl.Style;
             }
 
+            if (value is ScmStyle)
+            {
+                ScmStyleEditorControl editorCtrl = new ScmStyleEditorControl(value as ScmStyle);
+                formsEditorService.DropDownControl(editorCtrl);
+                return editorCtrl.Style;
+            }
+
             return null;
         }
     }

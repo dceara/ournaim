@@ -8,11 +8,11 @@ using System.Windows.Forms;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
-    public partial class ScmMessageStyleEditorControl : UserControl
+    public partial class ScmStyleEditorControl : UserControl
     {
-        private ScmMessageStyle _style;
+        private ScmStyle _style;
 
-        public ScmMessageStyleEditorControl(ScmMessageStyle style)
+        public ScmStyleEditorControl(ScmStyle style)
         {
             InitializeComponent();
             _style = style;
@@ -24,7 +24,7 @@ namespace SchemeGuiEditor.ToolboxControls
             checkBoxDeleted.Checked = _style.Deleted;
         }
 
-        public ScmMessageStyle Style
+        public ScmStyle Style
         {
             get { return _style; }
         }

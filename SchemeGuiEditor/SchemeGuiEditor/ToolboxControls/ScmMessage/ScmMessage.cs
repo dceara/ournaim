@@ -88,7 +88,7 @@ namespace SchemeGuiEditor.ToolboxControls
             {
                 _verticalMargin = value;
                 if (_scmContainer != null)
-                    _scmContainer.LayoutManager.SetVerticalPozition(this);
+                    _scmContainer.LayoutManager.RecomputeVerticalSizes();
                 RaiseControlChanged();
             }
         }
@@ -117,7 +117,7 @@ namespace SchemeGuiEditor.ToolboxControls
                 {
                     this.Height = value;
                     if (_scmContainer != null)
-                        _scmContainer.LayoutManager.SetVerticalPozition(this);
+                        _scmContainer.LayoutManager.RecomputeVerticalSizes();
                 }
                 RaiseControlChanged();
             }
@@ -207,6 +207,11 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             _scmProperties.Parent = _scmContainer.ScmPropertyObject.Name;
             _scmProperties.NotifyPropertyChanged();
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
         }
     }
 
