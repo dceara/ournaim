@@ -71,7 +71,7 @@ namespace SchemeGuiEditor.ToolboxControls
         #region IScmContainer Members
         public event EventHandler NameChanged;
 
-        public VerticalLayoutManagerContainer LayoutManager
+        public ILayoutManager LayoutManager
         {
             get { return layoutManagerContainer1; }
         }
@@ -82,8 +82,6 @@ namespace SchemeGuiEditor.ToolboxControls
         public void ResetMinHeight()
         {
             this.MinimumSize = new Size(this.MinimumSize.Width, Math.Max(_contentHeight, _scmProperties.MinHeight));
-            if (_scmProperties.AutosizeHeight)
-                this.Height = this.MinimumSize.Height;
         }
 
         public void ResetMinWidth()
@@ -91,6 +89,7 @@ namespace SchemeGuiEditor.ToolboxControls
             this.MinimumSize = new Size(Math.Max(_minWidth,
                 Math.Max(_contentWidth, _scmProperties.MinWidth)),this.MinimumSize.Height);
         }
+
         public void ResetWidth()
         {
             this.Width = this.MinimumSize.Width;
@@ -125,7 +124,11 @@ namespace SchemeGuiEditor.ToolboxControls
             if (_contentHeight > this.Height || _scmProperties.AutosizeHeight)
                 this.Height = _contentHeight;
         }
-        #endregion
 
+        private void layoutManagerContainer1_Click(object sender, EventArgs e)
+        {
+            this.OnClick(e);
+        }
+        #endregion
     }
 }

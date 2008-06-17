@@ -221,10 +221,12 @@
     <Compile Include="ToolboxControls\HorizontalLayoutManagerContainer.Designer.cs">
       <DependentUpon>HorizontalLayoutManagerContainer.cs</DependentUpon>
     </Compile>
+    <Compile Include="ToolboxControls\Interfaces\ILayoutManager.cs" />
     <Compile Include="ToolboxControls\Interfaces\IScmContainee.cs" />
     <Compile Include="ToolboxControls\Interfaces\IScmContainer.cs" />
     <Compile Include="ToolboxControls\Interfaces\IScmControl.cs" />
     <Compile Include="ToolboxControls\Interfaces\IScmControlProperties.cs" />
+    <Compile Include="ToolboxControls\ScmHorizontalPanel\ScmHorizontalPanelProperties.cs" />
     <Compile Include="ToolboxControls\VerticalLayoutManagerContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>

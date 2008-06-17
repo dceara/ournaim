@@ -51,6 +51,8 @@ namespace SchemeGuiEditor.ToolboxControls
             _checkBox = checkBox;
             _enabled = true;
             _style = new ScmStyle();
+            _autosizeHeight = true;
+            _autosizeWidth = true;
             _parsedProperties = new List<CheckBoxPropNames>();
             _parsedComments = new Dictionary<int, ScmComment>();
             _parsedScmBlocks = new Dictionary<int, ScmBlock>();

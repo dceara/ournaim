@@ -12,6 +12,8 @@ tokens {
 	BUTTON = 'button%';
 	MESSAGE = 'message%';
 	CHECKBOX = 'check-box%';
+	HPANEL = 'horizontal-panel%';
+	VPANEL = 'vertical-panel%';
 	PARENT = 'parent';
 	LABEL = 'label';
 	WIDTH = 'width';
@@ -79,6 +81,7 @@ scmBlock
 	|	btn = scmBtn {_parsedData.Add(btn);}
 	|	msg = scmMsg {_parsedData.Add(msg);}
 	|	cbx = scmCbx {_parsedData.Add(cbx);}
+	|	hpnl = scmHpnl {_parsedData.Add(hpnl);}
 	|	com = comment {_parsedData.Add(new ScmComment(com));}
 	|	pe = parExpr {_parsedData.Add(new ScmBlock(pe));};
 
@@ -109,11 +112,27 @@ scmMsg returns [ScmMessageProperties msgProp]
 scmCbx returns [ScmCheckBoxProperties cbxProp]
 @init
 {
-	ScmCheckBox msg = new ScmCheckBox();
-	$cbxProp = msg.ScmPropertyObject as ScmCheckBoxProperties;
+	ScmCheckBox cbx = new ScmCheckBox();
+	$cbxProp = cbx.ScmPropertyObject as ScmCheckBoxProperties;
 }
 	:	LP DEFINE id = ID LP NEW CHECKBOX scmCbxProp[$cbxProp]+ RP RP {$cbxProp.Name = $id.Text;};	
 
+scmHpnl returns [ScmHorizontalPanelProperties hpnlProp]
+@init
+{
+	ScmHorizontalPanel hpnl = new ScmHorizontalPanel();
+	$hpnlProp = hpnl.ScmPropertyObject as ScmHorizontalPanelProperties;
+}
+	:	LP DEFINE id = ID LP NEW HPANEL scmHpnlProp[$hpnlProp]+ RP RP {$hpnlProp.Name = $id.Text;};	
+
+/*scmVpnl returns [ScmVerticalPanelProperties vpnlProp]
+@init
+{
+	ScmHorizontalPanel vpnl = new ScmHorizontalPanel();
+	$vpnlProp = vpnl.ScmPropertyObject as ScmVerticalPanelProperties;
+}
+	:	LP DEFINE id = ID LP NEW VPANEL scmVpnlProp[$hpnlProp]+ RP RP {$hpnlProp.Name = $id.Text;};	*/
+	
 scmFrmProp [ScmFrameProperties frmProp]
 	:	parent = scmParentProp {$frmProp.Parent = parent; $frmProp.AddParesedProperty(FramePropNames.Parent); }
 	|	label = scmLabelProp {$frmProp.Label = label; $frmProp.AddParesedProperty(FramePropNames.Label); }
@@ -136,8 +155,8 @@ scmBtnProp [ScmButtonProperties btnProp]
 	:	parent = scmParentProp {$btnProp.Parent = parent; $btnProp.AddParesedProperty(ButtonPropNames.Parent); }
 	|	label = scmLabelProp {$btnProp.Label = label; $btnProp.AddParesedProperty(ButtonPropNames.Label); }
 	|	enabled = scmEnabledProp {$btnProp.Enabled = enabled; $btnProp.AddParesedProperty(ButtonPropNames.Enabled);}
-	|	minWidth = scmMinWidthProp {$btnProp.MinWidth = minWidth;if (minWidth == 0) $btnProp.AutosizeWidth = true; $btnProp.AddParesedProperty(ButtonPropNames.MinWidth);}
-	|	minHeight = scmMinHeightProp {$btnProp.MinHeight = minHeight; if (minHeight == 0) $btnProp.AutosizeHeight = true; $btnProp.AddParesedProperty( ButtonPropNames.MinHeight);}
+	|	minWidth = scmMinWidthProp {if (minWidth != 0) $btnProp.AutosizeWidth = false; $btnProp.MinWidth = minWidth; $btnProp.AddParesedProperty(ButtonPropNames.MinWidth);}
+	|	minHeight = scmMinHeightProp {if (minHeight != 0) $btnProp.AutosizeHeight = false; $btnProp.MinHeight = minHeight; $btnProp.AddParesedProperty( ButtonPropNames.MinHeight);}
 	|	strechWidth = scmStretchWidthProp {$btnProp.StretchableWidth = strechWidth; $btnProp.AddParesedProperty(ButtonPropNames.StrechWidth);}
 	|	strechHeight = scmStretchHeightProp {$btnProp.StretchableHeight = strechHeight; $btnProp.AddParesedProperty(ButtonPropNames.StrechHeight);}
 	|	vertMarg = scmVertMargin {$btnProp.VerticalMargin = vertMarg; $btnProp.AddParesedProperty(ButtonPropNames.VerticalMargin);}
@@ -150,8 +169,8 @@ scmMsgProp [ScmMessageProperties msgProp]
 	:	parent = scmParentProp {$msgProp.Parent = parent; $msgProp.AddParesedProperty(MessagePropNames.Parent); }
 	|	label = scmLabelProp {$msgProp.Label = label; $msgProp.AddParesedProperty(MessagePropNames.Label); }
 	|	enabled = scmEnabledProp {$msgProp.Enabled = enabled; $msgProp.AddParesedProperty(MessagePropNames.Enabled);}
-	|	minWidth = scmMinWidthProp {$msgProp.MinWidth = minWidth;if (minWidth == 0) msgProp.AutosizeWidth = true; $msgProp.AddParesedProperty(MessagePropNames.MinWidth);}
-	|	minHeight = scmMinHeightProp {$msgProp.MinHeight = minHeight; if (minHeight == 0) $msgProp.AutosizeHeight = true; $msgProp.AddParesedProperty( MessagePropNames.MinHeight);}
+	|	minWidth = scmMinWidthProp {if (minWidth != 0) msgProp.AutosizeWidth = false; $msgProp.MinWidth = minWidth; $msgProp.AddParesedProperty(MessagePropNames.MinWidth);}
+	|	minHeight = scmMinHeightProp {if (minHeight != 0) $msgProp.AutosizeHeight = false; $msgProp.MinHeight = minHeight; $msgProp.AddParesedProperty( MessagePropNames.MinHeight);}
 	|	strechWidth = scmStretchWidthProp {$msgProp.StretchableWidth = strechWidth; $msgProp.AddParesedProperty(MessagePropNames.StrechWidth);}
 	|	strechHeight = scmStretchHeightProp {$msgProp.StretchableHeight = strechHeight; $msgProp.AddParesedProperty(MessagePropNames.StrechHeight);}
 	|	vertMarg = scmVertMargin {$msgProp.VerticalMargin = vertMarg; $msgProp.AddParesedProperty(MessagePropNames.VerticalMargin);}
@@ -164,8 +183,8 @@ scmCbxProp [ScmCheckBoxProperties cbxProp]
 	:	parent = scmParentProp {$cbxProp.Parent = parent; $cbxProp.AddParesedProperty(CheckBoxPropNames.Parent); }
 	|	label = scmLabelProp {$cbxProp.Label = label; $cbxProp.AddParesedProperty(CheckBoxPropNames.Label); }
 	|	enabled = scmEnabledProp {$cbxProp.Enabled = enabled; $cbxProp.AddParesedProperty(CheckBoxPropNames.Enabled);}
-	|	minWidth = scmMinWidthProp {$cbxProp.MinWidth = minWidth;if (minWidth == 0) cbxProp.AutosizeWidth = true; $cbxProp.AddParesedProperty(CheckBoxPropNames.MinWidth);}
-	|	minHeight = scmMinHeightProp {$cbxProp.MinHeight = minHeight; if (minHeight == 0) $cbxProp.AutosizeHeight = true; $cbxProp.AddParesedProperty( CheckBoxPropNames.MinHeight);}
+	|	minWidth = scmMinWidthProp {if (minWidth != 0) cbxProp.AutosizeWidth = false; $cbxProp.MinWidth = minWidth; $cbxProp.AddParesedProperty(CheckBoxPropNames.MinWidth);}
+	|	minHeight = scmMinHeightProp {if (minHeight != 0) $cbxProp.AutosizeHeight = false; $cbxProp.MinHeight = minHeight; $cbxProp.AddParesedProperty( CheckBoxPropNames.MinHeight);}
 	|	strechWidth = scmStretchWidthProp {$cbxProp.StretchableWidth = strechWidth; $cbxProp.AddParesedProperty(CheckBoxPropNames.StrechWidth);}
 	|	strechHeight = scmStretchHeightProp {$cbxProp.StretchableHeight = strechHeight; $cbxProp.AddParesedProperty(CheckBoxPropNames.StrechHeight);}
 	|	vertMarg = scmVertMargin {$cbxProp.VerticalMargin = vertMarg; $cbxProp.AddParesedProperty(CheckBoxPropNames.VerticalMargin);}
@@ -173,6 +192,22 @@ scmCbxProp [ScmCheckBoxProperties cbxProp]
 	|	scmStyleProp[cbxProp.Style] {$cbxProp.AddParesedProperty(CheckBoxPropNames.Style);}
 	|	comm = comment {$cbxProp.SetScmComment(new ScmComment(comm)); }
 	|	pe = parExpr {$cbxProp.SetScmBlock(new ScmBlock(pe)); };
+	
+scmHpnlProp [ScmHorizontalPanelProperties hpnlProp]
+	:	parent = scmParentProp {$hpnlProp.Parent = parent; $hpnlProp.AddParesedProperty(HorizontalPanelPropNames.Parent); }
+	|	enabled = scmEnabledProp {$hpnlProp.Enabled = enabled; $hpnlProp.AddParesedProperty(HorizontalPanelPropNames.Enabled);}
+	|	minWidth = scmMinWidthProp {if (minWidth != 0) hpnlProp.AutosizeWidth = false; $hpnlProp.MinWidth = minWidth; $hpnlProp.AddParesedProperty(HorizontalPanelPropNames.MinWidth);}
+	|	minHeight = scmMinHeightProp {if (minHeight != 0) $hpnlProp.AutosizeHeight = false; $hpnlProp.MinHeight = minHeight; $hpnlProp.AddParesedProperty( HorizontalPanelPropNames.MinHeight);}
+	|	strechWidth = scmStretchWidthProp {$hpnlProp.StretchableWidth = strechWidth; $hpnlProp.AddParesedProperty(HorizontalPanelPropNames.StrechWidth);}
+	|	strechHeight = scmStretchHeightProp {$hpnlProp.StretchableHeight = strechHeight; $hpnlProp.AddParesedProperty(HorizontalPanelPropNames.StrechHeight);}
+	|	vertMarg = scmVertMargin {$hpnlProp.VerticalMargin = vertMarg; $hpnlProp.AddParesedProperty(HorizontalPanelPropNames.VerticalMargin);}
+	|	horizMarg = scmHorizMargin {$hpnlProp.HorizontalMargin = vertMarg; $hpnlProp.AddParesedProperty(HorizontalPanelPropNames.HorizontalMargin);}
+	|	border = scmBorderProp {$hpnlProp.Border = border; $hpnlProp.AddParesedProperty(HorizontalPanelPropNames.Border);}
+	|	spacing = scmSpacingProp {$hpnlProp.Spacing = spacing; $hpnlProp.AddParesedProperty(HorizontalPanelPropNames.Spacing);}
+	|	scmBtnStyleProp[hpnlProp.Style] {$hpnlProp.AddParesedProperty(HorizontalPanelPropNames.Style);}
+	|	scmAlignmentProp[hpnlProp.Alignment] {$hpnlProp.AddParesedProperty(HorizontalPanelPropNames.Alignment);}
+	|	comm = comment {$hpnlProp.SetScmComment(new ScmComment(comm)); }
+	|	pe = parExpr {$hpnlProp.SetScmBlock(new ScmBlock(pe)); };
 	
 scmParentProp returns [string parent]
 	:	LP PARENT par =(ID | FALSE) RP {$parent = $par.Text; };
