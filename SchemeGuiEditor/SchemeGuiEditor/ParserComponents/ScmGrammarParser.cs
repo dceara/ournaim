@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 D:\\Projects\\AntlrTestApps\\ScmGrammar.g 2008-06-15 21:50:53
+// $ANTLR 3.0.1 D:\\Projects\\AntlrTestApps\\ScmGrammar.g 2008-06-17 02:48:17
 namespace 
 	SchemeGuiEditor.ParserComponents
 
@@ -32,6 +32,8 @@ public class ScmGrammarParser : Parser
 		"BUTTON", 
 		"MESSAGE", 
 		"CHECKBOX", 
+		"HPANEL", 
+		"VPANEL", 
 		"PARENT", 
 		"LABEL", 
 		"WIDTH", 
@@ -85,65 +87,67 @@ public class ScmGrammarParser : Parser
 		"NEWLINE"
     };
 
-    public const int MDI_CHILD = 39;
-    public const int LT = 51;
-    public const int STAR = 49;
-    public const int HORIZ_MARGIN = 24;
-    public const int SPACING = 17;
-    public const int STRETCH_WIDTH = 21;
-    public const int RP = 26;
-    public const int LEAD_DIGIT = 59;
-    public const int STRETCH_HEIGHT = 22;
-    public const int LP = 25;
+    public const int MDI_CHILD = 41;
+    public const int LT = 53;
+    public const int STAR = 51;
+    public const int HORIZ_MARGIN = 26;
+    public const int SPACING = 19;
+    public const int STRETCH_WIDTH = 23;
+    public const int RP = 28;
+    public const int LEAD_DIGIT = 61;
+    public const int STRETCH_HEIGHT = 24;
+    public const int LP = 27;
     public const int NEW = 6;
     public const int BUTTON = 8;
-    public const int FLOAT = 40;
-    public const int ID = 43;
-    public const int CAR = 56;
+    public const int FLOAT = 42;
+    public const int ID = 45;
+    public const int CAR = 58;
     public const int EOF = -1;
     public const int DEFINE = 5;
-    public const int CENTER = 30;
-    public const int ZERO = 60;
-    public const int BORDER = 16;
-    public const int MDI_PARENT = 38;
-    public const int QUOTE = 46;
-    public const int PARENT = 11;
-    public const int MIN_HEIGHT = 20;
-    public const int NAME = 44;
-    public const int SLASH = 50;
-    public const int ALIGNMENT = 18;
-    public const int LEFT = 32;
-    public const int ENABLED = 15;
+    public const int CENTER = 32;
+    public const int ZERO = 62;
+    public const int BORDER = 18;
+    public const int MDI_PARENT = 40;
+    public const int QUOTE = 48;
+    public const int PARENT = 13;
+    public const int MIN_HEIGHT = 22;
+    public const int NAME = 46;
+    public const int SLASH = 52;
+    public const int VPANEL = 12;
+    public const int ALIGNMENT = 20;
+    public const int LEFT = 34;
+    public const int HPANEL = 11;
+    public const int ENABLED = 17;
     public const int MESSAGE = 9;
-    public const int PLUS = 47;
-    public const int DIGIT = 58;
-    public const int EQ = 53;
-    public const int DOT = 57;
-    public const int COMMENT = 54;
-    public const int NO_SYSTEM_MENU = 37;
-    public const int NO_CAPTION = 36;
-    public const int HEIGHT = 14;
-    public const int NULL = 34;
+    public const int PLUS = 49;
+    public const int DIGIT = 60;
+    public const int EQ = 55;
+    public const int DOT = 59;
+    public const int COMMENT = 56;
+    public const int NO_SYSTEM_MENU = 39;
+    public const int NO_CAPTION = 38;
+    public const int HEIGHT = 16;
+    public const int NULL = 36;
     public const int CHECKBOX = 10;
-    public const int NUMBER = 45;
-    public const int RIGHT = 33;
-    public const int MINUS = 48;
-    public const int VERT_MARGIN = 23;
+    public const int NUMBER = 47;
+    public const int RIGHT = 35;
+    public const int MINUS = 50;
+    public const int VERT_MARGIN = 25;
     public const int SEMI = 4;
-    public const int TRUE = 28;
-    public const int DELETED = 42;
-    public const int NO_RESIZE_BORDER = 35;
-    public const int WS = 55;
-    public const int NEWLINE = 61;
-    public const int LABEL = 12;
-    public const int WIDTH = 13;
-    public const int BOTTOM = 31;
-    public const int STYLE = 41;
-    public const int MIN_WIDTH = 19;
-    public const int GT = 52;
+    public const int TRUE = 30;
+    public const int DELETED = 44;
+    public const int NO_RESIZE_BORDER = 37;
+    public const int WS = 57;
+    public const int NEWLINE = 63;
+    public const int LABEL = 14;
+    public const int WIDTH = 15;
+    public const int BOTTOM = 33;
+    public const int STYLE = 43;
+    public const int MIN_WIDTH = 21;
+    public const int GT = 54;
     public const int FRAME = 7;
-    public const int FALSE = 27;
-    public const int TOP = 29;
+    public const int FALSE = 29;
+    public const int TOP = 31;
     
     
         public ScmGrammarParser(ITokenStream input) 
@@ -176,15 +180,15 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start main
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:75:1: main : ( scmBlock )+ EOF ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:77:1: main : ( scmBlock )+ EOF ;
     public void main() // throws RecognitionException [1]
     {   
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:75:5: ( ( scmBlock )+ EOF )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:75:7: ( scmBlock )+ EOF
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:77:5: ( ( scmBlock )+ EOF )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:77:7: ( scmBlock )+ EOF
             {
-            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:75:7: ( scmBlock )+
+            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:77:7: ( scmBlock )+
             	int cnt1 = 0;
             	do 
             	{
@@ -200,9 +204,9 @@ public class ScmGrammarParser : Parser
             	    switch (alt1) 
             		{
             			case 1 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:75:7: scmBlock
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:77:7: scmBlock
             			    {
-            			    	PushFollow(FOLLOW_scmBlock_in_main366);
+            			    	PushFollow(FOLLOW_scmBlock_in_main382);
             			    	scmBlock();
             			    	followingStackPointer_--;
 
@@ -222,7 +226,7 @@ public class ScmGrammarParser : Parser
             	loop1:
             		;	// Stops C# compiler whinging that label 'loop1' has no statements
 
-            	Match(input,EOF,FOLLOW_EOF_in_main369); 
+            	Match(input,EOF,FOLLOW_EOF_in_main385); 
             
             }
     
@@ -241,7 +245,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmBlock
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:77:1: scmBlock : (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | com= comment | pe= parExpr );
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:79:1: scmBlock : (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | hpnl= scmHpnl | com= comment | pe= parExpr );
     public void scmBlock() // throws RecognitionException [1]
     {   
         ScmFrameProperties frm = null;
@@ -252,6 +256,8 @@ public class ScmGrammarParser : Parser
 
         ScmCheckBoxProperties cbx = null;
 
+        ScmHorizontalPanelProperties hpnl = null;
+
         string com = null;
 
         string pe = null;
@@ -259,8 +265,8 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:78:2: (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | com= comment | pe= parExpr )
-            int alt2 = 6;
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:80:2: (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | hpnl= scmHpnl | com= comment | pe= parExpr )
+            int alt2 = 7;
             switch ( input.LA(1) ) 
             {
             case LP:
@@ -283,14 +289,9 @@ public class ScmGrammarParser : Parser
                             {
                                 switch ( input.LA(6) ) 
                                 {
-                                case BUTTON:
+                                case MESSAGE:
                                 	{
-                                    alt2 = 2;
-                                    }
-                                    break;
-                                case FRAME:
-                                	{
-                                    alt2 = 1;
+                                    alt2 = 3;
                                     }
                                     break;
                                 case CHECKBOX:
@@ -298,14 +299,24 @@ public class ScmGrammarParser : Parser
                                     alt2 = 4;
                                     }
                                     break;
-                                case MESSAGE:
+                                case FRAME:
                                 	{
-                                    alt2 = 3;
+                                    alt2 = 1;
+                                    }
+                                    break;
+                                case BUTTON:
+                                	{
+                                    alt2 = 2;
+                                    }
+                                    break;
+                                case HPANEL:
+                                	{
+                                    alt2 = 5;
                                     }
                                     break;
                                 	default:
                                 	    NoViableAltException nvae_d2s7 =
-                                	        new NoViableAltException("77:1: scmBlock : (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | com= comment | pe= parExpr );", 2, 7, input);
+                                	        new NoViableAltException("79:1: scmBlock : (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | hpnl= scmHpnl | com= comment | pe= parExpr );", 2, 7, input);
                                 
                                 	    throw nvae_d2s7;
                                 }
@@ -314,7 +325,7 @@ public class ScmGrammarParser : Parser
                             else 
                             {
                                 NoViableAltException nvae_d2s6 =
-                                    new NoViableAltException("77:1: scmBlock : (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | com= comment | pe= parExpr );", 2, 6, input);
+                                    new NoViableAltException("79:1: scmBlock : (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | hpnl= scmHpnl | com= comment | pe= parExpr );", 2, 6, input);
                             
                                 throw nvae_d2s6;
                             }
@@ -322,7 +333,7 @@ public class ScmGrammarParser : Parser
                         else 
                         {
                             NoViableAltException nvae_d2s5 =
-                                new NoViableAltException("77:1: scmBlock : (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | com= comment | pe= parExpr );", 2, 5, input);
+                                new NoViableAltException("79:1: scmBlock : (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | hpnl= scmHpnl | com= comment | pe= parExpr );", 2, 5, input);
                         
                             throw nvae_d2s5;
                         }
@@ -330,19 +341,19 @@ public class ScmGrammarParser : Parser
                     else 
                     {
                         NoViableAltException nvae_d2s4 =
-                            new NoViableAltException("77:1: scmBlock : (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | com= comment | pe= parExpr );", 2, 4, input);
+                            new NoViableAltException("79:1: scmBlock : (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | hpnl= scmHpnl | com= comment | pe= parExpr );", 2, 4, input);
                     
                         throw nvae_d2s4;
                     }
                 }
                 else if ( (LA2_1 == LP || (LA2_1 >= FALSE && LA2_1 <= TRUE) || LA2_1 == ID || (LA2_1 >= NUMBER && LA2_1 <= EQ)) )
                 {
-                    alt2 = 6;
+                    alt2 = 7;
                 }
                 else 
                 {
                     NoViableAltException nvae_d2s1 =
-                        new NoViableAltException("77:1: scmBlock : (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | com= comment | pe= parExpr );", 2, 1, input);
+                        new NoViableAltException("79:1: scmBlock : (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | hpnl= scmHpnl | com= comment | pe= parExpr );", 2, 1, input);
                 
                     throw nvae_d2s1;
                 }
@@ -350,7 +361,7 @@ public class ScmGrammarParser : Parser
                 break;
             case COMMENT:
             	{
-                alt2 = 5;
+                alt2 = 6;
                 }
                 break;
             case FALSE:
@@ -366,12 +377,12 @@ public class ScmGrammarParser : Parser
             case GT:
             case EQ:
             	{
-                alt2 = 6;
+                alt2 = 7;
                 }
                 break;
             	default:
             	    NoViableAltException nvae_d2s0 =
-            	        new NoViableAltException("77:1: scmBlock : (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | com= comment | pe= parExpr );", 2, 0, input);
+            	        new NoViableAltException("79:1: scmBlock : (frm= scmFrm | btn= scmBtn | msg= scmMsg | cbx= scmCbx | hpnl= scmHpnl | com= comment | pe= parExpr );", 2, 0, input);
             
             	    throw nvae_d2s0;
             }
@@ -379,9 +390,9 @@ public class ScmGrammarParser : Parser
             switch (alt2) 
             {
                 case 1 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:78:4: frm= scmFrm
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:80:4: frm= scmFrm
                     {
-                    	PushFollow(FOLLOW_scmFrm_in_scmBlock382);
+                    	PushFollow(FOLLOW_scmFrm_in_scmBlock398);
                     	frm = scmFrm();
                     	followingStackPointer_--;
 
@@ -390,9 +401,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 2 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:79:4: btn= scmBtn
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:81:4: btn= scmBtn
                     {
-                    	PushFollow(FOLLOW_scmBtn_in_scmBlock393);
+                    	PushFollow(FOLLOW_scmBtn_in_scmBlock409);
                     	btn = scmBtn();
                     	followingStackPointer_--;
 
@@ -401,9 +412,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 3 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:80:4: msg= scmMsg
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:82:4: msg= scmMsg
                     {
-                    	PushFollow(FOLLOW_scmMsg_in_scmBlock404);
+                    	PushFollow(FOLLOW_scmMsg_in_scmBlock420);
                     	msg = scmMsg();
                     	followingStackPointer_--;
 
@@ -412,9 +423,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 4 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:81:4: cbx= scmCbx
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:83:4: cbx= scmCbx
                     {
-                    	PushFollow(FOLLOW_scmCbx_in_scmBlock415);
+                    	PushFollow(FOLLOW_scmCbx_in_scmBlock431);
                     	cbx = scmCbx();
                     	followingStackPointer_--;
 
@@ -423,9 +434,20 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 5 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:82:4: com= comment
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:84:4: hpnl= scmHpnl
                     {
-                    	PushFollow(FOLLOW_comment_in_scmBlock426);
+                    	PushFollow(FOLLOW_scmHpnl_in_scmBlock442);
+                    	hpnl = scmHpnl();
+                    	followingStackPointer_--;
+
+                    	_parsedData.Add(hpnl);
+                    
+                    }
+                    break;
+                case 6 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:85:4: com= comment
+                    {
+                    	PushFollow(FOLLOW_comment_in_scmBlock453);
                     	com = comment();
                     	followingStackPointer_--;
 
@@ -433,10 +455,10 @@ public class ScmGrammarParser : Parser
                     
                     }
                     break;
-                case 6 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:83:4: pe= parExpr
+                case 7 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:86:4: pe= parExpr
                     {
-                    	PushFollow(FOLLOW_parExpr_in_scmBlock437);
+                    	PushFollow(FOLLOW_parExpr_in_scmBlock464);
                     	pe = parExpr();
                     	followingStackPointer_--;
 
@@ -461,7 +483,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmFrm
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:85:1: scmFrm returns [ScmFrameProperties frmProp] : LP DEFINE id= ID LP NEW FRAME ( scmFrmProp[$frmProp] )+ RP RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:88:1: scmFrm returns [ScmFrameProperties frmProp] : LP DEFINE id= ID LP NEW FRAME ( scmFrmProp[$frmProp] )+ RP RP ;
     public ScmFrameProperties scmFrm() // throws RecognitionException [1]
     {   
 
@@ -475,17 +497,17 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:91:2: ( LP DEFINE id= ID LP NEW FRAME ( scmFrmProp[$frmProp] )+ RP RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:91:4: LP DEFINE id= ID LP NEW FRAME ( scmFrmProp[$frmProp] )+ RP RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:94:2: ( LP DEFINE id= ID LP NEW FRAME ( scmFrmProp[$frmProp] )+ RP RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:94:4: LP DEFINE id= ID LP NEW FRAME ( scmFrmProp[$frmProp] )+ RP RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmFrm457); 
-            	Match(input,DEFINE,FOLLOW_DEFINE_in_scmFrm459); 
+            	Match(input,LP,FOLLOW_LP_in_scmFrm484); 
+            	Match(input,DEFINE,FOLLOW_DEFINE_in_scmFrm486); 
             	id = (IToken)input.LT(1);
-            	Match(input,ID,FOLLOW_ID_in_scmFrm465); 
-            	Match(input,LP,FOLLOW_LP_in_scmFrm467); 
-            	Match(input,NEW,FOLLOW_NEW_in_scmFrm469); 
-            	Match(input,FRAME,FOLLOW_FRAME_in_scmFrm471); 
-            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:91:35: ( scmFrmProp[$frmProp] )+
+            	Match(input,ID,FOLLOW_ID_in_scmFrm492); 
+            	Match(input,LP,FOLLOW_LP_in_scmFrm494); 
+            	Match(input,NEW,FOLLOW_NEW_in_scmFrm496); 
+            	Match(input,FRAME,FOLLOW_FRAME_in_scmFrm498); 
+            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:94:35: ( scmFrmProp[$frmProp] )+
             	int cnt3 = 0;
             	do 
             	{
@@ -501,9 +523,9 @@ public class ScmGrammarParser : Parser
             	    switch (alt3) 
             		{
             			case 1 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:91:35: scmFrmProp[$frmProp]
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:94:35: scmFrmProp[$frmProp]
             			    {
-            			    	PushFollow(FOLLOW_scmFrmProp_in_scmFrm473);
+            			    	PushFollow(FOLLOW_scmFrmProp_in_scmFrm500);
             			    	scmFrmProp(frmProp);
             			    	followingStackPointer_--;
 
@@ -523,8 +545,8 @@ public class ScmGrammarParser : Parser
             	loop3:
             		;	// Stops C# compiler whinging that label 'loop3' has no statements
 
-            	Match(input,RP,FOLLOW_RP_in_scmFrm477); 
-            	Match(input,RP,FOLLOW_RP_in_scmFrm479); 
+            	Match(input,RP,FOLLOW_RP_in_scmFrm504); 
+            	Match(input,RP,FOLLOW_RP_in_scmFrm506); 
             	frmProp.Name = id.Text;
             
             }
@@ -544,7 +566,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmBtn
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:93:1: scmBtn returns [ScmButtonProperties btnProp] : LP DEFINE id= ID LP NEW BUTTON ( scmBtnProp[$btnProp] )+ RP RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:96:1: scmBtn returns [ScmButtonProperties btnProp] : LP DEFINE id= ID LP NEW BUTTON ( scmBtnProp[$btnProp] )+ RP RP ;
     public ScmButtonProperties scmBtn() // throws RecognitionException [1]
     {   
 
@@ -558,17 +580,17 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:99:2: ( LP DEFINE id= ID LP NEW BUTTON ( scmBtnProp[$btnProp] )+ RP RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:99:4: LP DEFINE id= ID LP NEW BUTTON ( scmBtnProp[$btnProp] )+ RP RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:102:2: ( LP DEFINE id= ID LP NEW BUTTON ( scmBtnProp[$btnProp] )+ RP RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:102:4: LP DEFINE id= ID LP NEW BUTTON ( scmBtnProp[$btnProp] )+ RP RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmBtn501); 
-            	Match(input,DEFINE,FOLLOW_DEFINE_in_scmBtn503); 
+            	Match(input,LP,FOLLOW_LP_in_scmBtn528); 
+            	Match(input,DEFINE,FOLLOW_DEFINE_in_scmBtn530); 
             	id = (IToken)input.LT(1);
-            	Match(input,ID,FOLLOW_ID_in_scmBtn509); 
-            	Match(input,LP,FOLLOW_LP_in_scmBtn511); 
-            	Match(input,NEW,FOLLOW_NEW_in_scmBtn513); 
-            	Match(input,BUTTON,FOLLOW_BUTTON_in_scmBtn515); 
-            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:99:36: ( scmBtnProp[$btnProp] )+
+            	Match(input,ID,FOLLOW_ID_in_scmBtn536); 
+            	Match(input,LP,FOLLOW_LP_in_scmBtn538); 
+            	Match(input,NEW,FOLLOW_NEW_in_scmBtn540); 
+            	Match(input,BUTTON,FOLLOW_BUTTON_in_scmBtn542); 
+            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:102:36: ( scmBtnProp[$btnProp] )+
             	int cnt4 = 0;
             	do 
             	{
@@ -584,9 +606,9 @@ public class ScmGrammarParser : Parser
             	    switch (alt4) 
             		{
             			case 1 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:99:36: scmBtnProp[$btnProp]
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:102:36: scmBtnProp[$btnProp]
             			    {
-            			    	PushFollow(FOLLOW_scmBtnProp_in_scmBtn517);
+            			    	PushFollow(FOLLOW_scmBtnProp_in_scmBtn544);
             			    	scmBtnProp(btnProp);
             			    	followingStackPointer_--;
 
@@ -606,8 +628,8 @@ public class ScmGrammarParser : Parser
             	loop4:
             		;	// Stops C# compiler whinging that label 'loop4' has no statements
 
-            	Match(input,RP,FOLLOW_RP_in_scmBtn521); 
-            	Match(input,RP,FOLLOW_RP_in_scmBtn523); 
+            	Match(input,RP,FOLLOW_RP_in_scmBtn548); 
+            	Match(input,RP,FOLLOW_RP_in_scmBtn550); 
             	btnProp.Name = id.Text;
             
             }
@@ -627,7 +649,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmMsg
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:101:1: scmMsg returns [ScmMessageProperties msgProp] : LP DEFINE id= ID LP NEW MESSAGE ( scmMsgProp[$msgProp] )+ RP RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:104:1: scmMsg returns [ScmMessageProperties msgProp] : LP DEFINE id= ID LP NEW MESSAGE ( scmMsgProp[$msgProp] )+ RP RP ;
     public ScmMessageProperties scmMsg() // throws RecognitionException [1]
     {   
 
@@ -641,17 +663,17 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:107:2: ( LP DEFINE id= ID LP NEW MESSAGE ( scmMsgProp[$msgProp] )+ RP RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:107:4: LP DEFINE id= ID LP NEW MESSAGE ( scmMsgProp[$msgProp] )+ RP RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:110:2: ( LP DEFINE id= ID LP NEW MESSAGE ( scmMsgProp[$msgProp] )+ RP RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:110:4: LP DEFINE id= ID LP NEW MESSAGE ( scmMsgProp[$msgProp] )+ RP RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmMsg545); 
-            	Match(input,DEFINE,FOLLOW_DEFINE_in_scmMsg547); 
+            	Match(input,LP,FOLLOW_LP_in_scmMsg572); 
+            	Match(input,DEFINE,FOLLOW_DEFINE_in_scmMsg574); 
             	id = (IToken)input.LT(1);
-            	Match(input,ID,FOLLOW_ID_in_scmMsg553); 
-            	Match(input,LP,FOLLOW_LP_in_scmMsg555); 
-            	Match(input,NEW,FOLLOW_NEW_in_scmMsg557); 
-            	Match(input,MESSAGE,FOLLOW_MESSAGE_in_scmMsg559); 
-            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:107:37: ( scmMsgProp[$msgProp] )+
+            	Match(input,ID,FOLLOW_ID_in_scmMsg580); 
+            	Match(input,LP,FOLLOW_LP_in_scmMsg582); 
+            	Match(input,NEW,FOLLOW_NEW_in_scmMsg584); 
+            	Match(input,MESSAGE,FOLLOW_MESSAGE_in_scmMsg586); 
+            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:110:37: ( scmMsgProp[$msgProp] )+
             	int cnt5 = 0;
             	do 
             	{
@@ -667,9 +689,9 @@ public class ScmGrammarParser : Parser
             	    switch (alt5) 
             		{
             			case 1 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:107:37: scmMsgProp[$msgProp]
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:110:37: scmMsgProp[$msgProp]
             			    {
-            			    	PushFollow(FOLLOW_scmMsgProp_in_scmMsg561);
+            			    	PushFollow(FOLLOW_scmMsgProp_in_scmMsg588);
             			    	scmMsgProp(msgProp);
             			    	followingStackPointer_--;
 
@@ -689,8 +711,8 @@ public class ScmGrammarParser : Parser
             	loop5:
             		;	// Stops C# compiler whinging that label 'loop5' has no statements
 
-            	Match(input,RP,FOLLOW_RP_in_scmMsg565); 
-            	Match(input,RP,FOLLOW_RP_in_scmMsg567); 
+            	Match(input,RP,FOLLOW_RP_in_scmMsg592); 
+            	Match(input,RP,FOLLOW_RP_in_scmMsg594); 
             	msgProp.Name = id.Text;
             
             }
@@ -710,7 +732,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmCbx
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:109:1: scmCbx returns [ScmCheckBoxProperties cbxProp] : LP DEFINE id= ID LP NEW CHECKBOX ( scmCbxProp[$cbxProp] )+ RP RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:112:1: scmCbx returns [ScmCheckBoxProperties cbxProp] : LP DEFINE id= ID LP NEW CHECKBOX ( scmCbxProp[$cbxProp] )+ RP RP ;
     public ScmCheckBoxProperties scmCbx() // throws RecognitionException [1]
     {   
 
@@ -719,22 +741,22 @@ public class ScmGrammarParser : Parser
         IToken id = null;
     
         
-        	ScmCheckBox msg = new ScmCheckBox();
-        	cbxProp =  msg.ScmPropertyObject as ScmCheckBoxProperties;
+        	ScmCheckBox cbx = new ScmCheckBox();
+        	cbxProp =  cbx.ScmPropertyObject as ScmCheckBoxProperties;
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:115:2: ( LP DEFINE id= ID LP NEW CHECKBOX ( scmCbxProp[$cbxProp] )+ RP RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:115:4: LP DEFINE id= ID LP NEW CHECKBOX ( scmCbxProp[$cbxProp] )+ RP RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:118:2: ( LP DEFINE id= ID LP NEW CHECKBOX ( scmCbxProp[$cbxProp] )+ RP RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:118:4: LP DEFINE id= ID LP NEW CHECKBOX ( scmCbxProp[$cbxProp] )+ RP RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmCbx587); 
-            	Match(input,DEFINE,FOLLOW_DEFINE_in_scmCbx589); 
+            	Match(input,LP,FOLLOW_LP_in_scmCbx614); 
+            	Match(input,DEFINE,FOLLOW_DEFINE_in_scmCbx616); 
             	id = (IToken)input.LT(1);
-            	Match(input,ID,FOLLOW_ID_in_scmCbx595); 
-            	Match(input,LP,FOLLOW_LP_in_scmCbx597); 
-            	Match(input,NEW,FOLLOW_NEW_in_scmCbx599); 
-            	Match(input,CHECKBOX,FOLLOW_CHECKBOX_in_scmCbx601); 
-            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:115:38: ( scmCbxProp[$cbxProp] )+
+            	Match(input,ID,FOLLOW_ID_in_scmCbx622); 
+            	Match(input,LP,FOLLOW_LP_in_scmCbx624); 
+            	Match(input,NEW,FOLLOW_NEW_in_scmCbx626); 
+            	Match(input,CHECKBOX,FOLLOW_CHECKBOX_in_scmCbx628); 
+            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:118:38: ( scmCbxProp[$cbxProp] )+
             	int cnt6 = 0;
             	do 
             	{
@@ -750,9 +772,9 @@ public class ScmGrammarParser : Parser
             	    switch (alt6) 
             		{
             			case 1 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:115:38: scmCbxProp[$cbxProp]
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:118:38: scmCbxProp[$cbxProp]
             			    {
-            			    	PushFollow(FOLLOW_scmCbxProp_in_scmCbx603);
+            			    	PushFollow(FOLLOW_scmCbxProp_in_scmCbx630);
             			    	scmCbxProp(cbxProp);
             			    	followingStackPointer_--;
 
@@ -772,8 +794,8 @@ public class ScmGrammarParser : Parser
             	loop6:
             		;	// Stops C# compiler whinging that label 'loop6' has no statements
 
-            	Match(input,RP,FOLLOW_RP_in_scmCbx607); 
-            	Match(input,RP,FOLLOW_RP_in_scmCbx609); 
+            	Match(input,RP,FOLLOW_RP_in_scmCbx634); 
+            	Match(input,RP,FOLLOW_RP_in_scmCbx636); 
             	cbxProp.Name = id.Text;
             
             }
@@ -792,8 +814,91 @@ public class ScmGrammarParser : Parser
     // $ANTLR end scmCbx
 
     
+    // $ANTLR start scmHpnl
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:120:1: scmHpnl returns [ScmHorizontalPanelProperties hpnlProp] : LP DEFINE id= ID LP NEW HPANEL ( scmHpnlProp[$hpnlProp] )+ RP RP ;
+    public ScmHorizontalPanelProperties scmHpnl() // throws RecognitionException [1]
+    {   
+
+        ScmHorizontalPanelProperties hpnlProp = null;
+    
+        IToken id = null;
+    
+        
+        	ScmHorizontalPanel hpnl = new ScmHorizontalPanel();
+        	hpnlProp =  hpnl.ScmPropertyObject as ScmHorizontalPanelProperties;
+    
+        try 
+    	{
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:126:2: ( LP DEFINE id= ID LP NEW HPANEL ( scmHpnlProp[$hpnlProp] )+ RP RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:126:4: LP DEFINE id= ID LP NEW HPANEL ( scmHpnlProp[$hpnlProp] )+ RP RP
+            {
+            	Match(input,LP,FOLLOW_LP_in_scmHpnl657); 
+            	Match(input,DEFINE,FOLLOW_DEFINE_in_scmHpnl659); 
+            	id = (IToken)input.LT(1);
+            	Match(input,ID,FOLLOW_ID_in_scmHpnl665); 
+            	Match(input,LP,FOLLOW_LP_in_scmHpnl667); 
+            	Match(input,NEW,FOLLOW_NEW_in_scmHpnl669); 
+            	Match(input,HPANEL,FOLLOW_HPANEL_in_scmHpnl671); 
+            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:126:36: ( scmHpnlProp[$hpnlProp] )+
+            	int cnt7 = 0;
+            	do 
+            	{
+            	    int alt7 = 2;
+            	    int LA7_0 = input.LA(1);
+            	    
+            	    if ( (LA7_0 == LP || (LA7_0 >= FALSE && LA7_0 <= TRUE) || LA7_0 == ID || (LA7_0 >= NUMBER && LA7_0 <= COMMENT)) )
+            	    {
+            	        alt7 = 1;
+            	    }
+            	    
+            	
+            	    switch (alt7) 
+            		{
+            			case 1 :
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:126:36: scmHpnlProp[$hpnlProp]
+            			    {
+            			    	PushFollow(FOLLOW_scmHpnlProp_in_scmHpnl673);
+            			    	scmHpnlProp(hpnlProp);
+            			    	followingStackPointer_--;
+
+            			    
+            			    }
+            			    break;
+            	
+            			default:
+            			    if ( cnt7 >= 1 ) goto loop7;
+            		            EarlyExitException eee =
+            		                new EarlyExitException(7, input);
+            		            throw eee;
+            	    }
+            	    cnt7++;
+            	} while (true);
+            	
+            	loop7:
+            		;	// Stops C# compiler whinging that label 'loop7' has no statements
+
+            	Match(input,RP,FOLLOW_RP_in_scmHpnl677); 
+            	Match(input,RP,FOLLOW_RP_in_scmHpnl679); 
+            	hpnlProp.Name = id.Text;
+            
+            }
+    
+        }
+        catch (RecognitionException re) 
+    	{
+            ReportError(re);
+            Recover(input,re);
+        }
+        finally 
+    	{
+        }
+        return hpnlProp;
+    }
+    // $ANTLR end scmHpnl
+
+    
     // $ANTLR start scmFrmProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:117:1: scmFrmProp[ScmFrameProperties frmProp] : (parent= scmParentProp | label= scmLabelProp | width= scmWidthProp | height= scmHeightProp | enabled= scmEnabledProp | border= scmBorderProp | spacing= scmSpacingProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | scmAlignmentProp[frmProp.Alignment] | scmFrmStyleProp[frmProp.Style] | xyProp= scmXYProp | comm= comment | pe= parExpr );
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:136:1: scmFrmProp[ScmFrameProperties frmProp] : (parent= scmParentProp | label= scmLabelProp | width= scmWidthProp | height= scmHeightProp | enabled= scmEnabledProp | border= scmBorderProp | spacing= scmSpacingProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | scmAlignmentProp[frmProp.Alignment] | scmFrmStyleProp[frmProp.Style] | xyProp= scmXYProp | comm= comment | pe= parExpr );
     public void scmFrmProp(ScmFrameProperties frmProp) // throws RecognitionException [1]
     {   
         string parent = null;
@@ -827,37 +932,57 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:118:2: (parent= scmParentProp | label= scmLabelProp | width= scmWidthProp | height= scmHeightProp | enabled= scmEnabledProp | border= scmBorderProp | spacing= scmSpacingProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | scmAlignmentProp[frmProp.Alignment] | scmFrmStyleProp[frmProp.Style] | xyProp= scmXYProp | comm= comment | pe= parExpr )
-            int alt7 = 16;
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:137:2: (parent= scmParentProp | label= scmLabelProp | width= scmWidthProp | height= scmHeightProp | enabled= scmEnabledProp | border= scmBorderProp | spacing= scmSpacingProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | scmAlignmentProp[frmProp.Alignment] | scmFrmStyleProp[frmProp.Style] | xyProp= scmXYProp | comm= comment | pe= parExpr )
+            int alt8 = 16;
             switch ( input.LA(1) ) 
             {
             case LP:
             	{
                 switch ( input.LA(2) ) 
                 {
-                case MIN_HEIGHT:
-                	{
-                    alt7 = 9;
-                    }
-                    break;
                 case STRETCH_HEIGHT:
                 	{
-                    alt7 = 11;
+                    alt8 = 11;
                     }
                     break;
-                case PARENT:
+                case ALIGNMENT:
                 	{
-                    alt7 = 1;
+                    alt8 = 12;
                     }
                     break;
                 case STRETCH_WIDTH:
                 	{
-                    alt7 = 10;
+                    alt8 = 10;
+                    }
+                    break;
+                case LABEL:
+                	{
+                    alt8 = 2;
+                    }
+                    break;
+                case PARENT:
+                	{
+                    alt8 = 1;
+                    }
+                    break;
+                case MIN_HEIGHT:
+                	{
+                    alt8 = 9;
                     }
                     break;
                 case SPACING:
                 	{
-                    alt7 = 7;
+                    alt8 = 7;
+                    }
+                    break;
+                case MIN_WIDTH:
+                	{
+                    alt8 = 8;
+                    }
+                    break;
+                case ENABLED:
+                	{
+                    alt8 = 5;
                     }
                     break;
                 case ID:
@@ -866,22 +991,22 @@ public class ScmGrammarParser : Parser
                     {
                     case NUMBER:
                     	{
-                        int LA7_18 = input.LA(4);
+                        int LA8_18 = input.LA(4);
                         
-                        if ( (LA7_18 == RP) )
+                        if ( (LA8_18 == RP) )
                         {
-                            alt7 = 14;
+                            alt8 = 14;
                         }
-                        else if ( (LA7_18 == LP || (LA7_18 >= FALSE && LA7_18 <= TRUE) || LA7_18 == ID || (LA7_18 >= NUMBER && LA7_18 <= EQ)) )
+                        else if ( (LA8_18 == LP || (LA8_18 >= FALSE && LA8_18 <= TRUE) || LA8_18 == ID || (LA8_18 >= NUMBER && LA8_18 <= EQ)) )
                         {
-                            alt7 = 16;
+                            alt8 = 16;
                         }
                         else 
                         {
-                            NoViableAltException nvae_d7s18 =
-                                new NoViableAltException("117:1: scmFrmProp[ScmFrameProperties frmProp] : (parent= scmParentProp | label= scmLabelProp | width= scmWidthProp | height= scmHeightProp | enabled= scmEnabledProp | border= scmBorderProp | spacing= scmSpacingProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | scmAlignmentProp[frmProp.Alignment] | scmFrmStyleProp[frmProp.Style] | xyProp= scmXYProp | comm= comment | pe= parExpr );", 7, 18, input);
+                            NoViableAltException nvae_d8s18 =
+                                new NoViableAltException("136:1: scmFrmProp[ScmFrameProperties frmProp] : (parent= scmParentProp | label= scmLabelProp | width= scmWidthProp | height= scmHeightProp | enabled= scmEnabledProp | border= scmBorderProp | spacing= scmSpacingProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | scmAlignmentProp[frmProp.Alignment] | scmFrmStyleProp[frmProp.Style] | xyProp= scmXYProp | comm= comment | pe= parExpr );", 8, 18, input);
                         
-                            throw nvae_d7s18;
+                            throw nvae_d8s18;
                         }
                         }
                         break;
@@ -898,77 +1023,57 @@ public class ScmGrammarParser : Parser
                     case GT:
                     case EQ:
                     	{
-                        alt7 = 16;
+                        alt8 = 16;
                         }
                         break;
                     case FALSE:
                     	{
-                        int LA7_19 = input.LA(4);
+                        int LA8_19 = input.LA(4);
                         
-                        if ( (LA7_19 == RP) )
+                        if ( (LA8_19 == RP) )
                         {
-                            alt7 = 14;
+                            alt8 = 14;
                         }
-                        else if ( (LA7_19 == LP || (LA7_19 >= FALSE && LA7_19 <= TRUE) || LA7_19 == ID || (LA7_19 >= NUMBER && LA7_19 <= EQ)) )
+                        else if ( (LA8_19 == LP || (LA8_19 >= FALSE && LA8_19 <= TRUE) || LA8_19 == ID || (LA8_19 >= NUMBER && LA8_19 <= EQ)) )
                         {
-                            alt7 = 16;
+                            alt8 = 16;
                         }
                         else 
                         {
-                            NoViableAltException nvae_d7s19 =
-                                new NoViableAltException("117:1: scmFrmProp[ScmFrameProperties frmProp] : (parent= scmParentProp | label= scmLabelProp | width= scmWidthProp | height= scmHeightProp | enabled= scmEnabledProp | border= scmBorderProp | spacing= scmSpacingProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | scmAlignmentProp[frmProp.Alignment] | scmFrmStyleProp[frmProp.Style] | xyProp= scmXYProp | comm= comment | pe= parExpr );", 7, 19, input);
+                            NoViableAltException nvae_d8s19 =
+                                new NoViableAltException("136:1: scmFrmProp[ScmFrameProperties frmProp] : (parent= scmParentProp | label= scmLabelProp | width= scmWidthProp | height= scmHeightProp | enabled= scmEnabledProp | border= scmBorderProp | spacing= scmSpacingProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | scmAlignmentProp[frmProp.Alignment] | scmFrmStyleProp[frmProp.Style] | xyProp= scmXYProp | comm= comment | pe= parExpr );", 8, 19, input);
                         
-                            throw nvae_d7s19;
+                            throw nvae_d8s19;
                         }
                         }
                         break;
                     	default:
-                    	    NoViableAltException nvae_d7s9 =
-                    	        new NoViableAltException("117:1: scmFrmProp[ScmFrameProperties frmProp] : (parent= scmParentProp | label= scmLabelProp | width= scmWidthProp | height= scmHeightProp | enabled= scmEnabledProp | border= scmBorderProp | spacing= scmSpacingProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | scmAlignmentProp[frmProp.Alignment] | scmFrmStyleProp[frmProp.Style] | xyProp= scmXYProp | comm= comment | pe= parExpr );", 7, 9, input);
+                    	    NoViableAltException nvae_d8s13 =
+                    	        new NoViableAltException("136:1: scmFrmProp[ScmFrameProperties frmProp] : (parent= scmParentProp | label= scmLabelProp | width= scmWidthProp | height= scmHeightProp | enabled= scmEnabledProp | border= scmBorderProp | spacing= scmSpacingProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | scmAlignmentProp[frmProp.Alignment] | scmFrmStyleProp[frmProp.Style] | xyProp= scmXYProp | comm= comment | pe= parExpr );", 8, 13, input);
                     
-                    	    throw nvae_d7s9;
+                    	    throw nvae_d8s13;
                     }
                 
                     }
                     break;
                 case BORDER:
                 	{
-                    alt7 = 6;
-                    }
-                    break;
-                case MIN_WIDTH:
-                	{
-                    alt7 = 8;
-                    }
-                    break;
-                case HEIGHT:
-                	{
-                    alt7 = 4;
-                    }
-                    break;
-                case STYLE:
-                	{
-                    alt7 = 13;
-                    }
-                    break;
-                case ENABLED:
-                	{
-                    alt7 = 5;
-                    }
-                    break;
-                case ALIGNMENT:
-                	{
-                    alt7 = 12;
-                    }
-                    break;
-                case LABEL:
-                	{
-                    alt7 = 2;
+                    alt8 = 6;
                     }
                     break;
                 case WIDTH:
                 	{
-                    alt7 = 3;
+                    alt8 = 3;
+                    }
+                    break;
+                case STYLE:
+                	{
+                    alt8 = 13;
+                    }
+                    break;
+                case HEIGHT:
+                	{
+                    alt8 = 4;
                     }
                     break;
                 case LP:
@@ -984,21 +1089,21 @@ public class ScmGrammarParser : Parser
                 case GT:
                 case EQ:
                 	{
-                    alt7 = 16;
+                    alt8 = 16;
                     }
                     break;
                 	default:
-                	    NoViableAltException nvae_d7s1 =
-                	        new NoViableAltException("117:1: scmFrmProp[ScmFrameProperties frmProp] : (parent= scmParentProp | label= scmLabelProp | width= scmWidthProp | height= scmHeightProp | enabled= scmEnabledProp | border= scmBorderProp | spacing= scmSpacingProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | scmAlignmentProp[frmProp.Alignment] | scmFrmStyleProp[frmProp.Style] | xyProp= scmXYProp | comm= comment | pe= parExpr );", 7, 1, input);
+                	    NoViableAltException nvae_d8s1 =
+                	        new NoViableAltException("136:1: scmFrmProp[ScmFrameProperties frmProp] : (parent= scmParentProp | label= scmLabelProp | width= scmWidthProp | height= scmHeightProp | enabled= scmEnabledProp | border= scmBorderProp | spacing= scmSpacingProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | scmAlignmentProp[frmProp.Alignment] | scmFrmStyleProp[frmProp.Style] | xyProp= scmXYProp | comm= comment | pe= parExpr );", 8, 1, input);
                 
-                	    throw nvae_d7s1;
+                	    throw nvae_d8s1;
                 }
             
                 }
                 break;
             case COMMENT:
             	{
-                alt7 = 15;
+                alt8 = 15;
                 }
                 break;
             case FALSE:
@@ -1014,22 +1119,22 @@ public class ScmGrammarParser : Parser
             case GT:
             case EQ:
             	{
-                alt7 = 16;
+                alt8 = 16;
                 }
                 break;
             	default:
-            	    NoViableAltException nvae_d7s0 =
-            	        new NoViableAltException("117:1: scmFrmProp[ScmFrameProperties frmProp] : (parent= scmParentProp | label= scmLabelProp | width= scmWidthProp | height= scmHeightProp | enabled= scmEnabledProp | border= scmBorderProp | spacing= scmSpacingProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | scmAlignmentProp[frmProp.Alignment] | scmFrmStyleProp[frmProp.Style] | xyProp= scmXYProp | comm= comment | pe= parExpr );", 7, 0, input);
+            	    NoViableAltException nvae_d8s0 =
+            	        new NoViableAltException("136:1: scmFrmProp[ScmFrameProperties frmProp] : (parent= scmParentProp | label= scmLabelProp | width= scmWidthProp | height= scmHeightProp | enabled= scmEnabledProp | border= scmBorderProp | spacing= scmSpacingProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | scmAlignmentProp[frmProp.Alignment] | scmFrmStyleProp[frmProp.Style] | xyProp= scmXYProp | comm= comment | pe= parExpr );", 8, 0, input);
             
-            	    throw nvae_d7s0;
+            	    throw nvae_d8s0;
             }
             
-            switch (alt7) 
+            switch (alt8) 
             {
                 case 1 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:118:4: parent= scmParentProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:137:4: parent= scmParentProp
                     {
-                    	PushFollow(FOLLOW_scmParentProp_in_scmFrmProp627);
+                    	PushFollow(FOLLOW_scmParentProp_in_scmFrmProp701);
                     	parent = scmParentProp();
                     	followingStackPointer_--;
 
@@ -1038,9 +1143,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 2 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:119:4: label= scmLabelProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:138:4: label= scmLabelProp
                     {
-                    	PushFollow(FOLLOW_scmLabelProp_in_scmFrmProp638);
+                    	PushFollow(FOLLOW_scmLabelProp_in_scmFrmProp712);
                     	label = scmLabelProp();
                     	followingStackPointer_--;
 
@@ -1049,9 +1154,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 3 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:120:4: width= scmWidthProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:139:4: width= scmWidthProp
                     {
-                    	PushFollow(FOLLOW_scmWidthProp_in_scmFrmProp649);
+                    	PushFollow(FOLLOW_scmWidthProp_in_scmFrmProp723);
                     	width = scmWidthProp();
                     	followingStackPointer_--;
 
@@ -1060,9 +1165,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 4 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:121:4: height= scmHeightProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:140:4: height= scmHeightProp
                     {
-                    	PushFollow(FOLLOW_scmHeightProp_in_scmFrmProp660);
+                    	PushFollow(FOLLOW_scmHeightProp_in_scmFrmProp734);
                     	height = scmHeightProp();
                     	followingStackPointer_--;
 
@@ -1071,9 +1176,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 5 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:122:4: enabled= scmEnabledProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:141:4: enabled= scmEnabledProp
                     {
-                    	PushFollow(FOLLOW_scmEnabledProp_in_scmFrmProp671);
+                    	PushFollow(FOLLOW_scmEnabledProp_in_scmFrmProp745);
                     	enabled = scmEnabledProp();
                     	followingStackPointer_--;
 
@@ -1082,9 +1187,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 6 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:123:4: border= scmBorderProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:142:4: border= scmBorderProp
                     {
-                    	PushFollow(FOLLOW_scmBorderProp_in_scmFrmProp682);
+                    	PushFollow(FOLLOW_scmBorderProp_in_scmFrmProp756);
                     	border = scmBorderProp();
                     	followingStackPointer_--;
 
@@ -1093,9 +1198,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 7 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:124:4: spacing= scmSpacingProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:143:4: spacing= scmSpacingProp
                     {
-                    	PushFollow(FOLLOW_scmSpacingProp_in_scmFrmProp693);
+                    	PushFollow(FOLLOW_scmSpacingProp_in_scmFrmProp767);
                     	spacing = scmSpacingProp();
                     	followingStackPointer_--;
 
@@ -1104,9 +1209,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 8 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:125:4: minWidth= scmMinWidthProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:144:4: minWidth= scmMinWidthProp
                     {
-                    	PushFollow(FOLLOW_scmMinWidthProp_in_scmFrmProp704);
+                    	PushFollow(FOLLOW_scmMinWidthProp_in_scmFrmProp778);
                     	minWidth = scmMinWidthProp();
                     	followingStackPointer_--;
 
@@ -1115,9 +1220,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 9 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:126:4: minHeight= scmMinHeightProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:145:4: minHeight= scmMinHeightProp
                     {
-                    	PushFollow(FOLLOW_scmMinHeightProp_in_scmFrmProp715);
+                    	PushFollow(FOLLOW_scmMinHeightProp_in_scmFrmProp789);
                     	minHeight = scmMinHeightProp();
                     	followingStackPointer_--;
 
@@ -1126,9 +1231,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 10 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:127:4: strechWidth= scmStretchWidthProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:146:4: strechWidth= scmStretchWidthProp
                     {
-                    	PushFollow(FOLLOW_scmStretchWidthProp_in_scmFrmProp726);
+                    	PushFollow(FOLLOW_scmStretchWidthProp_in_scmFrmProp800);
                     	strechWidth = scmStretchWidthProp();
                     	followingStackPointer_--;
 
@@ -1137,9 +1242,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 11 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:128:4: strechHeight= scmStretchHeightProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:147:4: strechHeight= scmStretchHeightProp
                     {
-                    	PushFollow(FOLLOW_scmStretchHeightProp_in_scmFrmProp737);
+                    	PushFollow(FOLLOW_scmStretchHeightProp_in_scmFrmProp811);
                     	strechHeight = scmStretchHeightProp();
                     	followingStackPointer_--;
 
@@ -1148,9 +1253,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 12 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:129:4: scmAlignmentProp[frmProp.Alignment]
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:148:4: scmAlignmentProp[frmProp.Alignment]
                     {
-                    	PushFollow(FOLLOW_scmAlignmentProp_in_scmFrmProp744);
+                    	PushFollow(FOLLOW_scmAlignmentProp_in_scmFrmProp818);
                     	scmAlignmentProp(frmProp.Alignment);
                     	followingStackPointer_--;
 
@@ -1159,9 +1264,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 13 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:130:4: scmFrmStyleProp[frmProp.Style]
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:149:4: scmFrmStyleProp[frmProp.Style]
                     {
-                    	PushFollow(FOLLOW_scmFrmStyleProp_in_scmFrmProp752);
+                    	PushFollow(FOLLOW_scmFrmStyleProp_in_scmFrmProp826);
                     	scmFrmStyleProp(frmProp.Style);
                     	followingStackPointer_--;
 
@@ -1170,9 +1275,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 14 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:131:4: xyProp= scmXYProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:150:4: xyProp= scmXYProp
                     {
-                    	PushFollow(FOLLOW_scmXYProp_in_scmFrmProp764);
+                    	PushFollow(FOLLOW_scmXYProp_in_scmFrmProp838);
                     	xyProp = scmXYProp();
                     	followingStackPointer_--;
 
@@ -1181,9 +1286,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 15 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:132:4: comm= comment
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:151:4: comm= comment
                     {
-                    	PushFollow(FOLLOW_comment_in_scmFrmProp775);
+                    	PushFollow(FOLLOW_comment_in_scmFrmProp849);
                     	comm = comment();
                     	followingStackPointer_--;
 
@@ -1192,9 +1297,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 16 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:133:4: pe= parExpr
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:152:4: pe= parExpr
                     {
-                    	PushFollow(FOLLOW_parExpr_in_scmFrmProp786);
+                    	PushFollow(FOLLOW_parExpr_in_scmFrmProp860);
                     	pe = parExpr();
                     	followingStackPointer_--;
 
@@ -1219,7 +1324,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmBtnProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:135:1: scmBtnProp[ScmButtonProperties btnProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmBtnStyleProp[btnProp.Style] | comm= comment | pe= parExpr );
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:154:1: scmBtnProp[ScmButtonProperties btnProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmBtnStyleProp[btnProp.Style] | comm= comment | pe= parExpr );
     public void scmBtnProp(ScmButtonProperties btnProp) // throws RecognitionException [1]
     {   
         string parent = null;
@@ -1247,298 +1352,7 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:136:2: (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmBtnStyleProp[btnProp.Style] | comm= comment | pe= parExpr )
-            int alt8 = 12;
-            switch ( input.LA(1) ) 
-            {
-            case LP:
-            	{
-                switch ( input.LA(2) ) 
-                {
-                case STYLE:
-                	{
-                    alt8 = 10;
-                    }
-                    break;
-                case ENABLED:
-                	{
-                    alt8 = 3;
-                    }
-                    break;
-                case STRETCH_HEIGHT:
-                	{
-                    alt8 = 7;
-                    }
-                    break;
-                case HORIZ_MARGIN:
-                	{
-                    alt8 = 9;
-                    }
-                    break;
-                case PARENT:
-                	{
-                    alt8 = 1;
-                    }
-                    break;
-                case LABEL:
-                	{
-                    alt8 = 2;
-                    }
-                    break;
-                case VERT_MARGIN:
-                	{
-                    alt8 = 8;
-                    }
-                    break;
-                case MIN_WIDTH:
-                	{
-                    alt8 = 4;
-                    }
-                    break;
-                case STRETCH_WIDTH:
-                	{
-                    alt8 = 6;
-                    }
-                    break;
-                case MIN_HEIGHT:
-                	{
-                    alt8 = 5;
-                    }
-                    break;
-                case LP:
-                case FALSE:
-                case TRUE:
-                case ID:
-                case NUMBER:
-                case QUOTE:
-                case PLUS:
-                case MINUS:
-                case STAR:
-                case SLASH:
-                case LT:
-                case GT:
-                case EQ:
-                	{
-                    alt8 = 12;
-                    }
-                    break;
-                	default:
-                	    NoViableAltException nvae_d8s1 =
-                	        new NoViableAltException("135:1: scmBtnProp[ScmButtonProperties btnProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmBtnStyleProp[btnProp.Style] | comm= comment | pe= parExpr );", 8, 1, input);
-                
-                	    throw nvae_d8s1;
-                }
-            
-                }
-                break;
-            case COMMENT:
-            	{
-                alt8 = 11;
-                }
-                break;
-            case FALSE:
-            case TRUE:
-            case ID:
-            case NUMBER:
-            case QUOTE:
-            case PLUS:
-            case MINUS:
-            case STAR:
-            case SLASH:
-            case LT:
-            case GT:
-            case EQ:
-            	{
-                alt8 = 12;
-                }
-                break;
-            	default:
-            	    NoViableAltException nvae_d8s0 =
-            	        new NoViableAltException("135:1: scmBtnProp[ScmButtonProperties btnProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmBtnStyleProp[btnProp.Style] | comm= comment | pe= parExpr );", 8, 0, input);
-            
-            	    throw nvae_d8s0;
-            }
-            
-            switch (alt8) 
-            {
-                case 1 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:136:4: parent= scmParentProp
-                    {
-                    	PushFollow(FOLLOW_scmParentProp_in_scmBtnProp804);
-                    	parent = scmParentProp();
-                    	followingStackPointer_--;
-
-                    	btnProp.Parent = parent; btnProp.AddParesedProperty(ButtonPropNames.Parent); 
-                    
-                    }
-                    break;
-                case 2 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:137:4: label= scmLabelProp
-                    {
-                    	PushFollow(FOLLOW_scmLabelProp_in_scmBtnProp815);
-                    	label = scmLabelProp();
-                    	followingStackPointer_--;
-
-                    	btnProp.Label = label; btnProp.AddParesedProperty(ButtonPropNames.Label); 
-                    
-                    }
-                    break;
-                case 3 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:138:4: enabled= scmEnabledProp
-                    {
-                    	PushFollow(FOLLOW_scmEnabledProp_in_scmBtnProp826);
-                    	enabled = scmEnabledProp();
-                    	followingStackPointer_--;
-
-                    	btnProp.Enabled = enabled; btnProp.AddParesedProperty(ButtonPropNames.Enabled);
-                    
-                    }
-                    break;
-                case 4 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:139:4: minWidth= scmMinWidthProp
-                    {
-                    	PushFollow(FOLLOW_scmMinWidthProp_in_scmBtnProp837);
-                    	minWidth = scmMinWidthProp();
-                    	followingStackPointer_--;
-
-                    	btnProp.MinWidth = minWidth;if (minWidth == 0) btnProp.AutosizeWidth = true; btnProp.AddParesedProperty(ButtonPropNames.MinWidth);
-                    
-                    }
-                    break;
-                case 5 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:140:4: minHeight= scmMinHeightProp
-                    {
-                    	PushFollow(FOLLOW_scmMinHeightProp_in_scmBtnProp848);
-                    	minHeight = scmMinHeightProp();
-                    	followingStackPointer_--;
-
-                    	btnProp.MinHeight = minHeight; if (minHeight == 0) btnProp.AutosizeHeight = true; btnProp.AddParesedProperty( ButtonPropNames.MinHeight);
-                    
-                    }
-                    break;
-                case 6 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:141:4: strechWidth= scmStretchWidthProp
-                    {
-                    	PushFollow(FOLLOW_scmStretchWidthProp_in_scmBtnProp859);
-                    	strechWidth = scmStretchWidthProp();
-                    	followingStackPointer_--;
-
-                    	btnProp.StretchableWidth = strechWidth; btnProp.AddParesedProperty(ButtonPropNames.StrechWidth);
-                    
-                    }
-                    break;
-                case 7 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:142:4: strechHeight= scmStretchHeightProp
-                    {
-                    	PushFollow(FOLLOW_scmStretchHeightProp_in_scmBtnProp870);
-                    	strechHeight = scmStretchHeightProp();
-                    	followingStackPointer_--;
-
-                    	btnProp.StretchableHeight = strechHeight; btnProp.AddParesedProperty(ButtonPropNames.StrechHeight);
-                    
-                    }
-                    break;
-                case 8 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:143:4: vertMarg= scmVertMargin
-                    {
-                    	PushFollow(FOLLOW_scmVertMargin_in_scmBtnProp881);
-                    	vertMarg = scmVertMargin();
-                    	followingStackPointer_--;
-
-                    	btnProp.VerticalMargin = vertMarg; btnProp.AddParesedProperty(ButtonPropNames.VerticalMargin);
-                    
-                    }
-                    break;
-                case 9 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:144:4: horizMarg= scmHorizMargin
-                    {
-                    	PushFollow(FOLLOW_scmHorizMargin_in_scmBtnProp892);
-                    	horizMarg = scmHorizMargin();
-                    	followingStackPointer_--;
-
-                    	btnProp.HorizontalMargin = vertMarg; btnProp.AddParesedProperty(ButtonPropNames.HorizontalMargin);
-                    
-                    }
-                    break;
-                case 10 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:145:4: scmBtnStyleProp[btnProp.Style]
-                    {
-                    	PushFollow(FOLLOW_scmBtnStyleProp_in_scmBtnProp899);
-                    	scmBtnStyleProp(btnProp.Style);
-                    	followingStackPointer_--;
-
-                    	btnProp.AddParesedProperty(ButtonPropNames.Style);
-                    
-                    }
-                    break;
-                case 11 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:146:4: comm= comment
-                    {
-                    	PushFollow(FOLLOW_comment_in_scmBtnProp911);
-                    	comm = comment();
-                    	followingStackPointer_--;
-
-                    	btnProp.SetScmComment(new ScmComment(comm)); 
-                    
-                    }
-                    break;
-                case 12 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:147:4: pe= parExpr
-                    {
-                    	PushFollow(FOLLOW_parExpr_in_scmBtnProp922);
-                    	pe = parExpr();
-                    	followingStackPointer_--;
-
-                    	btnProp.SetScmBlock(new ScmBlock(pe)); 
-                    
-                    }
-                    break;
-            
-            }
-        }
-        catch (RecognitionException re) 
-    	{
-            ReportError(re);
-            Recover(input,re);
-        }
-        finally 
-    	{
-        }
-        return ;
-    }
-    // $ANTLR end scmBtnProp
-
-    
-    // $ANTLR start scmMsgProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:149:1: scmMsgProp[ScmMessageProperties msgProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[msgProp.Style] | comm= comment | pe= parExpr );
-    public void scmMsgProp(ScmMessageProperties msgProp) // throws RecognitionException [1]
-    {   
-        string parent = null;
-
-        string label = null;
-
-        bool enabled = false;
-
-        int minWidth = 0;
-
-        int minHeight = 0;
-
-        bool strechWidth = false;
-
-        bool strechHeight = false;
-
-        int vertMarg = 0;
-
-        int horizMarg = 0;
-
-        string comm = null;
-
-        string pe = null;
-        
-    
-        try 
-    	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:150:2: (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[msgProp.Style] | comm= comment | pe= parExpr )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:155:2: (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmBtnStyleProp[btnProp.Style] | comm= comment | pe= parExpr )
             int alt9 = 12;
             switch ( input.LA(1) ) 
             {
@@ -1546,34 +1360,9 @@ public class ScmGrammarParser : Parser
             	{
                 switch ( input.LA(2) ) 
                 {
-                case LABEL:
+                case MIN_WIDTH:
                 	{
-                    alt9 = 2;
-                    }
-                    break;
-                case STRETCH_HEIGHT:
-                	{
-                    alt9 = 7;
-                    }
-                    break;
-                case HORIZ_MARGIN:
-                	{
-                    alt9 = 9;
-                    }
-                    break;
-                case PARENT:
-                	{
-                    alt9 = 1;
-                    }
-                    break;
-                case STRETCH_WIDTH:
-                	{
-                    alt9 = 6;
-                    }
-                    break;
-                case VERT_MARGIN:
-                	{
-                    alt9 = 8;
+                    alt9 = 4;
                     }
                     break;
                 case STYLE:
@@ -1581,19 +1370,44 @@ public class ScmGrammarParser : Parser
                     alt9 = 10;
                     }
                     break;
+                case ENABLED:
+                	{
+                    alt9 = 3;
+                    }
+                    break;
+                case PARENT:
+                	{
+                    alt9 = 1;
+                    }
+                    break;
+                case LABEL:
+                	{
+                    alt9 = 2;
+                    }
+                    break;
+                case STRETCH_WIDTH:
+                	{
+                    alt9 = 6;
+                    }
+                    break;
+                case HORIZ_MARGIN:
+                	{
+                    alt9 = 9;
+                    }
+                    break;
+                case STRETCH_HEIGHT:
+                	{
+                    alt9 = 7;
+                    }
+                    break;
                 case MIN_HEIGHT:
                 	{
                     alt9 = 5;
                     }
                     break;
-                case MIN_WIDTH:
+                case VERT_MARGIN:
                 	{
-                    alt9 = 4;
-                    }
-                    break;
-                case ENABLED:
-                	{
-                    alt9 = 3;
+                    alt9 = 8;
                     }
                     break;
                 case LP:
@@ -1615,7 +1429,7 @@ public class ScmGrammarParser : Parser
                     break;
                 	default:
                 	    NoViableAltException nvae_d9s1 =
-                	        new NoViableAltException("149:1: scmMsgProp[ScmMessageProperties msgProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[msgProp.Style] | comm= comment | pe= parExpr );", 9, 1, input);
+                	        new NoViableAltException("154:1: scmBtnProp[ScmButtonProperties btnProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmBtnStyleProp[btnProp.Style] | comm= comment | pe= parExpr );", 9, 1, input);
                 
                 	    throw nvae_d9s1;
                 }
@@ -1645,7 +1459,7 @@ public class ScmGrammarParser : Parser
                 break;
             	default:
             	    NoViableAltException nvae_d9s0 =
-            	        new NoViableAltException("149:1: scmMsgProp[ScmMessageProperties msgProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[msgProp.Style] | comm= comment | pe= parExpr );", 9, 0, input);
+            	        new NoViableAltException("154:1: scmBtnProp[ScmButtonProperties btnProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmBtnStyleProp[btnProp.Style] | comm= comment | pe= parExpr );", 9, 0, input);
             
             	    throw nvae_d9s0;
             }
@@ -1653,134 +1467,134 @@ public class ScmGrammarParser : Parser
             switch (alt9) 
             {
                 case 1 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:150:4: parent= scmParentProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:155:4: parent= scmParentProp
                     {
-                    	PushFollow(FOLLOW_scmParentProp_in_scmMsgProp939);
+                    	PushFollow(FOLLOW_scmParentProp_in_scmBtnProp878);
                     	parent = scmParentProp();
                     	followingStackPointer_--;
 
-                    	msgProp.Parent = parent; msgProp.AddParesedProperty(MessagePropNames.Parent); 
+                    	btnProp.Parent = parent; btnProp.AddParesedProperty(ButtonPropNames.Parent); 
                     
                     }
                     break;
                 case 2 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:151:4: label= scmLabelProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:156:4: label= scmLabelProp
                     {
-                    	PushFollow(FOLLOW_scmLabelProp_in_scmMsgProp950);
+                    	PushFollow(FOLLOW_scmLabelProp_in_scmBtnProp889);
                     	label = scmLabelProp();
                     	followingStackPointer_--;
 
-                    	msgProp.Label = label; msgProp.AddParesedProperty(MessagePropNames.Label); 
+                    	btnProp.Label = label; btnProp.AddParesedProperty(ButtonPropNames.Label); 
                     
                     }
                     break;
                 case 3 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:152:4: enabled= scmEnabledProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:157:4: enabled= scmEnabledProp
                     {
-                    	PushFollow(FOLLOW_scmEnabledProp_in_scmMsgProp961);
+                    	PushFollow(FOLLOW_scmEnabledProp_in_scmBtnProp900);
                     	enabled = scmEnabledProp();
                     	followingStackPointer_--;
 
-                    	msgProp.Enabled = enabled; msgProp.AddParesedProperty(MessagePropNames.Enabled);
+                    	btnProp.Enabled = enabled; btnProp.AddParesedProperty(ButtonPropNames.Enabled);
                     
                     }
                     break;
                 case 4 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:153:4: minWidth= scmMinWidthProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:158:4: minWidth= scmMinWidthProp
                     {
-                    	PushFollow(FOLLOW_scmMinWidthProp_in_scmMsgProp972);
+                    	PushFollow(FOLLOW_scmMinWidthProp_in_scmBtnProp911);
                     	minWidth = scmMinWidthProp();
                     	followingStackPointer_--;
 
-                    	msgProp.MinWidth = minWidth;if (minWidth == 0) msgProp.AutosizeWidth = true; msgProp.AddParesedProperty(MessagePropNames.MinWidth);
+                    	if (minWidth != 0) btnProp.AutosizeWidth = false; btnProp.MinWidth = minWidth; btnProp.AddParesedProperty(ButtonPropNames.MinWidth);
                     
                     }
                     break;
                 case 5 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:154:4: minHeight= scmMinHeightProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:159:4: minHeight= scmMinHeightProp
                     {
-                    	PushFollow(FOLLOW_scmMinHeightProp_in_scmMsgProp983);
+                    	PushFollow(FOLLOW_scmMinHeightProp_in_scmBtnProp922);
                     	minHeight = scmMinHeightProp();
                     	followingStackPointer_--;
 
-                    	msgProp.MinHeight = minHeight; if (minHeight == 0) msgProp.AutosizeHeight = true; msgProp.AddParesedProperty( MessagePropNames.MinHeight);
+                    	if (minHeight != 0) btnProp.AutosizeHeight = false; btnProp.MinHeight = minHeight; btnProp.AddParesedProperty( ButtonPropNames.MinHeight);
                     
                     }
                     break;
                 case 6 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:155:4: strechWidth= scmStretchWidthProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:160:4: strechWidth= scmStretchWidthProp
                     {
-                    	PushFollow(FOLLOW_scmStretchWidthProp_in_scmMsgProp994);
+                    	PushFollow(FOLLOW_scmStretchWidthProp_in_scmBtnProp933);
                     	strechWidth = scmStretchWidthProp();
                     	followingStackPointer_--;
 
-                    	msgProp.StretchableWidth = strechWidth; msgProp.AddParesedProperty(MessagePropNames.StrechWidth);
+                    	btnProp.StretchableWidth = strechWidth; btnProp.AddParesedProperty(ButtonPropNames.StrechWidth);
                     
                     }
                     break;
                 case 7 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:156:4: strechHeight= scmStretchHeightProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:161:4: strechHeight= scmStretchHeightProp
                     {
-                    	PushFollow(FOLLOW_scmStretchHeightProp_in_scmMsgProp1005);
+                    	PushFollow(FOLLOW_scmStretchHeightProp_in_scmBtnProp944);
                     	strechHeight = scmStretchHeightProp();
                     	followingStackPointer_--;
 
-                    	msgProp.StretchableHeight = strechHeight; msgProp.AddParesedProperty(MessagePropNames.StrechHeight);
+                    	btnProp.StretchableHeight = strechHeight; btnProp.AddParesedProperty(ButtonPropNames.StrechHeight);
                     
                     }
                     break;
                 case 8 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:157:4: vertMarg= scmVertMargin
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:162:4: vertMarg= scmVertMargin
                     {
-                    	PushFollow(FOLLOW_scmVertMargin_in_scmMsgProp1016);
+                    	PushFollow(FOLLOW_scmVertMargin_in_scmBtnProp955);
                     	vertMarg = scmVertMargin();
                     	followingStackPointer_--;
 
-                    	msgProp.VerticalMargin = vertMarg; msgProp.AddParesedProperty(MessagePropNames.VerticalMargin);
+                    	btnProp.VerticalMargin = vertMarg; btnProp.AddParesedProperty(ButtonPropNames.VerticalMargin);
                     
                     }
                     break;
                 case 9 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:158:4: horizMarg= scmHorizMargin
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:163:4: horizMarg= scmHorizMargin
                     {
-                    	PushFollow(FOLLOW_scmHorizMargin_in_scmMsgProp1027);
+                    	PushFollow(FOLLOW_scmHorizMargin_in_scmBtnProp966);
                     	horizMarg = scmHorizMargin();
                     	followingStackPointer_--;
 
-                    	msgProp.HorizontalMargin = vertMarg; msgProp.AddParesedProperty(MessagePropNames.HorizontalMargin);
+                    	btnProp.HorizontalMargin = vertMarg; btnProp.AddParesedProperty(ButtonPropNames.HorizontalMargin);
                     
                     }
                     break;
                 case 10 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:159:4: scmStyleProp[msgProp.Style]
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:164:4: scmBtnStyleProp[btnProp.Style]
                     {
-                    	PushFollow(FOLLOW_scmStyleProp_in_scmMsgProp1034);
-                    	scmStyleProp(msgProp.Style);
+                    	PushFollow(FOLLOW_scmBtnStyleProp_in_scmBtnProp973);
+                    	scmBtnStyleProp(btnProp.Style);
                     	followingStackPointer_--;
 
-                    	msgProp.AddParesedProperty(MessagePropNames.Style);
+                    	btnProp.AddParesedProperty(ButtonPropNames.Style);
                     
                     }
                     break;
                 case 11 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:160:4: comm= comment
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:165:4: comm= comment
                     {
-                    	PushFollow(FOLLOW_comment_in_scmMsgProp1046);
+                    	PushFollow(FOLLOW_comment_in_scmBtnProp985);
                     	comm = comment();
                     	followingStackPointer_--;
 
-                    	msgProp.SetScmComment(new ScmComment(comm)); 
+                    	btnProp.SetScmComment(new ScmComment(comm)); 
                     
                     }
                     break;
                 case 12 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:161:4: pe= parExpr
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:166:4: pe= parExpr
                     {
-                    	PushFollow(FOLLOW_parExpr_in_scmMsgProp1057);
+                    	PushFollow(FOLLOW_parExpr_in_scmBtnProp996);
                     	pe = parExpr();
                     	followingStackPointer_--;
 
-                    	msgProp.SetScmBlock(new ScmBlock(pe)); 
+                    	btnProp.SetScmBlock(new ScmBlock(pe)); 
                     
                     }
                     break;
@@ -1797,12 +1611,12 @@ public class ScmGrammarParser : Parser
         }
         return ;
     }
-    // $ANTLR end scmMsgProp
+    // $ANTLR end scmBtnProp
 
     
-    // $ANTLR start scmCbxProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:163:1: scmCbxProp[ScmCheckBoxProperties cbxProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[cbxProp.Style] | comm= comment | pe= parExpr );
-    public void scmCbxProp(ScmCheckBoxProperties cbxProp) // throws RecognitionException [1]
+    // $ANTLR start scmMsgProp
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:168:1: scmMsgProp[ScmMessageProperties msgProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[msgProp.Style] | comm= comment | pe= parExpr );
+    public void scmMsgProp(ScmMessageProperties msgProp) // throws RecognitionException [1]
     {   
         string parent = null;
 
@@ -1829,7 +1643,7 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:164:2: (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[cbxProp.Style] | comm= comment | pe= parExpr )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:169:2: (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[msgProp.Style] | comm= comment | pe= parExpr )
             int alt10 = 12;
             switch ( input.LA(1) ) 
             {
@@ -1837,41 +1651,6 @@ public class ScmGrammarParser : Parser
             	{
                 switch ( input.LA(2) ) 
                 {
-                case HORIZ_MARGIN:
-                	{
-                    alt10 = 9;
-                    }
-                    break;
-                case STRETCH_WIDTH:
-                	{
-                    alt10 = 6;
-                    }
-                    break;
-                case VERT_MARGIN:
-                	{
-                    alt10 = 8;
-                    }
-                    break;
-                case STYLE:
-                	{
-                    alt10 = 10;
-                    }
-                    break;
-                case MIN_WIDTH:
-                	{
-                    alt10 = 4;
-                    }
-                    break;
-                case MIN_HEIGHT:
-                	{
-                    alt10 = 5;
-                    }
-                    break;
-                case ENABLED:
-                	{
-                    alt10 = 3;
-                    }
-                    break;
                 case PARENT:
                 	{
                     alt10 = 1;
@@ -1885,6 +1664,41 @@ public class ScmGrammarParser : Parser
                 case STRETCH_HEIGHT:
                 	{
                     alt10 = 7;
+                    }
+                    break;
+                case MIN_HEIGHT:
+                	{
+                    alt10 = 5;
+                    }
+                    break;
+                case HORIZ_MARGIN:
+                	{
+                    alt10 = 9;
+                    }
+                    break;
+                case STYLE:
+                	{
+                    alt10 = 10;
+                    }
+                    break;
+                case VERT_MARGIN:
+                	{
+                    alt10 = 8;
+                    }
+                    break;
+                case STRETCH_WIDTH:
+                	{
+                    alt10 = 6;
+                    }
+                    break;
+                case MIN_WIDTH:
+                	{
+                    alt10 = 4;
+                    }
+                    break;
+                case ENABLED:
+                	{
+                    alt10 = 3;
                     }
                     break;
                 case LP:
@@ -1906,7 +1720,7 @@ public class ScmGrammarParser : Parser
                     break;
                 	default:
                 	    NoViableAltException nvae_d10s1 =
-                	        new NoViableAltException("163:1: scmCbxProp[ScmCheckBoxProperties cbxProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[cbxProp.Style] | comm= comment | pe= parExpr );", 10, 1, input);
+                	        new NoViableAltException("168:1: scmMsgProp[ScmMessageProperties msgProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[msgProp.Style] | comm= comment | pe= parExpr );", 10, 1, input);
                 
                 	    throw nvae_d10s1;
                 }
@@ -1936,7 +1750,7 @@ public class ScmGrammarParser : Parser
                 break;
             	default:
             	    NoViableAltException nvae_d10s0 =
-            	        new NoViableAltException("163:1: scmCbxProp[ScmCheckBoxProperties cbxProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[cbxProp.Style] | comm= comment | pe= parExpr );", 10, 0, input);
+            	        new NoViableAltException("168:1: scmMsgProp[ScmMessageProperties msgProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[msgProp.Style] | comm= comment | pe= parExpr );", 10, 0, input);
             
             	    throw nvae_d10s0;
             }
@@ -1944,9 +1758,300 @@ public class ScmGrammarParser : Parser
             switch (alt10) 
             {
                 case 1 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:164:4: parent= scmParentProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:169:4: parent= scmParentProp
                     {
-                    	PushFollow(FOLLOW_scmParentProp_in_scmCbxProp1075);
+                    	PushFollow(FOLLOW_scmParentProp_in_scmMsgProp1013);
+                    	parent = scmParentProp();
+                    	followingStackPointer_--;
+
+                    	msgProp.Parent = parent; msgProp.AddParesedProperty(MessagePropNames.Parent); 
+                    
+                    }
+                    break;
+                case 2 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:170:4: label= scmLabelProp
+                    {
+                    	PushFollow(FOLLOW_scmLabelProp_in_scmMsgProp1024);
+                    	label = scmLabelProp();
+                    	followingStackPointer_--;
+
+                    	msgProp.Label = label; msgProp.AddParesedProperty(MessagePropNames.Label); 
+                    
+                    }
+                    break;
+                case 3 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:171:4: enabled= scmEnabledProp
+                    {
+                    	PushFollow(FOLLOW_scmEnabledProp_in_scmMsgProp1035);
+                    	enabled = scmEnabledProp();
+                    	followingStackPointer_--;
+
+                    	msgProp.Enabled = enabled; msgProp.AddParesedProperty(MessagePropNames.Enabled);
+                    
+                    }
+                    break;
+                case 4 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:172:4: minWidth= scmMinWidthProp
+                    {
+                    	PushFollow(FOLLOW_scmMinWidthProp_in_scmMsgProp1046);
+                    	minWidth = scmMinWidthProp();
+                    	followingStackPointer_--;
+
+                    	if (minWidth != 0) msgProp.AutosizeWidth = false; msgProp.MinWidth = minWidth; msgProp.AddParesedProperty(MessagePropNames.MinWidth);
+                    
+                    }
+                    break;
+                case 5 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:173:4: minHeight= scmMinHeightProp
+                    {
+                    	PushFollow(FOLLOW_scmMinHeightProp_in_scmMsgProp1057);
+                    	minHeight = scmMinHeightProp();
+                    	followingStackPointer_--;
+
+                    	if (minHeight != 0) msgProp.AutosizeHeight = false; msgProp.MinHeight = minHeight; msgProp.AddParesedProperty( MessagePropNames.MinHeight);
+                    
+                    }
+                    break;
+                case 6 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:174:4: strechWidth= scmStretchWidthProp
+                    {
+                    	PushFollow(FOLLOW_scmStretchWidthProp_in_scmMsgProp1068);
+                    	strechWidth = scmStretchWidthProp();
+                    	followingStackPointer_--;
+
+                    	msgProp.StretchableWidth = strechWidth; msgProp.AddParesedProperty(MessagePropNames.StrechWidth);
+                    
+                    }
+                    break;
+                case 7 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:175:4: strechHeight= scmStretchHeightProp
+                    {
+                    	PushFollow(FOLLOW_scmStretchHeightProp_in_scmMsgProp1079);
+                    	strechHeight = scmStretchHeightProp();
+                    	followingStackPointer_--;
+
+                    	msgProp.StretchableHeight = strechHeight; msgProp.AddParesedProperty(MessagePropNames.StrechHeight);
+                    
+                    }
+                    break;
+                case 8 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:176:4: vertMarg= scmVertMargin
+                    {
+                    	PushFollow(FOLLOW_scmVertMargin_in_scmMsgProp1090);
+                    	vertMarg = scmVertMargin();
+                    	followingStackPointer_--;
+
+                    	msgProp.VerticalMargin = vertMarg; msgProp.AddParesedProperty(MessagePropNames.VerticalMargin);
+                    
+                    }
+                    break;
+                case 9 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:177:4: horizMarg= scmHorizMargin
+                    {
+                    	PushFollow(FOLLOW_scmHorizMargin_in_scmMsgProp1101);
+                    	horizMarg = scmHorizMargin();
+                    	followingStackPointer_--;
+
+                    	msgProp.HorizontalMargin = vertMarg; msgProp.AddParesedProperty(MessagePropNames.HorizontalMargin);
+                    
+                    }
+                    break;
+                case 10 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:178:4: scmStyleProp[msgProp.Style]
+                    {
+                    	PushFollow(FOLLOW_scmStyleProp_in_scmMsgProp1108);
+                    	scmStyleProp(msgProp.Style);
+                    	followingStackPointer_--;
+
+                    	msgProp.AddParesedProperty(MessagePropNames.Style);
+                    
+                    }
+                    break;
+                case 11 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:179:4: comm= comment
+                    {
+                    	PushFollow(FOLLOW_comment_in_scmMsgProp1120);
+                    	comm = comment();
+                    	followingStackPointer_--;
+
+                    	msgProp.SetScmComment(new ScmComment(comm)); 
+                    
+                    }
+                    break;
+                case 12 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:180:4: pe= parExpr
+                    {
+                    	PushFollow(FOLLOW_parExpr_in_scmMsgProp1131);
+                    	pe = parExpr();
+                    	followingStackPointer_--;
+
+                    	msgProp.SetScmBlock(new ScmBlock(pe)); 
+                    
+                    }
+                    break;
+            
+            }
+        }
+        catch (RecognitionException re) 
+    	{
+            ReportError(re);
+            Recover(input,re);
+        }
+        finally 
+    	{
+        }
+        return ;
+    }
+    // $ANTLR end scmMsgProp
+
+    
+    // $ANTLR start scmCbxProp
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:182:1: scmCbxProp[ScmCheckBoxProperties cbxProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[cbxProp.Style] | comm= comment | pe= parExpr );
+    public void scmCbxProp(ScmCheckBoxProperties cbxProp) // throws RecognitionException [1]
+    {   
+        string parent = null;
+
+        string label = null;
+
+        bool enabled = false;
+
+        int minWidth = 0;
+
+        int minHeight = 0;
+
+        bool strechWidth = false;
+
+        bool strechHeight = false;
+
+        int vertMarg = 0;
+
+        int horizMarg = 0;
+
+        string comm = null;
+
+        string pe = null;
+        
+    
+        try 
+    	{
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:183:2: (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[cbxProp.Style] | comm= comment | pe= parExpr )
+            int alt11 = 12;
+            switch ( input.LA(1) ) 
+            {
+            case LP:
+            	{
+                switch ( input.LA(2) ) 
+                {
+                case STRETCH_HEIGHT:
+                	{
+                    alt11 = 7;
+                    }
+                    break;
+                case STRETCH_WIDTH:
+                	{
+                    alt11 = 6;
+                    }
+                    break;
+                case MIN_HEIGHT:
+                	{
+                    alt11 = 5;
+                    }
+                    break;
+                case MIN_WIDTH:
+                	{
+                    alt11 = 4;
+                    }
+                    break;
+                case ENABLED:
+                	{
+                    alt11 = 3;
+                    }
+                    break;
+                case STYLE:
+                	{
+                    alt11 = 10;
+                    }
+                    break;
+                case VERT_MARGIN:
+                	{
+                    alt11 = 8;
+                    }
+                    break;
+                case PARENT:
+                	{
+                    alt11 = 1;
+                    }
+                    break;
+                case HORIZ_MARGIN:
+                	{
+                    alt11 = 9;
+                    }
+                    break;
+                case LABEL:
+                	{
+                    alt11 = 2;
+                    }
+                    break;
+                case LP:
+                case FALSE:
+                case TRUE:
+                case ID:
+                case NUMBER:
+                case QUOTE:
+                case PLUS:
+                case MINUS:
+                case STAR:
+                case SLASH:
+                case LT:
+                case GT:
+                case EQ:
+                	{
+                    alt11 = 12;
+                    }
+                    break;
+                	default:
+                	    NoViableAltException nvae_d11s1 =
+                	        new NoViableAltException("182:1: scmCbxProp[ScmCheckBoxProperties cbxProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[cbxProp.Style] | comm= comment | pe= parExpr );", 11, 1, input);
+                
+                	    throw nvae_d11s1;
+                }
+            
+                }
+                break;
+            case COMMENT:
+            	{
+                alt11 = 11;
+                }
+                break;
+            case FALSE:
+            case TRUE:
+            case ID:
+            case NUMBER:
+            case QUOTE:
+            case PLUS:
+            case MINUS:
+            case STAR:
+            case SLASH:
+            case LT:
+            case GT:
+            case EQ:
+            	{
+                alt11 = 12;
+                }
+                break;
+            	default:
+            	    NoViableAltException nvae_d11s0 =
+            	        new NoViableAltException("182:1: scmCbxProp[ScmCheckBoxProperties cbxProp] : (parent= scmParentProp | label= scmLabelProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | scmStyleProp[cbxProp.Style] | comm= comment | pe= parExpr );", 11, 0, input);
+            
+            	    throw nvae_d11s0;
+            }
+            
+            switch (alt11) 
+            {
+                case 1 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:183:4: parent= scmParentProp
+                    {
+                    	PushFollow(FOLLOW_scmParentProp_in_scmCbxProp1149);
                     	parent = scmParentProp();
                     	followingStackPointer_--;
 
@@ -1955,9 +2060,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 2 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:165:4: label= scmLabelProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:184:4: label= scmLabelProp
                     {
-                    	PushFollow(FOLLOW_scmLabelProp_in_scmCbxProp1086);
+                    	PushFollow(FOLLOW_scmLabelProp_in_scmCbxProp1160);
                     	label = scmLabelProp();
                     	followingStackPointer_--;
 
@@ -1966,9 +2071,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 3 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:166:4: enabled= scmEnabledProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:185:4: enabled= scmEnabledProp
                     {
-                    	PushFollow(FOLLOW_scmEnabledProp_in_scmCbxProp1097);
+                    	PushFollow(FOLLOW_scmEnabledProp_in_scmCbxProp1171);
                     	enabled = scmEnabledProp();
                     	followingStackPointer_--;
 
@@ -1977,31 +2082,31 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 4 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:167:4: minWidth= scmMinWidthProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:186:4: minWidth= scmMinWidthProp
                     {
-                    	PushFollow(FOLLOW_scmMinWidthProp_in_scmCbxProp1108);
+                    	PushFollow(FOLLOW_scmMinWidthProp_in_scmCbxProp1182);
                     	minWidth = scmMinWidthProp();
                     	followingStackPointer_--;
 
-                    	cbxProp.MinWidth = minWidth;if (minWidth == 0) cbxProp.AutosizeWidth = true; cbxProp.AddParesedProperty(CheckBoxPropNames.MinWidth);
+                    	if (minWidth != 0) cbxProp.AutosizeWidth = false; cbxProp.MinWidth = minWidth; cbxProp.AddParesedProperty(CheckBoxPropNames.MinWidth);
                     
                     }
                     break;
                 case 5 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:168:4: minHeight= scmMinHeightProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:187:4: minHeight= scmMinHeightProp
                     {
-                    	PushFollow(FOLLOW_scmMinHeightProp_in_scmCbxProp1119);
+                    	PushFollow(FOLLOW_scmMinHeightProp_in_scmCbxProp1193);
                     	minHeight = scmMinHeightProp();
                     	followingStackPointer_--;
 
-                    	cbxProp.MinHeight = minHeight; if (minHeight == 0) cbxProp.AutosizeHeight = true; cbxProp.AddParesedProperty( CheckBoxPropNames.MinHeight);
+                    	if (minHeight != 0) cbxProp.AutosizeHeight = false; cbxProp.MinHeight = minHeight; cbxProp.AddParesedProperty( CheckBoxPropNames.MinHeight);
                     
                     }
                     break;
                 case 6 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:169:4: strechWidth= scmStretchWidthProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:188:4: strechWidth= scmStretchWidthProp
                     {
-                    	PushFollow(FOLLOW_scmStretchWidthProp_in_scmCbxProp1130);
+                    	PushFollow(FOLLOW_scmStretchWidthProp_in_scmCbxProp1204);
                     	strechWidth = scmStretchWidthProp();
                     	followingStackPointer_--;
 
@@ -2010,9 +2115,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 7 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:170:4: strechHeight= scmStretchHeightProp
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:189:4: strechHeight= scmStretchHeightProp
                     {
-                    	PushFollow(FOLLOW_scmStretchHeightProp_in_scmCbxProp1141);
+                    	PushFollow(FOLLOW_scmStretchHeightProp_in_scmCbxProp1215);
                     	strechHeight = scmStretchHeightProp();
                     	followingStackPointer_--;
 
@@ -2021,9 +2126,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 8 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:171:4: vertMarg= scmVertMargin
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:190:4: vertMarg= scmVertMargin
                     {
-                    	PushFollow(FOLLOW_scmVertMargin_in_scmCbxProp1152);
+                    	PushFollow(FOLLOW_scmVertMargin_in_scmCbxProp1226);
                     	vertMarg = scmVertMargin();
                     	followingStackPointer_--;
 
@@ -2032,9 +2137,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 9 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:172:4: horizMarg= scmHorizMargin
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:191:4: horizMarg= scmHorizMargin
                     {
-                    	PushFollow(FOLLOW_scmHorizMargin_in_scmCbxProp1163);
+                    	PushFollow(FOLLOW_scmHorizMargin_in_scmCbxProp1237);
                     	horizMarg = scmHorizMargin();
                     	followingStackPointer_--;
 
@@ -2043,9 +2148,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 10 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:173:4: scmStyleProp[cbxProp.Style]
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:192:4: scmStyleProp[cbxProp.Style]
                     {
-                    	PushFollow(FOLLOW_scmStyleProp_in_scmCbxProp1170);
+                    	PushFollow(FOLLOW_scmStyleProp_in_scmCbxProp1244);
                     	scmStyleProp(cbxProp.Style);
                     	followingStackPointer_--;
 
@@ -2054,9 +2159,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 11 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:174:4: comm= comment
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:193:4: comm= comment
                     {
-                    	PushFollow(FOLLOW_comment_in_scmCbxProp1182);
+                    	PushFollow(FOLLOW_comment_in_scmCbxProp1256);
                     	comm = comment();
                     	followingStackPointer_--;
 
@@ -2065,9 +2170,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 12 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:175:4: pe= parExpr
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:194:4: pe= parExpr
                     {
-                    	PushFollow(FOLLOW_parExpr_in_scmCbxProp1193);
+                    	PushFollow(FOLLOW_parExpr_in_scmCbxProp1267);
                     	pe = parExpr();
                     	followingStackPointer_--;
 
@@ -2091,8 +2196,333 @@ public class ScmGrammarParser : Parser
     // $ANTLR end scmCbxProp
 
     
+    // $ANTLR start scmHpnlProp
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:196:1: scmHpnlProp[ScmHorizontalPanelProperties hpnlProp] : (parent= scmParentProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | border= scmBorderProp | spacing= scmSpacingProp | scmBtnStyleProp[hpnlProp.Style] | scmAlignmentProp[hpnlProp.Alignment] | comm= comment | pe= parExpr );
+    public void scmHpnlProp(ScmHorizontalPanelProperties hpnlProp) // throws RecognitionException [1]
+    {   
+        string parent = null;
+
+        bool enabled = false;
+
+        int minWidth = 0;
+
+        int minHeight = 0;
+
+        bool strechWidth = false;
+
+        bool strechHeight = false;
+
+        int vertMarg = 0;
+
+        int horizMarg = 0;
+
+        int border = 0;
+
+        int spacing = 0;
+
+        string comm = null;
+
+        string pe = null;
+        
+    
+        try 
+    	{
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:197:2: (parent= scmParentProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | border= scmBorderProp | spacing= scmSpacingProp | scmBtnStyleProp[hpnlProp.Style] | scmAlignmentProp[hpnlProp.Alignment] | comm= comment | pe= parExpr )
+            int alt12 = 14;
+            switch ( input.LA(1) ) 
+            {
+            case LP:
+            	{
+                switch ( input.LA(2) ) 
+                {
+                case HORIZ_MARGIN:
+                	{
+                    alt12 = 8;
+                    }
+                    break;
+                case ENABLED:
+                	{
+                    alt12 = 2;
+                    }
+                    break;
+                case VERT_MARGIN:
+                	{
+                    alt12 = 7;
+                    }
+                    break;
+                case ALIGNMENT:
+                	{
+                    alt12 = 12;
+                    }
+                    break;
+                case PARENT:
+                	{
+                    alt12 = 1;
+                    }
+                    break;
+                case STRETCH_HEIGHT:
+                	{
+                    alt12 = 6;
+                    }
+                    break;
+                case STRETCH_WIDTH:
+                	{
+                    alt12 = 5;
+                    }
+                    break;
+                case SPACING:
+                	{
+                    alt12 = 10;
+                    }
+                    break;
+                case BORDER:
+                	{
+                    alt12 = 9;
+                    }
+                    break;
+                case MIN_HEIGHT:
+                	{
+                    alt12 = 4;
+                    }
+                    break;
+                case STYLE:
+                	{
+                    alt12 = 11;
+                    }
+                    break;
+                case MIN_WIDTH:
+                	{
+                    alt12 = 3;
+                    }
+                    break;
+                case LP:
+                case FALSE:
+                case TRUE:
+                case ID:
+                case NUMBER:
+                case QUOTE:
+                case PLUS:
+                case MINUS:
+                case STAR:
+                case SLASH:
+                case LT:
+                case GT:
+                case EQ:
+                	{
+                    alt12 = 14;
+                    }
+                    break;
+                	default:
+                	    NoViableAltException nvae_d12s1 =
+                	        new NoViableAltException("196:1: scmHpnlProp[ScmHorizontalPanelProperties hpnlProp] : (parent= scmParentProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | border= scmBorderProp | spacing= scmSpacingProp | scmBtnStyleProp[hpnlProp.Style] | scmAlignmentProp[hpnlProp.Alignment] | comm= comment | pe= parExpr );", 12, 1, input);
+                
+                	    throw nvae_d12s1;
+                }
+            
+                }
+                break;
+            case COMMENT:
+            	{
+                alt12 = 13;
+                }
+                break;
+            case FALSE:
+            case TRUE:
+            case ID:
+            case NUMBER:
+            case QUOTE:
+            case PLUS:
+            case MINUS:
+            case STAR:
+            case SLASH:
+            case LT:
+            case GT:
+            case EQ:
+            	{
+                alt12 = 14;
+                }
+                break;
+            	default:
+            	    NoViableAltException nvae_d12s0 =
+            	        new NoViableAltException("196:1: scmHpnlProp[ScmHorizontalPanelProperties hpnlProp] : (parent= scmParentProp | enabled= scmEnabledProp | minWidth= scmMinWidthProp | minHeight= scmMinHeightProp | strechWidth= scmStretchWidthProp | strechHeight= scmStretchHeightProp | vertMarg= scmVertMargin | horizMarg= scmHorizMargin | border= scmBorderProp | spacing= scmSpacingProp | scmBtnStyleProp[hpnlProp.Style] | scmAlignmentProp[hpnlProp.Alignment] | comm= comment | pe= parExpr );", 12, 0, input);
+            
+            	    throw nvae_d12s0;
+            }
+            
+            switch (alt12) 
+            {
+                case 1 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:197:4: parent= scmParentProp
+                    {
+                    	PushFollow(FOLLOW_scmParentProp_in_scmHpnlProp1285);
+                    	parent = scmParentProp();
+                    	followingStackPointer_--;
+
+                    	hpnlProp.Parent = parent; hpnlProp.AddParesedProperty(HorizontalPanelPropNames.Parent); 
+                    
+                    }
+                    break;
+                case 2 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:198:4: enabled= scmEnabledProp
+                    {
+                    	PushFollow(FOLLOW_scmEnabledProp_in_scmHpnlProp1296);
+                    	enabled = scmEnabledProp();
+                    	followingStackPointer_--;
+
+                    	hpnlProp.Enabled = enabled; hpnlProp.AddParesedProperty(HorizontalPanelPropNames.Enabled);
+                    
+                    }
+                    break;
+                case 3 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:199:4: minWidth= scmMinWidthProp
+                    {
+                    	PushFollow(FOLLOW_scmMinWidthProp_in_scmHpnlProp1307);
+                    	minWidth = scmMinWidthProp();
+                    	followingStackPointer_--;
+
+                    	if (minWidth != 0) hpnlProp.AutosizeWidth = false; hpnlProp.MinWidth = minWidth; hpnlProp.AddParesedProperty(HorizontalPanelPropNames.MinWidth);
+                    
+                    }
+                    break;
+                case 4 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:200:4: minHeight= scmMinHeightProp
+                    {
+                    	PushFollow(FOLLOW_scmMinHeightProp_in_scmHpnlProp1318);
+                    	minHeight = scmMinHeightProp();
+                    	followingStackPointer_--;
+
+                    	if (minHeight != 0) hpnlProp.AutosizeHeight = false; hpnlProp.MinHeight = minHeight; hpnlProp.AddParesedProperty( HorizontalPanelPropNames.MinHeight);
+                    
+                    }
+                    break;
+                case 5 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:201:4: strechWidth= scmStretchWidthProp
+                    {
+                    	PushFollow(FOLLOW_scmStretchWidthProp_in_scmHpnlProp1329);
+                    	strechWidth = scmStretchWidthProp();
+                    	followingStackPointer_--;
+
+                    	hpnlProp.StretchableWidth = strechWidth; hpnlProp.AddParesedProperty(HorizontalPanelPropNames.StrechWidth);
+                    
+                    }
+                    break;
+                case 6 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:202:4: strechHeight= scmStretchHeightProp
+                    {
+                    	PushFollow(FOLLOW_scmStretchHeightProp_in_scmHpnlProp1340);
+                    	strechHeight = scmStretchHeightProp();
+                    	followingStackPointer_--;
+
+                    	hpnlProp.StretchableHeight = strechHeight; hpnlProp.AddParesedProperty(HorizontalPanelPropNames.StrechHeight);
+                    
+                    }
+                    break;
+                case 7 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:203:4: vertMarg= scmVertMargin
+                    {
+                    	PushFollow(FOLLOW_scmVertMargin_in_scmHpnlProp1351);
+                    	vertMarg = scmVertMargin();
+                    	followingStackPointer_--;
+
+                    	hpnlProp.VerticalMargin = vertMarg; hpnlProp.AddParesedProperty(HorizontalPanelPropNames.VerticalMargin);
+                    
+                    }
+                    break;
+                case 8 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:204:4: horizMarg= scmHorizMargin
+                    {
+                    	PushFollow(FOLLOW_scmHorizMargin_in_scmHpnlProp1362);
+                    	horizMarg = scmHorizMargin();
+                    	followingStackPointer_--;
+
+                    	hpnlProp.HorizontalMargin = vertMarg; hpnlProp.AddParesedProperty(HorizontalPanelPropNames.HorizontalMargin);
+                    
+                    }
+                    break;
+                case 9 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:205:4: border= scmBorderProp
+                    {
+                    	PushFollow(FOLLOW_scmBorderProp_in_scmHpnlProp1373);
+                    	border = scmBorderProp();
+                    	followingStackPointer_--;
+
+                    	hpnlProp.Border = border; hpnlProp.AddParesedProperty(HorizontalPanelPropNames.Border);
+                    
+                    }
+                    break;
+                case 10 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:206:4: spacing= scmSpacingProp
+                    {
+                    	PushFollow(FOLLOW_scmSpacingProp_in_scmHpnlProp1384);
+                    	spacing = scmSpacingProp();
+                    	followingStackPointer_--;
+
+                    	hpnlProp.Spacing = spacing; hpnlProp.AddParesedProperty(HorizontalPanelPropNames.Spacing);
+                    
+                    }
+                    break;
+                case 11 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:207:4: scmBtnStyleProp[hpnlProp.Style]
+                    {
+                    	PushFollow(FOLLOW_scmBtnStyleProp_in_scmHpnlProp1391);
+                    	scmBtnStyleProp(hpnlProp.Style);
+                    	followingStackPointer_--;
+
+                    	hpnlProp.AddParesedProperty(HorizontalPanelPropNames.Style);
+                    
+                    }
+                    break;
+                case 12 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:208:4: scmAlignmentProp[hpnlProp.Alignment]
+                    {
+                    	PushFollow(FOLLOW_scmAlignmentProp_in_scmHpnlProp1399);
+                    	scmAlignmentProp(hpnlProp.Alignment);
+                    	followingStackPointer_--;
+
+                    	hpnlProp.AddParesedProperty(HorizontalPanelPropNames.Alignment);
+                    
+                    }
+                    break;
+                case 13 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:209:4: comm= comment
+                    {
+                    	PushFollow(FOLLOW_comment_in_scmHpnlProp1411);
+                    	comm = comment();
+                    	followingStackPointer_--;
+
+                    	hpnlProp.SetScmComment(new ScmComment(comm)); 
+                    
+                    }
+                    break;
+                case 14 :
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:210:4: pe= parExpr
+                    {
+                    	PushFollow(FOLLOW_parExpr_in_scmHpnlProp1422);
+                    	pe = parExpr();
+                    	followingStackPointer_--;
+
+                    	hpnlProp.SetScmBlock(new ScmBlock(pe)); 
+                    
+                    }
+                    break;
+            
+            }
+        }
+        catch (RecognitionException re) 
+    	{
+            ReportError(re);
+            Recover(input,re);
+        }
+        finally 
+    	{
+        }
+        return ;
+    }
+    // $ANTLR end scmHpnlProp
+
+    
     // $ANTLR start scmParentProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:177:1: scmParentProp returns [string parent] : LP PARENT par= ( ID | FALSE ) RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:212:1: scmParentProp returns [string parent] : LP PARENT par= ( ID | FALSE ) RP ;
     public string scmParentProp() // throws RecognitionException [1]
     {   
 
@@ -2102,11 +2532,11 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:178:2: ( LP PARENT par= ( ID | FALSE ) RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:178:4: LP PARENT par= ( ID | FALSE ) RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:213:2: ( LP PARENT par= ( ID | FALSE ) RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:213:4: LP PARENT par= ( ID | FALSE ) RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmParentProp1209); 
-            	Match(input,PARENT,FOLLOW_PARENT_in_scmParentProp1211); 
+            	Match(input,LP,FOLLOW_LP_in_scmParentProp1438); 
+            	Match(input,PARENT,FOLLOW_PARENT_in_scmParentProp1440); 
             	par = (IToken)input.LT(1);
             	if ( input.LA(1) == FALSE || input.LA(1) == ID ) 
             	{
@@ -2117,10 +2547,10 @@ public class ScmGrammarParser : Parser
             	{
             	    MismatchedSetException mse =
             	        new MismatchedSetException(null,input);
-            	    RecoverFromMismatchedSet(input,mse,FOLLOW_set_in_scmParentProp1216);    throw mse;
+            	    RecoverFromMismatchedSet(input,mse,FOLLOW_set_in_scmParentProp1445);    throw mse;
             	}
 
-            	Match(input,RP,FOLLOW_RP_in_scmParentProp1224); 
+            	Match(input,RP,FOLLOW_RP_in_scmParentProp1453); 
             	parent =  par.Text; 
             
             }
@@ -2140,7 +2570,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmLabelProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:180:1: scmLabelProp returns [string label] : LP LABEL name= NAME RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:215:1: scmLabelProp returns [string label] : LP LABEL name= NAME RP ;
     public string scmLabelProp() // throws RecognitionException [1]
     {   
 
@@ -2150,14 +2580,14 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:181:2: ( LP LABEL name= NAME RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:181:4: LP LABEL name= NAME RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:216:2: ( LP LABEL name= NAME RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:216:4: LP LABEL name= NAME RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmLabelProp1240); 
-            	Match(input,LABEL,FOLLOW_LABEL_in_scmLabelProp1242); 
+            	Match(input,LP,FOLLOW_LP_in_scmLabelProp1469); 
+            	Match(input,LABEL,FOLLOW_LABEL_in_scmLabelProp1471); 
             	name = (IToken)input.LT(1);
-            	Match(input,NAME,FOLLOW_NAME_in_scmLabelProp1248); 
-            	Match(input,RP,FOLLOW_RP_in_scmLabelProp1250); 
+            	Match(input,NAME,FOLLOW_NAME_in_scmLabelProp1477); 
+            	Match(input,RP,FOLLOW_RP_in_scmLabelProp1479); 
             	label =  name.Text.Trim('"'); 
             
             }
@@ -2177,7 +2607,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmWidthProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:183:1: scmWidthProp returns [string width] : LP WIDTH v= ( NUMBER | FALSE ) RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:218:1: scmWidthProp returns [string width] : LP WIDTH v= ( NUMBER | FALSE ) RP ;
     public string scmWidthProp() // throws RecognitionException [1]
     {   
 
@@ -2187,11 +2617,11 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:184:2: ( LP WIDTH v= ( NUMBER | FALSE ) RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:184:4: LP WIDTH v= ( NUMBER | FALSE ) RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:219:2: ( LP WIDTH v= ( NUMBER | FALSE ) RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:219:4: LP WIDTH v= ( NUMBER | FALSE ) RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmWidthProp1266); 
-            	Match(input,WIDTH,FOLLOW_WIDTH_in_scmWidthProp1268); 
+            	Match(input,LP,FOLLOW_LP_in_scmWidthProp1495); 
+            	Match(input,WIDTH,FOLLOW_WIDTH_in_scmWidthProp1497); 
             	v = (IToken)input.LT(1);
             	if ( input.LA(1) == FALSE || input.LA(1) == NUMBER ) 
             	{
@@ -2202,10 +2632,10 @@ public class ScmGrammarParser : Parser
             	{
             	    MismatchedSetException mse =
             	        new MismatchedSetException(null,input);
-            	    RecoverFromMismatchedSet(input,mse,FOLLOW_set_in_scmWidthProp1273);    throw mse;
+            	    RecoverFromMismatchedSet(input,mse,FOLLOW_set_in_scmWidthProp1502);    throw mse;
             	}
 
-            	Match(input,RP,FOLLOW_RP_in_scmWidthProp1279); 
+            	Match(input,RP,FOLLOW_RP_in_scmWidthProp1508); 
             	width =  v.Text; 
             
             }
@@ -2225,7 +2655,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmHeightProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:186:1: scmHeightProp returns [string height] : LP HEIGHT v= ( NUMBER | FALSE ) RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:221:1: scmHeightProp returns [string height] : LP HEIGHT v= ( NUMBER | FALSE ) RP ;
     public string scmHeightProp() // throws RecognitionException [1]
     {   
 
@@ -2235,11 +2665,11 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:187:2: ( LP HEIGHT v= ( NUMBER | FALSE ) RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:187:4: LP HEIGHT v= ( NUMBER | FALSE ) RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:222:2: ( LP HEIGHT v= ( NUMBER | FALSE ) RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:222:4: LP HEIGHT v= ( NUMBER | FALSE ) RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmHeightProp1294); 
-            	Match(input,HEIGHT,FOLLOW_HEIGHT_in_scmHeightProp1296); 
+            	Match(input,LP,FOLLOW_LP_in_scmHeightProp1523); 
+            	Match(input,HEIGHT,FOLLOW_HEIGHT_in_scmHeightProp1525); 
             	v = (IToken)input.LT(1);
             	if ( input.LA(1) == FALSE || input.LA(1) == NUMBER ) 
             	{
@@ -2250,10 +2680,10 @@ public class ScmGrammarParser : Parser
             	{
             	    MismatchedSetException mse =
             	        new MismatchedSetException(null,input);
-            	    RecoverFromMismatchedSet(input,mse,FOLLOW_set_in_scmHeightProp1302);    throw mse;
+            	    RecoverFromMismatchedSet(input,mse,FOLLOW_set_in_scmHeightProp1531);    throw mse;
             	}
 
-            	Match(input,RP,FOLLOW_RP_in_scmHeightProp1308); 
+            	Match(input,RP,FOLLOW_RP_in_scmHeightProp1537); 
             	height =  v.Text; 
             
             }
@@ -2278,7 +2708,7 @@ public class ScmGrammarParser : Parser
     };
     
     // $ANTLR start scmXYProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:189:1: scmXYProp returns [string name, string value] : LP n= ID v= ( NUMBER | FALSE ) RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:224:1: scmXYProp returns [string name, string value] : LP n= ID v= ( NUMBER | FALSE ) RP ;
     public scmXYProp_return scmXYProp() // throws RecognitionException [1]
     {   
         scmXYProp_return retval = new scmXYProp_return();
@@ -2289,12 +2719,12 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:190:2: ( LP n= ID v= ( NUMBER | FALSE ) RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:190:4: LP n= ID v= ( NUMBER | FALSE ) RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:225:2: ( LP n= ID v= ( NUMBER | FALSE ) RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:225:4: LP n= ID v= ( NUMBER | FALSE ) RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmXYProp1324); 
+            	Match(input,LP,FOLLOW_LP_in_scmXYProp1553); 
             	n = (IToken)input.LT(1);
-            	Match(input,ID,FOLLOW_ID_in_scmXYProp1330); 
+            	Match(input,ID,FOLLOW_ID_in_scmXYProp1559); 
             	v = (IToken)input.LT(1);
             	if ( input.LA(1) == FALSE || input.LA(1) == NUMBER ) 
             	{
@@ -2305,10 +2735,10 @@ public class ScmGrammarParser : Parser
             	{
             	    MismatchedSetException mse =
             	        new MismatchedSetException(null,input);
-            	    RecoverFromMismatchedSet(input,mse,FOLLOW_set_in_scmXYProp1336);    throw mse;
+            	    RecoverFromMismatchedSet(input,mse,FOLLOW_set_in_scmXYProp1565);    throw mse;
             	}
 
-            	Match(input,RP,FOLLOW_RP_in_scmXYProp1342); 
+            	Match(input,RP,FOLLOW_RP_in_scmXYProp1571); 
             	retval.name =  n.Text; retval.value =  v.Text; 
             
             }
@@ -2330,7 +2760,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmEnabledProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:192:1: scmEnabledProp returns [bool enabled] : LP ENABLED v= ( TRUE | FALSE ) RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:227:1: scmEnabledProp returns [bool enabled] : LP ENABLED v= ( TRUE | FALSE ) RP ;
     public bool scmEnabledProp() // throws RecognitionException [1]
     {   
 
@@ -2340,11 +2770,11 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:193:2: ( LP ENABLED v= ( TRUE | FALSE ) RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:193:4: LP ENABLED v= ( TRUE | FALSE ) RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:228:2: ( LP ENABLED v= ( TRUE | FALSE ) RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:228:4: LP ENABLED v= ( TRUE | FALSE ) RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmEnabledProp1358); 
-            	Match(input,ENABLED,FOLLOW_ENABLED_in_scmEnabledProp1360); 
+            	Match(input,LP,FOLLOW_LP_in_scmEnabledProp1587); 
+            	Match(input,ENABLED,FOLLOW_ENABLED_in_scmEnabledProp1589); 
             	v = (IToken)input.LT(1);
             	if ( (input.LA(1) >= FALSE && input.LA(1) <= TRUE) ) 
             	{
@@ -2355,10 +2785,10 @@ public class ScmGrammarParser : Parser
             	{
             	    MismatchedSetException mse =
             	        new MismatchedSetException(null,input);
-            	    RecoverFromMismatchedSet(input,mse,FOLLOW_set_in_scmEnabledProp1366);    throw mse;
+            	    RecoverFromMismatchedSet(input,mse,FOLLOW_set_in_scmEnabledProp1595);    throw mse;
             	}
 
-            	Match(input,RP,FOLLOW_RP_in_scmEnabledProp1372); 
+            	Match(input,RP,FOLLOW_RP_in_scmEnabledProp1601); 
             	if (v.Text == "#t") enabled =  true;
             								else enabled =  false; 
             
@@ -2379,7 +2809,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmBorderProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:196:1: scmBorderProp returns [int border] : LP BORDER nr= NUMBER RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:231:1: scmBorderProp returns [int border] : LP BORDER nr= NUMBER RP ;
     public int scmBorderProp() // throws RecognitionException [1]
     {   
 
@@ -2389,14 +2819,14 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:197:2: ( LP BORDER nr= NUMBER RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:197:4: LP BORDER nr= NUMBER RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:232:2: ( LP BORDER nr= NUMBER RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:232:4: LP BORDER nr= NUMBER RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmBorderProp1388); 
-            	Match(input,BORDER,FOLLOW_BORDER_in_scmBorderProp1390); 
+            	Match(input,LP,FOLLOW_LP_in_scmBorderProp1617); 
+            	Match(input,BORDER,FOLLOW_BORDER_in_scmBorderProp1619); 
             	nr = (IToken)input.LT(1);
-            	Match(input,NUMBER,FOLLOW_NUMBER_in_scmBorderProp1396); 
-            	Match(input,RP,FOLLOW_RP_in_scmBorderProp1398); 
+            	Match(input,NUMBER,FOLLOW_NUMBER_in_scmBorderProp1625); 
+            	Match(input,RP,FOLLOW_RP_in_scmBorderProp1627); 
             	border =  ParserUtils.GetIntValue(nr.Text); 
             
             }
@@ -2416,7 +2846,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmSpacingProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:199:1: scmSpacingProp returns [int spacing] : LP SPACING nr= NUMBER RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:234:1: scmSpacingProp returns [int spacing] : LP SPACING nr= NUMBER RP ;
     public int scmSpacingProp() // throws RecognitionException [1]
     {   
 
@@ -2426,14 +2856,14 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:200:2: ( LP SPACING nr= NUMBER RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:200:4: LP SPACING nr= NUMBER RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:235:2: ( LP SPACING nr= NUMBER RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:235:4: LP SPACING nr= NUMBER RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmSpacingProp1413); 
-            	Match(input,SPACING,FOLLOW_SPACING_in_scmSpacingProp1415); 
+            	Match(input,LP,FOLLOW_LP_in_scmSpacingProp1642); 
+            	Match(input,SPACING,FOLLOW_SPACING_in_scmSpacingProp1644); 
             	nr = (IToken)input.LT(1);
-            	Match(input,NUMBER,FOLLOW_NUMBER_in_scmSpacingProp1421); 
-            	Match(input,RP,FOLLOW_RP_in_scmSpacingProp1423); 
+            	Match(input,NUMBER,FOLLOW_NUMBER_in_scmSpacingProp1650); 
+            	Match(input,RP,FOLLOW_RP_in_scmSpacingProp1652); 
             	spacing =  ParserUtils.GetIntValue(nr.Text); 
             
             }
@@ -2453,7 +2883,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmMinWidthProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:202:1: scmMinWidthProp returns [int minWidth] : LP MIN_WIDTH nr= NUMBER RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:237:1: scmMinWidthProp returns [int minWidth] : LP MIN_WIDTH nr= NUMBER RP ;
     public int scmMinWidthProp() // throws RecognitionException [1]
     {   
 
@@ -2463,14 +2893,14 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:203:2: ( LP MIN_WIDTH nr= NUMBER RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:203:4: LP MIN_WIDTH nr= NUMBER RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:238:2: ( LP MIN_WIDTH nr= NUMBER RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:238:4: LP MIN_WIDTH nr= NUMBER RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmMinWidthProp1438); 
-            	Match(input,MIN_WIDTH,FOLLOW_MIN_WIDTH_in_scmMinWidthProp1440); 
+            	Match(input,LP,FOLLOW_LP_in_scmMinWidthProp1667); 
+            	Match(input,MIN_WIDTH,FOLLOW_MIN_WIDTH_in_scmMinWidthProp1669); 
             	nr = (IToken)input.LT(1);
-            	Match(input,NUMBER,FOLLOW_NUMBER_in_scmMinWidthProp1446); 
-            	Match(input,RP,FOLLOW_RP_in_scmMinWidthProp1448); 
+            	Match(input,NUMBER,FOLLOW_NUMBER_in_scmMinWidthProp1675); 
+            	Match(input,RP,FOLLOW_RP_in_scmMinWidthProp1677); 
             	minWidth =  ParserUtils.GetIntValue(nr.Text); 
             
             }
@@ -2490,7 +2920,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmMinHeightProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:205:1: scmMinHeightProp returns [int minHeight] : LP MIN_HEIGHT nr= NUMBER RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:240:1: scmMinHeightProp returns [int minHeight] : LP MIN_HEIGHT nr= NUMBER RP ;
     public int scmMinHeightProp() // throws RecognitionException [1]
     {   
 
@@ -2500,14 +2930,14 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:206:2: ( LP MIN_HEIGHT nr= NUMBER RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:206:4: LP MIN_HEIGHT nr= NUMBER RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:241:2: ( LP MIN_HEIGHT nr= NUMBER RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:241:4: LP MIN_HEIGHT nr= NUMBER RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmMinHeightProp1463); 
-            	Match(input,MIN_HEIGHT,FOLLOW_MIN_HEIGHT_in_scmMinHeightProp1465); 
+            	Match(input,LP,FOLLOW_LP_in_scmMinHeightProp1692); 
+            	Match(input,MIN_HEIGHT,FOLLOW_MIN_HEIGHT_in_scmMinHeightProp1694); 
             	nr = (IToken)input.LT(1);
-            	Match(input,NUMBER,FOLLOW_NUMBER_in_scmMinHeightProp1471); 
-            	Match(input,RP,FOLLOW_RP_in_scmMinHeightProp1473); 
+            	Match(input,NUMBER,FOLLOW_NUMBER_in_scmMinHeightProp1700); 
+            	Match(input,RP,FOLLOW_RP_in_scmMinHeightProp1702); 
             	minHeight =  ParserUtils.GetIntValue(nr.Text); 
             
             }
@@ -2527,7 +2957,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmStretchWidthProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:208:1: scmStretchWidthProp returns [bool strechWidth] : LP STRETCH_WIDTH v= ( TRUE | FALSE ) RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:243:1: scmStretchWidthProp returns [bool strechWidth] : LP STRETCH_WIDTH v= ( TRUE | FALSE ) RP ;
     public bool scmStretchWidthProp() // throws RecognitionException [1]
     {   
 
@@ -2537,11 +2967,11 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:209:2: ( LP STRETCH_WIDTH v= ( TRUE | FALSE ) RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:209:4: LP STRETCH_WIDTH v= ( TRUE | FALSE ) RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:244:2: ( LP STRETCH_WIDTH v= ( TRUE | FALSE ) RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:244:4: LP STRETCH_WIDTH v= ( TRUE | FALSE ) RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmStretchWidthProp1488); 
-            	Match(input,STRETCH_WIDTH,FOLLOW_STRETCH_WIDTH_in_scmStretchWidthProp1490); 
+            	Match(input,LP,FOLLOW_LP_in_scmStretchWidthProp1717); 
+            	Match(input,STRETCH_WIDTH,FOLLOW_STRETCH_WIDTH_in_scmStretchWidthProp1719); 
             	v = (IToken)input.LT(1);
             	if ( (input.LA(1) >= FALSE && input.LA(1) <= TRUE) ) 
             	{
@@ -2552,10 +2982,10 @@ public class ScmGrammarParser : Parser
             	{
             	    MismatchedSetException mse =
             	        new MismatchedSetException(null,input);
-            	    RecoverFromMismatchedSet(input,mse,FOLLOW_set_in_scmStretchWidthProp1496);    throw mse;
+            	    RecoverFromMismatchedSet(input,mse,FOLLOW_set_in_scmStretchWidthProp1725);    throw mse;
             	}
 
-            	Match(input,RP,FOLLOW_RP_in_scmStretchWidthProp1502); 
+            	Match(input,RP,FOLLOW_RP_in_scmStretchWidthProp1731); 
             	if (v.Text == "#t") strechWidth =  true;
             									else strechWidth =  false; 
             
@@ -2576,7 +3006,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmStretchHeightProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:212:1: scmStretchHeightProp returns [bool strechHeigth] : LP STRETCH_HEIGHT v= ( TRUE | FALSE ) RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:247:1: scmStretchHeightProp returns [bool strechHeigth] : LP STRETCH_HEIGHT v= ( TRUE | FALSE ) RP ;
     public bool scmStretchHeightProp() // throws RecognitionException [1]
     {   
 
@@ -2586,11 +3016,11 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:213:2: ( LP STRETCH_HEIGHT v= ( TRUE | FALSE ) RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:213:4: LP STRETCH_HEIGHT v= ( TRUE | FALSE ) RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:248:2: ( LP STRETCH_HEIGHT v= ( TRUE | FALSE ) RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:248:4: LP STRETCH_HEIGHT v= ( TRUE | FALSE ) RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmStretchHeightProp1517); 
-            	Match(input,STRETCH_HEIGHT,FOLLOW_STRETCH_HEIGHT_in_scmStretchHeightProp1519); 
+            	Match(input,LP,FOLLOW_LP_in_scmStretchHeightProp1746); 
+            	Match(input,STRETCH_HEIGHT,FOLLOW_STRETCH_HEIGHT_in_scmStretchHeightProp1748); 
             	v = (IToken)input.LT(1);
             	if ( (input.LA(1) >= FALSE && input.LA(1) <= TRUE) ) 
             	{
@@ -2601,10 +3031,10 @@ public class ScmGrammarParser : Parser
             	{
             	    MismatchedSetException mse =
             	        new MismatchedSetException(null,input);
-            	    RecoverFromMismatchedSet(input,mse,FOLLOW_set_in_scmStretchHeightProp1525);    throw mse;
+            	    RecoverFromMismatchedSet(input,mse,FOLLOW_set_in_scmStretchHeightProp1754);    throw mse;
             	}
 
-            	Match(input,RP,FOLLOW_RP_in_scmStretchHeightProp1531); 
+            	Match(input,RP,FOLLOW_RP_in_scmStretchHeightProp1760); 
             	if (v.Text == "#t") strechHeigth =  true;
             									else strechHeigth =  false; 
             
@@ -2625,28 +3055,28 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmAlignmentProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:216:1: scmAlignmentProp[ContainerAlignment alignment] : LP ALIGNMENT QUOTE LP scmHorizAlign[$alignment] scmVerticalAlign[$alignment] RP RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:251:1: scmAlignmentProp[ContainerAlignment alignment] : LP ALIGNMENT QUOTE LP scmHorizAlign[$alignment] scmVerticalAlign[$alignment] RP RP ;
     public void scmAlignmentProp(ContainerAlignment alignment) // throws RecognitionException [1]
     {   
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:217:2: ( LP ALIGNMENT QUOTE LP scmHorizAlign[$alignment] scmVerticalAlign[$alignment] RP RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:217:4: LP ALIGNMENT QUOTE LP scmHorizAlign[$alignment] scmVerticalAlign[$alignment] RP RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:252:2: ( LP ALIGNMENT QUOTE LP scmHorizAlign[$alignment] scmVerticalAlign[$alignment] RP RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:252:4: LP ALIGNMENT QUOTE LP scmHorizAlign[$alignment] scmVerticalAlign[$alignment] RP RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmAlignmentProp1545); 
-            	Match(input,ALIGNMENT,FOLLOW_ALIGNMENT_in_scmAlignmentProp1547); 
-            	Match(input,QUOTE,FOLLOW_QUOTE_in_scmAlignmentProp1549); 
-            	Match(input,LP,FOLLOW_LP_in_scmAlignmentProp1551); 
-            	PushFollow(FOLLOW_scmHorizAlign_in_scmAlignmentProp1553);
+            	Match(input,LP,FOLLOW_LP_in_scmAlignmentProp1774); 
+            	Match(input,ALIGNMENT,FOLLOW_ALIGNMENT_in_scmAlignmentProp1776); 
+            	Match(input,QUOTE,FOLLOW_QUOTE_in_scmAlignmentProp1778); 
+            	Match(input,LP,FOLLOW_LP_in_scmAlignmentProp1780); 
+            	PushFollow(FOLLOW_scmHorizAlign_in_scmAlignmentProp1782);
             	scmHorizAlign(alignment);
             	followingStackPointer_--;
 
-            	PushFollow(FOLLOW_scmVerticalAlign_in_scmAlignmentProp1556);
+            	PushFollow(FOLLOW_scmVerticalAlign_in_scmAlignmentProp1785);
             	scmVerticalAlign(alignment);
             	followingStackPointer_--;
 
-            	Match(input,RP,FOLLOW_RP_in_scmAlignmentProp1559); 
-            	Match(input,RP,FOLLOW_RP_in_scmAlignmentProp1561); 
+            	Match(input,RP,FOLLOW_RP_in_scmAlignmentProp1788); 
+            	Match(input,RP,FOLLOW_RP_in_scmAlignmentProp1790); 
             
             }
     
@@ -2665,79 +3095,79 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmFrmStyleProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:219:1: scmFrmStyleProp[ScmFrameStyle style] : ( LP STYLE QUOTE LP scmFrmStyleList[$style] RP RP | LP STYLE NULL RP );
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:254:1: scmFrmStyleProp[ScmFrameStyle style] : ( LP STYLE QUOTE LP scmFrmStyleList[$style] RP RP | LP STYLE NULL RP );
     public void scmFrmStyleProp(ScmFrameStyle style) // throws RecognitionException [1]
     {   
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:220:2: ( LP STYLE QUOTE LP scmFrmStyleList[$style] RP RP | LP STYLE NULL RP )
-            int alt11 = 2;
-            int LA11_0 = input.LA(1);
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:255:2: ( LP STYLE QUOTE LP scmFrmStyleList[$style] RP RP | LP STYLE NULL RP )
+            int alt13 = 2;
+            int LA13_0 = input.LA(1);
             
-            if ( (LA11_0 == LP) )
+            if ( (LA13_0 == LP) )
             {
-                int LA11_1 = input.LA(2);
+                int LA13_1 = input.LA(2);
                 
-                if ( (LA11_1 == STYLE) )
+                if ( (LA13_1 == STYLE) )
                 {
-                    int LA11_2 = input.LA(3);
+                    int LA13_2 = input.LA(3);
                     
-                    if ( (LA11_2 == QUOTE) )
+                    if ( (LA13_2 == NULL) )
                     {
-                        alt11 = 1;
+                        alt13 = 2;
                     }
-                    else if ( (LA11_2 == NULL) )
+                    else if ( (LA13_2 == QUOTE) )
                     {
-                        alt11 = 2;
+                        alt13 = 1;
                     }
                     else 
                     {
-                        NoViableAltException nvae_d11s2 =
-                            new NoViableAltException("219:1: scmFrmStyleProp[ScmFrameStyle style] : ( LP STYLE QUOTE LP scmFrmStyleList[$style] RP RP | LP STYLE NULL RP );", 11, 2, input);
+                        NoViableAltException nvae_d13s2 =
+                            new NoViableAltException("254:1: scmFrmStyleProp[ScmFrameStyle style] : ( LP STYLE QUOTE LP scmFrmStyleList[$style] RP RP | LP STYLE NULL RP );", 13, 2, input);
                     
-                        throw nvae_d11s2;
+                        throw nvae_d13s2;
                     }
                 }
                 else 
                 {
-                    NoViableAltException nvae_d11s1 =
-                        new NoViableAltException("219:1: scmFrmStyleProp[ScmFrameStyle style] : ( LP STYLE QUOTE LP scmFrmStyleList[$style] RP RP | LP STYLE NULL RP );", 11, 1, input);
+                    NoViableAltException nvae_d13s1 =
+                        new NoViableAltException("254:1: scmFrmStyleProp[ScmFrameStyle style] : ( LP STYLE QUOTE LP scmFrmStyleList[$style] RP RP | LP STYLE NULL RP );", 13, 1, input);
                 
-                    throw nvae_d11s1;
+                    throw nvae_d13s1;
                 }
             }
             else 
             {
-                NoViableAltException nvae_d11s0 =
-                    new NoViableAltException("219:1: scmFrmStyleProp[ScmFrameStyle style] : ( LP STYLE QUOTE LP scmFrmStyleList[$style] RP RP | LP STYLE NULL RP );", 11, 0, input);
+                NoViableAltException nvae_d13s0 =
+                    new NoViableAltException("254:1: scmFrmStyleProp[ScmFrameStyle style] : ( LP STYLE QUOTE LP scmFrmStyleList[$style] RP RP | LP STYLE NULL RP );", 13, 0, input);
             
-                throw nvae_d11s0;
+                throw nvae_d13s0;
             }
-            switch (alt11) 
+            switch (alt13) 
             {
                 case 1 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:220:4: LP STYLE QUOTE LP scmFrmStyleList[$style] RP RP
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:255:4: LP STYLE QUOTE LP scmFrmStyleList[$style] RP RP
                     {
-                    	Match(input,LP,FOLLOW_LP_in_scmFrmStyleProp1573); 
-                    	Match(input,STYLE,FOLLOW_STYLE_in_scmFrmStyleProp1575); 
-                    	Match(input,QUOTE,FOLLOW_QUOTE_in_scmFrmStyleProp1577); 
-                    	Match(input,LP,FOLLOW_LP_in_scmFrmStyleProp1579); 
-                    	PushFollow(FOLLOW_scmFrmStyleList_in_scmFrmStyleProp1581);
+                    	Match(input,LP,FOLLOW_LP_in_scmFrmStyleProp1802); 
+                    	Match(input,STYLE,FOLLOW_STYLE_in_scmFrmStyleProp1804); 
+                    	Match(input,QUOTE,FOLLOW_QUOTE_in_scmFrmStyleProp1806); 
+                    	Match(input,LP,FOLLOW_LP_in_scmFrmStyleProp1808); 
+                    	PushFollow(FOLLOW_scmFrmStyleList_in_scmFrmStyleProp1810);
                     	scmFrmStyleList(style);
                     	followingStackPointer_--;
 
-                    	Match(input,RP,FOLLOW_RP_in_scmFrmStyleProp1584); 
-                    	Match(input,RP,FOLLOW_RP_in_scmFrmStyleProp1586); 
+                    	Match(input,RP,FOLLOW_RP_in_scmFrmStyleProp1813); 
+                    	Match(input,RP,FOLLOW_RP_in_scmFrmStyleProp1815); 
                     
                     }
                     break;
                 case 2 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:221:4: LP STYLE NULL RP
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:256:4: LP STYLE NULL RP
                     {
-                    	Match(input,LP,FOLLOW_LP_in_scmFrmStyleProp1591); 
-                    	Match(input,STYLE,FOLLOW_STYLE_in_scmFrmStyleProp1593); 
-                    	Match(input,NULL,FOLLOW_NULL_in_scmFrmStyleProp1595); 
-                    	Match(input,RP,FOLLOW_RP_in_scmFrmStyleProp1597); 
+                    	Match(input,LP,FOLLOW_LP_in_scmFrmStyleProp1820); 
+                    	Match(input,STYLE,FOLLOW_STYLE_in_scmFrmStyleProp1822); 
+                    	Match(input,NULL,FOLLOW_NULL_in_scmFrmStyleProp1824); 
+                    	Match(input,RP,FOLLOW_RP_in_scmFrmStyleProp1826); 
                     
                     }
                     break;
@@ -2758,79 +3188,79 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmBtnStyleProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:223:1: scmBtnStyleProp[ScmButtonStyle style] : ( LP STYLE QUOTE LP scmBtnStyleList[$style] RP RP | LP STYLE NULL RP );
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:258:1: scmBtnStyleProp[ScmButtonStyle style] : ( LP STYLE QUOTE LP scmBtnStyleList[$style] RP RP | LP STYLE NULL RP );
     public void scmBtnStyleProp(ScmButtonStyle style) // throws RecognitionException [1]
     {   
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:224:2: ( LP STYLE QUOTE LP scmBtnStyleList[$style] RP RP | LP STYLE NULL RP )
-            int alt12 = 2;
-            int LA12_0 = input.LA(1);
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:259:2: ( LP STYLE QUOTE LP scmBtnStyleList[$style] RP RP | LP STYLE NULL RP )
+            int alt14 = 2;
+            int LA14_0 = input.LA(1);
             
-            if ( (LA12_0 == LP) )
+            if ( (LA14_0 == LP) )
             {
-                int LA12_1 = input.LA(2);
+                int LA14_1 = input.LA(2);
                 
-                if ( (LA12_1 == STYLE) )
+                if ( (LA14_1 == STYLE) )
                 {
-                    int LA12_2 = input.LA(3);
+                    int LA14_2 = input.LA(3);
                     
-                    if ( (LA12_2 == NULL) )
+                    if ( (LA14_2 == QUOTE) )
                     {
-                        alt12 = 2;
+                        alt14 = 1;
                     }
-                    else if ( (LA12_2 == QUOTE) )
+                    else if ( (LA14_2 == NULL) )
                     {
-                        alt12 = 1;
+                        alt14 = 2;
                     }
                     else 
                     {
-                        NoViableAltException nvae_d12s2 =
-                            new NoViableAltException("223:1: scmBtnStyleProp[ScmButtonStyle style] : ( LP STYLE QUOTE LP scmBtnStyleList[$style] RP RP | LP STYLE NULL RP );", 12, 2, input);
+                        NoViableAltException nvae_d14s2 =
+                            new NoViableAltException("258:1: scmBtnStyleProp[ScmButtonStyle style] : ( LP STYLE QUOTE LP scmBtnStyleList[$style] RP RP | LP STYLE NULL RP );", 14, 2, input);
                     
-                        throw nvae_d12s2;
+                        throw nvae_d14s2;
                     }
                 }
                 else 
                 {
-                    NoViableAltException nvae_d12s1 =
-                        new NoViableAltException("223:1: scmBtnStyleProp[ScmButtonStyle style] : ( LP STYLE QUOTE LP scmBtnStyleList[$style] RP RP | LP STYLE NULL RP );", 12, 1, input);
+                    NoViableAltException nvae_d14s1 =
+                        new NoViableAltException("258:1: scmBtnStyleProp[ScmButtonStyle style] : ( LP STYLE QUOTE LP scmBtnStyleList[$style] RP RP | LP STYLE NULL RP );", 14, 1, input);
                 
-                    throw nvae_d12s1;
+                    throw nvae_d14s1;
                 }
             }
             else 
             {
-                NoViableAltException nvae_d12s0 =
-                    new NoViableAltException("223:1: scmBtnStyleProp[ScmButtonStyle style] : ( LP STYLE QUOTE LP scmBtnStyleList[$style] RP RP | LP STYLE NULL RP );", 12, 0, input);
+                NoViableAltException nvae_d14s0 =
+                    new NoViableAltException("258:1: scmBtnStyleProp[ScmButtonStyle style] : ( LP STYLE QUOTE LP scmBtnStyleList[$style] RP RP | LP STYLE NULL RP );", 14, 0, input);
             
-                throw nvae_d12s0;
+                throw nvae_d14s0;
             }
-            switch (alt12) 
+            switch (alt14) 
             {
                 case 1 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:224:4: LP STYLE QUOTE LP scmBtnStyleList[$style] RP RP
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:259:4: LP STYLE QUOTE LP scmBtnStyleList[$style] RP RP
                     {
-                    	Match(input,LP,FOLLOW_LP_in_scmBtnStyleProp1609); 
-                    	Match(input,STYLE,FOLLOW_STYLE_in_scmBtnStyleProp1611); 
-                    	Match(input,QUOTE,FOLLOW_QUOTE_in_scmBtnStyleProp1613); 
-                    	Match(input,LP,FOLLOW_LP_in_scmBtnStyleProp1615); 
-                    	PushFollow(FOLLOW_scmBtnStyleList_in_scmBtnStyleProp1617);
+                    	Match(input,LP,FOLLOW_LP_in_scmBtnStyleProp1838); 
+                    	Match(input,STYLE,FOLLOW_STYLE_in_scmBtnStyleProp1840); 
+                    	Match(input,QUOTE,FOLLOW_QUOTE_in_scmBtnStyleProp1842); 
+                    	Match(input,LP,FOLLOW_LP_in_scmBtnStyleProp1844); 
+                    	PushFollow(FOLLOW_scmBtnStyleList_in_scmBtnStyleProp1846);
                     	scmBtnStyleList(style);
                     	followingStackPointer_--;
 
-                    	Match(input,RP,FOLLOW_RP_in_scmBtnStyleProp1620); 
-                    	Match(input,RP,FOLLOW_RP_in_scmBtnStyleProp1622); 
+                    	Match(input,RP,FOLLOW_RP_in_scmBtnStyleProp1849); 
+                    	Match(input,RP,FOLLOW_RP_in_scmBtnStyleProp1851); 
                     
                     }
                     break;
                 case 2 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:225:4: LP STYLE NULL RP
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:260:4: LP STYLE NULL RP
                     {
-                    	Match(input,LP,FOLLOW_LP_in_scmBtnStyleProp1627); 
-                    	Match(input,STYLE,FOLLOW_STYLE_in_scmBtnStyleProp1629); 
-                    	Match(input,NULL,FOLLOW_NULL_in_scmBtnStyleProp1631); 
-                    	Match(input,RP,FOLLOW_RP_in_scmBtnStyleProp1633); 
+                    	Match(input,LP,FOLLOW_LP_in_scmBtnStyleProp1856); 
+                    	Match(input,STYLE,FOLLOW_STYLE_in_scmBtnStyleProp1858); 
+                    	Match(input,NULL,FOLLOW_NULL_in_scmBtnStyleProp1860); 
+                    	Match(input,RP,FOLLOW_RP_in_scmBtnStyleProp1862); 
                     
                     }
                     break;
@@ -2851,79 +3281,79 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmStyleProp
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:227:1: scmStyleProp[ScmStyle style] : ( LP STYLE QUOTE LP scmStyleList[$style] RP RP | LP STYLE NULL RP );
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:262:1: scmStyleProp[ScmStyle style] : ( LP STYLE QUOTE LP scmStyleList[$style] RP RP | LP STYLE NULL RP );
     public void scmStyleProp(ScmStyle style) // throws RecognitionException [1]
     {   
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:228:2: ( LP STYLE QUOTE LP scmStyleList[$style] RP RP | LP STYLE NULL RP )
-            int alt13 = 2;
-            int LA13_0 = input.LA(1);
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:263:2: ( LP STYLE QUOTE LP scmStyleList[$style] RP RP | LP STYLE NULL RP )
+            int alt15 = 2;
+            int LA15_0 = input.LA(1);
             
-            if ( (LA13_0 == LP) )
+            if ( (LA15_0 == LP) )
             {
-                int LA13_1 = input.LA(2);
+                int LA15_1 = input.LA(2);
                 
-                if ( (LA13_1 == STYLE) )
+                if ( (LA15_1 == STYLE) )
                 {
-                    int LA13_2 = input.LA(3);
+                    int LA15_2 = input.LA(3);
                     
-                    if ( (LA13_2 == QUOTE) )
+                    if ( (LA15_2 == NULL) )
                     {
-                        alt13 = 1;
+                        alt15 = 2;
                     }
-                    else if ( (LA13_2 == NULL) )
+                    else if ( (LA15_2 == QUOTE) )
                     {
-                        alt13 = 2;
+                        alt15 = 1;
                     }
                     else 
                     {
-                        NoViableAltException nvae_d13s2 =
-                            new NoViableAltException("227:1: scmStyleProp[ScmStyle style] : ( LP STYLE QUOTE LP scmStyleList[$style] RP RP | LP STYLE NULL RP );", 13, 2, input);
+                        NoViableAltException nvae_d15s2 =
+                            new NoViableAltException("262:1: scmStyleProp[ScmStyle style] : ( LP STYLE QUOTE LP scmStyleList[$style] RP RP | LP STYLE NULL RP );", 15, 2, input);
                     
-                        throw nvae_d13s2;
+                        throw nvae_d15s2;
                     }
                 }
                 else 
                 {
-                    NoViableAltException nvae_d13s1 =
-                        new NoViableAltException("227:1: scmStyleProp[ScmStyle style] : ( LP STYLE QUOTE LP scmStyleList[$style] RP RP | LP STYLE NULL RP );", 13, 1, input);
+                    NoViableAltException nvae_d15s1 =
+                        new NoViableAltException("262:1: scmStyleProp[ScmStyle style] : ( LP STYLE QUOTE LP scmStyleList[$style] RP RP | LP STYLE NULL RP );", 15, 1, input);
                 
-                    throw nvae_d13s1;
+                    throw nvae_d15s1;
                 }
             }
             else 
             {
-                NoViableAltException nvae_d13s0 =
-                    new NoViableAltException("227:1: scmStyleProp[ScmStyle style] : ( LP STYLE QUOTE LP scmStyleList[$style] RP RP | LP STYLE NULL RP );", 13, 0, input);
+                NoViableAltException nvae_d15s0 =
+                    new NoViableAltException("262:1: scmStyleProp[ScmStyle style] : ( LP STYLE QUOTE LP scmStyleList[$style] RP RP | LP STYLE NULL RP );", 15, 0, input);
             
-                throw nvae_d13s0;
+                throw nvae_d15s0;
             }
-            switch (alt13) 
+            switch (alt15) 
             {
                 case 1 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:228:4: LP STYLE QUOTE LP scmStyleList[$style] RP RP
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:263:4: LP STYLE QUOTE LP scmStyleList[$style] RP RP
                     {
-                    	Match(input,LP,FOLLOW_LP_in_scmStyleProp1645); 
-                    	Match(input,STYLE,FOLLOW_STYLE_in_scmStyleProp1647); 
-                    	Match(input,QUOTE,FOLLOW_QUOTE_in_scmStyleProp1649); 
-                    	Match(input,LP,FOLLOW_LP_in_scmStyleProp1651); 
-                    	PushFollow(FOLLOW_scmStyleList_in_scmStyleProp1653);
+                    	Match(input,LP,FOLLOW_LP_in_scmStyleProp1874); 
+                    	Match(input,STYLE,FOLLOW_STYLE_in_scmStyleProp1876); 
+                    	Match(input,QUOTE,FOLLOW_QUOTE_in_scmStyleProp1878); 
+                    	Match(input,LP,FOLLOW_LP_in_scmStyleProp1880); 
+                    	PushFollow(FOLLOW_scmStyleList_in_scmStyleProp1882);
                     	scmStyleList(style);
                     	followingStackPointer_--;
 
-                    	Match(input,RP,FOLLOW_RP_in_scmStyleProp1656); 
-                    	Match(input,RP,FOLLOW_RP_in_scmStyleProp1658); 
+                    	Match(input,RP,FOLLOW_RP_in_scmStyleProp1885); 
+                    	Match(input,RP,FOLLOW_RP_in_scmStyleProp1887); 
                     
                     }
                     break;
                 case 2 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:229:4: LP STYLE NULL RP
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:264:4: LP STYLE NULL RP
                     {
-                    	Match(input,LP,FOLLOW_LP_in_scmStyleProp1663); 
-                    	Match(input,STYLE,FOLLOW_STYLE_in_scmStyleProp1665); 
-                    	Match(input,NULL,FOLLOW_NULL_in_scmStyleProp1667); 
-                    	Match(input,RP,FOLLOW_RP_in_scmStyleProp1669); 
+                    	Match(input,LP,FOLLOW_LP_in_scmStyleProp1892); 
+                    	Match(input,STYLE,FOLLOW_STYLE_in_scmStyleProp1894); 
+                    	Match(input,NULL,FOLLOW_NULL_in_scmStyleProp1896); 
+                    	Match(input,RP,FOLLOW_RP_in_scmStyleProp1898); 
                     
                     }
                     break;
@@ -2944,7 +3374,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmVertMargin
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:231:1: scmVertMargin returns [int val] : LP VERT_MARGIN v= NUMBER RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:266:1: scmVertMargin returns [int val] : LP VERT_MARGIN v= NUMBER RP ;
     public int scmVertMargin() // throws RecognitionException [1]
     {   
 
@@ -2954,14 +3384,14 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:232:2: ( LP VERT_MARGIN v= NUMBER RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:232:4: LP VERT_MARGIN v= NUMBER RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:267:2: ( LP VERT_MARGIN v= NUMBER RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:267:4: LP VERT_MARGIN v= NUMBER RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmVertMargin1682); 
-            	Match(input,VERT_MARGIN,FOLLOW_VERT_MARGIN_in_scmVertMargin1684); 
+            	Match(input,LP,FOLLOW_LP_in_scmVertMargin1911); 
+            	Match(input,VERT_MARGIN,FOLLOW_VERT_MARGIN_in_scmVertMargin1913); 
             	v = (IToken)input.LT(1);
-            	Match(input,NUMBER,FOLLOW_NUMBER_in_scmVertMargin1690); 
-            	Match(input,RP,FOLLOW_RP_in_scmVertMargin1692); 
+            	Match(input,NUMBER,FOLLOW_NUMBER_in_scmVertMargin1919); 
+            	Match(input,RP,FOLLOW_RP_in_scmVertMargin1921); 
             	val =  ParserUtils.GetIntValue(v.Text); 
             
             }
@@ -2981,7 +3411,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmHorizMargin
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:234:1: scmHorizMargin returns [int val] : LP HORIZ_MARGIN v= NUMBER RP ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:269:1: scmHorizMargin returns [int val] : LP HORIZ_MARGIN v= NUMBER RP ;
     public int scmHorizMargin() // throws RecognitionException [1]
     {   
 
@@ -2991,14 +3421,14 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:235:2: ( LP HORIZ_MARGIN v= NUMBER RP )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:235:4: LP HORIZ_MARGIN v= NUMBER RP
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:270:2: ( LP HORIZ_MARGIN v= NUMBER RP )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:270:4: LP HORIZ_MARGIN v= NUMBER RP
             {
-            	Match(input,LP,FOLLOW_LP_in_scmHorizMargin1708); 
-            	Match(input,HORIZ_MARGIN,FOLLOW_HORIZ_MARGIN_in_scmHorizMargin1710); 
+            	Match(input,LP,FOLLOW_LP_in_scmHorizMargin1937); 
+            	Match(input,HORIZ_MARGIN,FOLLOW_HORIZ_MARGIN_in_scmHorizMargin1939); 
             	v = (IToken)input.LT(1);
-            	Match(input,NUMBER,FOLLOW_NUMBER_in_scmHorizMargin1716); 
-            	Match(input,RP,FOLLOW_RP_in_scmHorizMargin1718); 
+            	Match(input,NUMBER,FOLLOW_NUMBER_in_scmHorizMargin1945); 
+            	Match(input,RP,FOLLOW_RP_in_scmHorizMargin1947); 
             	val =  ParserUtils.GetIntValue(v.Text); 
             
             }
@@ -3018,59 +3448,59 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmVerticalAlign
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:237:1: scmVerticalAlign[ContainerAlignment align] : ( TOP | CENTER | BOTTOM );
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:272:1: scmVerticalAlign[ContainerAlignment align] : ( TOP | CENTER | BOTTOM );
     public void scmVerticalAlign(ContainerAlignment align) // throws RecognitionException [1]
     {   
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:238:2: ( TOP | CENTER | BOTTOM )
-            int alt14 = 3;
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:273:2: ( TOP | CENTER | BOTTOM )
+            int alt16 = 3;
             switch ( input.LA(1) ) 
             {
             case TOP:
             	{
-                alt14 = 1;
+                alt16 = 1;
                 }
                 break;
             case CENTER:
             	{
-                alt14 = 2;
+                alt16 = 2;
                 }
                 break;
             case BOTTOM:
             	{
-                alt14 = 3;
+                alt16 = 3;
                 }
                 break;
             	default:
-            	    NoViableAltException nvae_d14s0 =
-            	        new NoViableAltException("237:1: scmVerticalAlign[ContainerAlignment align] : ( TOP | CENTER | BOTTOM );", 14, 0, input);
+            	    NoViableAltException nvae_d16s0 =
+            	        new NoViableAltException("272:1: scmVerticalAlign[ContainerAlignment align] : ( TOP | CENTER | BOTTOM );", 16, 0, input);
             
-            	    throw nvae_d14s0;
+            	    throw nvae_d16s0;
             }
             
-            switch (alt14) 
+            switch (alt16) 
             {
                 case 1 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:238:4: TOP
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:273:4: TOP
                     {
-                    	Match(input,TOP,FOLLOW_TOP_in_scmVerticalAlign1731); 
+                    	Match(input,TOP,FOLLOW_TOP_in_scmVerticalAlign1960); 
                     	align.VerticalAlignment = VerticalAlign.Top; 
                     
                     }
                     break;
                 case 2 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:239:4: CENTER
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:274:4: CENTER
                     {
-                    	Match(input,CENTER,FOLLOW_CENTER_in_scmVerticalAlign1738); 
+                    	Match(input,CENTER,FOLLOW_CENTER_in_scmVerticalAlign1967); 
                     	align.VerticalAlignment = VerticalAlign.Center; 
                     
                     }
                     break;
                 case 3 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:240:4: BOTTOM
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:275:4: BOTTOM
                     {
-                    	Match(input,BOTTOM,FOLLOW_BOTTOM_in_scmVerticalAlign1745); 
+                    	Match(input,BOTTOM,FOLLOW_BOTTOM_in_scmVerticalAlign1974); 
                     	align.VerticalAlignment = VerticalAlign.Bottom; 
                     
                     }
@@ -3092,59 +3522,59 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmHorizAlign
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:242:1: scmHorizAlign[ContainerAlignment align] : ( LEFT | CENTER | RIGHT );
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:277:1: scmHorizAlign[ContainerAlignment align] : ( LEFT | CENTER | RIGHT );
     public void scmHorizAlign(ContainerAlignment align) // throws RecognitionException [1]
     {   
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:243:2: ( LEFT | CENTER | RIGHT )
-            int alt15 = 3;
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:278:2: ( LEFT | CENTER | RIGHT )
+            int alt17 = 3;
             switch ( input.LA(1) ) 
             {
             case LEFT:
             	{
-                alt15 = 1;
+                alt17 = 1;
                 }
                 break;
             case CENTER:
             	{
-                alt15 = 2;
+                alt17 = 2;
                 }
                 break;
             case RIGHT:
             	{
-                alt15 = 3;
+                alt17 = 3;
                 }
                 break;
             	default:
-            	    NoViableAltException nvae_d15s0 =
-            	        new NoViableAltException("242:1: scmHorizAlign[ContainerAlignment align] : ( LEFT | CENTER | RIGHT );", 15, 0, input);
+            	    NoViableAltException nvae_d17s0 =
+            	        new NoViableAltException("277:1: scmHorizAlign[ContainerAlignment align] : ( LEFT | CENTER | RIGHT );", 17, 0, input);
             
-            	    throw nvae_d15s0;
+            	    throw nvae_d17s0;
             }
             
-            switch (alt15) 
+            switch (alt17) 
             {
                 case 1 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:243:4: LEFT
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:278:4: LEFT
                     {
-                    	Match(input,LEFT,FOLLOW_LEFT_in_scmHorizAlign1758); 
+                    	Match(input,LEFT,FOLLOW_LEFT_in_scmHorizAlign1987); 
                     	align.HorizontalAlignment = HorizontalAlign.Left; 
                     
                     }
                     break;
                 case 2 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:244:4: CENTER
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:279:4: CENTER
                     {
-                    	Match(input,CENTER,FOLLOW_CENTER_in_scmHorizAlign1765); 
+                    	Match(input,CENTER,FOLLOW_CENTER_in_scmHorizAlign1994); 
                     	align.HorizontalAlignment = HorizontalAlign.Center; 
                     
                     }
                     break;
                 case 3 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:245:4: RIGHT
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:280:4: RIGHT
                     {
-                    	Match(input,RIGHT,FOLLOW_RIGHT_in_scmHorizAlign1772); 
+                    	Match(input,RIGHT,FOLLOW_RIGHT_in_scmHorizAlign2001); 
                     	align.HorizontalAlignment = HorizontalAlign.Right; 
                     
                     }
@@ -3166,226 +3596,100 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start scmFrmStyleList
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:247:1: scmFrmStyleList[ScmFrameStyle style] : ( NO_RESIZE_BORDER | NO_CAPTION | NO_SYSTEM_MENU | MDI_PARENT | MDI_CHILD | FLOAT )* ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:282:1: scmFrmStyleList[ScmFrameStyle style] : ( NO_RESIZE_BORDER | NO_CAPTION | NO_SYSTEM_MENU | MDI_PARENT | MDI_CHILD | FLOAT )* ;
     public void scmFrmStyleList(ScmFrameStyle style) // throws RecognitionException [1]
     {   
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:248:2: ( ( NO_RESIZE_BORDER | NO_CAPTION | NO_SYSTEM_MENU | MDI_PARENT | MDI_CHILD | FLOAT )* )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:248:4: ( NO_RESIZE_BORDER | NO_CAPTION | NO_SYSTEM_MENU | MDI_PARENT | MDI_CHILD | FLOAT )*
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:283:2: ( ( NO_RESIZE_BORDER | NO_CAPTION | NO_SYSTEM_MENU | MDI_PARENT | MDI_CHILD | FLOAT )* )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:283:4: ( NO_RESIZE_BORDER | NO_CAPTION | NO_SYSTEM_MENU | MDI_PARENT | MDI_CHILD | FLOAT )*
             {
-            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:248:4: ( NO_RESIZE_BORDER | NO_CAPTION | NO_SYSTEM_MENU | MDI_PARENT | MDI_CHILD | FLOAT )*
+            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:283:4: ( NO_RESIZE_BORDER | NO_CAPTION | NO_SYSTEM_MENU | MDI_PARENT | MDI_CHILD | FLOAT )*
             	do 
             	{
-            	    int alt16 = 7;
+            	    int alt18 = 7;
             	    switch ( input.LA(1) ) 
             	    {
             	    case NO_RESIZE_BORDER:
             	    	{
-            	        alt16 = 1;
+            	        alt18 = 1;
             	        }
             	        break;
             	    case NO_CAPTION:
             	    	{
-            	        alt16 = 2;
+            	        alt18 = 2;
             	        }
             	        break;
             	    case NO_SYSTEM_MENU:
             	    	{
-            	        alt16 = 3;
+            	        alt18 = 3;
             	        }
             	        break;
             	    case MDI_PARENT:
             	    	{
-            	        alt16 = 4;
+            	        alt18 = 4;
             	        }
             	        break;
             	    case MDI_CHILD:
             	    	{
-            	        alt16 = 5;
+            	        alt18 = 5;
             	        }
             	        break;
             	    case FLOAT:
             	    	{
-            	        alt16 = 6;
+            	        alt18 = 6;
             	        }
             	        break;
             	    
             	    }
             	
-            	    switch (alt16) 
+            	    switch (alt18) 
             		{
             			case 1 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:248:5: NO_RESIZE_BORDER
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:283:5: NO_RESIZE_BORDER
             			    {
-            			    	Match(input,NO_RESIZE_BORDER,FOLLOW_NO_RESIZE_BORDER_in_scmFrmStyleList1786); 
+            			    	Match(input,NO_RESIZE_BORDER,FOLLOW_NO_RESIZE_BORDER_in_scmFrmStyleList2015); 
             			    	style.NoResizeBorder = true; 
             			    
             			    }
             			    break;
             			case 2 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:249:4: NO_CAPTION
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:284:4: NO_CAPTION
             			    {
-            			    	Match(input,NO_CAPTION,FOLLOW_NO_CAPTION_in_scmFrmStyleList1793); 
+            			    	Match(input,NO_CAPTION,FOLLOW_NO_CAPTION_in_scmFrmStyleList2022); 
             			    	style.NoCaption = true; 
             			    
             			    }
             			    break;
             			case 3 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:250:4: NO_SYSTEM_MENU
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:285:4: NO_SYSTEM_MENU
             			    {
-            			    	Match(input,NO_SYSTEM_MENU,FOLLOW_NO_SYSTEM_MENU_in_scmFrmStyleList1800); 
+            			    	Match(input,NO_SYSTEM_MENU,FOLLOW_NO_SYSTEM_MENU_in_scmFrmStyleList2029); 
             			    	style.NoSystemMenu = true; 
             			    
             			    }
             			    break;
             			case 4 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:251:4: MDI_PARENT
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:286:4: MDI_PARENT
             			    {
-            			    	Match(input,MDI_PARENT,FOLLOW_MDI_PARENT_in_scmFrmStyleList1807); 
+            			    	Match(input,MDI_PARENT,FOLLOW_MDI_PARENT_in_scmFrmStyleList2036); 
             			    	style.MdiParent = true; 
             			    
             			    }
             			    break;
             			case 5 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:252:4: MDI_CHILD
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:287:4: MDI_CHILD
             			    {
-            			    	Match(input,MDI_CHILD,FOLLOW_MDI_CHILD_in_scmFrmStyleList1814); 
+            			    	Match(input,MDI_CHILD,FOLLOW_MDI_CHILD_in_scmFrmStyleList2043); 
             			    	style.MdiChild = true; 
             			    
             			    }
             			    break;
             			case 6 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:253:4: FLOAT
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:288:4: FLOAT
             			    {
-            			    	Match(input,FLOAT,FOLLOW_FLOAT_in_scmFrmStyleList1821); 
+            			    	Match(input,FLOAT,FOLLOW_FLOAT_in_scmFrmStyleList2050); 
             			    	style.Floating = true; 
-            			    
-            			    }
-            			    break;
-            	
-            			default:
-            			    goto loop16;
-            	    }
-            	} while (true);
-            	
-            	loop16:
-            		;	// Stops C# compiler whinging that label 'loop16' has no statements
-
-            
-            }
-    
-        }
-        catch (RecognitionException re) 
-    	{
-            ReportError(re);
-            Recover(input,re);
-        }
-        finally 
-    	{
-        }
-        return ;
-    }
-    // $ANTLR end scmFrmStyleList
-
-    
-    // $ANTLR start scmBtnStyleList
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:255:1: scmBtnStyleList[ScmButtonStyle style] : ( BORDER | DELETED )* ;
-    public void scmBtnStyleList(ScmButtonStyle style) // throws RecognitionException [1]
-    {   
-        try 
-    	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:256:2: ( ( BORDER | DELETED )* )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:256:4: ( BORDER | DELETED )*
-            {
-            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:256:4: ( BORDER | DELETED )*
-            	do 
-            	{
-            	    int alt17 = 3;
-            	    int LA17_0 = input.LA(1);
-            	    
-            	    if ( (LA17_0 == BORDER) )
-            	    {
-            	        alt17 = 1;
-            	    }
-            	    else if ( (LA17_0 == DELETED) )
-            	    {
-            	        alt17 = 2;
-            	    }
-            	    
-            	
-            	    switch (alt17) 
-            		{
-            			case 1 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:256:5: BORDER
-            			    {
-            			    	Match(input,BORDER,FOLLOW_BORDER_in_scmBtnStyleList1836); 
-            			    	style.Border = true; 
-            			    
-            			    }
-            			    break;
-            			case 2 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:257:5: DELETED
-            			    {
-            			    	Match(input,DELETED,FOLLOW_DELETED_in_scmBtnStyleList1844); 
-            			    	style.Deleted = true; 
-            			    
-            			    }
-            			    break;
-            	
-            			default:
-            			    goto loop17;
-            	    }
-            	} while (true);
-            	
-            	loop17:
-            		;	// Stops C# compiler whinging that label 'loop17' has no statements
-
-            
-            }
-    
-        }
-        catch (RecognitionException re) 
-    	{
-            ReportError(re);
-            Recover(input,re);
-        }
-        finally 
-    	{
-        }
-        return ;
-    }
-    // $ANTLR end scmBtnStyleList
-
-    
-    // $ANTLR start scmStyleList
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:259:1: scmStyleList[ScmStyle style] : ( DELETED )* ;
-    public void scmStyleList(ScmStyle style) // throws RecognitionException [1]
-    {   
-        try 
-    	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:260:2: ( ( DELETED )* )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:260:4: ( DELETED )*
-            {
-            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:260:4: ( DELETED )*
-            	do 
-            	{
-            	    int alt18 = 2;
-            	    int LA18_0 = input.LA(1);
-            	    
-            	    if ( (LA18_0 == DELETED) )
-            	    {
-            	        alt18 = 1;
-            	    }
-            	    
-            	
-            	    switch (alt18) 
-            		{
-            			case 1 :
-            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:260:5: DELETED
-            			    {
-            			    	Match(input,DELETED,FOLLOW_DELETED_in_scmStyleList1860); 
-            			    	style.Deleted = true; 
             			    
             			    }
             			    break;
@@ -3412,11 +3716,137 @@ public class ScmGrammarParser : Parser
         }
         return ;
     }
+    // $ANTLR end scmFrmStyleList
+
+    
+    // $ANTLR start scmBtnStyleList
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:290:1: scmBtnStyleList[ScmButtonStyle style] : ( BORDER | DELETED )* ;
+    public void scmBtnStyleList(ScmButtonStyle style) // throws RecognitionException [1]
+    {   
+        try 
+    	{
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:291:2: ( ( BORDER | DELETED )* )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:291:4: ( BORDER | DELETED )*
+            {
+            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:291:4: ( BORDER | DELETED )*
+            	do 
+            	{
+            	    int alt19 = 3;
+            	    int LA19_0 = input.LA(1);
+            	    
+            	    if ( (LA19_0 == BORDER) )
+            	    {
+            	        alt19 = 1;
+            	    }
+            	    else if ( (LA19_0 == DELETED) )
+            	    {
+            	        alt19 = 2;
+            	    }
+            	    
+            	
+            	    switch (alt19) 
+            		{
+            			case 1 :
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:291:5: BORDER
+            			    {
+            			    	Match(input,BORDER,FOLLOW_BORDER_in_scmBtnStyleList2065); 
+            			    	style.Border = true; 
+            			    
+            			    }
+            			    break;
+            			case 2 :
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:292:5: DELETED
+            			    {
+            			    	Match(input,DELETED,FOLLOW_DELETED_in_scmBtnStyleList2073); 
+            			    	style.Deleted = true; 
+            			    
+            			    }
+            			    break;
+            	
+            			default:
+            			    goto loop19;
+            	    }
+            	} while (true);
+            	
+            	loop19:
+            		;	// Stops C# compiler whinging that label 'loop19' has no statements
+
+            
+            }
+    
+        }
+        catch (RecognitionException re) 
+    	{
+            ReportError(re);
+            Recover(input,re);
+        }
+        finally 
+    	{
+        }
+        return ;
+    }
+    // $ANTLR end scmBtnStyleList
+
+    
+    // $ANTLR start scmStyleList
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:294:1: scmStyleList[ScmStyle style] : ( DELETED )* ;
+    public void scmStyleList(ScmStyle style) // throws RecognitionException [1]
+    {   
+        try 
+    	{
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:295:2: ( ( DELETED )* )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:295:4: ( DELETED )*
+            {
+            	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:295:4: ( DELETED )*
+            	do 
+            	{
+            	    int alt20 = 2;
+            	    int LA20_0 = input.LA(1);
+            	    
+            	    if ( (LA20_0 == DELETED) )
+            	    {
+            	        alt20 = 1;
+            	    }
+            	    
+            	
+            	    switch (alt20) 
+            		{
+            			case 1 :
+            			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:295:5: DELETED
+            			    {
+            			    	Match(input,DELETED,FOLLOW_DELETED_in_scmStyleList2089); 
+            			    	style.Deleted = true; 
+            			    
+            			    }
+            			    break;
+            	
+            			default:
+            			    goto loop20;
+            	    }
+            	} while (true);
+            	
+            	loop20:
+            		;	// Stops C# compiler whinging that label 'loop20' has no statements
+
+            
+            }
+    
+        }
+        catch (RecognitionException re) 
+    	{
+            ReportError(re);
+            Recover(input,re);
+        }
+        finally 
+    	{
+        }
+        return ;
+    }
     // $ANTLR end scmStyleList
 
     
     // $ANTLR start parExpr
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:262:1: parExpr returns [string expr] : ( LP (pe= parExpr )+ RP | op= operand | oa= opartors );
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:297:1: parExpr returns [string expr] : ( LP (pe= parExpr )+ RP | op= operand | oa= opartors );
     public string parExpr() // throws RecognitionException [1]
     {   
 
@@ -3434,13 +3864,13 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:266:2: ( LP (pe= parExpr )+ RP | op= operand | oa= opartors )
-            int alt20 = 3;
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:301:2: ( LP (pe= parExpr )+ RP | op= operand | oa= opartors )
+            int alt22 = 3;
             switch ( input.LA(1) ) 
             {
             case LP:
             	{
-                alt20 = 1;
+                alt22 = 1;
                 }
                 break;
             case FALSE:
@@ -3448,7 +3878,7 @@ public class ScmGrammarParser : Parser
             case ID:
             case NUMBER:
             	{
-                alt20 = 2;
+                alt22 = 2;
                 }
                 break;
             case QUOTE:
@@ -3460,41 +3890,41 @@ public class ScmGrammarParser : Parser
             case GT:
             case EQ:
             	{
-                alt20 = 3;
+                alt22 = 3;
                 }
                 break;
             	default:
-            	    NoViableAltException nvae_d20s0 =
-            	        new NoViableAltException("262:1: parExpr returns [string expr] : ( LP (pe= parExpr )+ RP | op= operand | oa= opartors );", 20, 0, input);
+            	    NoViableAltException nvae_d22s0 =
+            	        new NoViableAltException("297:1: parExpr returns [string expr] : ( LP (pe= parExpr )+ RP | op= operand | oa= opartors );", 22, 0, input);
             
-            	    throw nvae_d20s0;
+            	    throw nvae_d22s0;
             }
             
-            switch (alt20) 
+            switch (alt22) 
             {
                 case 1 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:266:4: LP (pe= parExpr )+ RP
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:301:4: LP (pe= parExpr )+ RP
                     {
-                    	Match(input,LP,FOLLOW_LP_in_parExpr1881); 
-                    	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:266:7: (pe= parExpr )+
-                    	int cnt19 = 0;
+                    	Match(input,LP,FOLLOW_LP_in_parExpr2110); 
+                    	// D:\\Projects\\AntlrTestApps\\ScmGrammar.g:301:7: (pe= parExpr )+
+                    	int cnt21 = 0;
                     	do 
                     	{
-                    	    int alt19 = 2;
-                    	    int LA19_0 = input.LA(1);
+                    	    int alt21 = 2;
+                    	    int LA21_0 = input.LA(1);
                     	    
-                    	    if ( (LA19_0 == LP || (LA19_0 >= FALSE && LA19_0 <= TRUE) || LA19_0 == ID || (LA19_0 >= NUMBER && LA19_0 <= EQ)) )
+                    	    if ( (LA21_0 == LP || (LA21_0 >= FALSE && LA21_0 <= TRUE) || LA21_0 == ID || (LA21_0 >= NUMBER && LA21_0 <= EQ)) )
                     	    {
-                    	        alt19 = 1;
+                    	        alt21 = 1;
                     	    }
                     	    
                     	
-                    	    switch (alt19) 
+                    	    switch (alt21) 
                     		{
                     			case 1 :
-                    			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:266:8: pe= parExpr
+                    			    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:301:8: pe= parExpr
                     			    {
-                    			    	PushFollow(FOLLOW_parExpr_in_parExpr1888);
+                    			    	PushFollow(FOLLOW_parExpr_in_parExpr2117);
                     			    	pe = parExpr();
                     			    	followingStackPointer_--;
 
@@ -3504,26 +3934,26 @@ public class ScmGrammarParser : Parser
                     			    break;
                     	
                     			default:
-                    			    if ( cnt19 >= 1 ) goto loop19;
+                    			    if ( cnt21 >= 1 ) goto loop21;
                     		            EarlyExitException eee =
-                    		                new EarlyExitException(19, input);
+                    		                new EarlyExitException(21, input);
                     		            throw eee;
                     	    }
-                    	    cnt19++;
+                    	    cnt21++;
                     	} while (true);
                     	
-                    	loop19:
-                    		;	// Stops C# compiler whinging that label 'loop19' has no statements
+                    	loop21:
+                    		;	// Stops C# compiler whinging that label 'loop21' has no statements
 
-                    	Match(input,RP,FOLLOW_RP_in_parExpr1894); 
+                    	Match(input,RP,FOLLOW_RP_in_parExpr2123); 
                     	expr =  "(" + expr + ")";
                     
                     }
                     break;
                 case 2 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:267:4: op= operand
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:302:4: op= operand
                     {
-                    	PushFollow(FOLLOW_operand_in_parExpr1906);
+                    	PushFollow(FOLLOW_operand_in_parExpr2135);
                     	op = operand();
                     	followingStackPointer_--;
 
@@ -3532,9 +3962,9 @@ public class ScmGrammarParser : Parser
                     }
                     break;
                 case 3 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:268:4: oa= opartors
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:303:4: oa= opartors
                     {
-                    	PushFollow(FOLLOW_opartors_in_parExpr1917);
+                    	PushFollow(FOLLOW_opartors_in_parExpr2146);
                     	oa = opartors();
                     	followingStackPointer_--;
 
@@ -3559,7 +3989,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start operand
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:271:1: operand returns [string str] : (i= ID | i= NUMBER | i= TRUE | i= FALSE );
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:306:1: operand returns [string str] : (i= ID | i= NUMBER | i= TRUE | i= FALSE );
     public string operand() // throws RecognitionException [1]
     {   
 
@@ -3569,71 +3999,71 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:272:2: (i= ID | i= NUMBER | i= TRUE | i= FALSE )
-            int alt21 = 4;
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:307:2: (i= ID | i= NUMBER | i= TRUE | i= FALSE )
+            int alt23 = 4;
             switch ( input.LA(1) ) 
             {
             case ID:
             	{
-                alt21 = 1;
+                alt23 = 1;
                 }
                 break;
             case NUMBER:
             	{
-                alt21 = 2;
+                alt23 = 2;
                 }
                 break;
             case TRUE:
             	{
-                alt21 = 3;
+                alt23 = 3;
                 }
                 break;
             case FALSE:
             	{
-                alt21 = 4;
+                alt23 = 4;
                 }
                 break;
             	default:
-            	    NoViableAltException nvae_d21s0 =
-            	        new NoViableAltException("271:1: operand returns [string str] : (i= ID | i= NUMBER | i= TRUE | i= FALSE );", 21, 0, input);
+            	    NoViableAltException nvae_d23s0 =
+            	        new NoViableAltException("306:1: operand returns [string str] : (i= ID | i= NUMBER | i= TRUE | i= FALSE );", 23, 0, input);
             
-            	    throw nvae_d21s0;
+            	    throw nvae_d23s0;
             }
             
-            switch (alt21) 
+            switch (alt23) 
             {
                 case 1 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:272:4: i= ID
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:307:4: i= ID
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,ID,FOLLOW_ID_in_operand1938); 
+                    	Match(input,ID,FOLLOW_ID_in_operand2167); 
                     	str =  i.Text; 
                     
                     }
                     break;
                 case 2 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:273:4: i= NUMBER
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:308:4: i= NUMBER
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,NUMBER,FOLLOW_NUMBER_in_operand1949); 
+                    	Match(input,NUMBER,FOLLOW_NUMBER_in_operand2178); 
                     	str =  i.Text; 
                     
                     }
                     break;
                 case 3 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:274:4: i= TRUE
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:309:4: i= TRUE
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,TRUE,FOLLOW_TRUE_in_operand1960); 
+                    	Match(input,TRUE,FOLLOW_TRUE_in_operand2189); 
                     	str =  i.Text; 
                     
                     }
                     break;
                 case 4 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:275:4: i= FALSE
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:310:4: i= FALSE
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,FALSE,FOLLOW_FALSE_in_operand1971); 
+                    	Match(input,FALSE,FOLLOW_FALSE_in_operand2200); 
                     	str =  i.Text; 
                     
                     }
@@ -3655,7 +4085,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start opartors
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:277:1: opartors returns [string str] : (i= PLUS | i= MINUS | i= STAR | i= SLASH | i= LT | i= GT | i= EQ | i= QUOTE );
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:312:1: opartors returns [string str] : (i= PLUS | i= MINUS | i= STAR | i= SLASH | i= LT | i= GT | i= EQ | i= QUOTE );
     public string opartors() // throws RecognitionException [1]
     {   
 
@@ -3665,127 +4095,127 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:278:2: (i= PLUS | i= MINUS | i= STAR | i= SLASH | i= LT | i= GT | i= EQ | i= QUOTE )
-            int alt22 = 8;
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:313:2: (i= PLUS | i= MINUS | i= STAR | i= SLASH | i= LT | i= GT | i= EQ | i= QUOTE )
+            int alt24 = 8;
             switch ( input.LA(1) ) 
             {
             case PLUS:
             	{
-                alt22 = 1;
+                alt24 = 1;
                 }
                 break;
             case MINUS:
             	{
-                alt22 = 2;
+                alt24 = 2;
                 }
                 break;
             case STAR:
             	{
-                alt22 = 3;
+                alt24 = 3;
                 }
                 break;
             case SLASH:
             	{
-                alt22 = 4;
+                alt24 = 4;
                 }
                 break;
             case LT:
             	{
-                alt22 = 5;
+                alt24 = 5;
                 }
                 break;
             case GT:
             	{
-                alt22 = 6;
+                alt24 = 6;
                 }
                 break;
             case EQ:
             	{
-                alt22 = 7;
+                alt24 = 7;
                 }
                 break;
             case QUOTE:
             	{
-                alt22 = 8;
+                alt24 = 8;
                 }
                 break;
             	default:
-            	    NoViableAltException nvae_d22s0 =
-            	        new NoViableAltException("277:1: opartors returns [string str] : (i= PLUS | i= MINUS | i= STAR | i= SLASH | i= LT | i= GT | i= EQ | i= QUOTE );", 22, 0, input);
+            	    NoViableAltException nvae_d24s0 =
+            	        new NoViableAltException("312:1: opartors returns [string str] : (i= PLUS | i= MINUS | i= STAR | i= SLASH | i= LT | i= GT | i= EQ | i= QUOTE );", 24, 0, input);
             
-            	    throw nvae_d22s0;
+            	    throw nvae_d24s0;
             }
             
-            switch (alt22) 
+            switch (alt24) 
             {
                 case 1 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:278:4: i= PLUS
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:313:4: i= PLUS
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,PLUS,FOLLOW_PLUS_in_opartors1990); 
+                    	Match(input,PLUS,FOLLOW_PLUS_in_opartors2219); 
                     	str =  i.Text; 
                     
                     }
                     break;
                 case 2 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:279:4: i= MINUS
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:314:4: i= MINUS
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,MINUS,FOLLOW_MINUS_in_opartors2001); 
+                    	Match(input,MINUS,FOLLOW_MINUS_in_opartors2230); 
                     	str =  i.Text; 
                     
                     }
                     break;
                 case 3 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:280:4: i= STAR
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:315:4: i= STAR
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,STAR,FOLLOW_STAR_in_opartors2012); 
+                    	Match(input,STAR,FOLLOW_STAR_in_opartors2241); 
                     	str =  i.Text; 
                     
                     }
                     break;
                 case 4 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:281:4: i= SLASH
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:316:4: i= SLASH
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,SLASH,FOLLOW_SLASH_in_opartors2023); 
+                    	Match(input,SLASH,FOLLOW_SLASH_in_opartors2252); 
                     	str =  i.Text; 
                     
                     }
                     break;
                 case 5 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:282:4: i= LT
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:317:4: i= LT
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,LT,FOLLOW_LT_in_opartors2034); 
+                    	Match(input,LT,FOLLOW_LT_in_opartors2263); 
                     	str =  i.Text; 
                     
                     }
                     break;
                 case 6 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:283:4: i= GT
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:318:4: i= GT
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,GT,FOLLOW_GT_in_opartors2045); 
+                    	Match(input,GT,FOLLOW_GT_in_opartors2274); 
                     	str =  i.Text; 
                     
                     }
                     break;
                 case 7 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:284:4: i= EQ
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:319:4: i= EQ
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,EQ,FOLLOW_EQ_in_opartors2056); 
+                    	Match(input,EQ,FOLLOW_EQ_in_opartors2285); 
                     	str =  i.Text; 
                     
                     }
                     break;
                 case 8 :
-                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:285:4: i= QUOTE
+                    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:320:4: i= QUOTE
                     {
                     	i = (IToken)input.LT(1);
-                    	Match(input,QUOTE,FOLLOW_QUOTE_in_opartors2067); 
+                    	Match(input,QUOTE,FOLLOW_QUOTE_in_opartors2296); 
                     	str =  i.Text; 
                     
                     }
@@ -3807,7 +4237,7 @@ public class ScmGrammarParser : Parser
 
     
     // $ANTLR start comment
-    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:287:1: comment returns [string comm] : c= COMMENT ;
+    // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:322:1: comment returns [string comm] : c= COMMENT ;
     public string comment() // throws RecognitionException [1]
     {   
 
@@ -3817,11 +4247,11 @@ public class ScmGrammarParser : Parser
     
         try 
     	{
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:288:2: (c= COMMENT )
-            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:288:4: c= COMMENT
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:323:2: (c= COMMENT )
+            // D:\\Projects\\AntlrTestApps\\ScmGrammar.g:323:4: c= COMMENT
             {
             	c = (IToken)input.LT(1);
-            	Match(input,COMMENT,FOLLOW_COMMENT_in_comment2086); 
+            	Match(input,COMMENT,FOLLOW_COMMENT_in_comment2315); 
             	comm =  c.Text; 
             
             }
@@ -3846,232 +4276,256 @@ public class ScmGrammarParser : Parser
 
  
 
-    public static readonly BitSet FOLLOW_scmBlock_in_main366 = new BitSet(new ulong[]{0x007FE8001A000000UL});
-    public static readonly BitSet FOLLOW_EOF_in_main369 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmFrm_in_scmBlock382 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmBtn_in_scmBlock393 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmMsg_in_scmBlock404 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmCbx_in_scmBlock415 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_comment_in_scmBlock426 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_parExpr_in_scmBlock437 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmFrm457 = new BitSet(new ulong[]{0x0000000000000020UL});
-    public static readonly BitSet FOLLOW_DEFINE_in_scmFrm459 = new BitSet(new ulong[]{0x0000080000000000UL});
-    public static readonly BitSet FOLLOW_ID_in_scmFrm465 = new BitSet(new ulong[]{0x0000000002000000UL});
-    public static readonly BitSet FOLLOW_LP_in_scmFrm467 = new BitSet(new ulong[]{0x0000000000000040UL});
-    public static readonly BitSet FOLLOW_NEW_in_scmFrm469 = new BitSet(new ulong[]{0x0000000000000080UL});
-    public static readonly BitSet FOLLOW_FRAME_in_scmFrm471 = new BitSet(new ulong[]{0x007FE8001A000000UL});
-    public static readonly BitSet FOLLOW_scmFrmProp_in_scmFrm473 = new BitSet(new ulong[]{0x007FE8001E000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmFrm477 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmFrm479 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmBtn501 = new BitSet(new ulong[]{0x0000000000000020UL});
-    public static readonly BitSet FOLLOW_DEFINE_in_scmBtn503 = new BitSet(new ulong[]{0x0000080000000000UL});
-    public static readonly BitSet FOLLOW_ID_in_scmBtn509 = new BitSet(new ulong[]{0x0000000002000000UL});
-    public static readonly BitSet FOLLOW_LP_in_scmBtn511 = new BitSet(new ulong[]{0x0000000000000040UL});
-    public static readonly BitSet FOLLOW_NEW_in_scmBtn513 = new BitSet(new ulong[]{0x0000000000000100UL});
-    public static readonly BitSet FOLLOW_BUTTON_in_scmBtn515 = new BitSet(new ulong[]{0x007FE8001A000000UL});
-    public static readonly BitSet FOLLOW_scmBtnProp_in_scmBtn517 = new BitSet(new ulong[]{0x007FE8001E000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmBtn521 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmBtn523 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmMsg545 = new BitSet(new ulong[]{0x0000000000000020UL});
-    public static readonly BitSet FOLLOW_DEFINE_in_scmMsg547 = new BitSet(new ulong[]{0x0000080000000000UL});
-    public static readonly BitSet FOLLOW_ID_in_scmMsg553 = new BitSet(new ulong[]{0x0000000002000000UL});
-    public static readonly BitSet FOLLOW_LP_in_scmMsg555 = new BitSet(new ulong[]{0x0000000000000040UL});
-    public static readonly BitSet FOLLOW_NEW_in_scmMsg557 = new BitSet(new ulong[]{0x0000000000000200UL});
-    public static readonly BitSet FOLLOW_MESSAGE_in_scmMsg559 = new BitSet(new ulong[]{0x007FE8001A000000UL});
-    public static readonly BitSet FOLLOW_scmMsgProp_in_scmMsg561 = new BitSet(new ulong[]{0x007FE8001E000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmMsg565 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmMsg567 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmCbx587 = new BitSet(new ulong[]{0x0000000000000020UL});
-    public static readonly BitSet FOLLOW_DEFINE_in_scmCbx589 = new BitSet(new ulong[]{0x0000080000000000UL});
-    public static readonly BitSet FOLLOW_ID_in_scmCbx595 = new BitSet(new ulong[]{0x0000000002000000UL});
-    public static readonly BitSet FOLLOW_LP_in_scmCbx597 = new BitSet(new ulong[]{0x0000000000000040UL});
-    public static readonly BitSet FOLLOW_NEW_in_scmCbx599 = new BitSet(new ulong[]{0x0000000000000400UL});
-    public static readonly BitSet FOLLOW_CHECKBOX_in_scmCbx601 = new BitSet(new ulong[]{0x007FE8001A000000UL});
-    public static readonly BitSet FOLLOW_scmCbxProp_in_scmCbx603 = new BitSet(new ulong[]{0x007FE8001E000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmCbx607 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmCbx609 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmParentProp_in_scmFrmProp627 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmLabelProp_in_scmFrmProp638 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmWidthProp_in_scmFrmProp649 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmHeightProp_in_scmFrmProp660 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmEnabledProp_in_scmFrmProp671 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmBorderProp_in_scmFrmProp682 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmSpacingProp_in_scmFrmProp693 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmMinWidthProp_in_scmFrmProp704 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmMinHeightProp_in_scmFrmProp715 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmStretchWidthProp_in_scmFrmProp726 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmStretchHeightProp_in_scmFrmProp737 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmAlignmentProp_in_scmFrmProp744 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmFrmStyleProp_in_scmFrmProp752 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmXYProp_in_scmFrmProp764 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_comment_in_scmFrmProp775 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_parExpr_in_scmFrmProp786 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmParentProp_in_scmBtnProp804 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmLabelProp_in_scmBtnProp815 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmEnabledProp_in_scmBtnProp826 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmMinWidthProp_in_scmBtnProp837 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmMinHeightProp_in_scmBtnProp848 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmStretchWidthProp_in_scmBtnProp859 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmStretchHeightProp_in_scmBtnProp870 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmVertMargin_in_scmBtnProp881 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmHorizMargin_in_scmBtnProp892 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmBtnStyleProp_in_scmBtnProp899 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_comment_in_scmBtnProp911 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_parExpr_in_scmBtnProp922 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmParentProp_in_scmMsgProp939 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmLabelProp_in_scmMsgProp950 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmEnabledProp_in_scmMsgProp961 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmMinWidthProp_in_scmMsgProp972 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmMinHeightProp_in_scmMsgProp983 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmStretchWidthProp_in_scmMsgProp994 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmStretchHeightProp_in_scmMsgProp1005 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmVertMargin_in_scmMsgProp1016 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmHorizMargin_in_scmMsgProp1027 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmStyleProp_in_scmMsgProp1034 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_comment_in_scmMsgProp1046 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_parExpr_in_scmMsgProp1057 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmParentProp_in_scmCbxProp1075 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmLabelProp_in_scmCbxProp1086 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmEnabledProp_in_scmCbxProp1097 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmMinWidthProp_in_scmCbxProp1108 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmMinHeightProp_in_scmCbxProp1119 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmStretchWidthProp_in_scmCbxProp1130 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmStretchHeightProp_in_scmCbxProp1141 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmVertMargin_in_scmCbxProp1152 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmHorizMargin_in_scmCbxProp1163 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_scmStyleProp_in_scmCbxProp1170 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_comment_in_scmCbxProp1182 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_parExpr_in_scmCbxProp1193 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmParentProp1209 = new BitSet(new ulong[]{0x0000000000000800UL});
-    public static readonly BitSet FOLLOW_PARENT_in_scmParentProp1211 = new BitSet(new ulong[]{0x0000080008000000UL});
-    public static readonly BitSet FOLLOW_set_in_scmParentProp1216 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmParentProp1224 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmLabelProp1240 = new BitSet(new ulong[]{0x0000000000001000UL});
-    public static readonly BitSet FOLLOW_LABEL_in_scmLabelProp1242 = new BitSet(new ulong[]{0x0000100000000000UL});
-    public static readonly BitSet FOLLOW_NAME_in_scmLabelProp1248 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmLabelProp1250 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmWidthProp1266 = new BitSet(new ulong[]{0x0000000000002000UL});
-    public static readonly BitSet FOLLOW_WIDTH_in_scmWidthProp1268 = new BitSet(new ulong[]{0x0000200008000000UL});
-    public static readonly BitSet FOLLOW_set_in_scmWidthProp1273 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmWidthProp1279 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmHeightProp1294 = new BitSet(new ulong[]{0x0000000000004000UL});
-    public static readonly BitSet FOLLOW_HEIGHT_in_scmHeightProp1296 = new BitSet(new ulong[]{0x0000200008000000UL});
-    public static readonly BitSet FOLLOW_set_in_scmHeightProp1302 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmHeightProp1308 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmXYProp1324 = new BitSet(new ulong[]{0x0000080000000000UL});
-    public static readonly BitSet FOLLOW_ID_in_scmXYProp1330 = new BitSet(new ulong[]{0x0000200008000000UL});
-    public static readonly BitSet FOLLOW_set_in_scmXYProp1336 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmXYProp1342 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmEnabledProp1358 = new BitSet(new ulong[]{0x0000000000008000UL});
-    public static readonly BitSet FOLLOW_ENABLED_in_scmEnabledProp1360 = new BitSet(new ulong[]{0x0000000018000000UL});
-    public static readonly BitSet FOLLOW_set_in_scmEnabledProp1366 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmEnabledProp1372 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmBorderProp1388 = new BitSet(new ulong[]{0x0000000000010000UL});
-    public static readonly BitSet FOLLOW_BORDER_in_scmBorderProp1390 = new BitSet(new ulong[]{0x0000200000000000UL});
-    public static readonly BitSet FOLLOW_NUMBER_in_scmBorderProp1396 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmBorderProp1398 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmSpacingProp1413 = new BitSet(new ulong[]{0x0000000000020000UL});
-    public static readonly BitSet FOLLOW_SPACING_in_scmSpacingProp1415 = new BitSet(new ulong[]{0x0000200000000000UL});
-    public static readonly BitSet FOLLOW_NUMBER_in_scmSpacingProp1421 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmSpacingProp1423 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmMinWidthProp1438 = new BitSet(new ulong[]{0x0000000000080000UL});
-    public static readonly BitSet FOLLOW_MIN_WIDTH_in_scmMinWidthProp1440 = new BitSet(new ulong[]{0x0000200000000000UL});
-    public static readonly BitSet FOLLOW_NUMBER_in_scmMinWidthProp1446 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmMinWidthProp1448 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmMinHeightProp1463 = new BitSet(new ulong[]{0x0000000000100000UL});
-    public static readonly BitSet FOLLOW_MIN_HEIGHT_in_scmMinHeightProp1465 = new BitSet(new ulong[]{0x0000200000000000UL});
-    public static readonly BitSet FOLLOW_NUMBER_in_scmMinHeightProp1471 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmMinHeightProp1473 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmStretchWidthProp1488 = new BitSet(new ulong[]{0x0000000000200000UL});
-    public static readonly BitSet FOLLOW_STRETCH_WIDTH_in_scmStretchWidthProp1490 = new BitSet(new ulong[]{0x0000000018000000UL});
-    public static readonly BitSet FOLLOW_set_in_scmStretchWidthProp1496 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmStretchWidthProp1502 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmStretchHeightProp1517 = new BitSet(new ulong[]{0x0000000000400000UL});
-    public static readonly BitSet FOLLOW_STRETCH_HEIGHT_in_scmStretchHeightProp1519 = new BitSet(new ulong[]{0x0000000018000000UL});
-    public static readonly BitSet FOLLOW_set_in_scmStretchHeightProp1525 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmStretchHeightProp1531 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmAlignmentProp1545 = new BitSet(new ulong[]{0x0000000000040000UL});
-    public static readonly BitSet FOLLOW_ALIGNMENT_in_scmAlignmentProp1547 = new BitSet(new ulong[]{0x0000400000000000UL});
-    public static readonly BitSet FOLLOW_QUOTE_in_scmAlignmentProp1549 = new BitSet(new ulong[]{0x0000000002000000UL});
-    public static readonly BitSet FOLLOW_LP_in_scmAlignmentProp1551 = new BitSet(new ulong[]{0x0000000340000000UL});
-    public static readonly BitSet FOLLOW_scmHorizAlign_in_scmAlignmentProp1553 = new BitSet(new ulong[]{0x00000000E0000000UL});
-    public static readonly BitSet FOLLOW_scmVerticalAlign_in_scmAlignmentProp1556 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmAlignmentProp1559 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmAlignmentProp1561 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmFrmStyleProp1573 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_STYLE_in_scmFrmStyleProp1575 = new BitSet(new ulong[]{0x0000400000000000UL});
-    public static readonly BitSet FOLLOW_QUOTE_in_scmFrmStyleProp1577 = new BitSet(new ulong[]{0x0000000002000000UL});
-    public static readonly BitSet FOLLOW_LP_in_scmFrmStyleProp1579 = new BitSet(new ulong[]{0x000001F804000000UL});
-    public static readonly BitSet FOLLOW_scmFrmStyleList_in_scmFrmStyleProp1581 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmFrmStyleProp1584 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmFrmStyleProp1586 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmFrmStyleProp1591 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_STYLE_in_scmFrmStyleProp1593 = new BitSet(new ulong[]{0x0000000400000000UL});
-    public static readonly BitSet FOLLOW_NULL_in_scmFrmStyleProp1595 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmFrmStyleProp1597 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmBtnStyleProp1609 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_STYLE_in_scmBtnStyleProp1611 = new BitSet(new ulong[]{0x0000400000000000UL});
-    public static readonly BitSet FOLLOW_QUOTE_in_scmBtnStyleProp1613 = new BitSet(new ulong[]{0x0000000002000000UL});
-    public static readonly BitSet FOLLOW_LP_in_scmBtnStyleProp1615 = new BitSet(new ulong[]{0x0000040004010000UL});
-    public static readonly BitSet FOLLOW_scmBtnStyleList_in_scmBtnStyleProp1617 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmBtnStyleProp1620 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmBtnStyleProp1622 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmBtnStyleProp1627 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_STYLE_in_scmBtnStyleProp1629 = new BitSet(new ulong[]{0x0000000400000000UL});
-    public static readonly BitSet FOLLOW_NULL_in_scmBtnStyleProp1631 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmBtnStyleProp1633 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmStyleProp1645 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_STYLE_in_scmStyleProp1647 = new BitSet(new ulong[]{0x0000400000000000UL});
-    public static readonly BitSet FOLLOW_QUOTE_in_scmStyleProp1649 = new BitSet(new ulong[]{0x0000000002000000UL});
-    public static readonly BitSet FOLLOW_LP_in_scmStyleProp1651 = new BitSet(new ulong[]{0x0000040004000000UL});
-    public static readonly BitSet FOLLOW_scmStyleList_in_scmStyleProp1653 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmStyleProp1656 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmStyleProp1658 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmStyleProp1663 = new BitSet(new ulong[]{0x0000020000000000UL});
-    public static readonly BitSet FOLLOW_STYLE_in_scmStyleProp1665 = new BitSet(new ulong[]{0x0000000400000000UL});
-    public static readonly BitSet FOLLOW_NULL_in_scmStyleProp1667 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmStyleProp1669 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmVertMargin1682 = new BitSet(new ulong[]{0x0000000000800000UL});
-    public static readonly BitSet FOLLOW_VERT_MARGIN_in_scmVertMargin1684 = new BitSet(new ulong[]{0x0000200000000000UL});
-    public static readonly BitSet FOLLOW_NUMBER_in_scmVertMargin1690 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmVertMargin1692 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_scmHorizMargin1708 = new BitSet(new ulong[]{0x0000000001000000UL});
-    public static readonly BitSet FOLLOW_HORIZ_MARGIN_in_scmHorizMargin1710 = new BitSet(new ulong[]{0x0000200000000000UL});
-    public static readonly BitSet FOLLOW_NUMBER_in_scmHorizMargin1716 = new BitSet(new ulong[]{0x0000000004000000UL});
-    public static readonly BitSet FOLLOW_RP_in_scmHorizMargin1718 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_TOP_in_scmVerticalAlign1731 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_CENTER_in_scmVerticalAlign1738 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_BOTTOM_in_scmVerticalAlign1745 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LEFT_in_scmHorizAlign1758 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_CENTER_in_scmHorizAlign1765 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_RIGHT_in_scmHorizAlign1772 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_NO_RESIZE_BORDER_in_scmFrmStyleList1786 = new BitSet(new ulong[]{0x000001F800000002UL});
-    public static readonly BitSet FOLLOW_NO_CAPTION_in_scmFrmStyleList1793 = new BitSet(new ulong[]{0x000001F800000002UL});
-    public static readonly BitSet FOLLOW_NO_SYSTEM_MENU_in_scmFrmStyleList1800 = new BitSet(new ulong[]{0x000001F800000002UL});
-    public static readonly BitSet FOLLOW_MDI_PARENT_in_scmFrmStyleList1807 = new BitSet(new ulong[]{0x000001F800000002UL});
-    public static readonly BitSet FOLLOW_MDI_CHILD_in_scmFrmStyleList1814 = new BitSet(new ulong[]{0x000001F800000002UL});
-    public static readonly BitSet FOLLOW_FLOAT_in_scmFrmStyleList1821 = new BitSet(new ulong[]{0x000001F800000002UL});
-    public static readonly BitSet FOLLOW_BORDER_in_scmBtnStyleList1836 = new BitSet(new ulong[]{0x0000040000010002UL});
-    public static readonly BitSet FOLLOW_DELETED_in_scmBtnStyleList1844 = new BitSet(new ulong[]{0x0000040000010002UL});
-    public static readonly BitSet FOLLOW_DELETED_in_scmStyleList1860 = new BitSet(new ulong[]{0x0000040000000002UL});
-    public static readonly BitSet FOLLOW_LP_in_parExpr1881 = new BitSet(new ulong[]{0x003FE8001A000000UL});
-    public static readonly BitSet FOLLOW_parExpr_in_parExpr1888 = new BitSet(new ulong[]{0x003FE8001E000000UL});
-    public static readonly BitSet FOLLOW_RP_in_parExpr1894 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_operand_in_parExpr1906 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_opartors_in_parExpr1917 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_ID_in_operand1938 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_NUMBER_in_operand1949 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_TRUE_in_operand1960 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_FALSE_in_operand1971 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_PLUS_in_opartors1990 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_MINUS_in_opartors2001 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_STAR_in_opartors2012 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_SLASH_in_opartors2023 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_LT_in_opartors2034 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_GT_in_opartors2045 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_EQ_in_opartors2056 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_QUOTE_in_opartors2067 = new BitSet(new ulong[]{0x0000000000000002UL});
-    public static readonly BitSet FOLLOW_COMMENT_in_comment2086 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmBlock_in_main382 = new BitSet(new ulong[]{0x01FFA00068000000UL});
+    public static readonly BitSet FOLLOW_EOF_in_main385 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmFrm_in_scmBlock398 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmBtn_in_scmBlock409 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmMsg_in_scmBlock420 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmCbx_in_scmBlock431 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmHpnl_in_scmBlock442 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_comment_in_scmBlock453 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_parExpr_in_scmBlock464 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmFrm484 = new BitSet(new ulong[]{0x0000000000000020UL});
+    public static readonly BitSet FOLLOW_DEFINE_in_scmFrm486 = new BitSet(new ulong[]{0x0000200000000000UL});
+    public static readonly BitSet FOLLOW_ID_in_scmFrm492 = new BitSet(new ulong[]{0x0000000008000000UL});
+    public static readonly BitSet FOLLOW_LP_in_scmFrm494 = new BitSet(new ulong[]{0x0000000000000040UL});
+    public static readonly BitSet FOLLOW_NEW_in_scmFrm496 = new BitSet(new ulong[]{0x0000000000000080UL});
+    public static readonly BitSet FOLLOW_FRAME_in_scmFrm498 = new BitSet(new ulong[]{0x01FFA00068000000UL});
+    public static readonly BitSet FOLLOW_scmFrmProp_in_scmFrm500 = new BitSet(new ulong[]{0x01FFA00078000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmFrm504 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmFrm506 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmBtn528 = new BitSet(new ulong[]{0x0000000000000020UL});
+    public static readonly BitSet FOLLOW_DEFINE_in_scmBtn530 = new BitSet(new ulong[]{0x0000200000000000UL});
+    public static readonly BitSet FOLLOW_ID_in_scmBtn536 = new BitSet(new ulong[]{0x0000000008000000UL});
+    public static readonly BitSet FOLLOW_LP_in_scmBtn538 = new BitSet(new ulong[]{0x0000000000000040UL});
+    public static readonly BitSet FOLLOW_NEW_in_scmBtn540 = new BitSet(new ulong[]{0x0000000000000100UL});
+    public static readonly BitSet FOLLOW_BUTTON_in_scmBtn542 = new BitSet(new ulong[]{0x01FFA00068000000UL});
+    public static readonly BitSet FOLLOW_scmBtnProp_in_scmBtn544 = new BitSet(new ulong[]{0x01FFA00078000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmBtn548 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmBtn550 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmMsg572 = new BitSet(new ulong[]{0x0000000000000020UL});
+    public static readonly BitSet FOLLOW_DEFINE_in_scmMsg574 = new BitSet(new ulong[]{0x0000200000000000UL});
+    public static readonly BitSet FOLLOW_ID_in_scmMsg580 = new BitSet(new ulong[]{0x0000000008000000UL});
+    public static readonly BitSet FOLLOW_LP_in_scmMsg582 = new BitSet(new ulong[]{0x0000000000000040UL});
+    public static readonly BitSet FOLLOW_NEW_in_scmMsg584 = new BitSet(new ulong[]{0x0000000000000200UL});
+    public static readonly BitSet FOLLOW_MESSAGE_in_scmMsg586 = new BitSet(new ulong[]{0x01FFA00068000000UL});
+    public static readonly BitSet FOLLOW_scmMsgProp_in_scmMsg588 = new BitSet(new ulong[]{0x01FFA00078000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmMsg592 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmMsg594 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmCbx614 = new BitSet(new ulong[]{0x0000000000000020UL});
+    public static readonly BitSet FOLLOW_DEFINE_in_scmCbx616 = new BitSet(new ulong[]{0x0000200000000000UL});
+    public static readonly BitSet FOLLOW_ID_in_scmCbx622 = new BitSet(new ulong[]{0x0000000008000000UL});
+    public static readonly BitSet FOLLOW_LP_in_scmCbx624 = new BitSet(new ulong[]{0x0000000000000040UL});
+    public static readonly BitSet FOLLOW_NEW_in_scmCbx626 = new BitSet(new ulong[]{0x0000000000000400UL});
+    public static readonly BitSet FOLLOW_CHECKBOX_in_scmCbx628 = new BitSet(new ulong[]{0x01FFA00068000000UL});
+    public static readonly BitSet FOLLOW_scmCbxProp_in_scmCbx630 = new BitSet(new ulong[]{0x01FFA00078000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmCbx634 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmCbx636 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmHpnl657 = new BitSet(new ulong[]{0x0000000000000020UL});
+    public static readonly BitSet FOLLOW_DEFINE_in_scmHpnl659 = new BitSet(new ulong[]{0x0000200000000000UL});
+    public static readonly BitSet FOLLOW_ID_in_scmHpnl665 = new BitSet(new ulong[]{0x0000000008000000UL});
+    public static readonly BitSet FOLLOW_LP_in_scmHpnl667 = new BitSet(new ulong[]{0x0000000000000040UL});
+    public static readonly BitSet FOLLOW_NEW_in_scmHpnl669 = new BitSet(new ulong[]{0x0000000000000800UL});
+    public static readonly BitSet FOLLOW_HPANEL_in_scmHpnl671 = new BitSet(new ulong[]{0x01FFA00068000000UL});
+    public static readonly BitSet FOLLOW_scmHpnlProp_in_scmHpnl673 = new BitSet(new ulong[]{0x01FFA00078000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmHpnl677 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmHpnl679 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmParentProp_in_scmFrmProp701 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmLabelProp_in_scmFrmProp712 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmWidthProp_in_scmFrmProp723 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmHeightProp_in_scmFrmProp734 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmEnabledProp_in_scmFrmProp745 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmBorderProp_in_scmFrmProp756 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmSpacingProp_in_scmFrmProp767 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmMinWidthProp_in_scmFrmProp778 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmMinHeightProp_in_scmFrmProp789 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmStretchWidthProp_in_scmFrmProp800 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmStretchHeightProp_in_scmFrmProp811 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmAlignmentProp_in_scmFrmProp818 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmFrmStyleProp_in_scmFrmProp826 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmXYProp_in_scmFrmProp838 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_comment_in_scmFrmProp849 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_parExpr_in_scmFrmProp860 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmParentProp_in_scmBtnProp878 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmLabelProp_in_scmBtnProp889 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmEnabledProp_in_scmBtnProp900 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmMinWidthProp_in_scmBtnProp911 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmMinHeightProp_in_scmBtnProp922 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmStretchWidthProp_in_scmBtnProp933 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmStretchHeightProp_in_scmBtnProp944 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmVertMargin_in_scmBtnProp955 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmHorizMargin_in_scmBtnProp966 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmBtnStyleProp_in_scmBtnProp973 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_comment_in_scmBtnProp985 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_parExpr_in_scmBtnProp996 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmParentProp_in_scmMsgProp1013 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmLabelProp_in_scmMsgProp1024 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmEnabledProp_in_scmMsgProp1035 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmMinWidthProp_in_scmMsgProp1046 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmMinHeightProp_in_scmMsgProp1057 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmStretchWidthProp_in_scmMsgProp1068 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmStretchHeightProp_in_scmMsgProp1079 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmVertMargin_in_scmMsgProp1090 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmHorizMargin_in_scmMsgProp1101 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmStyleProp_in_scmMsgProp1108 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_comment_in_scmMsgProp1120 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_parExpr_in_scmMsgProp1131 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmParentProp_in_scmCbxProp1149 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmLabelProp_in_scmCbxProp1160 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmEnabledProp_in_scmCbxProp1171 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmMinWidthProp_in_scmCbxProp1182 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmMinHeightProp_in_scmCbxProp1193 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmStretchWidthProp_in_scmCbxProp1204 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmStretchHeightProp_in_scmCbxProp1215 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmVertMargin_in_scmCbxProp1226 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmHorizMargin_in_scmCbxProp1237 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmStyleProp_in_scmCbxProp1244 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_comment_in_scmCbxProp1256 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_parExpr_in_scmCbxProp1267 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmParentProp_in_scmHpnlProp1285 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmEnabledProp_in_scmHpnlProp1296 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmMinWidthProp_in_scmHpnlProp1307 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmMinHeightProp_in_scmHpnlProp1318 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmStretchWidthProp_in_scmHpnlProp1329 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmStretchHeightProp_in_scmHpnlProp1340 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmVertMargin_in_scmHpnlProp1351 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmHorizMargin_in_scmHpnlProp1362 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmBorderProp_in_scmHpnlProp1373 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmSpacingProp_in_scmHpnlProp1384 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmBtnStyleProp_in_scmHpnlProp1391 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_scmAlignmentProp_in_scmHpnlProp1399 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_comment_in_scmHpnlProp1411 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_parExpr_in_scmHpnlProp1422 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmParentProp1438 = new BitSet(new ulong[]{0x0000000000002000UL});
+    public static readonly BitSet FOLLOW_PARENT_in_scmParentProp1440 = new BitSet(new ulong[]{0x0000200020000000UL});
+    public static readonly BitSet FOLLOW_set_in_scmParentProp1445 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmParentProp1453 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmLabelProp1469 = new BitSet(new ulong[]{0x0000000000004000UL});
+    public static readonly BitSet FOLLOW_LABEL_in_scmLabelProp1471 = new BitSet(new ulong[]{0x0000400000000000UL});
+    public static readonly BitSet FOLLOW_NAME_in_scmLabelProp1477 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmLabelProp1479 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmWidthProp1495 = new BitSet(new ulong[]{0x0000000000008000UL});
+    public static readonly BitSet FOLLOW_WIDTH_in_scmWidthProp1497 = new BitSet(new ulong[]{0x0000800020000000UL});
+    public static readonly BitSet FOLLOW_set_in_scmWidthProp1502 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmWidthProp1508 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmHeightProp1523 = new BitSet(new ulong[]{0x0000000000010000UL});
+    public static readonly BitSet FOLLOW_HEIGHT_in_scmHeightProp1525 = new BitSet(new ulong[]{0x0000800020000000UL});
+    public static readonly BitSet FOLLOW_set_in_scmHeightProp1531 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmHeightProp1537 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmXYProp1553 = new BitSet(new ulong[]{0x0000200000000000UL});
+    public static readonly BitSet FOLLOW_ID_in_scmXYProp1559 = new BitSet(new ulong[]{0x0000800020000000UL});
+    public static readonly BitSet FOLLOW_set_in_scmXYProp1565 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmXYProp1571 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmEnabledProp1587 = new BitSet(new ulong[]{0x0000000000020000UL});
+    public static readonly BitSet FOLLOW_ENABLED_in_scmEnabledProp1589 = new BitSet(new ulong[]{0x0000000060000000UL});
+    public static readonly BitSet FOLLOW_set_in_scmEnabledProp1595 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmEnabledProp1601 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmBorderProp1617 = new BitSet(new ulong[]{0x0000000000040000UL});
+    public static readonly BitSet FOLLOW_BORDER_in_scmBorderProp1619 = new BitSet(new ulong[]{0x0000800000000000UL});
+    public static readonly BitSet FOLLOW_NUMBER_in_scmBorderProp1625 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmBorderProp1627 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmSpacingProp1642 = new BitSet(new ulong[]{0x0000000000080000UL});
+    public static readonly BitSet FOLLOW_SPACING_in_scmSpacingProp1644 = new BitSet(new ulong[]{0x0000800000000000UL});
+    public static readonly BitSet FOLLOW_NUMBER_in_scmSpacingProp1650 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmSpacingProp1652 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmMinWidthProp1667 = new BitSet(new ulong[]{0x0000000000200000UL});
+    public static readonly BitSet FOLLOW_MIN_WIDTH_in_scmMinWidthProp1669 = new BitSet(new ulong[]{0x0000800000000000UL});
+    public static readonly BitSet FOLLOW_NUMBER_in_scmMinWidthProp1675 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmMinWidthProp1677 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmMinHeightProp1692 = new BitSet(new ulong[]{0x0000000000400000UL});
+    public static readonly BitSet FOLLOW_MIN_HEIGHT_in_scmMinHeightProp1694 = new BitSet(new ulong[]{0x0000800000000000UL});
+    public static readonly BitSet FOLLOW_NUMBER_in_scmMinHeightProp1700 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmMinHeightProp1702 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmStretchWidthProp1717 = new BitSet(new ulong[]{0x0000000000800000UL});
+    public static readonly BitSet FOLLOW_STRETCH_WIDTH_in_scmStretchWidthProp1719 = new BitSet(new ulong[]{0x0000000060000000UL});
+    public static readonly BitSet FOLLOW_set_in_scmStretchWidthProp1725 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmStretchWidthProp1731 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmStretchHeightProp1746 = new BitSet(new ulong[]{0x0000000001000000UL});
+    public static readonly BitSet FOLLOW_STRETCH_HEIGHT_in_scmStretchHeightProp1748 = new BitSet(new ulong[]{0x0000000060000000UL});
+    public static readonly BitSet FOLLOW_set_in_scmStretchHeightProp1754 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmStretchHeightProp1760 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmAlignmentProp1774 = new BitSet(new ulong[]{0x0000000000100000UL});
+    public static readonly BitSet FOLLOW_ALIGNMENT_in_scmAlignmentProp1776 = new BitSet(new ulong[]{0x0001000000000000UL});
+    public static readonly BitSet FOLLOW_QUOTE_in_scmAlignmentProp1778 = new BitSet(new ulong[]{0x0000000008000000UL});
+    public static readonly BitSet FOLLOW_LP_in_scmAlignmentProp1780 = new BitSet(new ulong[]{0x0000000D00000000UL});
+    public static readonly BitSet FOLLOW_scmHorizAlign_in_scmAlignmentProp1782 = new BitSet(new ulong[]{0x0000000380000000UL});
+    public static readonly BitSet FOLLOW_scmVerticalAlign_in_scmAlignmentProp1785 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmAlignmentProp1788 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmAlignmentProp1790 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmFrmStyleProp1802 = new BitSet(new ulong[]{0x0000080000000000UL});
+    public static readonly BitSet FOLLOW_STYLE_in_scmFrmStyleProp1804 = new BitSet(new ulong[]{0x0001000000000000UL});
+    public static readonly BitSet FOLLOW_QUOTE_in_scmFrmStyleProp1806 = new BitSet(new ulong[]{0x0000000008000000UL});
+    public static readonly BitSet FOLLOW_LP_in_scmFrmStyleProp1808 = new BitSet(new ulong[]{0x000007E010000000UL});
+    public static readonly BitSet FOLLOW_scmFrmStyleList_in_scmFrmStyleProp1810 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmFrmStyleProp1813 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmFrmStyleProp1815 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmFrmStyleProp1820 = new BitSet(new ulong[]{0x0000080000000000UL});
+    public static readonly BitSet FOLLOW_STYLE_in_scmFrmStyleProp1822 = new BitSet(new ulong[]{0x0000001000000000UL});
+    public static readonly BitSet FOLLOW_NULL_in_scmFrmStyleProp1824 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmFrmStyleProp1826 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmBtnStyleProp1838 = new BitSet(new ulong[]{0x0000080000000000UL});
+    public static readonly BitSet FOLLOW_STYLE_in_scmBtnStyleProp1840 = new BitSet(new ulong[]{0x0001000000000000UL});
+    public static readonly BitSet FOLLOW_QUOTE_in_scmBtnStyleProp1842 = new BitSet(new ulong[]{0x0000000008000000UL});
+    public static readonly BitSet FOLLOW_LP_in_scmBtnStyleProp1844 = new BitSet(new ulong[]{0x0000100010040000UL});
+    public static readonly BitSet FOLLOW_scmBtnStyleList_in_scmBtnStyleProp1846 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmBtnStyleProp1849 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmBtnStyleProp1851 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmBtnStyleProp1856 = new BitSet(new ulong[]{0x0000080000000000UL});
+    public static readonly BitSet FOLLOW_STYLE_in_scmBtnStyleProp1858 = new BitSet(new ulong[]{0x0000001000000000UL});
+    public static readonly BitSet FOLLOW_NULL_in_scmBtnStyleProp1860 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmBtnStyleProp1862 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmStyleProp1874 = new BitSet(new ulong[]{0x0000080000000000UL});
+    public static readonly BitSet FOLLOW_STYLE_in_scmStyleProp1876 = new BitSet(new ulong[]{0x0001000000000000UL});
+    public static readonly BitSet FOLLOW_QUOTE_in_scmStyleProp1878 = new BitSet(new ulong[]{0x0000000008000000UL});
+    public static readonly BitSet FOLLOW_LP_in_scmStyleProp1880 = new BitSet(new ulong[]{0x0000100010000000UL});
+    public static readonly BitSet FOLLOW_scmStyleList_in_scmStyleProp1882 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmStyleProp1885 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmStyleProp1887 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmStyleProp1892 = new BitSet(new ulong[]{0x0000080000000000UL});
+    public static readonly BitSet FOLLOW_STYLE_in_scmStyleProp1894 = new BitSet(new ulong[]{0x0000001000000000UL});
+    public static readonly BitSet FOLLOW_NULL_in_scmStyleProp1896 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmStyleProp1898 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmVertMargin1911 = new BitSet(new ulong[]{0x0000000002000000UL});
+    public static readonly BitSet FOLLOW_VERT_MARGIN_in_scmVertMargin1913 = new BitSet(new ulong[]{0x0000800000000000UL});
+    public static readonly BitSet FOLLOW_NUMBER_in_scmVertMargin1919 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmVertMargin1921 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_scmHorizMargin1937 = new BitSet(new ulong[]{0x0000000004000000UL});
+    public static readonly BitSet FOLLOW_HORIZ_MARGIN_in_scmHorizMargin1939 = new BitSet(new ulong[]{0x0000800000000000UL});
+    public static readonly BitSet FOLLOW_NUMBER_in_scmHorizMargin1945 = new BitSet(new ulong[]{0x0000000010000000UL});
+    public static readonly BitSet FOLLOW_RP_in_scmHorizMargin1947 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_TOP_in_scmVerticalAlign1960 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_CENTER_in_scmVerticalAlign1967 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_BOTTOM_in_scmVerticalAlign1974 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LEFT_in_scmHorizAlign1987 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_CENTER_in_scmHorizAlign1994 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_RIGHT_in_scmHorizAlign2001 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_NO_RESIZE_BORDER_in_scmFrmStyleList2015 = new BitSet(new ulong[]{0x000007E000000002UL});
+    public static readonly BitSet FOLLOW_NO_CAPTION_in_scmFrmStyleList2022 = new BitSet(new ulong[]{0x000007E000000002UL});
+    public static readonly BitSet FOLLOW_NO_SYSTEM_MENU_in_scmFrmStyleList2029 = new BitSet(new ulong[]{0x000007E000000002UL});
+    public static readonly BitSet FOLLOW_MDI_PARENT_in_scmFrmStyleList2036 = new BitSet(new ulong[]{0x000007E000000002UL});
+    public static readonly BitSet FOLLOW_MDI_CHILD_in_scmFrmStyleList2043 = new BitSet(new ulong[]{0x000007E000000002UL});
+    public static readonly BitSet FOLLOW_FLOAT_in_scmFrmStyleList2050 = new BitSet(new ulong[]{0x000007E000000002UL});
+    public static readonly BitSet FOLLOW_BORDER_in_scmBtnStyleList2065 = new BitSet(new ulong[]{0x0000100000040002UL});
+    public static readonly BitSet FOLLOW_DELETED_in_scmBtnStyleList2073 = new BitSet(new ulong[]{0x0000100000040002UL});
+    public static readonly BitSet FOLLOW_DELETED_in_scmStyleList2089 = new BitSet(new ulong[]{0x0000100000000002UL});
+    public static readonly BitSet FOLLOW_LP_in_parExpr2110 = new BitSet(new ulong[]{0x00FFA00068000000UL});
+    public static readonly BitSet FOLLOW_parExpr_in_parExpr2117 = new BitSet(new ulong[]{0x00FFA00078000000UL});
+    public static readonly BitSet FOLLOW_RP_in_parExpr2123 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_operand_in_parExpr2135 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_opartors_in_parExpr2146 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_ID_in_operand2167 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_NUMBER_in_operand2178 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_TRUE_in_operand2189 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_FALSE_in_operand2200 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_PLUS_in_opartors2219 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_MINUS_in_opartors2230 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_STAR_in_opartors2241 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_SLASH_in_opartors2252 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_LT_in_opartors2263 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_GT_in_opartors2274 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_EQ_in_opartors2285 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_QUOTE_in_opartors2296 = new BitSet(new ulong[]{0x0000000000000002UL});
+    public static readonly BitSet FOLLOW_COMMENT_in_comment2315 = new BitSet(new ulong[]{0x0000000000000002UL});
 
 }
 }

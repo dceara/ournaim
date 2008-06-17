@@ -185,7 +185,6 @@ namespace SchemeGuiEditor.Gui
                     if (parent is IScmContainer)
                     {
                         (parent as IScmContainer).LayoutManager.AddControl(ctrl);
-                        (ctrl as IScmContainee).ScmContainer = parent as IScmContainer;
                         ctrl.Click += new EventHandler(ctrl_Click);
                     }
                 }
@@ -267,7 +266,6 @@ namespace SchemeGuiEditor.Gui
                         if (container == null)
                             return;
                         container.LayoutManager.AddControl(ctrl,new Point(e.X,e.Y));
-                        (scmCtrl as IScmContainee).ScmContainer = container;
                     }
                     ctrl.Click += new EventHandler(ctrl_Click);
                     _propertyObjects.Add(scmCtrl.ScmPropertyObject);
@@ -303,7 +301,6 @@ namespace SchemeGuiEditor.Gui
                 {
                     bool sameParent;
                     newParent.LayoutManager.AddControl(ctrl,panelContainer.PointToScreen(ctrl.Location),out sameParent);
-                    (ctrl as IScmContainee).ScmContainer = newParent;
                     if (!sameParent)
                         _startContainer.LayoutManager.RemoveContainer(_startParent);
                 }

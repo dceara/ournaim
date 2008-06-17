@@ -40,6 +40,8 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             _scmProperties.Name = name;
             _scmProperties.Label = name;
+            _scmProperties.AutosizeHeight = false;
+            _scmProperties.AutosizeWidth = false;
         }
 
         public void ControlResized()

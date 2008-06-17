@@ -111,6 +111,11 @@ namespace SchemeGuiEditor.Gui
             item.Object = typeof(ScmFrame);
             items.Add(item);
 
+            item = new ToolBoxItem();
+            item.Caption = "HorizontalPanel";
+            item.Object = typeof(ScmHorizontalPanel);
+            items.Add(item);
+
             return items;
         }
 

@@ -47,14 +47,15 @@ namespace SchemeGuiEditor.ToolboxControls
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(546, 479);
             this.tableLayoutPanel1.TabIndex = 0;
+            this.tableLayoutPanel1.Click += new System.EventHandler(this.tableLayoutPanel1_Click);
             // 
-            // LayoutManagerContainer
+            // VerticalLayoutManagerContainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(0);
-            this.Name = "LayoutManagerContainer";
+            this.Name = "VerticalLayoutManagerContainer";
             this.Size = new System.Drawing.Size(546, 479);
             this.ResumeLayout(false);
 

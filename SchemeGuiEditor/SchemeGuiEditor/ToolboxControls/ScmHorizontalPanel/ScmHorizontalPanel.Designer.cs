@@ -1,4 +1,4 @@
-namespace SchemeGuiEditor.ToolboxControls.ScmHorizontalPanel
+namespace SchemeGuiEditor.ToolboxControls
 {
     partial class ScmHorizontalPanel
     {
@@ -28,18 +28,34 @@ namespace SchemeGuiEditor.ToolboxControls.ScmHorizontalPanel
         /// </summary>
         private void InitializeComponent()
         {
+            this.layoutManagerContainer1 = new SchemeGuiEditor.ToolboxControls.HorizontalLayoutManagerContainer();
             this.SuspendLayout();
+            // 
+            // layoutManagerContainer1
+            // 
+            this.layoutManagerContainer1.Border = 0;
+            this.layoutManagerContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.layoutManagerContainer1.Location = new System.Drawing.Point(0, 0);
+            this.layoutManagerContainer1.Name = "layoutManagerContainer1";
+            this.layoutManagerContainer1.Size = new System.Drawing.Size(412, 343);
+            this.layoutManagerContainer1.Spacing = 0;
+            this.layoutManagerContainer1.TabIndex = 0;
+            this.layoutManagerContainer1.Click += new System.EventHandler(this.layoutManagerContainer1_Click);
             // 
             // ScmHorizontalPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.layoutManagerContainer1);
             this.Name = "ScmHorizontalPanel";
-            this.Size = new System.Drawing.Size(482, 381);
+            this.Size = new System.Drawing.Size(412, 343);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private HorizontalLayoutManagerContainer layoutManagerContainer1;
+
     }
 }

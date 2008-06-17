@@ -122,7 +122,12 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             get { return _frame.Name; }
             set 
-            { 
+            {
+                if (value == string.Empty)
+                {
+                    MessageService.ShowError(ControlValidation.InvalidValue);
+                    return;
+                }
                 _frame.Name = value;
                 _frame.RaiseNameChanged();
             }
@@ -392,7 +397,7 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             get
             {
-                return _frame.LayoutManager.Padding.All;
+                return _frame.LayoutManager.Border;
             }
             set
             {
@@ -402,7 +407,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     return;
                 }
 
-                _frame.LayoutManager.Padding = new Padding(value);
+                _frame.LayoutManager.Border = value;
             }
         }
 

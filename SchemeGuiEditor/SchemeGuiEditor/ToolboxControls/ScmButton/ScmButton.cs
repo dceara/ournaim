@@ -40,6 +40,8 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             _scmProperties.Name = name;
             _scmProperties.Label = name;
+            _scmProperties.AutosizeHeight = false;
+            _scmProperties.AutosizeWidth = false;
         }
 
         public void ControlResized()
@@ -213,6 +215,9 @@ namespace SchemeGuiEditor.ToolboxControls
                     _scmProperties.NotifyPropertyChanged();
                 }
 
+            if (_scmContainer != null)
+                _scmContainer.LayoutManager.SetHorizontalPosition(this);
+
             if (_scmProperties.AutosizeHeight)
                 this.Height = s.Height;
             else
@@ -222,6 +227,9 @@ namespace SchemeGuiEditor.ToolboxControls
                     this.Height = Height;
                     _scmProperties.NotifyPropertyChanged();
                 }
+
+            if (_scmContainer != null)
+                _scmContainer.LayoutManager.SetVerticalPozition(this);
         }
 
         void _scmContainer_NameChanged(object sender, EventArgs e)
