@@ -164,6 +164,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>HorizontalLayoutManagerContainer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ToolboxControls\ScmVerticalPanel\ScmVerticalPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScmVerticalPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ToolboxControls\VerticalLayoutManagerContainer.resx">
       <DependentUpon>VerticalLayoutManagerContainer.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -227,6 +231,13 @@
     <Compile Include="ToolboxControls\Interfaces\IScmControl.cs" />
     <Compile Include="ToolboxControls\Interfaces\IScmControlProperties.cs" />
     <Compile Include="ToolboxControls\ScmHorizontalPanel\ScmHorizontalPanelProperties.cs" />
+    <Compile Include="ToolboxControls\ScmVerticalPanel\ScmVerticalPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToolboxControls\ScmVerticalPanel\ScmVerticalPanel.Designer.cs">
+      <DependentUpon>ScmVerticalPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToolboxControls\ScmVerticalPanel\ScmVerticalPanelProperties.cs" />
     <Compile Include="ToolboxControls\VerticalLayoutManagerContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>

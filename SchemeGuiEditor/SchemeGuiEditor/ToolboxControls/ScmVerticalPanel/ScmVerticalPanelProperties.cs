@@ -12,11 +12,13 @@ using System.Drawing.Design;
 namespace SchemeGuiEditor.ToolboxControls
 {
     #region Properties enum
-    public enum ButtonPropNames
+    public enum VerticalPanelPropNames
     {
         Parent,
-        Label,
         Enabled,
+        Border,
+        Spacing,
+        Alignment,
         MinWidth,
         MinHeight,
         StrechWidth,
@@ -29,10 +31,10 @@ namespace SchemeGuiEditor.ToolboxControls
     }
     #endregion
 
-    public class ScmButtonProperties :IScmControlProperties
+    public class ScmVerticalPanelProperties :IScmControlProperties
     {
         #region Private Members
-        private ScmButton _button;
+        private ScmVerticalPanel _panel;
         private bool _enabled;
         private string _parent;
         private bool _autosizeWidth;
@@ -41,19 +43,19 @@ namespace SchemeGuiEditor.ToolboxControls
         private int _minWidth;
         private int _minHeight;
         private ScmButtonStyle _style;
-        private List<ButtonPropNames> _parsedProperties;
+        private List<VerticalPanelPropNames> _parsedProperties;
         private Dictionary<int, ScmComment> _parsedComments;
         private Dictionary<int, ScmBlock> _parsedScmBlocks;
         #endregion
 
-        public ScmButtonProperties(ScmButton button)
+        public ScmVerticalPanelProperties(ScmVerticalPanel panel)
         {
-            _button = button;
+            _panel = panel;
             _enabled = true;
+            _style = new ScmButtonStyle();
             _autosizeHeight = true;
             _autosizeWidth = true;
-            _style = new ScmButtonStyle();
-            _parsedProperties = new List<ButtonPropNames>();
+            _parsedProperties = new List<VerticalPanelPropNames>();
             _parsedComments = new Dictionary<int, ScmComment>();
             _parsedScmBlocks = new Dictionary<int, ScmBlock>();
         }
@@ -65,19 +67,19 @@ namespace SchemeGuiEditor.ToolboxControls
         [Browsable(false)]
         public IScmControl Control
         {
-            get { return _button; }
+            get { return _panel; }
         }
 
         public string ToScmCode()
         {
-            string code = string.Format("(define {0}\n\t(new button%\n {1}))\n\n", this.Name, GetScmPropertiesCode());
+            string code = string.Format("(define {0}\n\t(new vertical-panel%\n {1}))\n\n", this.Name, GetScmPropertiesCode());
             return code;
         }
 
         [Browsable(false)]
         public string DefaultControlName
         {
-            get { return "Button"; }
+            get { return "HorizontalPanel"; }
         }
 
         public void NotifyPropertyChanged()
@@ -107,7 +109,7 @@ namespace SchemeGuiEditor.ToolboxControls
         [DescriptionAttribute("Indicates the name used in code to identify the object")]
         public string Name
         {
-            get { return _button.Name; }
+            get { return _panel.Name; }
             set 
             {
                 if (value == string.Empty)
@@ -115,28 +117,13 @@ namespace SchemeGuiEditor.ToolboxControls
                     MessageService.ShowError(ControlValidation.InvalidValue);
                     return;
                 }
-                _button.Name = value; }
-        }
-
-        [CategoryAttribute(AttributesCategories.CategoryAppearance)]
-        [DescriptionAttribute("The string displayed on the button")]
-        public string Label
-        {
-            get { return _button.Text; }
-            set
-            {
-                if (value.Length > 200)
-                {
-                    MessageService.ShowError(ControlValidation.LabelToLong);
-                    return;
-                }
-                _button.Text = value;
-                _button.Refresh();
+                _panel.Name = value;
+                _panel.RaiseNameChanged();
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryBehavior)]
-        [DescriptionAttribute("Enables or disables the button")]
+        [DescriptionAttribute("Enables or disables the panel")]
         [DefaultValue(true)]
         public bool Enabled
         {
@@ -144,8 +131,64 @@ namespace SchemeGuiEditor.ToolboxControls
             set { _enabled = value; }
         }
 
+        [CategoryAttribute(AttributesCategories.CategoryLayout)]
+        [DescriptionAttribute("Alignment specification for a container")]
+        public ContainerAlignment Alignment
+        {
+            get
+            {
+                return _panel.LayoutManager.Alignment;
+            }
+            set
+            {
+                _panel.LayoutManager.Alignment = value;
+            }
+        }
+
+        [CategoryAttribute(AttributesCategories.CategoryAppearance)]
+        [DescriptionAttribute("Border margin for the container in pixels")]
+        [DefaultValue(0)]
+        public int Border
+        {
+            get
+            {
+                return _panel.LayoutManager.Border;
+            }
+            set
+            {
+                if (value < 0 || value > 1000)
+                {
+                    MessageService.ShowError(ControlValidation.ValueInvalid);
+                    return;
+                }
+
+                _panel.LayoutManager.Border = value;
+            }
+        }
+
+        [CategoryAttribute(AttributesCategories.CategoryAppearance)]
+        [DescriptionAttribute("Border spacing for the container in pixels")]
+        [DefaultValue(0)]
+        public int Spacing
+        {
+            get
+            {
+                return _panel.LayoutManager.Spacing;
+            }
+            set
+            {
+                if (value < 0 || value > 1000)
+                {
+                    MessageService.ShowError(ControlValidation.ValueInvalid);
+                    return;
+                }
+
+                _panel.LayoutManager.Spacing = value;
+            }
+        }
+
         [CategoryAttribute(AttributesCategories.CategoryBehavior)]
-        [DescriptionAttribute("Allow seting minimum width for the button")]
+        [DescriptionAttribute("Allow seting minimum width for the panel")]
         [DefaultValue(true)]
         public bool AutosizeWidth
         {
@@ -155,17 +198,17 @@ namespace SchemeGuiEditor.ToolboxControls
                 _autosizeWidth = value;
                 if (_autosizeWidth)
                 {
-                    _minWidth = 0;
-                    _button.RecomputeSizes();
+                    _panel.MinWidth = 0;
+                    _panel.ResetWidth();
                 }
                 else
-                    _button.MinWidth = _button.Width;
+                    _panel.MinWidth = _panel.Width;
                 NotifyPropertyChanged();
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryBehavior)]
-        [DescriptionAttribute("Allow setting an minimum Height for the button")]
+        [DescriptionAttribute("Allow setting an minimum Height for the panel")]
         [DefaultValue(true)]
         public bool AutosizeHeight
         {
@@ -175,17 +218,17 @@ namespace SchemeGuiEditor.ToolboxControls
                 _autosizeHeight = value;
                 if (_autosizeHeight)
                 {
-                    _button.MinHeight = 0;
-                    _button.RecomputeSizes();
+                    _panel.MinHeight = 0;
+                    _panel.ResetHeight();
                 }
                 else
-                    _button.MinHeight = _button.Height;
+                    _panel.MinHeight = _panel.Height;
                 NotifyPropertyChanged();
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Minimum width for the button in pixels")]
+        [DescriptionAttribute("Minimum width for the panel in pixels")]
         [DefaultValue(0)]
         public int MinWidth
         {
@@ -200,13 +243,13 @@ namespace SchemeGuiEditor.ToolboxControls
                         return;
                     }
                     _minWidth = value;
-                    _button.MinWidth = value;
+                    _panel.MinWidth = value;
                 }
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Minimum height for the button in pixels")]
+        [DescriptionAttribute("Minimum height for the panel in pixels")]
         [DefaultValue(0)]
         public int MinHeight
         {
@@ -221,47 +264,47 @@ namespace SchemeGuiEditor.ToolboxControls
                         return;
                     }
                     _minHeight = value;
-                    _button.MinHeight = value;
+                    _panel.MinHeight = value;
                 }
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryAppearance)]
-        [DescriptionAttribute("Button's horizontal stretchability")]
-        [DefaultValue(false)]
+        [DescriptionAttribute("Panel's horizontal stretchability")]
+        [DefaultValue(true)]
         public bool StretchableWidth
         {
             get
             {
-                return _button.StretchableWidth;
+                return _panel.StretchableWidth;
             }
             set
             {
-                _button.StretchableWidth = value;
+                _panel.StretchableWidth = value;
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryAppearance)]
-        [DescriptionAttribute("Button's vertical stretchability")]
-        [DefaultValue(false)]
+        [DescriptionAttribute("Panel's vertical stretchability")]
+        [DefaultValue(true)]
         public bool StretchableHeight
         {
             get
             {
-                return _button.StretchableHeight;
+                return _panel.StretchableHeight;
             }
             set
             {
-                _button.StretchableHeight = value;
+                _panel.StretchableHeight = value;
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Vertical margins for the button in pixels")]
-        [DefaultValue(2)]
+        [DescriptionAttribute("Vertical margins for the panel in pixels")]
+        [DefaultValue(0)]
         public int VerticalMargin
         {
-            get { return _button.VerticalMargin; }
+            get { return _panel.VerticalMargin; }
             set
             {
                 if (value < 0 || value > 1000)
@@ -269,16 +312,16 @@ namespace SchemeGuiEditor.ToolboxControls
                     MessageService.ShowError(ControlValidation.ValueInvalid);
                     return;
                 }
-                _button.VerticalMargin = value;
+                _panel.VerticalMargin = value;
             }
         }
 
         [CategoryAttribute(AttributesCategories.CategoryLayout)]
-        [DescriptionAttribute("Horizontal margins for the button in pixels")]
-        [DefaultValue(2)]
+        [DescriptionAttribute("Horizontal margins for the panel in pixels")]
+        [DefaultValue(0)]
         public int HorizontalMargin
         {
-            get { return _button.HorizontalMargin; }
+            get { return _panel.HorizontalMargin; }
             set
             {
                 if (value < 0 || value > 1000)
@@ -286,7 +329,7 @@ namespace SchemeGuiEditor.ToolboxControls
                     MessageService.ShowError(ControlValidation.ValueInvalid);
                     return;
                 }
-                _button.HorizontalMargin = value;
+                _panel.HorizontalMargin = value;
             }
         }
 
@@ -307,24 +350,24 @@ namespace SchemeGuiEditor.ToolboxControls
         #region Override Mothods
         public override string ToString()
         {
-            return Name + " " + _button.GetType().FullName;
+            return Name + " " + _panel.GetType().FullName;
         }
         #endregion
 
         #region Public Methods
         public void SetScmComment(ScmComment comment)
         {
-            _parsedProperties.Add(ButtonPropNames.ScmComment);
+            _parsedProperties.Add(VerticalPanelPropNames.ScmComment);
             _parsedComments.Add(_parsedProperties.Count - 1, comment);
         }
 
         public void SetScmBlock(ScmBlock scmBlock)
         {
-            _parsedProperties.Add(ButtonPropNames.ScmBlock);
+            _parsedProperties.Add(VerticalPanelPropNames.ScmBlock);
             _parsedScmBlocks.Add(_parsedProperties.Count - 1, scmBlock);
         }
 
-        public void AddParesedProperty(ButtonPropNames propertyName)
+        public void AddParesedProperty(VerticalPanelPropNames propertyName)
         {
             _parsedProperties.Add(propertyName);
         }
@@ -341,66 +384,79 @@ namespace SchemeGuiEditor.ToolboxControls
             return propertiesCode;
         }
 
-        private string GetProppertyCode(ButtonPropNames propName, int index)
+        private string GetProppertyCode(VerticalPanelPropNames propName, int index)
         {
             string code = "";
             switch (propName)
             {
-                case ButtonPropNames.Label:
-                    code = CodeGenerationUtils.Indent(string.Format("(label \"{0}\")", this.Label),2);
-                    _forceDisplay = false;
-                    break;
-                case ButtonPropNames.Parent:
+                case VerticalPanelPropNames.Parent:
                     code = CodeGenerationUtils.Indent(string.Format("(parent {0})", this.Parent),2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.Enabled:
+                case VerticalPanelPropNames.Border:
+                    if (_forceDisplay || this.Border != 0)
+                        code = CodeGenerationUtils.Indent(string.Format("(border {0})", this.Border), 2);
+                    _forceDisplay = false;
+                    break;
+                case VerticalPanelPropNames.Spacing:
+                    if (_forceDisplay || this.Spacing != 0)
+                        code = CodeGenerationUtils.Indent(string.Format("(spacing {0})", this.Spacing), 2);
+                    _forceDisplay = false;
+                    break;
+                case VerticalPanelPropNames.Alignment:
+                    if (_forceDisplay ||
+                        this.Alignment.HorizontalAlignment != HorizontalAlign.Center ||
+                        this.Alignment.VerticalAlignment != VerticalAlign.Top)
+                        code = CodeGenerationUtils.Indent(string.Format("(alignment \'{0})", this.Alignment.ToScmCode()), 2);
+                    _forceDisplay = false;
+                    break;
+                case VerticalPanelPropNames.Enabled:
                     if (_forceDisplay || this.Enabled != true)
                         code = CodeGenerationUtils.Indent(string.Format("(enabled {0})", CodeGenerationUtils.ToScmBoolValue(this.Enabled)),2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.MinWidth:
+                case VerticalPanelPropNames.MinWidth:
                     if (_forceDisplay || this.MinWidth != 0)
                         code = CodeGenerationUtils.Indent(string.Format("(min-width {0})", this.MinWidth),2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.MinHeight:
+                case VerticalPanelPropNames.MinHeight:
                     if (_forceDisplay || this.MinHeight != 0)
                         code = CodeGenerationUtils.Indent(string.Format("(min-height {0})", this.MinHeight),2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.StrechWidth:
-                    if (_forceDisplay || this.StretchableWidth != false)
+                case VerticalPanelPropNames.StrechWidth:
+                    if (_forceDisplay || this.StretchableWidth != true)
                         code = CodeGenerationUtils.Indent(string.Format("(stretchable-width {0})",
                             CodeGenerationUtils.ToScmBoolValue(this.StretchableWidth)),2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.StrechHeight:
-                    if (_forceDisplay || this.StretchableHeight != false)
+                case VerticalPanelPropNames.StrechHeight:
+                    if (_forceDisplay || this.StretchableHeight != true)
                         code = CodeGenerationUtils.Indent(string.Format("(stretchable-height {0})",
                             CodeGenerationUtils.ToScmBoolValue(this.StretchableHeight)),2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.VerticalMargin:
-                    if (_forceDisplay || this.VerticalMargin != 2)
+                case VerticalPanelPropNames.VerticalMargin:
+                    if (_forceDisplay || this.VerticalMargin != 0)
                         code = CodeGenerationUtils.Indent(string.Format("(vert-margin {0})", this.VerticalMargin),2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.HorizontalMargin:
-                    if (_forceDisplay || this.HorizontalMargin != 2)
+                case VerticalPanelPropNames.HorizontalMargin:
+                    if (_forceDisplay || this.HorizontalMargin != 0)
                         code = CodeGenerationUtils.Indent(string.Format("(horiz-margin {0})", this.HorizontalMargin), 2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.Style:
+                case VerticalPanelPropNames.Style:
                     if (_forceDisplay || !this.Style.HasDefaultValues())
                         code = CodeGenerationUtils.Indent(string.Format("(style \'{0})", this.Style.ToScmCode()), 2);
                     _forceDisplay = false;
                     break;
-                case ButtonPropNames.ScmComment:
+                case VerticalPanelPropNames.ScmComment:
                     code = _parsedComments[index].ToScmCode(2);
                     _forceDisplay = true;
                     break;
-                case ButtonPropNames.ScmBlock:
+                case VerticalPanelPropNames.ScmBlock:
                     code = _parsedScmBlocks[index].ToScmCode(2);
                     _forceDisplay = false;
                     break;
@@ -411,10 +467,12 @@ namespace SchemeGuiEditor.ToolboxControls
 
         private void AddMissingProperties()
         {
-            for (int i = 0; i < 10; i++)    //iterate trough all posible properties
-                if (!_parsedProperties.Contains((ButtonPropNames)i))
-                    _parsedProperties.Add((ButtonPropNames)i);
+            for (int i = 0; i < 12; i++)    //iterate trough all posible properties
+                if (!_parsedProperties.Contains((VerticalPanelPropNames)i))
+                    _parsedProperties.Add((VerticalPanelPropNames)i);
         }
         #endregion
     }
 }
+
+

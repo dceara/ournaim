@@ -9,10 +9,10 @@ using SchemeGuiEditor.Utils;
 
 namespace SchemeGuiEditor.ToolboxControls
 {
-    public class ScmButton : Button, IScmContainee
+    public partial class ScmVerticalPanel : UserControl, IScmContainer , IScmContainee
     {
         #region Private Members
-        private ScmButtonProperties _scmProperties;
+        private ScmVerticalPanelProperties _scmProperties;
         private IScmContainer _scmContainer;
         private int _verticalMargin;
         private int _horizontalMargin;
@@ -20,15 +20,30 @@ namespace SchemeGuiEditor.ToolboxControls
         private bool _stretchableHeight;
         #endregion
 
-        public ScmButton()
+        public ScmVerticalPanel()
         {
-            _verticalMargin = 2;
-            _horizontalMargin = 2;
-            _scmProperties = new ScmButtonProperties(this);
-            this.Text = " "; 
+            InitializeComponent();
+            this.Size = new Size(0, 0);
+            _stretchableHeight = true;
+            _stretchableWidth = true;
+            layoutManagerContainer1.MinHeightChanged += new EventHandler<DataEventArgs<int>>(layoutManagerContainer1_MinHeightChanged);
+            layoutManagerContainer1.MinWidthChanged += new EventHandler<DataEventArgs<int>>(layoutManagerContainer1_MinWidthChanged);
+            _scmProperties = new ScmVerticalPanelProperties(this);
         }
 
+        #region IScmContainer Members
+
+        public event EventHandler NameChanged;
+
+        public ILayoutManager LayoutManager
+        {
+            get { return layoutManagerContainer1; }
+        }
+
+        #endregion
+
         #region IScmControl Members
+
         public event EventHandler ControlChanged;
 
         public IScmControlProperties ScmPropertyObject
@@ -38,8 +53,9 @@ namespace SchemeGuiEditor.ToolboxControls
 
         public void SetInitialProperties(string name)
         {
-            _scmProperties.Name = name;
-            _scmProperties.Label = name;
+            this.Name = name;
+            this.StretchableHeight = true;
+            this.StretchableWidth = true;
             _scmProperties.AutosizeHeight = false;
             _scmProperties.AutosizeWidth = false;
         }
@@ -56,6 +72,7 @@ namespace SchemeGuiEditor.ToolboxControls
             }
             _scmProperties.NotifyPropertyChanged();
         }
+
         #endregion
 
         #region IScmContainee Members
@@ -63,7 +80,7 @@ namespace SchemeGuiEditor.ToolboxControls
         public IScmContainer ScmContainer
         {
             get { return _scmContainer; }
-            set 
+            set
             {
                 if (_scmContainer != null)
                     _scmContainer.NameChanged -= new EventHandler(_scmContainer_NameChanged);
@@ -119,7 +136,7 @@ namespace SchemeGuiEditor.ToolboxControls
         public int MinWidth
         {
             get { return Math.Max(_scmProperties.MinWidth, this.MinimumSize.Width); }
-            set 
+            set
             {
                 if (!StretchableWidth)
                 {
@@ -134,7 +151,7 @@ namespace SchemeGuiEditor.ToolboxControls
         public int MinHeight
         {
             get { return Math.Max(_scmProperties.MinHeight, this.MinimumSize.Height); }
-            set 
+            set
             {
                 if (!StretchableHeight)
                 {
@@ -187,51 +204,28 @@ namespace SchemeGuiEditor.ToolboxControls
         }
 
         #endregion
-
+        
         private void RaiseControlChanged()
         {
             if (ControlChanged != null)
                 ControlChanged(this, EventArgs.Empty);
         }
 
-        protected override void OnTextChanged(EventArgs e)
+        public void ResetWidth()
         {
-            RecomputeSizes();
+            if (!this.StretchableWidth)
+                this.Width = this.MinimumSize.Width;
         }
 
-        public void RecomputeSizes()
+        public void ResetHeight()
         {
-            SizeF textSize = this.CreateGraphics().MeasureString(this.Text, this.Font);
-            Size s = new Size(Convert.ToInt32(textSize.Width) + 10, 20);
-            this.MinimumSize = s;
+            this.Height = this.MinimumSize.Height;
+        }
 
-            if (_scmProperties.AutosizeWidth)
-                this.Width = s.Width;
-            else
-                if (s.Width > _scmProperties.MinWidth)
-                {
-                    _scmProperties.MinWidth = s.Width;
-                    this.Width = s.Width;
-                    _scmProperties.NotifyPropertyChanged();
-                }
-
-            if (_scmContainer != null)
-                _scmContainer.LayoutManager.SetHorizontalPosition(this);
-
-            if (_scmProperties.AutosizeHeight)
-                this.Height = s.Height;
-            else
-                if (s.Height > _scmProperties.MinHeight)
-                {
-                    _scmProperties.MinHeight = s.Height;
-                    this.Height = Height;
-                    _scmProperties.NotifyPropertyChanged();
-                }
-
-            if (_scmContainer != null)
-                _scmContainer.LayoutManager.SetVerticalPozition(this);
-
-            RaiseControlChanged();
+        public void RaiseNameChanged()
+        {
+            if (NameChanged != null)
+                NameChanged(this, EventArgs.Empty);
         }
 
         void _scmContainer_NameChanged(object sender, EventArgs e)
@@ -239,5 +233,51 @@ namespace SchemeGuiEditor.ToolboxControls
             _scmProperties.Parent = _scmContainer.ScmPropertyObject.Name;
             _scmProperties.NotifyPropertyChanged();
         }
+
+        #region Event Handlers
+        void layoutManagerContainer1_MinWidthChanged(object sender, DataEventArgs<int> e)
+        {
+            if (this.StretchableWidth)
+            {
+                this.StretchableWidth = false;
+                this.MinimumSize = new Size(Math.Max(e.Data, _scmProperties.MinWidth), this.MinimumSize.Height);
+                ScmContainer.LayoutManager.SetHorizontalPosition(this);
+                this.StretchableWidth = true;
+            }
+            else
+            {
+                this.MinimumSize = new Size(Math.Max(e.Data, _scmProperties.MinWidth), this.MinimumSize.Height);
+                ScmContainer.LayoutManager.SetHorizontalPosition(this);
+            }
+
+        }
+
+        void layoutManagerContainer1_MinHeightChanged(object sender, DataEventArgs<int> e)
+        {
+            if (this.StretchableHeight)
+            {
+                this.StretchableHeight = false;
+                this.MinimumSize = new Size(this.MinimumSize.Width, Math.Max(e.Data, _scmProperties.MinHeight));
+                ScmContainer.LayoutManager.SetVerticalPozition(this);
+                this.StretchableHeight = true;
+            }
+            else
+            {
+                this.MinimumSize = new Size(this.MinimumSize.Width, Math.Max(e.Data, _scmProperties.MinHeight));
+                ScmContainer.LayoutManager.SetVerticalPozition(this);
+            }
+        }
+
+        private void layoutManagerContainer1_Click(object sender, EventArgs e)
+        {
+            this.OnClick(e);
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+        }
+        #endregion
     }
 }
+

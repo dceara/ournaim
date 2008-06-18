@@ -19,7 +19,7 @@ namespace SchemeGuiEditor.ToolboxControls
         private ContainerAlignment _alignment;
         private int _spacing;
         private int _border;
-        private int _strechColumnCount;
+        private List<int> _strechColumns;
         private int _minHeight;
         private int _minWidth;
         #endregion
@@ -28,6 +28,7 @@ namespace SchemeGuiEditor.ToolboxControls
         public HorizontalLayoutManagerContainer()
         {
             InitializeComponent();
+            _strechColumns = new List<int>();
             _alignment = new ContainerAlignment(HorizontalAlign.Left, VerticalAlign.Center);
             _alignment.AlignmentChanged += new EventHandler<DataEventArgs<AlignmentType>>(_alignment_AlignmentChanged);
             ResetAlignment();
@@ -186,21 +187,28 @@ namespace SchemeGuiEditor.ToolboxControls
                 int colIndex = tableLayoutPanel1.GetColumn(ctrl);
 
                 tableLayoutPanel1.Controls.Remove(ctrl);
+
                 if (tableLayoutPanel1.ColumnStyles[colIndex].SizeType == SizeType.Percent)
                 {
-                    _strechColumnCount--;
-                    if (_strechColumnCount == 0)
-                    {
+                    _strechColumns.Remove(colIndex);
+                    if (_strechColumns.Count == 0)
                         ResetHorizontalAlignment(_alignment.HorizontalAlignment);
-                    }
+                    else
+                        RecomputeStrechedColumns();
                 }
-                tableLayoutPanel1.ColumnStyles.RemoveAt(colIndex);
-
+                
                 for (int i = colIndex + 1; i < tableLayoutPanel1.ColumnCount - 1; i++)
                 {
+                    if (_strechColumns.Contains(i))
+                    {
+                        _strechColumns.Remove(i);
+                        _strechColumns.Add(i - 1);
+                    }
                     Control cellControl = tableLayoutPanel1.GetControlFromPosition(i, 1);
                     tableLayoutPanel1.SetColumn(cellControl, i - 1);
                 }
+
+                tableLayoutPanel1.ColumnStyles.RemoveAt(colIndex);
 
                 tableLayoutPanel1.ColumnCount -= 1;
                 RecomputeHorizontalSizes();
@@ -239,24 +247,25 @@ namespace SchemeGuiEditor.ToolboxControls
                 ctrl.Anchor = ctrl.Anchor | AnchorStyles.Right;
                 colStyle.SizeType = SizeType.Percent;
                 colStyle.Width = 100;
-                if (_strechColumnCount == 0)
+                if (_strechColumns.Count == 0)
                 {
                     tableLayoutPanel1.ColumnStyles[0].Width = 0;
                     tableLayoutPanel1.ColumnStyles[tableLayoutPanel1.ColumnCount - 1].Width = 0;
                 }
-                _strechColumnCount++;
+                _strechColumns.Add(col);
             }
             else
             {
                 ctrl.Anchor = ctrl.Anchor & ~AnchorStyles.Right;
                 colStyle.SizeType = SizeType.Absolute;
-                _strechColumnCount--;
-                if (_strechColumnCount == 0)
+                _strechColumns.Remove(col);
+                if (_strechColumns.Count == 0)
                 {
                     ResetHorizontalAlignment(_alignment.HorizontalAlignment);
                 }
                 RecomputeHorizontalSizes();
             }
+            RecomputeStrechedColumns();
         }
 
         public List<IScmControl> GetChildControls()
@@ -274,6 +283,35 @@ namespace SchemeGuiEditor.ToolboxControls
         #endregion
 
         #region Private Methods
+
+        private void RecomputeStrechedColumns()
+        {
+            int totalWidth = 0;
+
+            if (_strechColumns.Count == 0)
+                return;
+            foreach (int col in _strechColumns)
+            {
+                Control pnl = tableLayoutPanel1.GetControlFromPosition(col, 1);
+                if (pnl.Controls.Count > 0)
+                {
+                    IScmContainee scmCtrl = pnl.Controls[0] as IScmContainee;
+                    totalWidth += scmCtrl.MinWidth;
+                }
+            }
+
+            float ho = (float)(this.Width - totalWidth) / _strechColumns.Count;
+
+            foreach (int col in _strechColumns)
+            {
+                Control pnl = tableLayoutPanel1.GetControlFromPosition(col, 1);
+                if (pnl.Controls.Count > 0)
+                {
+                    IScmContainee scmCtrl = pnl.Controls[0] as IScmContainee;
+                    tableLayoutPanel1.ColumnStyles[col].Width = (float) (scmCtrl.MinWidth + ho) * 100 / this.Width;
+                }
+            }
+        }
 
         private void RecomputeHorizontalSizes()
         {
@@ -376,6 +414,11 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             for (int i = tableLayoutPanel1.ColumnCount - 3; i >= startIndex; i--)
             {
+                if (_strechColumns.Contains(i))
+                {
+                    _strechColumns.Remove(i);
+                    _strechColumns.Add(i + 1);
+                }
                 Control cellControl = tableLayoutPanel1.GetControlFromPosition(i, 1);
                 tableLayoutPanel1.SetColumn(cellControl, i + 1);
             }
@@ -409,7 +452,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
         private void ResetHorizontalAlignment(HorizontalAlign align)
         {
-            if (_strechColumnCount > 0)
+            if (_strechColumns.Count > 0)
                 return;
 
             switch (align)
