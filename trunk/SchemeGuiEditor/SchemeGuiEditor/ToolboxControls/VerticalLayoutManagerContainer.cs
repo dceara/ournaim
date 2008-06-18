@@ -18,7 +18,7 @@ namespace SchemeGuiEditor.ToolboxControls
         #region Private Members
         private ContainerAlignment _alignment;
         private int _spacing;
-        private int _strechRowCount;
+        private List<int> _strechRows;
         private int _minHeight;
         private int _minWidth;
         private int _border;
@@ -190,8 +190,8 @@ namespace SchemeGuiEditor.ToolboxControls
                 tableLayoutPanel1.Controls.Remove(ctrl);
                 if (tableLayoutPanel1.RowStyles[rowIndex].SizeType == SizeType.Percent)
                 {
-                    _strechRowCount--;
-                    if (_strechRowCount == 0)
+                    _strechRows.Remove(rowIndex);
+                    if (_strechRows.Count == 0)
                     {
                         ResetVerticalAlignment(_alignment.VerticalAlignment);
                     }
@@ -241,19 +241,19 @@ namespace SchemeGuiEditor.ToolboxControls
                 ctrl.Anchor = ctrl.Anchor | AnchorStyles.Bottom;
                 rowStyle.SizeType = SizeType.Percent;
                 rowStyle.Height = 100;
-                if (_strechRowCount == 0)
+                if (_strechRows.Count == 0)
                 {
                     tableLayoutPanel1.RowStyles[0].Height = 0;
                     tableLayoutPanel1.RowStyles[tableLayoutPanel1.RowCount - 1].Height = 0;
                 }
-                _strechRowCount++;
+                _strechRows.Add(row);
             }
             else
             {
                 ctrl.Anchor = ctrl.Anchor & ~AnchorStyles.Bottom;
                 rowStyle.SizeType = SizeType.Absolute;
-                _strechRowCount--;
-                if (_strechRowCount == 0)
+                _strechRows.Remove(row);
+                if (_strechRows.Count == 0)
                 {
                     ResetVerticalAlignment(_alignment.VerticalAlignment);
                 }
@@ -276,6 +276,35 @@ namespace SchemeGuiEditor.ToolboxControls
         #endregion
 
         #region Private Methods
+
+        private void RecomputeStrechedRows()
+        {
+            int totalHeight = 0;
+
+            if (_strechRows.Count == 0)
+                return;
+            foreach (int row in _strechRows)
+            {
+                Control pnl = tableLayoutPanel1.GetControlFromPosition(1, row);
+                if (pnl.Controls.Count > 0)
+                {
+                    IScmContainee scmCtrl = pnl.Controls[0] as IScmContainee;
+                    totalHeight += scmCtrl.MinHeight;
+                }
+            }
+
+            float vo = (float)(this.Height - totalHeight) / _strechRows.Count;
+
+            foreach (int row in _strechRows)
+            {
+                Control pnl = tableLayoutPanel1.GetControlFromPosition(1, row);
+                if (pnl.Controls.Count > 0)
+                {
+                    IScmContainee scmCtrl = pnl.Controls[0] as IScmContainee;
+                    tableLayoutPanel1.RowStyles[row].Height = (float)(scmCtrl.MinHeight + vo) * 100 / this.Height;
+                }
+            }
+        }
 
         private void RecomputeVerticalSizes()
         {
@@ -378,6 +407,12 @@ namespace SchemeGuiEditor.ToolboxControls
         {
             for (int i = tableLayoutPanel1.RowCount - 3; i >= startIndex; i--)
             {
+                if (_strechRows.Contains(i))
+                {
+                    _strechRows.Remove(i);
+                    _strechRows.Add(i + 1);
+                }
+
                 Control cellControl = tableLayoutPanel1.GetControlFromPosition(1, i);
                 tableLayoutPanel1.SetRow(cellControl, i + 1);
             }
@@ -391,7 +426,7 @@ namespace SchemeGuiEditor.ToolboxControls
 
         private void ResetVerticalAlignment(VerticalAlign align)
         {
-            if (_strechRowCount > 0)
+            if (_strechRows.Count > 0)
                 return;
 
             switch (align)
